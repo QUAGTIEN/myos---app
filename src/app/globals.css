@@ -31,6 +31,8 @@
   --rose: #fbeaf0;
   --shadow: 0 3px 8px #17324f05, 0 14px 30px #17324f06;
   --shadow-raised: 0 6px 14px #17324f0a, 0 18px 35px #17324f0a;
+  --orange-ink: #b55a1b;
+  --danger: #b14366;
 }
 @theme inline {
   --color-background: var(--background);
@@ -333,26 +335,6 @@ button:disabled {
 .icon-button:hover {
   background: var(--primary-soft);
   color: var(--primary);
-}
-.overview-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-.overview-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  padding: 28px;
-  box-shadow: var(--shadow);
-  transition:
-    box-shadow 0.15s,
-    border-color 0.15s;
-  min-height: 230px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }
 .empty-state {
   display: flex;
@@ -672,9 +654,6 @@ button:disabled {
   .app-header {
     padding-inline: 28px;
   }
-  .overview-grid {
-    gap: 12px;
-  }
 }
 @media (max-width: 960px) {
   .desktop-sidebar {
@@ -714,11 +693,6 @@ button:disabled {
     gap: 17px;
     margin-bottom: 23px;
   }
-  .overview-grid,
-  .settings-grid,
-  .skeleton-grid {
-    grid-template-columns: 1fr;
-  }
   .empty-state {
     padding: 42px 22px;
   }
@@ -743,13 +717,14 @@ button:disabled {
   .login-card {
     padding: 30px 24px;
   }
+  .settings-grid,
+  .skeleton-grid {
+    grid-template-columns: 1fr;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .skeleton {
     animation: none;
-  }
-  .overview-card {
-    transition: none;
   }
 }
 .nav-link.active svg {
@@ -762,33 +737,6 @@ button:disabled {
 .desktop-sidebar :focus-visible,
 .mobile-sidebar :focus-visible {
   outline-color: #65dfd0;
-}
-.overview-card:hover {
-  box-shadow: var(--shadow-raised);
-  border-color: currentColor;
-}
-.overview-icon {
-  display: grid;
-  place-items: center;
-  width: 58px;
-  height: 58px;
-  border-radius: 14px;
-  background: var(--surface);
-  margin-bottom: 24px;
-}
-.overview-card h2 {
-  font-size: 23px;
-  color: var(--ink);
-  margin-bottom: 20px;
-}
-.overview-action {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: auto;
 }
 .blue {
   background: var(--blue);
@@ -820,4 +768,19 @@ button:disabled {
 .drawer-close:hover {
   background: var(--sidebar-hover);
   color: white;
+}
+.settings-panel.blue,
+.settings-panel.lavender,
+.settings-panel.peach {
+  background: var(--surface);
+  color: var(--ink);
+}
+.settings-panel.blue {
+  border-top: 3px solid var(--blue-ink);
+}
+.settings-panel.lavender {
+  border-top: 3px solid var(--lavender-ink);
+}
+.settings-panel.peach {
+  border-top: 3px solid var(--orange-ink);
 }

@@ -1,6 +1,6 @@
 # Bản đồ source MyOS
 
-Cập nhật 07/10/2026. G1, G3, G4, G5 đã chạy local; G2 hoãn đến cuối. Cây này mô tả source hiện có, không dựng thư mục giữ chỗ cho kế hoạch cloud.
+Cập nhật 07/10/2026. G1, G3, G4, G5 và Tổng quan đã chạy local; G2 hoãn đến cuối. Cây này mô tả source hiện có, không dựng thư mục giữ chỗ cho kế hoạch cloud.
 
 ## Cấu trúc hiện tại
 
@@ -30,7 +30,7 @@ MYOS/
 │   │   └── page-ui.tsx             # Heading, empty và skeleton
 │   ├── modules/
 │   │   ├── README.md               # Hướng dẫn chung của cả 5 phân hệ
-│   │   ├── overview/overview-screen.tsx
+│   │   ├── overview/               # overview-screen.tsx, model.ts, overview.css
 │   │   ├── settings/settings-screen.tsx
 │   │   ├── projects/               # model, service, repository, hook, CSS, components
 │   │   ├── notes/                  # Như Projects, thêm autosave và rich editor
@@ -38,7 +38,7 @@ MYOS/
 │   └── lib/local-database.ts        # IndexedDB dùng chung, version 3
 ├── tests/
 │   ├── README.md                   # Cách chạy và phạm vi kiểm thử
-│   └── e2e/                       # 5 file test đang hoạt động
+│   └── e2e/                       # 6 file test đang hoạt động
 └── docs/
     ├── SOURCE_MAP.md
     ├── IMPLEMENTATION_PLAN.md
@@ -47,7 +47,7 @@ MYOS/
 
 node_modules, .next, test-results và playwright-report là dependency/output, không phải source và không commit. Chỉ giữ thư mục khi có file thực tế cần dùng.
 
-Rà soát bổ sung: 52 file TypeScript/React đều có vai trò route hoặc import thực tế. Đã bỏ 33 rule CSS (174 dòng) của các màn hình khung cũ khỏi globals.css và loại exclude dành cho packages/functions chưa tồn tại trong tsconfig. test-results và tsconfig.tsbuildinfo có thể dọn sau kiểm tra; .next cần cho production preview đang chạy, node_modules cần để chạy/build. Không xóa lockfile hoặc cấu hình kiểm thử để giảm số file.
+Rà soát bổ sung: 53 file TypeScript/React đều có vai trò route hoặc import thực tế. Đã bỏ 33 rule CSS (174 dòng) của các màn hình khung cũ khỏi globals.css và loại exclude dành cho packages/functions chưa tồn tại trong tsconfig. test-results và tsconfig.tsbuildinfo có thể dọn sau kiểm tra; .next cần cho production preview đang chạy, node_modules cần để chạy/build. Không xóa lockfile hoặc cấu hình kiểm thử để giảm số file.
 
 ## Tìm code theo nhiệm vụ
 

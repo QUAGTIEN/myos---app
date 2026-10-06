@@ -369,7 +369,8 @@ test("database upgrade preserves G3 projects and missing or blocked notes recove
   page,
   context,
 }) => {
-  await page.goto("/dashboard");
+  // Start on a route that does not open IndexedDB before seeding the older version.
+  await page.goto("/login");
   await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {
       const request = indexedDB.open("myos-local", 1);

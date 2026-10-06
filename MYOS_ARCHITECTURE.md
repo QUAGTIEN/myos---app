@@ -1,12 +1,14 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
-Ngày cập nhật: **07/10/2026** · Phiên bản: **1.10 — Gom thành phần UI/hook nhỏ; G2 chuyển xuống cuối**
+Ngày cập nhật: **07/10/2026** · Phiên bản: **1.11 — Tổng quan dữ liệu local; G2 chuyển xuống cuối**
 
 Tài liệu được cập nhật theo lựa chọn của người dùng: Firebase và đúng **5 phân hệ: Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**. Ngữ cảnh sản phẩm nằm trong [cuộc trò chuyện gốc](https://chatgpt.com/share/6ac3f0a0-ebb0-83ec-970a-56dcaaa98894).
 
-**Trạng thái hiện tại: G1, G3, G4 và G5 có implementation local.** G3 quản lý dự án, nội dung văn bản, ghim/lưu trữ, checklist/mốc, tiến độ và lịch sử bằng IndexedDB. Người dùng chuyển G2 xuống cuối; Firebase hiện chỉ có mẫu biến môi trường và định hướng, chưa có Auth/session, collection cloud, worker hoặc deploy. Route group (private) chưa bảo vệ tài khoản. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md) và [ADR G3](docs/decisions/002-local-projects.md). Các phần cloud bên dưới là kiến trúc đích, chưa phải hành vi hiện tại.
+**Trạng thái hiện tại: G1, G3, G4, G5 và Tổng quan có implementation local.** G3 quản lý dự án, nội dung văn bản, ghim/lưu trữ, checklist/mốc, tiến độ và lịch sử bằng IndexedDB. Người dùng chuyển G2 xuống cuối; Firebase hiện chỉ có mẫu biến môi trường và định hướng, chưa có Auth/session, collection cloud, worker hoặc deploy. Route group (private) chưa bảo vệ tài khoản. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md) và [ADR G3](docs/decisions/002-local-projects.md). Các phần cloud bên dưới là kiến trúc đích, chưa phải hành vi hiện tại.
 
 G3–G5 tạm dùng luồng **Client Component → service → repository IndexedDB**. Schema Zod và quy tắc nằm trong module đến khi cần dùng chung. Mỗi lần ghi kiểm tra version trong cùng transaction, chỉ báo thành công sau commit. Firebase/Server Actions sẽ triển khai ở G2; chưa có chuyển dữ liệu local tự động. G4 có Tiptap JSON, ảnh Blob, autosave và 20 revisions; note/ảnh/liên kết dự án ghi nguyên tử. Database `myos-local` version 2 thêm `notes`, `noteAttachments` và giữ `projects`. Notes.projectIds là nguồn liên kết, Projects.relatedNoteIds được cập nhật cùng transaction. G5 thêm calendarEvents/calendarSettings ở database version 3, giữ các kho cũ. Có bộ lịch bốn views, lặp tuần/ngoại lệ, kéo/resize rollback, liên kết hai chiều Dự án/Ghi chú, .ics và cài đặt lịch. Nhắc chỉ lưu cấu hình; gửi tự động/Zalo chờ G7. Quyết định tại [ADR G5](docs/decisions/004-local-calendar.md). Xem [ADR G4](docs/decisions/003-local-notes.md).
+
+Tổng quan đọc G3–G5 qua các hook hiện có và `overview/model.ts` để tổng hợp trong bộ nhớ: ngày Việt Nam, lịch lặp/qua đêm, checklist và mốc của dự án chưa hoàn thành/chưa lưu trữ, dự án active, ghi chú ngoài thùng rác. Không thêm collection/store hoặc bản sao dữ liệu. Mutations gọi lại service nguồn; từng khối tải lỗi có retry riêng. `overview-screen.tsx` điều phối thao tác và các panel; `overview.css` giữ bố cục responsive. Tìm kiếm chung và vùng thông báo tích hợp còn là kế hoạch.
 
 ## 1. Quyết định kiến trúc
 

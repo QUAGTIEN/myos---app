@@ -173,6 +173,8 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 ### G6. Module Tổng quan
 
+**Đã triển khai phạm vi Tổng quan local được yêu cầu:** thống kê, lịch ngày, checklist, tiến độ, mốc, ghi chú mới/ghim, tạo nhanh, cập nhật theo nguồn và lỗi theo khối. Tìm tiêu đề chung và vùng thông báo tích hợp còn lại, không tự mở rộng trong lượt chỉnh này.
+
 **Phụ thuộc:** G3, G4, G5.
 
 **Công việc:**

@@ -47,7 +47,7 @@ export function CalendarDialog({
             else
               document
                 .querySelector<HTMLButtonElement>(
-                  ".schedule-module .button.primary",
+                  ".schedule-module .button.primary, .dashboard-actions button",
                 )
                 ?.focus();
           }}

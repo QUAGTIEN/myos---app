@@ -9,7 +9,7 @@
 }
 .note-library-sidebar {
   padding: 22px 16px;
-  background: var(--lavender);
+  background: var(--surface);
 }
 .note-library-sidebar h2 {
   margin: 0 10px 18px;
@@ -120,7 +120,7 @@
   padding: 23px;
   border-top: 3px solid var(--primary-border);
   transition: border-color 0.15s;
-  background: #f5f8ff;
+  background: var(--surface);
   border-top-color: #b5c9ee;
 }
 .note-card:hover {
@@ -408,7 +408,7 @@
 .note-property-panel {
   padding: 22px;
   margin-bottom: 18px;
-  background: var(--lavender);
+  background: var(--surface);
 }
 .note-property-panel h2 {
   display: flex;
@@ -630,15 +630,15 @@
   }
 }
 .note-card:nth-child(3n + 2) {
-  background: #fff7ef;
+  background: var(--surface);
   border-top-color: #eccba8;
 }
 .note-card:nth-child(3n) {
-  background: #f6f2ff;
+  background: var(--surface);
   border-top-color: #d3c5ed;
 }
 .note-property-panel + .note-property-panel {
-  background: var(--blue);
+  background: var(--surface);
 }
 @media (min-width: 1600px) {
   .note-card-grid {

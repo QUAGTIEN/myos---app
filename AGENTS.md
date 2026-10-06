@@ -2,6 +2,8 @@
 
 ## Phạm vi hiện tại
 
+**Tổng quan local đã được triển khai theo phạm vi mới:** số liệu thật, lịch theo ngày Việt Nam, checklist cần làm, tiến độ, ghi chú mới/ghim và mốc gần hạn. Overview dùng hook/service của module nguồn và selector thuần, không tạo kho tổng hợp hoặc schema mới. Form tạo nhanh dùng lại luồng lưu G3–G5. Tiếp tục hoãn G2, gửi nhắc/Zalo và deploy.
+
 **Cập nhật G5:** người dùng đã cho phép code Lịch/thời khóa biểu local và tiếp tục hoãn G2. G5 thêm FullCalendar, chuỗi tuần/ngoại lệ, liên kết Dự án/Ghi chú, xuất .ics và cài đặt lịch. Database version 3 giữ kho cũ. Nhắc hiện chỉ lưu cấu hình; gửi tự động/Zalo chờ G7. Hướng dẫn dưới về G3/G4 tiếp tục áp dụng cho G5.
 
 Trước G5 đã hoàn thành **G4 — Ghi chú** sau G3 Dự án, đồng thời giữ G2 (Firebase Auth/xác thực/dữ liệu nền) ở cuối. G3/G4 dùng IndexedDB qua repository riêng; G4 có Tiptap, ảnh Blob, autosave, thư mục/nhãn, thùng rác, 20 revisions và liên kết dự án. Chưa có tài khoản hoặc đồng bộ cloud. Không tự bật Firebase, Auth, Zalo hoặc deploy trong giai đoạn này. Thực hiện các module tiếp theo khi được yêu cầu.
@@ -79,7 +81,7 @@ Lịch G5 dùng Luxon với Asia/Ho_Chi_Minh, wall-clock `YYYY-MM-DDTHH:mm`, c�
 
 - Thiết kế theo nhu cầu dùng hằng ngày của MyOS; phân cấp nội dung rõ, khoảng trắng hợp lý và thao tác chính dễ tìm.
 - Sidebar desktop và drawer mobile dùng navy #102F49; nội dung desktop dùng toàn bộ chiều rộng khả dụng với padding hợp lý, không giới hạn hẹp như giao diện mobile. Bỏ khẩu hiệu, chữ giới thiệu và hướng dẫn lặp lại; giữ nhãn thao tác, trạng thái lưu/lỗi và thông tin cần để tránh hiểu sai tính năng.
-- Dùng nền sáng trung tính; bổ sung nền xanh lam, cam nhạt, tím nhạt bên cạnh turquoise và đổ bóng nhẹ để có chiều sâu. Dùng tokens chung; màu trạng thái nhất quán, chữ/icon có độ tương phản dễ đọc. Không dùng màu như dấu hiệu duy nhất để truyền đạt trạng thái.
+- Tổng quan cần dày thông tin và dùng số liệu thật. Ưu tiên panel trắng nổi trên nền trung tính; hạn chế mảng pastel lớn. Dùng màu đậm ở icon, nhãn, viền và thanh tiến độ; pastel chỉ hỗ trợ các vùng nhỏ. Giữ turquoise, xanh lam, cam, tím và đổ bóng nhẹ để có chiều sâu. Dùng tokens chung; màu trạng thái nhất quán, chữ/icon có độ tương phản dễ đọc. Không dùng màu như dấu hiệu duy nhất để truyền đạt trạng thái.
 - Tránh giao diện “AI slop”: không mặc định gradient tím/xanh, glow, glassmorphism, khối trang trí lớn hoặc thẻ bo tròn lặp lại mà không có mục đích. Mỗi phần trang trí phải phục vụ nội dung và nhận diện.
 - Chọn font hỗ trợ đầy đủ dấu tiếng Việt, rõ ở cỡ chữ nội dung; giữ một hệ typography nhất quán. Không phối nhiều font hoặc dùng chữ quá nhỏ/mảnh để tạo vẻ hiện đại.
 - Quản lý màu, font, spacing, radius và shadow bằng tokens dùng chung; không mỗi trang tự chọn một hệ style riêng.

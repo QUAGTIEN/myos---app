@@ -4,7 +4,7 @@
 
 | Phân hệ | Route | Source | Trạng thái |
 | --- | --- | --- | --- |
-| Tổng quan | /dashboard | overview/overview-screen.tsx | Khung giao diện; dữ liệu tổng hợp chờ G6 |
+| Tổng quan | /dashboard | overview/overview-screen.tsx | Tổng hợp local từ G3–G5 |
 | Lịch | /calendar | calendar/ | G5 local |
 | Dự án | /projects, /projects/[projectId] | projects/ | G3 local |
 | Ghi chú | /notes, /notes/[noteId] | notes/ | G4 local |
@@ -71,7 +71,7 @@ Xuất tối đa 367 ngày với UID/RRULE/EXDATE/RECURRENCE-ID/VTIMEZONE, Unico
 
 ## Tổng quan
 
-Hiện overview-screen.tsx hiển thị khung và điều hướng. G6 sẽ đọc lịch gần nhất, dự án đang làm và ghi chú ghim/vừa sửa qua query/service, không giữ bản sao của dữ liệu nguồn. Chỉ tạo thêm file khi có luồng dữ liệu thực tế.
+overview-screen.tsx dùng useCalendar/useProjects/useNotes để đọc/cập nhật từng nguồn và dùng lại form/service cho tạo nhanh, checklist và lịch hẹn. model.ts tổng hợp dữ liệu thuần: ngày Việt Nam, lặp/ngoại lệ/qua đêm, nhiệm vụ/mốc chưa hoàn thành trong dự án chưa lưu trữ và chưa hoàn thành, dự án active, ghi chú ngoài thùng rác. Không lưu bản sao số liệu. Cả ngày dùng end exclusive; lịch hôm nay vẫn là hôm nay khi điều hướng ngày trong panel. Mỗi khối có loading/error/retry; số liệu lỗi hiển thị không khả dụng. overview.css quản lý panel trắng, màu nhấn và lưới responsive. Ghi chú có bộ lọc mới/ghim; các danh sách có giới hạn hiển thị và liên kết tới module nguồn. Tìm kiếm chung và thông báo tích hợp còn là kế hoạch. Kiểm chứng trong tests/e2e/overview.spec.ts.
 
 ## Cài đặt
 

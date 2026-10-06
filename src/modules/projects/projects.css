@@ -103,19 +103,19 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background: #fcfffe;
+  background: var(--surface);
 }
 .project-color-blue {
   border-top-color: var(--blue-ink);
-  background: #f5f8ff;
+  background: var(--surface);
 }
 .project-color-amber {
   border-top-color: var(--warm-ink);
-  background: #fff9f2;
+  background: var(--surface);
 }
 .project-color-rose {
   border-top-color: #a6607b;
-  background: #fff5f8;
+  background: var(--surface);
 }
 .project-card-top {
   display: flex;
@@ -525,7 +525,7 @@
 }
 .project-side-panel {
   padding: 23px;
-  background: var(--blue);
+  background: var(--surface);
 }
 .project-side-panel h2 {
   font-size: 15px;
@@ -650,13 +650,13 @@
   }
 }
 .project-summary > div:nth-child(1) {
-  background: var(--blue);
+  background: var(--surface);
 }
 .project-summary > div:nth-child(2) {
-  background: var(--primary-soft);
+  background: var(--surface);
 }
 .project-summary > div:nth-child(3) {
-  background: var(--peach);
+  background: var(--surface);
 }
 .project-summary > div:nth-child(1) strong {
   color: var(--blue-ink);

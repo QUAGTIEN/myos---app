@@ -12,6 +12,8 @@ Test autosave conflict cài clock trước khi tải ứng dụng để không t
 
 G5: calendar.spec.ts kiểm tra lịch đơn/cả ngày/tuần, sửa/hủy/hoàn thành riêng, bốn views, trùng giờ, hai tab, quota rollback, links/mốc, download, settings, kéo/resize. calendar-domain.spec.ts kiểm tra thời gian và iCalendar bằng parser độc lập, chỉ chạy project desktop để không lặp domain tests. Đăng nhập và quyền cloud thêm ở G2. Xem README ở root cho commands.
 
+Tổng quan: overview.spec.ts có 8 cases desktop/mobile, kiểm tra dữ liệu nguồn/loại lưu trữ-thùng rác, ngày Việt Nam trên máy khác timezone, lịch qua đêm/ngoại lệ/end exclusive, đổi ngày, cập nhật tab, checklist commit/rollback, tạo nhanh và lỗi nguồn/retry riêng. Suite có 76 cases; 7 skip theo cấu hình G5.
+
 ## Tổ chức và chạy
 
 Chỉ có tests/e2e vì đây là bộ kiểm thử đang hoạt động. calendar-domain.spec.ts chạy quy tắc thời gian/iCalendar qua cùng runner Playwright, không cần tạo thêm runner hoặc thư mục unit trống.

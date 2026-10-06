@@ -4,7 +4,7 @@
 
 ## Trạng thái hiện tại
 
-**G1 đã có implementation:** khung giao diện responsive, menu 5 mục, lịch tháng có điều hướng, trang đăng nhập preview, loading/error/404. Các module hiển thị trạng thái trống, không dùng dữ liệu cá nhân giả.
+**G1 đã có implementation:** khung giao diện responsive, menu 5 mục, lịch tháng có điều hướng, trang đăng nhập preview, loading/error/404. Các module đọc dữ liệu local, không dùng dữ liệu cá nhân giả.
 
 **G3 đã triển khai local:** tạo/sửa dự án, tìm kiếm/lọc/phân trang, ghim/lưu trữ/khôi phục, tiến độ thủ công hoặc checklist, mốc và lịch sử cập nhật. Nội dung dự án là văn bản thường. Dữ liệu lưu trong IndexedDB của trình duyệt qua repository riêng; chưa đồng bộ Firebase.
 
@@ -15,6 +15,8 @@
 Dữ liệu local thuộc từng browser profile và origin: localhost và 127.0.0.1 là hai kho khác nhau. Xóa dữ liệu trình duyệt sẽ mất dự án, ghi chú, ảnh và lịch; chưa có backup toàn kho hoặc chuyển dữ liệu tự động sang Firestore. .ics chỉ xuất lịch, không sao lưu các module khác. Bản nháp lưu lỗi được giữ trong bộ nhớ của trang, có nút sao chép văn bản và cảnh báo khi rời trang; ảnh chưa lưu không có backup. Không nhập dữ liệu quan trọng cần lưu an toàn vào bản này.
 
 **G5 đã triển khai local:** FullCalendar tháng/tuần/ngày/danh sách, lịch giờ/cả ngày, nhóm màu, đánh dấu, trùng giờ, kéo/resize rollback; chuỗi tuần và sửa/hủy/hoàn thành riêng từng buổi. Có liên kết Dự án/Ghi chú, tạo từ mốc giữ hạn mốc độc lập, `.ics` theo ngày/nhóm và cài đặt lịch. Database version 3 giữ dữ liệu cũ. Nhắc chỉ lưu cấu hình, chưa gửi tự động/Zalo. [ADR G5](docs/decisions/004-local-calendar.md).
+
+**Tổng quan đã có dữ liệu local:** 4 số liệu, lịch ngày/qua đêm/lặp có ngoại lệ, checklist cần làm/quá hạn, tiến độ dự án, ghi chú mới/ghim và mốc gần hạn. Có tạo nhanh, mở/sửa/hoàn thành lịch và hoàn thành checklist; cập nhật theo tab nguồn và đổi ngày Việt Nam. Mỗi nguồn có loading/error/retry riêng. Tìm kiếm chung và vùng thông báo tích hợp vẫn chưa triển khai.
 
 ## Chạy local
 
@@ -46,9 +48,11 @@ G4 đã kiểm chứng lint/typecheck/format/build và toàn bộ 40 E2E desktop
 
 G5 kiểm chứng lint/typecheck/format/build và 61 kiểm thử đạt: 40 hồi quy, 15 luồng Calendar desktop/mobile, 6 domain/iCalendar. Có 7 skip chủ đích (6 domain không lặp lại ở mobile và 1 kéo/resize desktop; mobile sửa giờ qua form). Đã xem screenshots lịch/form/danh sách trên desktop/mobile, thử kéo/resize và rollback, hai tab, nâng DB v2→v3 giữ Notes/Blob/Projects và transaction liên kết. Production dependency audit không có lỗ hổng đã biết. `.ics` được parse bằng ical.js độc lập; chưa nhập thử qua tài khoản Google/Outlook thật.
 
+Tổng quan đã kiểm chứng lint/typecheck/format/build và toàn bộ E2E: 69 đạt, 7 skip chủ đích theo cấu hình G5. Kiểm tra dữ liệu tổng hợp, đổi ngày Việt Nam, cập nhật hai tab, tạo nhanh, hoàn thành checklist và lỗi/retry riêng từng nguồn. Đã xem giao diện desktop 1920 px và mobile.
+
 pnpm start chạy bản production ở port 3000 sau build. CI kiểm tra lint, typecheck, build và E2E bằng Node 22; không deploy tự động.
 
-Giao diện đã cập nhật: sidebar navy, nội dung desktop rộng, cỡ chữ thao tác dễ đọc hơn, nền xanh lam/cam nhạt/tím nhạt và đổ bóng nhẹ. Đã bỏ chữ giới thiệu lặp lại; Tổng quan hiện là các lối truy cập nhanh, dữ liệu tổng hợp vẫn chờ G6.
+Giao diện dùng sidebar navy, desktop rộng, panel trắng và điểm nhấn màu rõ ở icon/viền/tiến độ; hạn chế nền pastel lớn và chữ giới thiệu lặp lại. Tổng quan hiển thị dữ liệu thực tế.
 
 ## Công nghệ đã chọn
 
@@ -86,4 +90,4 @@ Chỉ giữ **4 README**: root, modules, tests và mục lục decisions. Không
 
 ## Bước tiếp theo khi được yêu cầu lập trình
 
-G6: Tổng quan, khi người dùng yêu cầu. G2 (xác thực và chuyển dữ liệu sang Firebase) thực hiện cuối, trước khi sử dụng cloud với dữ liệu riêng tư. Các phụ thuộc cloud trong kế hoạch vẫn cần đáp ứng trước khi triển khai production.
+Tổng quan đã hoàn thành phạm vi tổng hợp local được yêu cầu. Các hạng mục còn lại thực hiện khi người dùng yêu cầu. G2 (xác thực và chuyển dữ liệu sang Firebase) thực hiện cuối, trước khi sử dụng cloud với dữ liệu riêng tư. Các phụ thuộc cloud trong kế hoạch vẫn cần đáp ứng trước khi triển khai production.
