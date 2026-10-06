@@ -69,8 +69,6 @@ test("calendar controls change months and return to today", async ({
 test("unimplemented mutations and login are clearly unavailable", async ({
   page,
 }) => {
-  await page.goto("/projects");
-  await expect(page.getByRole("button", { name: "Tạo dự án" })).toBeDisabled();
   await page.goto("/notes");
   await expect(
     page.getByRole("button", { name: "Tạo ghi chú" }),

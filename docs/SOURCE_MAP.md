@@ -1,6 +1,6 @@
 # Bản đồ source MyOS
 
-Ngày cập nhật: 06/10/2026. Giai đoạn: **G1 — framework và khung giao diện đã có implementation**.
+Ngày cập nhật: 06/10/2026. Giai đoạn: **G1 và G3 Projects local đã có implementation; G2 hoãn**.
 
 ## Cây thư mục hiện có
 
@@ -45,7 +45,7 @@ Các ký hiệu {a,b} mô tả nhiều thư mục ngang hàng, không phải tê
 
 ## Files Next.js và trạng thái
 
-**Đã tạo ở G1:** root layout/page/globals/not-found/global-error; login; private layout/error; dashboard/loading; 5 page chính; detail pages trả 404 khi chưa có dữ liệu; shell/menu; UI heading/empty/skeleton/notice/error; components màn hình của 5 module; cấu hình Firebase browser/server chưa có SDK. Chưa có actions, service, repository nghiệp vụ hoặc API route.ts. Bảng dưới tiếp tục mô tả vai trò mục tiêu; file chưa nằm trong danh sách G1 vẫn là kế hoạch.
+**Đã tạo ở G1:** root layout/page/globals/not-found/global-error; login; private layout/error; dashboard/loading; 5 page chính; detail Notes trả 404; Projects có màn hình chi tiết local; shell/menu; UI heading/empty/skeleton/notice/error; components màn hình của 5 module; cấu hình Firebase browser/server chưa có SDK. **G3 đã thêm:** Projects model.ts, repository.ts (IndexedDB), service.ts, use-projects.ts, projects.css; components danh sách/chi tiết/progress/project-dialog/item-dialog; projects/layout.tsx và detail page validate UUID. Có tests/e2e/projects.spec.ts cho luồng local. Chưa có Server Actions hoặc API route.ts; Firebase/worker vẫn là kế hoạch. Bảng dưới tiếp tục mô tả vai trò mục tiêu; file chưa nằm trong danh sách G1 vẫn là kế hoạch.
 
 | Vị trí | File sẽ tạo khi bắt đầu code | Vai trò |
 | --- | --- | --- |

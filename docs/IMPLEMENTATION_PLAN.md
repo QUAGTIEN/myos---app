@@ -1,7 +1,7 @@
 # MyOS — Kế hoạch triển khai
 
 Ngày lập: **06/10/2026**.
-Trạng thái: **đã triển khai G1 local; G2–G8 chưa bắt đầu**.
+Trạng thái: **G1 hoàn thành; G3 triển khai local; G2 chuyển xuống cuối theo yêu cầu người dùng**.
 Đây là kế hoạch toàn bộ dự án; chỉ các hạng mục ghi rõ đã hoàn thành mới có implementation.
 
 Nguồn phạm vi: [MYOS_ARCHITECTURE.md](../MYOS_ARCHITECTURE.md).
@@ -45,14 +45,16 @@ Mỗi tính năng đi qua các bước:
 6. Kiểm tra luồng thật bằng Emulator và kiểm thử phù hợp.
 7. Cập nhật tài liệu và bàn giao một phần dùng được trước khi chuyển tính năng.
 
-Luồng đọc: **Server Component → DAL → service → repository → DTO → UI**.
+Ngoại lệ G3 local: **Client Component → service → repository IndexedDB**, validate Zod và ghi có version trong transaction. Không cần Server Action/Emulator cho adapter trình duyệt.
+
+Luồng cloud đích: **Server Component → DAL → service → repository → DTO → UI**.
 Luồng ghi: **form → Server Action → session/quyền → validation → service → Firestore**.
 
 Mỗi tính năng cần phân biệt rõ phần server và client. Firebase Admin chỉ ở server; quyền phải kiểm tra lại khi gọi action/API, không dựa duy nhất vào layout.
 
 ## 3. Thứ tự triển khai: 8 giai đoạn
 
-**Nền móng → Tài khoản/Cài đặt cơ bản → Dự án → Ghi chú → Lịch → Tổng quan → Nhắc lịch/Zalo → Hoàn thiện vận hành.**
+**Thứ tự cập nhật: G1 → G3 → G4 → G5 → G6 → G7/G8 phần không phụ thuộc cloud → G2 → hoàn tất kiểm tra và triển khai cloud.** Giữ mã giai đoạn cũ để tham chiếu. Các chức năng worker, upload riêng tư và deploy vẫn cần G2; hoãn xác thực không loại bỏ phụ thuộc bảo mật này.
 
 Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau khi các module nguồn có dữ liệu thật. Cài đặt được bổ sung xuyên suốt khi các tính năng tương ứng xuất hiện.
 
@@ -99,12 +101,12 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 ### G3. Module Dự án
 
-**Phụ thuộc:** G2.
+**Phụ thuộc cập nhật:** G1; G2 được hoãn. G3 dùng IndexedDB qua repository riêng theo [ADR 002](decisions/002-local-projects.md), chưa dùng Firestore.
 
 **Thứ tự tính năng:**
 
 1. Tạo/sửa/đọc dự án với tên, nội dung, trạng thái và hạn dự kiến.
-2. Danh sách, lọc, phân trang cursor, ghim và lưu trữ.
+2. Danh sách, lọc, phân trang local 12 mục, ghim và lưu trữ. Cursor cloud bổ sung khi chuyển Firestore.
 3. Tiến độ thủ công 0–100%.
 4. Checklist/mốc, chế độ tiến độ theo checklist và cập nhật lịch sử cần thiết.
 5. Chuẩn bị ID/hợp đồng liên kết; UI lịch/ghi chú liên quan hoàn thành sau G4/G5.
@@ -113,7 +115,7 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 **Hoàn thành khi:** CRUD và filter hoạt động; zero checklist không bị coi là 100%; chuyển chế độ tiến độ rõ ràng; lưu trữ không vô tình xóa nội dung hoặc lịch liên quan.
 
-**Vị trí chính:** src/modules/projects và domain/progress.
+**Vị trí chính:** src/modules/projects. Quy tắc/schema thuần nằm tại model.ts, chỉ tách domain/progress khi cần dùng chung.
 
 ### G4. Module Ghi chú và tệp riêng tư
 
@@ -282,8 +284,10 @@ Không đặt lịch số tuần trước khi có khối lượng implementation
 | Bộ khung thư mục và tài liệu | Đã tạo |
 | Kế hoạch triển khai | Đã lập |
 | G1 | Hoàn thành local: lint/typecheck/format/build đạt, 12 E2E desktop/mobile đạt |
-| G2–G8 | Chưa bắt đầu |
+| G3 | Có implementation local: CRUD, checklist/mốc, tiến độ, ghim/lưu trữ, lịch sử; chất lượng kiểm tra ghi trong README |
+| G2 | Hoãn xuống cuối; chưa triển khai Auth/Firebase/migration |
+| G4–G8 | Chưa bắt đầu; phạm vi local/cloud cần chốt ở lượt tương ứng |
 | Firebase/cloud/billing/deploy | Chưa thực hiện |
 | Khả năng gửi Zalo thực tế | Chưa kiểm chứng |
 
-**Bước tiếp theo: G2 — xác thực và dữ liệu nền**, thực hiện khi người dùng yêu cầu. G1 chưa có Firebase Auth, CRUD hoặc cloud deploy.
+**Bước tiếp theo: G4 — Ghi chú**, khi người dùng yêu cầu và thống nhất lưu tạm/tệp. G2 triển khai cuối trước cloud production; chưa có Auth hoặc đồng bộ Firebase. G3 chỉ có dữ liệu local.

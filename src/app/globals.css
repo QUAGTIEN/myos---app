@@ -107,7 +107,7 @@ button:disabled {
   border-radius: 8px;
   transform: translateY(-160%);
 }
-.skip-link:focus {
+.skip-link:focus-visible {
   transform: translateY(0);
 }
 .app-shell {

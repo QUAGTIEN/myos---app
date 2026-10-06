@@ -2,7 +2,7 @@
 
 ## Phạm vi hiện tại
 
-Người dùng đã yêu cầu **G1 — khởi tạo framework và khung giao diện**. Có thể viết mã, cài dependencies và kiểm tra local trong phạm vi này. Tiếp tục G2–G8 khi được yêu cầu; không tự triển khai CRUD, đăng nhập thật, worker hoặc deploy cloud trong G1.
+Người dùng đã yêu cầu **G3 — module Dự án**, đồng thời chuyển G2 (Firebase Auth/xác thực/dữ liệu nền) xuống cuối. G3 được phép CRUD local bằng IndexedDB qua repository riêng, chưa có tài khoản hoặc đồng bộ cloud. Không tự bật Firebase, Auth, Zalo hoặc deploy trong giai đoạn này. Thực hiện các module tiếp theo khi được yêu cầu.
 
 Yêu cầu mới của người dùng có thể chuyển giai đoạn; khi đó thực hiện trong phạm vi được giao, không hỏi lại xác nhận chỉ vì đoạn hướng dẫn này. Không thêm phân hệ ngoài 5 phân hệ đã thống nhất.
 
@@ -39,6 +39,8 @@ AGENTS.md là tên file chuẩn để công cụ coding agent tìm thấy; khôn
 Luồng đọc: Server Component → DAL/requireUser → service → repository → DTO.
 Luồng ghi: form → Server Action → xác thực → Zod → service/transaction → repository.
 Worker nhận job bằng transaction, gọi dịch vụ ngoài sau transaction.
+
+Ngoại lệ tạm cho G3 đã được người dùng chấp thuận: Client Component → service → repository IndexedDB. Không tạo Server Action gọi database trình duyệt. Schema và quy tắc thuần hiện nằm trong module Projects; chuyển sang domain khi có người dùng chung. Khi đổi sang Firebase phải thiết kế migration riêng, không giả định dữ liệu local đã đồng bộ.
 
 ## Next.js và TypeScript khi triển khai
 
