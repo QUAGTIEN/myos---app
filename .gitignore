@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js and compiled output
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local environment; keep templates
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Private credentials and tokens
+secrets/
+credentials/
+service-account*.json
+serviceAccount*.json
+*-firebase-adminsdk-*.json
+*.pem
+*.key
+
+# Firebase local artifacts
+.firebase/
+*-debug.log
+*-debug.*.log
+firebase-export-*/
+emulator-data/
+
+# Test output and logs
+coverage/
+playwright-report/
+test-results/
+*.log
+
+# Local OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
