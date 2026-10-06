@@ -22,7 +22,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { EmptyState, FeatureNotice, PageSkeleton } from "@/components/page-ui";
+import { EmptyState, PageSkeleton } from "@/components/page-ui";
 
 import {
   formatProjectDate,
@@ -113,7 +113,6 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
       </Link>
       <div className="project-detail-heading">
         <div>
-          <p className="eyebrow">TỪNG BƯỚC, TỪNG TIẾN ĐỘ</p>
           <h1>{project.title}</h1>
           <div className="project-detail-labels">
             <span className={"project-status status-" + project.status}>
@@ -160,11 +159,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
           </button>
         </div>
       </div>
-      <FeatureNotice>
-        {archived
-          ? "Dự án đang lưu trữ. Khôi phục để chỉnh nội dung và checklist."
-          : "Đã lưu trên trình duyệt này. Chưa đồng bộ tài khoản hoặc thiết bị."}
-      </FeatureNotice>
+
       {error && (
         <div className="project-alert error" role="alert">
           <span>{error}</span>
@@ -216,11 +211,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
             {!project.items.length ? (
               <div className="project-checklist-empty">
                 <Flag size={25} aria-hidden="true" />
-                <p>Chia mục tiêu thành những bước nhỏ.</p>
-                <span>
-                  Checklist tính tiến độ; cột mốc mặc định không tính để tránh
-                  đếm hai lần.
-                </span>
+                <p>Chưa có mục</p>
               </div>
             ) : (
               <ul className="project-item-list">
@@ -356,9 +347,6 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
           </section>
           <section className="panel project-side-panel">
             <h2>Cập nhật gần đây</h2>
-            <p className="project-history-caption">
-              Giữ tối đa 100 cập nhật gần nhất.
-            </p>
             <ol className="project-history">
               {project.updates.map((update) => (
                 <li key={update.id}>

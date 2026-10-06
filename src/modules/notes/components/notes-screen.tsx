@@ -11,12 +11,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import {
-  EmptyState,
-  FeatureNotice,
-  PageHeading,
-  PageSkeleton,
-} from "@/components/page-ui";
+import { EmptyState, PageHeading, PageSkeleton } from "@/components/page-ui";
 
 import {
   emptyNoteInput,
@@ -109,9 +104,7 @@ export function NotesScreen() {
   return (
     <div className="notes-module">
       <PageHeading
-        eyebrow="ĐỪNG ĐỂ Ý TƯỞNG TRÔI MẤT"
         title="Ghi chú"
-        description="Giữ lại một suy nghĩ, một tấm hình hay điều bạn muốn nhớ."
         action={
           <button
             className="button primary"
@@ -126,10 +119,6 @@ export function NotesScreen() {
           </button>
         }
       />
-      <FeatureNotice>
-        Nội dung và ảnh lưu trên trình duyệt này, chưa đồng bộ Firebase. Xóa dữ
-        liệu trình duyệt sẽ mất ghi chú.
-      </FeatureNotice>
       {(error || actionError) && (
         <div className="note-error" role="alert">
           <p>{error || actionError}</p>
@@ -182,27 +171,25 @@ export function NotesScreen() {
               <Trash2 size={17} />
               Thùng rác<span>{notes.length - live.length}</span>
             </button>
-            <h3>Thư mục</h3>
-            {folders.length ? (
-              folders.map((name) => (
-                <button
-                  key={name}
-                  type="button"
-                  className={folder === name ? "selected" : ""}
-                  onClick={() => {
-                    setCollection("all");
-                    setFolder(name);
-                    setPage(1);
-                  }}
-                >
-                  <Folder size={16} />
-                  <span className="note-folder-name">{name}</span>
-                </button>
-              ))
-            ) : (
-              <p>Đặt tên thư mục khi mở ghi chú.</p>
-            )}
-            <h3>Nhãn</h3>
+            {!!folders.length && <h3>Thư mục</h3>}
+            {folders.length
+              ? folders.map((name) => (
+                  <button
+                    key={name}
+                    type="button"
+                    className={folder === name ? "selected" : ""}
+                    onClick={() => {
+                      setCollection("all");
+                      setFolder(name);
+                      setPage(1);
+                    }}
+                  >
+                    <Folder size={16} />
+                    <span className="note-folder-name">{name}</span>
+                  </button>
+                ))
+              : null}
+            {!!tags.length && <h3>Nhãn</h3>}
             <div className="note-tag-filter">
               {tags.map((name) => (
                 <button
@@ -217,7 +204,6 @@ export function NotesScreen() {
                   #{name}
                 </button>
               ))}
-              {!tags.length && <p>Thêm nhãn để tìm lại dễ hơn.</p>}
             </div>
           </aside>
           <section className="note-library-main" aria-label="Danh sách ghi chú">
@@ -274,12 +260,7 @@ export function NotesScreen() {
                   title={
                     collection === "trash"
                       ? "Thùng rác đang trống"
-                      : "Một trang mới, nhiều điều để viết"
-                  }
-                  description={
-                    query || tag || folder
-                      ? "Thử thay bộ lọc hoặc tìm theo tiêu đề khác."
-                      : "Tạo ghi chú để giữ nội dung, hình ảnh và những điều bạn muốn nhớ."
+                      : "Chưa có ghi chú"
                   }
                 />
               </section>

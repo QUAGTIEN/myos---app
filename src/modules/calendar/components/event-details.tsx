@@ -104,12 +104,7 @@ export function EventDetails({
         {occurrence.description && (
           <p className="schedule-description">{occurrence.description}</p>
         )}
-        {event.sourceMilestone && (
-          <p className="schedule-help">
-            Lịch được tạo từ mốc dự án. Đổi giờ lịch không đổi hạn hoặc tiến độ
-            mốc.
-          </p>
-        )}
+        {event.sourceMilestone && <p className="schedule-help">Từ mốc dự án</p>}
         {(projectsError || notesError) && (
           <p role="alert">{projectsError || notesError}</p>
         )}
@@ -143,7 +138,7 @@ export function EventDetails({
           {occurrence.reminderMinutes === null
             ? "Không đặt nhắc."
             : `Đã đặt nhắc trước ${occurrence.reminderMinutes} phút.`}{" "}
-          Chưa gửi thông báo tự động (G7).
+          (chưa bật)
         </p>
         {event.repeat && (
           <label className="schedule-check">

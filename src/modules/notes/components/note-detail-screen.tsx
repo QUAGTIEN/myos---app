@@ -165,13 +165,8 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
       </Link>
       <div className="note-workspace-heading">
         <div>
-          <p className="eyebrow">MỘT NƠI CHO NHỮNG ĐIỀU MUỐN NHỚ</p>
           <h1>{base.title}</h1>
-          <p className="note-local-caption">
-            {readonly
-              ? "Đang trong thùng rác · khôi phục để chỉnh sửa"
-              : "Lưu local trên trình duyệt này"}
-          </p>
+          {readonly && <p className="note-local-caption">Trong thùng rác</p>}
         </div>
         <div className="note-document-actions">
           <button
@@ -357,9 +352,6 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
                 });
               }}
             />
-            <p className="note-field-hint">
-              Phân cách bằng dấu phẩy. Tối đa 10 nhãn.
-            </p>
           </section>
           <section className="panel note-property-panel">
             <h2>
@@ -369,9 +361,7 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
             {projectError ? (
               <p className="note-field-hint">{projectError}</p>
             ) : !projects.length ? (
-              <p className="note-field-hint">
-                Tạo dự án để gắn ghi chú vào mục tiêu của bạn.
-              </p>
+              <p className="note-field-hint">Chưa có dự án.</p>
             ) : (
               <div className="note-project-options">
                 {projects
@@ -412,10 +402,6 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
               </div>
             )}
           </section>
-          <p className="note-storage-caption">
-            Ảnh tối đa 5 MB/tệp, 20 ảnh/ghi chú. Lịch sử giữ 20 phiên bản trước;
-            ảnh còn được tham chiếu sẽ được giữ.
-          </p>
           <RelatedCalendar kind="note" id={base.id} readonly={readonly} />
         </aside>
       </div>

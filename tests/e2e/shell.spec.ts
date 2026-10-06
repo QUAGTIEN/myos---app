@@ -4,7 +4,7 @@ const screens = [
   {
     path: "/dashboard",
     label: "Tổng quan",
-    heading: "Một nơi cho những điều quan trọng.",
+    heading: "Tổng quan",
   },
   { path: "/calendar", label: "Lịch", heading: "Lịch" },
   { path: "/projects", label: "Dự án", heading: "Dự án" },
@@ -75,7 +75,7 @@ test("unimplemented mutations and login are clearly unavailable", async ({
   await expect(
     page.getByRole("button", { name: "Đăng nhập", exact: true }),
   ).toBeDisabled();
-  await page.getByRole("link", { name: "Xem khung giao diện" }).click();
+  await page.getByRole("link", { name: "Về Tổng quan" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
 });
 

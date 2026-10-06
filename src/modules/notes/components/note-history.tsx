@@ -39,7 +39,7 @@ export function NoteHistory({
           <div className="note-history-heading">
             <div>
               <Dialog.Title>Lịch sử phiên bản</Dialog.Title>
-              <Dialog.Description>
+              <Dialog.Description className="sr-only">
                 Giữ 20 phiên bản trước gần nhất, gồm nội dung và ảnh.
               </Dialog.Description>
             </div>

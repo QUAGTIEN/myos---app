@@ -326,9 +326,7 @@ export function CalendarScreen({
   return (
     <div className="schedule-module">
       <PageHeading
-        eyebrow="DÀNH THỜI GIAN CHO ĐIỀU QUAN TRỌNG"
         title="Lịch"
-        description="Sắp xếp lịch hẹn và thời khóa biểu theo nhịp sống của bạn."
         action={
           <button
             className="button primary"
@@ -345,7 +343,6 @@ export function CalendarScreen({
         }
       />
       <div className="schedule-note">
-        <span>Local · Giờ Việt Nam (UTC+7)</span>
         <Link href="/settings">Cài đặt lịch</Link>
       </div>
       {data.error && (
@@ -546,14 +543,9 @@ export function CalendarScreen({
               </span>
             ))}
           </div>
-          <span>{occurrences.length} buổi trong khoảng hiển thị</span>
+          <span>{occurrences.length} lịch</span>
         </footer>
       </section>
-      <p className="schedule-help">
-        Bấm vào ngày để tạo lịch, bấm lịch hẹn để xem/sửa. Kéo thả để đổi ngày;
-        trên điện thoại, nhấn giữ trước khi kéo. Đổi giờ một buổi lặp chỉ áp
-        dụng cho buổi đó.
-      </p>
       {form && (
         <EventForm
           {...form}

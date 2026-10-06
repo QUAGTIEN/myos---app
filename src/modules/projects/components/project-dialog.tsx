@@ -5,7 +5,6 @@ import { LoaderCircle, X } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import {
   emptyProjectInput,
-  getProjectProgress,
   projectColors,
   projectErrorMessage,
   projectInputSchema,
@@ -69,10 +68,6 @@ export function ProjectDialog({
       setPending(false);
     }
   }
-  const calculated = getProjectProgress({
-    ...input,
-    items: project?.items ?? [],
-  });
   return (
     <Dialog.Root
       open
@@ -98,7 +93,7 @@ export function ProjectDialog({
           <div className="project-modal-heading">
             <div>
               <Dialog.Title>{project ? "Sửa dự án" : "Tạo dự án"}</Dialog.Title>
-              <Dialog.Description>
+              <Dialog.Description className="sr-only">
                 Một mục tiêu rõ ràng, từng bước tiến cụ thể.
               </Dialog.Description>
             </div>
@@ -234,15 +229,6 @@ export function ProjectDialog({
                   />
                 </>
               )}
-              <p className="project-form-hint">
-                {input.progressMode === "checklist"
-                  ? "Tiến độ sẽ là " +
-                    (calculated === null
-                      ? "“Chưa có dữ liệu” khi chưa có mục được tính."
-                      : calculated + "% theo các mục được tính.") +
-                    " Giá trị thủ công được giữ lại khi đổi chế độ."
-                  : "Tiến độ thủ công độc lập với trạng thái dự án."}
-              </p>
             </fieldset>
             {error && (
               <p className="project-alert error" role="alert">

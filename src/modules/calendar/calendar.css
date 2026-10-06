@@ -15,9 +15,10 @@
   flex-wrap: wrap;
 }
 .schedule-note {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
-  margin: 0 0 18px;
+  margin: -12px 0 16px;
+  justify-content: flex-end;
 }
 .schedule-note a {
   color: var(--primary);
@@ -29,6 +30,7 @@
 }
 .schedule-toolbar {
   padding: 20px 24px 14px;
+  background: var(--blue);
 }
 .schedule-toolbar .calendar-month {
   gap: 14px;
@@ -43,10 +45,11 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 12px;
+  font-size: 13px;
 }
 .schedule-filter-row {
   padding: 0 24px 18px;
+  background: var(--blue);
 }
 .schedule-view-buttons {
   display: inline-flex;
@@ -63,7 +66,7 @@
   background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
 }
 .schedule-view-buttons button[aria-pressed="true"] {
@@ -76,12 +79,12 @@
   display: flex;
   gap: 9px;
   align-items: center;
-  font-size: 12px;
+  font-size: 13px;
 }
 .schedule-module select,
 .schedule-date-label input {
   font: inherit;
-  font-size: 12px;
+  font-size: 13px;
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--ink);
@@ -95,10 +98,10 @@
 }
 .schedule-calendar-scroll .fc {
   min-width: 670px;
-  font-size: 12px;
+  font-size: 13px;
   --fc-border-color: var(--line);
-  --fc-today-bg-color: #e6f7f580;
-  --fc-neutral-bg-color: var(--surface-soft);
+  --fc-today-bg-color: #fff0d6;
+  --fc-neutral-bg-color: var(--blue);
   --fc-page-bg-color: var(--surface);
   --fc-list-event-hover-bg-color: var(--primary-soft);
 }
@@ -109,7 +112,7 @@
   min-width: 0;
 }
 .schedule-calendar-scroll .fc-daygrid-day-frame {
-  min-height: 100px;
+  min-height: 110px;
 }
 .schedule-calendar-scroll .fc-col-header-cell-cushion {
   padding: 12px 4px;
@@ -118,9 +121,10 @@
 }
 .schedule-calendar-scroll .fc-daygrid-day-number {
   padding: 8px 10px;
+  font-size: 14px;
 }
 .schedule-calendar-scroll .fc-day-today .fc-daygrid-day-number {
-  color: var(--primary);
+  color: var(--warm-ink);
   font-weight: 700;
 }
 .schedule-calendar-scroll .fc-event {
@@ -135,7 +139,7 @@
   gap: 4px;
   min-width: 0;
   overflow: hidden;
-  font-size: 11px;
+  font-size: 12px;
 }
 .schedule-event-content > span:last-child {
   overflow: hidden;
@@ -158,8 +162,9 @@
 }
 .schedule-footer {
   padding: 18px 24px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
+  background: var(--surface-soft);
 }
 .schedule-footer > div {
   justify-content: flex-start;
@@ -179,7 +184,7 @@
 }
 .schedule-help {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.8;
   margin: 14px 0;
 }
@@ -216,7 +221,7 @@
   margin: 0 0 8px;
 }
 .schedule-dialog-heading p {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   line-height: 1.7;
 }
@@ -234,7 +239,7 @@
 .schedule-form label {
   display: grid;
   gap: 7px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   min-width: 0;
 }
@@ -250,7 +255,7 @@
   color: var(--ink);
   background: var(--surface);
   font: inherit;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
 }
 .schedule-form textarea {
@@ -259,7 +264,7 @@
 .schedule-form input:focus,
 .schedule-form textarea:focus,
 .schedule-form select:focus {
-  outline: 2px solid var(--primary-border);
+  outline: 2px solid var(--focus);
   outline-offset: 1px;
 }
 .schedule-form-grid {
@@ -271,7 +276,7 @@
   display: flex !important;
   align-items: center;
   gap: 9px !important;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   font-weight: 400 !important;
   overflow-wrap: anywhere;
@@ -307,7 +312,7 @@
   align-items: center;
 }
 .schedule-links summary {
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   font-weight: 500;
 }
@@ -316,7 +321,7 @@
   gap: 10px;
   max-height: 160px;
   overflow: auto;
-  font-size: 12px;
+  font-size: 13px;
 }
 .schedule-dialog-actions,
 .schedule-detail-actions {
@@ -332,7 +337,7 @@
 .schedule-error,
 .schedule-message {
   border-radius: 8px;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.8;
   padding: 12px 14px;
   margin: 14px 0;
@@ -354,7 +359,7 @@
   margin: 20px 0;
   display: grid;
   gap: 16px;
-  font-size: 13px;
+  font-size: 14px;
 }
 .schedule-details dl > div {
   display: grid;
@@ -370,7 +375,7 @@
 .schedule-description {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.9;
 }
 .schedule-tags {
@@ -379,7 +384,7 @@
   flex-wrap: wrap;
 }
 .schedule-tags span {
-  font-size: 11px;
+  font-size: 12px;
   background: var(--surface-soft);
   padding: 5px 9px;
   border-radius: 5px;
@@ -387,7 +392,7 @@
 .schedule-related-list {
   display: grid;
   gap: 10px;
-  font-size: 13px;
+  font-size: 14px;
 }
 .schedule-related-list a,
 .schedule-related a:not(.button) {
@@ -405,7 +410,7 @@
   margin: 0;
 }
 .schedule-settings h3 {
-  font-size: 13px;
+  font-size: 14px;
   margin: 6px 0 0;
 }
 .schedule-group-editors {
@@ -423,7 +428,7 @@
 }
 .schedule-related {
   padding: 22px;
-  font-size: 12px;
+  font-size: 13px;
   min-width: 0;
 }
 .schedule-related h2 {
@@ -504,4 +509,10 @@
   .schedule-related {
     padding: 18px;
   }
+}
+.schedule-calendar-scroll .fc-col-header-cell {
+  background: var(--blue);
+}
+.schedule-settings {
+  background: #eef8f6;
 }

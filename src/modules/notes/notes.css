@@ -3,18 +3,19 @@
 }
 .note-library {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-columns: 240px minmax(0, 1fr);
   gap: 24px;
   align-items: start;
 }
 .note-library-sidebar {
   padding: 22px 16px;
+  background: var(--lavender);
 }
 .note-library-sidebar h2 {
   margin: 0 10px 18px;
 }
 .note-library-sidebar h3 {
-  font-size: 11px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--muted);
@@ -30,21 +31,16 @@
   color: var(--muted);
   text-align: left;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: 13px;
 }
 .note-library-sidebar > button > span:last-child:not(.note-folder-name) {
   margin-left: auto;
 }
 .note-library-sidebar > button.selected,
 .note-tag-filter .selected {
-  color: var(--primary);
-  background: var(--primary-soft);
-}
-.note-library-sidebar > p,
-.note-tag-filter p {
-  font-size: 11px;
-  color: var(--muted);
-  padding: 0 10px;
+  color: var(--lavender-ink);
+  background: var(--surface);
+  box-shadow: 0 2px 6px #69529b0d;
 }
 .note-folder-name {
   overflow-wrap: anywhere;
@@ -62,7 +58,7 @@
   background: var(--surface-soft);
   color: var(--muted);
   border-radius: 5px;
-  font-size: 11px;
+  font-size: 12px;
   overflow-wrap: anywhere;
 }
 .note-library-main,
@@ -94,7 +90,7 @@
   width: 100%;
   min-width: 0;
   color: var(--ink);
-  font-size: 12px;
+  font-size: 13px;
 }
 .note-search:focus-within {
   outline: 2px solid var(--focus);
@@ -108,7 +104,7 @@
   justify-content: space-between;
   gap: 12px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   margin-bottom: 15px;
   overflow-wrap: anywhere;
 }
@@ -124,16 +120,19 @@
   padding: 23px;
   border-top: 3px solid var(--primary-border);
   transition: border-color 0.15s;
+  background: #f5f8ff;
+  border-top-color: #b5c9ee;
 }
 .note-card:hover {
   border-color: var(--primary);
+  box-shadow: var(--shadow-raised);
 }
 .note-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   margin-bottom: 12px;
   overflow-wrap: anywhere;
@@ -145,7 +144,7 @@
 }
 .note-card-preview {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.8;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -167,7 +166,7 @@
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
 }
 .note-pagination {
@@ -176,7 +175,7 @@
   align-items: center;
   gap: 10px;
   margin-top: 24px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
 }
 .note-back {
@@ -184,7 +183,7 @@
   gap: 8px;
   align-items: center;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   margin-bottom: 25px;
 }
 .note-workspace-heading {
@@ -202,7 +201,7 @@
 }
 .note-local-caption {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   margin-top: 12px;
 }
 .note-document-actions {
@@ -235,7 +234,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--primary);
 }
 .note-save-bar .note-save-error {
@@ -286,7 +285,7 @@
 .note-prose {
   padding: 25px 28px 50px;
   min-height: 350px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.9;
   color: var(--ink);
   overflow-wrap: anywhere;
@@ -385,7 +384,7 @@
   border-radius: 5px;
 }
 .note-image figcaption {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 7px;
   overflow-wrap: anywhere;
@@ -400,7 +399,7 @@
   border-top: 1px solid var(--line);
   padding: 15px 24px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -409,6 +408,7 @@
 .note-property-panel {
   padding: 22px;
   margin-bottom: 18px;
+  background: var(--lavender);
 }
 .note-property-panel h2 {
   display: flex;
@@ -422,14 +422,14 @@
   display: flex;
   gap: 6px;
   align-items: center;
-  font-size: 12px;
+  font-size: 13px;
   margin: 15px 0 8px;
 }
 .note-property-panel > input,
 .note-history-modal select {
   width: 100%;
   font: inherit;
-  font-size: 12px;
+  font-size: 13px;
   padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 7px;
@@ -438,7 +438,7 @@
 }
 .note-field-hint {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 8px;
 }
 .note-project-options {
@@ -451,7 +451,7 @@
   display: flex;
   align-items: start;
   gap: 8px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .note-project-options label {
   display: flex;
@@ -468,11 +468,6 @@
 .note-project-options a {
   color: var(--primary);
 }
-.note-storage-caption {
-  padding: 0 7px;
-  color: var(--muted);
-  font-size: 11px;
-}
 .note-error {
   margin: 15px 0 22px;
   padding: 16px 20px;
@@ -480,7 +475,7 @@
   background: #fff3f0;
   color: #953e35;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: 13px;
 }
 .note-error-actions {
   display: flex;
@@ -494,7 +489,7 @@
 .note-inline-message,
 .note-editor-loading {
   padding: 15px 24px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
 }
 .note-modal-overlay {
@@ -529,7 +524,7 @@
 }
 .note-history-heading p {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   margin-top: 8px;
 }
 .note-history-preview {
@@ -582,9 +577,6 @@
     width: 100%;
     margin-top: 12px;
   }
-  .note-library-sidebar > p {
-    width: 100%;
-  }
   .note-tag-filter {
     width: 100%;
   }
@@ -595,9 +587,6 @@
   }
   .note-property-panel {
     margin-bottom: 0;
-  }
-  .note-storage-caption {
-    grid-column: 1 / -1;
   }
 }
 @media (max-width: 600px) {
@@ -610,7 +599,7 @@
   }
   .note-list-toolbar .button {
     padding: 10px;
-    font-size: 11px;
+    font-size: 12px;
   }
   .note-title-input {
     font-size: 21px;
@@ -638,5 +627,21 @@
 @media (prefers-reduced-motion: reduce) {
   .note-card {
     transition: none;
+  }
+}
+.note-card:nth-child(3n + 2) {
+  background: #fff7ef;
+  border-top-color: #eccba8;
+}
+.note-card:nth-child(3n) {
+  background: #f6f2ff;
+  border-top-color: #d3c5ed;
+}
+.note-property-panel + .note-property-panel {
+  background: var(--blue);
+}
+@media (min-width: 1600px) {
+  .note-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

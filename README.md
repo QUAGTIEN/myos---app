@@ -48,6 +48,8 @@ G5 kiểm chứng lint/typecheck/format/build và 61 kiểm thử đạt: 40 h�
 
 pnpm start chạy bản production ở port 3000 sau build. CI kiểm tra lint, typecheck, build và E2E bằng Node 22; không deploy tự động.
 
+Giao diện đã cập nhật: sidebar navy, nội dung desktop rộng, cỡ chữ thao tác dễ đọc hơn, nền xanh lam/cam nhạt/tím nhạt và đổ bóng nhẹ. Đã bỏ chữ giới thiệu lặp lại; Tổng quan hiện là các lối truy cập nhanh, dữ liệu tổng hợp vẫn chờ G6.
+
 ## Công nghệ đã chọn
 
 - Next.js App Router + React + TypeScript.

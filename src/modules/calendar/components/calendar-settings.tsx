@@ -52,7 +52,6 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
   }
   return (
     <form className="schedule-form" onSubmit={(e) => void save(e)}>
-      <p className="schedule-help">Việt Nam · UTC+7 · Tuần bắt đầu Thứ Hai.</p>
       {settings.version > draft.version && (
         <p className="schedule-warning">
           Cài đặt đã đổi ở tab khác. Nội dung đang nhập vẫn được giữ; tải lại
@@ -96,7 +95,7 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
           </label>
         </div>
         <label>
-          Nhắc mặc định
+          Nhắc mặc định (chưa bật)
           <select
             value={draft.defaultReminderMinutes ?? "off"}
             onChange={(e) =>
@@ -118,9 +117,6 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
             ))}
           </select>
         </label>
-        <p className="schedule-help">
-          Áp dụng cho lịch mới. Nhắc tự động chưa hoạt động (G7).
-        </p>
         <h3>Nhóm lịch</h3>
         <div className="schedule-group-editors">
           {draft.groups.map((group, index) => (

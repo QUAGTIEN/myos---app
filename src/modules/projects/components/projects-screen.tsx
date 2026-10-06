@@ -12,12 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import {
-  EmptyState,
-  FeatureNotice,
-  PageHeading,
-  PageSkeleton,
-} from "@/components/page-ui";
+import { EmptyState, PageHeading, PageSkeleton } from "@/components/page-ui";
 
 import { formatProjectDate, projectStatuses, type Project } from "../model";
 import { projectService } from "../service";
@@ -97,9 +92,7 @@ export function ProjectsScreen() {
   return (
     <div className="projects-module">
       <PageHeading
-        eyebrow="TỪ Ý TƯỞNG ĐẾN KẾT QUẢ"
         title="Dự án"
-        description="Một góc riêng cho mục tiêu, nội dung và những bước tiến của bạn."
         action={
           <button
             className="button primary"
@@ -112,10 +105,6 @@ export function ProjectsScreen() {
           </button>
         }
       />
-      <FeatureNotice>
-        Dự án được lưu trên trình duyệt này, chưa đồng bộ tài khoản. Xóa dữ liệu
-        trình duyệt sẽ xóa dữ liệu local.
-      </FeatureNotice>
       {error && (
         <div className="project-alert error" role="alert">
           <span>{error}</span>
@@ -301,14 +290,7 @@ export function ProjectsScreen() {
                 <EmptyState
                   icon={FolderKanban}
                   title={
-                    projects.length
-                      ? "Không có dự án phù hợp"
-                      : "Mục tiêu tiếp theo của bạn là gì?"
-                  }
-                  description={
-                    projects.length
-                      ? "Thử đổi bộ lọc hoặc từ khóa để tìm lại dự án."
-                      : "Bắt đầu một dự án, thêm nội dung và theo dõi tiến độ từng bước."
+                    projects.length ? "Không có dự án phù hợp" : "Chưa có dự án"
                   }
                 >
                   {!projects.length && (

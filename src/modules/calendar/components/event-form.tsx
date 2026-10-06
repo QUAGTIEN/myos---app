@@ -241,7 +241,7 @@ export function EventForm({
               </select>
             </label>
             <label>
-              Nhắc trước
+              Nhắc trước (chưa bật)
               <select
                 value={input.reminderMinutes ?? "off"}
                 onChange={(e) =>
@@ -275,9 +275,6 @@ export function EventForm({
               </select>
             </label>
           </div>
-          <p className="schedule-help">
-            Hiện chỉ lưu cấu hình nhắc; gửi thông báo và Zalo triển khai ở G7.
-          </p>
           <div className="schedule-flags">
             <label className="schedule-check">
               <input

@@ -11,9 +11,8 @@ export default function LoginPage() {
           <Sprout size={26} aria-hidden="true" />
           myos.
         </span>
-        <p className="eyebrow">KHÔNG GIAN RIÊNG CỦA BẠN</p>
-        <h1>Chào mừng trở lại.</h1>
-        <p>Lịch, dự án và những ý tưởng — cùng một nơi.</p>
+        <h1>Đăng nhập</h1>
+        <p>Chưa bật xác thực</p>
         <fieldset disabled className="login-form">
           <legend className="sr-only">Đăng nhập chưa được kết nối</legend>
           <label htmlFor="email">Email</label>
@@ -35,18 +34,11 @@ export default function LoginPage() {
             Đăng nhập
           </button>
         </fieldset>
-        <p className="form-help">
-          Đăng nhập sẽ được kết nối ở bước tiếp theo. Bản khung hiện chưa lưu dữ
-          liệu cá nhân.
-        </p>
         <Link href="/dashboard" className="text-link">
-          Xem khung giao diện
+          Về Tổng quan
           <ArrowRight size={16} aria-hidden="true" />
         </Link>
       </section>
-      <p className="login-footer">
-        Nhẹ nhàng sắp xếp. Tập trung điều quan trọng.
-      </p>
     </main>
   );
 }

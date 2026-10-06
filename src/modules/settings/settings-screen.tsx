@@ -1,23 +1,15 @@
 import { Bell, Check, Cloud, Palette, UserRound } from "lucide-react";
 import Link from "next/link";
-import { FeatureNotice, PageHeading } from "@/components/page-ui";
+import { PageHeading } from "@/components/page-ui";
 
 import { CalendarSettingsPanel } from "@/modules/calendar/components/calendar-settings";
 
 export function SettingsScreen() {
   return (
     <>
-      <PageHeading
-        eyebrow="THEO CÁCH CỦA BẠN"
-        title="Cài đặt"
-        description="Tinh chỉnh không gian để phù hợp với thói quen của bạn."
-      />
-      <FeatureNotice>
-        Cài đặt lịch được lưu trên trình duyệt này. Tài khoản, giao diện và đồng
-        bộ cloud sẽ được kết nối ở các bước sau.
-      </FeatureNotice>
+      <PageHeading title="Cài đặt" />
       <div className="settings-grid">
-        <section className="panel settings-panel">
+        <section className="panel settings-panel blue">
           <h2>
             <UserRound size={20} aria-hidden="true" />
             Tài khoản
@@ -33,7 +25,7 @@ export function SettingsScreen() {
             Xem trang đăng nhập
           </Link>
         </section>
-        <section className="panel settings-panel">
+        <section className="panel settings-panel lavender">
           <h2>
             <Palette size={20} aria-hidden="true" />
             Giao diện
@@ -49,7 +41,6 @@ export function SettingsScreen() {
             </div>
             <div>
               <strong>Giao diện sáng</strong>
-              <p>Nhẹ mắt, rõ ràng và tập trung.</p>
             </div>
             <Check size={19} aria-label="Đang áp dụng" />
           </div>
@@ -59,7 +50,7 @@ export function SettingsScreen() {
           </div>
         </section>
         <CalendarSettingsPanel />
-        <section className="panel settings-panel">
+        <section className="panel settings-panel peach">
           <h2>
             <Bell size={20} aria-hidden="true" />
             Thông báo & dữ liệu
@@ -75,10 +66,6 @@ export function SettingsScreen() {
             </span>
             <span className="status-pill">Chưa kết nối</span>
           </div>
-          <p className="setting-help">
-            Tùy chọn nhắc lịch và đồng bộ sẽ xuất hiện khi các tính năng được
-            kết nối.
-          </p>
         </section>
       </div>
     </>

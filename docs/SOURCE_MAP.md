@@ -27,7 +27,7 @@ MYOS/
 │   │       └── settings/page.tsx
 │   ├── components/
 │   │   ├── app-shell.tsx           # Sidebar/header/menu desktop và mobile
-│   │   └── page-ui.tsx             # Heading, empty, notice và skeleton
+│   │   └── page-ui.tsx             # Heading, empty và skeleton
 │   ├── modules/
 │   │   ├── README.md               # Hướng dẫn chung của cả 5 phân hệ
 │   │   ├── overview/overview-screen.tsx

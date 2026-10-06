@@ -90,7 +90,7 @@ export function ItemDialog({
                     ? "Thêm mục checklist"
                     : "Thêm cột mốc"}
               </Dialog.Title>
-              <Dialog.Description>
+              <Dialog.Description className="sr-only">
                 Mốc không tính vào tiến độ trừ khi bạn chọn rõ.
               </Dialog.Description>
             </div>

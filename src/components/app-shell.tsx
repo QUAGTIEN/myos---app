@@ -45,11 +45,6 @@ function SidebarContent({
   return (
     <>
       <Brand />
-      <div className="workspace-label">
-        <span className="workspace-dot" />
-        Không gian cá nhân
-      </div>
-      <p className="nav-caption">KHÔNG GIAN CỦA BẠN</p>
       <nav aria-label="Điều hướng chính" className="main-nav">
         {navigation.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + "/");
@@ -69,21 +64,16 @@ function SidebarContent({
         })}
       </nav>
       <div className="sidebar-bottom">
-        <div className="sidebar-note">
-          <Sprout size={19} aria-hidden="true" />
-          <p>
-            Một chút ngăn nắp.
-            <br />
-            <strong>Nhiều khoảng thảnh thơi.</strong>
-          </p>
-        </div>
-        <div className="workspace-footer">
+        <Link
+          href="/settings"
+          className="workspace-footer"
+          onClick={onNavigate}
+        >
           <span className="avatar">M</span>
           <div>
-            <strong>Không gian MyOS</strong>
-            <span>Bản khung giao diện</span>
+            <strong>Cá nhân</strong>
           </div>
-        </div>
+        </Link>
       </div>
     </>
   );
@@ -142,15 +132,9 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </Dialog.Content>
               </Dialog.Portal>
             </Dialog.Root>
-            <span className="header-workspace">Không gian cá nhân</span>
-            <span className="breadcrumb-divider">/</span>
             <span className="header-current">{current?.label ?? "MyOS"}</span>
           </div>
           <div className="header-right">
-            <span className="preview-tag">
-              <span />
-              Bản khung
-            </span>
             <Link
               href="/settings"
               className="header-avatar"
@@ -163,13 +147,6 @@ export function AppShell({ children }: { children: ReactNode }) {
         <main id="main-content" tabIndex={-1} className="main-content">
           {children}
         </main>
-        <footer className="app-footer">
-          <span>MyOS · Không gian cho cuộc sống của bạn</span>
-          <span>
-            <CalendarDays size={14} aria-hidden="true" />
-            Asia/Ho_Chi_Minh
-          </span>
-        </footer>
       </div>
     </div>
   );

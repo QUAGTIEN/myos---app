@@ -61,7 +61,9 @@ export function CalendarDialog({
           <div className="schedule-dialog-heading">
             <div>
               <Dialog.Title>{title}</Dialog.Title>
-              <Dialog.Description>{description}</Dialog.Description>
+              <Dialog.Description className="sr-only">
+                {description}
+              </Dialog.Description>
             </div>
             <button
               className="icon-button"
@@ -160,11 +162,7 @@ export function ExportDialog({
             </select>
           </label>
         </fieldset>
-        <p className="schedule-help">
-          Tối đa 367 ngày. File giữ múi giờ Việt Nam, chuỗi tuần và ngoại lệ;
-          những buổi ngoài phạm vi được loại bằng EXDATE. Xuất file là một bản
-          chụp, chưa có đồng bộ hai chiều.
-        </p>
+
         {error && (
           <p role="alert" className="schedule-error">
             {error}
