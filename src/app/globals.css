@@ -597,86 +597,8 @@ button:disabled {
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
-.panel-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 23px 26px;
-  border-bottom: 1px solid var(--line);
-  gap: 16px;
-}
-.panel-heading h2 {
-  font-size: 13px;
-}
-.muted {
-  color: var(--muted);
-  font-size: 11px;
-}
 .large-empty .empty-state {
   min-height: 310px;
-}
-.feature-strip {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  padding: 20px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 11px;
-}
-.notes-layout {
-  display: grid;
-  grid-template-columns: 210px minmax(0, 1fr);
-  min-height: 420px;
-}
-.notes-collections {
-  padding: 25px 20px;
-  border-right: 1px solid var(--line);
-}
-.notes-collections h2 {
-  font-size: 12px;
-  margin-bottom: 20px;
-}
-.collection-label {
-  display: flex;
-  gap: 9px;
-  align-items: center;
-  background: var(--primary-soft);
-  color: var(--primary);
-  padding: 11px 12px;
-  border-radius: 7px;
-  font-size: 11px;
-}
-.notes-collections p {
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 24px;
-  line-height: 1.9;
-}
-.notes-empty {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.notes-empty .empty-state {
-  padding-bottom: 25px;
-}
-.notes-hint {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 9px;
-  color: var(--muted);
-  font-size: 11px;
-  padding: 0 20px 42px;
-  text-align: center;
-}
-.calendar-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 20px 24px;
 }
 .calendar-month {
   display: flex;
@@ -690,65 +612,6 @@ button:disabled {
 .calendar-controls {
   display: flex;
   gap: 4px;
-}
-.month-grid {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-.month-grid th {
-  padding: 13px 5px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 500;
-  background: var(--surface-soft);
-  border-block: 1px solid var(--line);
-}
-.month-grid td {
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  height: 87px;
-  vertical-align: top;
-  padding: 9px;
-}
-.month-grid td:last-child {
-  border-right: 0;
-}
-.day-number {
-  width: 29px;
-  height: 29px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  font-size: 11px;
-}
-.day-number.today {
-  background: var(--primary);
-  color: white;
-  font-weight: 600;
-}
-.outside-month {
-  background: var(--surface-soft);
-  color: var(--muted);
-}
-.calendar-bottom {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 14px 24px;
-  color: var(--muted);
-  font-size: 10px;
-}
-.calendar-bottom > span {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.legend-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--primary);
 }
 .settings-grid {
   display: grid;
@@ -1142,33 +1005,11 @@ button:disabled {
     padding: 10px 18px 22px;
     gap: 4px;
   }
-  .feature-strip {
-    flex-wrap: wrap;
-    gap: 12px 20px;
-  }
-  .notes-layout {
-    grid-template-columns: 1fr;
-  }
-  .notes-collections {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-    padding: 20px;
-  }
-  .notes-collections p {
-    margin-top: 12px;
-  }
-  .notes-collections h2 {
-    margin-bottom: 12px;
-  }
   .empty-state {
     padding: 42px 22px;
   }
   .empty-state h2 {
     font-size: 17px;
-  }
-  .calendar-toolbar {
-    padding: 17px 12px;
-    gap: 6px;
   }
   .calendar-month {
     gap: 4px;
@@ -1181,21 +1022,6 @@ button:disabled {
   }
   .calendar-controls .icon-button {
     width: 32px;
-  }
-  .month-grid td {
-    height: 65px;
-    padding: 6px 2px;
-  }
-  .month-grid th {
-    font-size: 10px;
-  }
-  .day-number {
-    width: 25px;
-    height: 25px;
-    font-size: 10px;
-  }
-  .calendar-bottom {
-    padding: 12px;
   }
   .settings-panel {
     padding: 23px;
