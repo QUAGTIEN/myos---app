@@ -1,7 +1,7 @@
 # MyOS — Kế hoạch triển khai
 
 Ngày lập: **06/10/2026**.
-Trạng thái: **G1 hoàn thành; G3 triển khai local; G2 chuyển xuống cuối theo yêu cầu người dùng**.
+Trạng thái: **G1 hoàn thành; G3/G4 triển khai local; G2 chuyển xuống cuối theo yêu cầu người dùng**.
 Đây là kế hoạch toàn bộ dự án; chỉ các hạng mục ghi rõ đã hoàn thành mới có implementation.
 
 Nguồn phạm vi: [MYOS_ARCHITECTURE.md](../MYOS_ARCHITECTURE.md).
@@ -119,13 +119,13 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 ### G4. Module Ghi chú và tệp riêng tư
 
-**Phụ thuộc:** G2; liên kết dự án sử dụng G3.
+**Phụ thuộc cập nhật:** G3 và lưu local đã được người dùng chấp thuận. G2 hoãn; ảnh dùng IndexedDB Blob thay Firebase Storage, chưa có quyền tài khoản hoặc đồng bộ cloud. [ADR G4](decisions/003-local-notes.md).
 
 **Thứ tự tính năng:**
 
 1. Tạo/sửa/đọc ghi chú, tiêu đề và nội dung Tiptap JSON có version.
 2. Autosave, trạng thái lưu, giữ bản nháp khi lỗi và xử lý conflict.
-3. Upload ảnh vào Storage; metadata, quyền xem và node attachmentId.
+3. Lưu ảnh Blob local, metadata và node attachmentId; kiểm tra ảnh/kích thước. Storage/quyền cloud thực hiện ở G2.
 4. Tạo ghi chú từ ảnh hoặc nội dung dán; chọn ảnh trên mobile.
 5. Ghim, thư mục/tag, tìm theo tiêu đề, thùng rác và khôi phục.
 6. Gắn/mở ghi chú từ dự án; giữ attachment được tham chiếu khi khôi phục.
@@ -135,7 +135,7 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 **Hoàn thành khi:** ảnh tải lại được sau reload và đúng quyền; lỗi upload không tạo ảnh hỏng được báo đã lưu; hai phiên sửa không âm thầm ghi đè; xóa/khôi phục giữ nội dung và ảnh trong retention.
 
-**Vị trí chính:** src/modules/notes, domain/notes, Storage Rules và service attachments.
+**Vị trí chính hiện tại:** src/modules/notes, src/lib/local/database.ts; liên kết dự án được điều phối ở Notes repository. Domain/Storage Rules còn là kiến trúc cloud đích.
 
 ### G5. Module Lịch và thời khóa biểu
 
@@ -286,8 +286,9 @@ Không đặt lịch số tuần trước khi có khối lượng implementation
 | G1 | Hoàn thành local: lint/typecheck/format/build đạt, 12 E2E desktop/mobile đạt |
 | G3 | Có implementation local: CRUD, checklist/mốc, tiến độ, ghim/lưu trữ, lịch sử; chất lượng kiểm tra ghi trong README |
 | G2 | Hoãn xuống cuối; chưa triển khai Auth/Firebase/migration |
-| G4–G8 | Chưa bắt đầu; phạm vi local/cloud cần chốt ở lượt tương ứng |
+| G4 | Có implementation local: rich text/ảnh, autosave, thư mục/nhãn, thùng rác, revisions và liên kết Projects |
+| G5–G8 | Chưa bắt đầu; phạm vi local/cloud cần chốt ở lượt tương ứng |
 | Firebase/cloud/billing/deploy | Chưa thực hiện |
 | Khả năng gửi Zalo thực tế | Chưa kiểm chứng |
 
-**Bước tiếp theo: G4 — Ghi chú**, khi người dùng yêu cầu và thống nhất lưu tạm/tệp. G2 triển khai cuối trước cloud production; chưa có Auth hoặc đồng bộ Firebase. G3 chỉ có dữ liệu local.
+**Bước tiếp theo: G5 — Lịch/thời khóa biểu**, khi người dùng yêu cầu. G2 triển khai cuối trước cloud production; chưa có Auth hoặc đồng bộ Firebase. G3/G4 chỉ có dữ liệu local.

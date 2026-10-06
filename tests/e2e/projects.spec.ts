@@ -281,7 +281,7 @@ test("search resets pagination and pinned projects sort first", async ({
   // A small dataset exercises the page boundary without spending time entering 13 identical forms.
   await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open("myos-local", 1);
+      const request = indexedDB.open("myos-local");
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });

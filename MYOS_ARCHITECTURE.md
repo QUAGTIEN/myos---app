@@ -1,12 +1,12 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
-Ngày cập nhật: **06/10/2026** · Phiên bản: **1.6 — G3 Dự án local; G2 chuyển xuống cuối**
+Ngày cập nhật: **06/10/2026** · Phiên bản: **1.7 — G4 Ghi chú local; G2 chuyển xuống cuối**
 
 Tài liệu được cập nhật theo lựa chọn của người dùng: Firebase và đúng **5 phân hệ: Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**. Ngữ cảnh sản phẩm nằm trong [cuộc trò chuyện gốc](https://chatgpt.com/share/6ac3f0a0-ebb0-83ec-970a-56dcaaa98894).
 
-**Trạng thái hiện tại: G1 và G3 có implementation local.** G3 quản lý dự án, nội dung văn bản, ghim/lưu trữ, checklist/mốc, tiến độ và lịch sử bằng IndexedDB. Người dùng chuyển G2 xuống cuối; Firebase vẫn chỉ có cấu hình, chưa có Auth/session, collection cloud, worker hoặc deploy. Route group (private) chưa bảo vệ tài khoản. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md) và [ADR G3](docs/decisions/002-local-projects.md). Các phần cloud bên dưới là kiến trúc đích, chưa phải hành vi hiện tại.
+**Trạng thái hiện tại: G1, G3 và G4 có implementation local.** G3 quản lý dự án, nội dung văn bản, ghim/lưu trữ, checklist/mốc, tiến độ và lịch sử bằng IndexedDB. Người dùng chuyển G2 xuống cuối; Firebase vẫn chỉ có cấu hình, chưa có Auth/session, collection cloud, worker hoặc deploy. Route group (private) chưa bảo vệ tài khoản. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md) và [ADR G3](docs/decisions/002-local-projects.md). Các phần cloud bên dưới là kiến trúc đích, chưa phải hành vi hiện tại.
 
-G3 tạm dùng luồng **Client Component → service → repository IndexedDB**. Schema Zod, quy tắc tiến độ và ngày nằm trong module Projects đến khi cần dùng chung. Mỗi lần ghi kiểm tra version và cập nhật trong cùng transaction; chỉ thông báo thành công sau commit. Firebase/Server Actions sẽ triển khai khi làm G2; chưa có chuyển dữ liệu local tự động. UI liên kết ghi chú/lịch chỉ là trạng thái chờ, các ID được chuẩn bị trong schema.
+G3/G4 tạm dùng luồng **Client Component → service → repository IndexedDB**. Schema Zod và quy tắc nằm trong module đến khi cần dùng chung. Mỗi lần ghi kiểm tra version trong cùng transaction, chỉ báo thành công sau commit. Firebase/Server Actions sẽ triển khai ở G2; chưa có chuyển dữ liệu local tự động. G4 có Tiptap JSON, ảnh Blob, autosave và 20 revisions; note/ảnh/liên kết dự án ghi nguyên tử. Database `myos-local` version 2 thêm `notes`, `noteAttachments` và giữ `projects`. Notes.projectIds là nguồn liên kết, Projects.relatedNoteIds được cập nhật cùng transaction. UI liên kết ghi chú hoạt động; liên kết lịch chờ G5. Xem [ADR G4](docs/decisions/003-local-notes.md).
 
 ## 1. Quyết định kiến trúc
 

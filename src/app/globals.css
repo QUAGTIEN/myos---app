@@ -106,9 +106,11 @@ button:disabled {
   padding: 10px 15px;
   border-radius: 8px;
   transform: translateY(-160%);
+  opacity: 0;
 }
 .skip-link:focus-visible {
   transform: translateY(0);
+  opacity: 1;
 }
 .app-shell {
   display: flex;

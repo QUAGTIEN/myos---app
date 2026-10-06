@@ -1,3 +1,4 @@
+import { openLocalDatabase, announceLocalChange } from "@/lib/local/database";
 import { projectSchema, type Project } from "./model";
 
 export interface ProjectRepository {
@@ -12,75 +13,13 @@ export interface ProjectRepository {
 }
 
 export const projectsChangedEvent = "myos:projects-changed";
-const databaseName = "myos-local";
 const storeName = "projects";
-let connection: Promise<IDBDatabase> | undefined;
-
-function openDatabase(): Promise<IDBDatabase> {
-  if (connection) return connection;
-  connection = new Promise<IDBDatabase>((resolve, reject) => {
-    if (typeof indexedDB === "undefined") {
-      reject(
-        new Error(
-          "Trình duyệt không hỗ trợ lưu dự án. Hãy dùng một trình duyệt có IndexedDB.",
-        ),
-      );
-      return;
-    }
-    const request = indexedDB.open(databaseName, 1);
-    request.onupgradeneeded = () => {
-      if (!request.result.objectStoreNames.contains(storeName))
-        request.result.createObjectStore(storeName, { keyPath: "id" });
-    };
-    request.onerror = () =>
-      reject(
-        new Error(
-          "Không mở được dữ liệu local. Kiểm tra quyền lưu trữ của trình duyệt.",
-        ),
-      );
-    let abandoned = false;
-    request.onblocked = () => {
-      abandoned = true;
-      reject(new Error("Đóng các tab MyOS cũ rồi thử mở lại dữ liệu."));
-    };
-    request.onsuccess = () => {
-      const db = request.result;
-      if (abandoned) {
-        db.close();
-        return;
-      }
-      db.onversionchange = () => {
-        db.close();
-        connection = undefined;
-      };
-      resolve(db);
-    };
-  }).catch((error) => {
-    connection = undefined;
-    throw error;
-  });
-  return connection;
-}
-
-function announceChange() {
-  window.dispatchEvent(new Event(projectsChangedEvent));
-  if (typeof BroadcastChannel !== "undefined") {
-    // Cross-tab notification is best effort; it must not turn a committed write into a failure.
-    try {
-      const channel = new BroadcastChannel(projectsChangedEvent);
-      channel.postMessage("changed");
-      channel.close();
-    } catch {
-      /* Focus refresh remains available if broadcasting is restricted. */
-    }
-  }
-}
 
 async function read<T>(
   operation: (store: IDBObjectStore) => IDBRequest,
   decode: (value: unknown) => T,
 ): Promise<T> {
-  const db = await openDatabase();
+  const db = await openLocalDatabase();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(storeName, "readonly");
     const request = operation(transaction.objectStore(storeName));
@@ -117,12 +56,12 @@ export const localProjectRepository: ProjectRepository = {
     ),
   async create(project) {
     const validated = projectSchema.parse(project);
-    const db = await openDatabase();
+    const db = await openLocalDatabase();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(storeName, "readwrite");
       transaction.objectStore(storeName).add(validated);
       transaction.oncomplete = () => {
-        announceChange();
+        announceLocalChange(projectsChangedEvent);
         resolve(validated);
       };
       transaction.onabort = () =>
@@ -138,7 +77,7 @@ export const localProjectRepository: ProjectRepository = {
     });
   },
   async update(id, expectedVersion, transform) {
-    const db = await openDatabase();
+    const db = await openLocalDatabase();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(storeName, "readwrite");
       const store = transaction.objectStore(storeName);
@@ -165,7 +104,7 @@ export const localProjectRepository: ProjectRepository = {
         }
       };
       transaction.oncomplete = () => {
-        announceChange();
+        announceLocalChange(projectsChangedEvent);
         resolve(saved);
       };
       transaction.onabort = () =>

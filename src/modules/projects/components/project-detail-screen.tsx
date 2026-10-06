@@ -1,4 +1,5 @@
 "use client";
+import { ProjectNotes } from "@/modules/notes/components/project-notes";
 
 import {
   Archive,
@@ -8,7 +9,6 @@ import {
   CalendarDays,
   Flag,
   FolderKanban,
-  Link2,
   Pencil,
   Pin,
   PinOff,
@@ -319,18 +319,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
               </ul>
             )}
           </section>
-          <section className="panel project-content-panel">
-            <div className="project-section-heading">
-              <h2>
-                <Link2 size={17} aria-hidden="true" />
-                Lịch & ghi chú liên quan
-              </h2>
-            </div>
-            <p className="project-related-placeholder">
-              Liên kết sẽ được bật khi module Lịch và Ghi chú hoàn thành. Hạn dự
-              án và giờ lịch hẹn được quản lý riêng.
-            </p>
-          </section>
+          <ProjectNotes projectId={project.id} archived={archived} />
         </div>
         <aside className="project-detail-side">
           <section className="panel project-side-panel">

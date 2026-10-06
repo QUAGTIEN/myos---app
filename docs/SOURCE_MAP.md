@@ -1,6 +1,6 @@
 # Bản đồ source MyOS
 
-Ngày cập nhật: 06/10/2026. Giai đoạn: **G1 và G3 Projects local đã có implementation; G2 hoãn**.
+Ngày cập nhật: 06/10/2026. Giai đoạn: **G1, G3 Projects và G4 Notes local đã có implementation; G2 hoãn**.
 
 ## Cây thư mục hiện có
 
@@ -45,7 +45,7 @@ Các ký hiệu {a,b} mô tả nhiều thư mục ngang hàng, không phải tê
 
 ## Files Next.js và trạng thái
 
-**Đã tạo ở G1:** root layout/page/globals/not-found/global-error; login; private layout/error; dashboard/loading; 5 page chính; detail Notes trả 404; Projects có màn hình chi tiết local; shell/menu; UI heading/empty/skeleton/notice/error; components màn hình của 5 module; cấu hình Firebase browser/server chưa có SDK. **G3 đã thêm:** Projects model.ts, repository.ts (IndexedDB), service.ts, use-projects.ts, projects.css; components danh sách/chi tiết/progress/project-dialog/item-dialog; projects/layout.tsx và detail page validate UUID. Có tests/e2e/projects.spec.ts cho luồng local. Chưa có Server Actions hoặc API route.ts; Firebase/worker vẫn là kế hoạch. Bảng dưới tiếp tục mô tả vai trò mục tiêu; file chưa nằm trong danh sách G1 vẫn là kế hoạch.
+**Đã tạo ở G1:** root layout/page/globals/not-found/global-error; login; private layout/error; dashboard/loading; 5 page chính; detail Projects/Notes có màn hình local, UUID sai trả 404; shell/menu; UI heading/empty/skeleton/notice/error; components màn hình của 5 module; cấu hình Firebase browser/server chưa có SDK. **G3 đã thêm:** Projects model.ts, repository.ts (IndexedDB), service.ts, use-projects.ts, projects.css; components danh sách/chi tiết/progress/project-dialog/item-dialog; projects/layout.tsx và detail page validate UUID. Có tests/e2e/projects.spec.ts cho luồng local. **G4 đã thêm:** Notes model/repository/service, use-notes/use-note-draft, notes.css; components thư viện/editor/history/project-notes; notes/layout và UUID detail page. src/lib/local/database.ts dùng chung database version 2, tests/e2e/notes.spec.ts kiểm tra G4. Chưa có Server Actions hoặc API route.ts; Firebase/worker vẫn là kế hoạch. Bảng dưới tiếp tục mô tả vai trò mục tiêu; file chưa nằm trong danh sách G1 vẫn là kế hoạch.
 
 | Vị trí | File sẽ tạo khi bắt đầu code | Vai trò |
 | --- | --- | --- |

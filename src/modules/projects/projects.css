@@ -1,6 +1,17 @@
 .projects-module {
   min-width: 0;
 }
+.project-note-links {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+}
+.project-note-links li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--primary);
+  overflow-wrap: anywhere;
+}
 .project-summary {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
