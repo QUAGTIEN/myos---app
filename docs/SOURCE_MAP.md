@@ -1,100 +1,101 @@
 # Bản đồ source MyOS
 
-Ngày cập nhật: 07/10/2026. Giai đoạn: **G1, G3 Projects, G4 Notes và G5 Calendar local đã có implementation; G2 hoãn**.
+Cập nhật 07/10/2026. G1, G3, G4, G5 đã chạy local; G2 hoãn đến cuối. Cây này mô tả source hiện có, không dựng thư mục giữ chỗ cho kế hoạch cloud.
 
-## Cây thư mục hiện có
-
-Mỗi nhánh nghiệp vụ/hạ tầng có README.md mô tả vai trò. Cây dưới đây tập trung vào thư mục; bảng phía sau phân biệt file đã triển khai và phần còn dự kiến.
+## Cấu trúc hiện tại
 
 ~~~text
 MYOS/
-├── README.md
-├── AGENTS.md
-├── MYOS_ARCHITECTURE.md
+├── README.md                       # Trạng thái, cách chạy và kiểm tra
+├── AGENTS.md                       # Quy ước phát triển
+├── MYOS_ARCHITECTURE.md             # Kiến trúc sản phẩm và cloud mục tiêu
+├── package.json, pnpm-lock.yaml, pnpm-workspace.yaml
+├── tsconfig.json, next.config.ts, postcss.config.mjs
+├── eslint.config.mjs, playwright.config.ts
+├── .env.example, .gitignore, .github/workflows/ci.yml
 ├── src/
-│   ├── app/
-│   │   ├── (auth)/login/
-│   │   ├── (private)/
-│   │   │   ├── dashboard/
-│   │   │   ├── calendar/
-│   │   │   ├── projects/[projectId]/
-│   │   │   ├── notes/[noteId]/
-│   │   │   └── settings/
-│   │   └── api/
-│   │       ├── auth/{session,logout}/
-│   │       ├── calendar/export/
-│   │       └── integrations/zalo/connect/
-│   ├── modules/{overview,calendar,projects,notes,settings}/
-│   ├── components/{ui,layout}/
-│   └── lib/{firebase,auth,firestore}/
-├── packages/domain/src/
-│   ├── schemas/
-│   ├── datetime/
-│   ├── recurrence/
-│   ├── progress/
-│   ├── notes/
-│   └── notifications/
-├── functions/src/{scheduled,adapters,services,lib}/
-├── public/icons/
-├── scripts/{seed-emulator,migrations}/
-├── tests/{unit,integration,rules,e2e}/
-└── docs/{decisions,runbooks}/
+│   ├── app/                        # Quy ước route/layout của Next.js
+│   │   ├── layout.tsx, page.tsx, globals.css
+│   │   ├── global-error.tsx, not-found.tsx
+│   │   ├── (auth)/login/page.tsx    # Preview, chưa xác thực
+│   │   └── (private)/
+│   │       ├── layout.tsx, error.tsx
+│   │       ├── dashboard/          # page.tsx và loading.tsx
+│   │       ├── calendar/           # page.tsx và layout.tsx
+│   │       ├── projects/           # page.tsx, layout.tsx, [projectId]/page.tsx
+│   │       ├── notes/              # page.tsx, layout.tsx, [noteId]/page.tsx
+│   │       └── settings/page.tsx
+│   ├── components/
+│   │   ├── layout/app-shell.tsx    # Sidebar/header/menu desktop và mobile
+│   │   └── ui/                     # Heading, empty/error, notice và skeleton
+│   ├── modules/
+│   │   ├── README.md               # Hướng dẫn chung của cả 5 phân hệ
+│   │   ├── overview/overview-screen.tsx
+│   │   ├── settings/settings-screen.tsx
+│   │   ├── projects/               # model, service, repository, hook, CSS, components
+│   │   ├── notes/                  # Như Projects, thêm autosave và rich editor
+│   │   └── calendar/               # Thêm recurrence, ics và bộ lịch
+│   └── lib/local/database.ts       # IndexedDB dùng chung, version 3
+├── tests/
+│   ├── README.md                   # Cách chạy và phạm vi kiểm thử
+│   └── e2e/                       # 5 file test đang hoạt động
+└── docs/
+    ├── SOURCE_MAP.md
+    ├── IMPLEMENTATION_PLAN.md
+    └── decisions/                  # Mục lục và 4 quyết định đã áp dụng
 ~~~
 
-Các ký hiệu {a,b} mô tả nhiều thư mục ngang hàng, không phải tên thư mục thật. Dashboard tương ứng module overview.
+node_modules, .next, test-results và playwright-report là dependency/output, không phải source và không commit. Chỉ giữ thư mục khi có file thực tế cần dùng.
 
-## G5 — Calendar local
+## Tìm code theo nhiệm vụ
 
-`src/modules/calendar`: model, recurrence, repository, service, use-calendar, ics, calendar.css và components (bộ lịch, form, chi tiết, export, settings, liên kết). `/calendar/page.tsx` đọc ID query; layout tải CSS. Database version 3 giữ các kho cũ. Calendar repository cập nhật Project.relatedEventIds nguyên tử; Notes đọc liên kết từ Calendar. Export download client, chưa có API export server. Rules/worker/Auth vẫn là kế hoạch. Kiểm chứng ở `calendar.spec.ts` và `calendar-domain.spec.ts`; xem ADR 004.
-
-## Files Next.js và trạng thái
-
-**Đã tạo ở G1:** root layout/page/globals/not-found/global-error; login; private layout/error; dashboard/loading; 5 page chính; detail Projects/Notes có màn hình local, UUID sai trả 404; shell/menu; UI heading/empty/skeleton/notice/error; components màn hình của 5 module; cấu hình Firebase browser/server chưa có SDK. **G3 đã thêm:** Projects model.ts, repository.ts (IndexedDB), service.ts, use-projects.ts, projects.css; components danh sách/chi tiết/progress/project-dialog/item-dialog; projects/layout.tsx và detail page validate UUID. Có tests/e2e/projects.spec.ts cho luồng local. **G4 đã thêm:** Notes model/repository/service, use-notes/use-note-draft, notes.css; components thư viện/editor/history/project-notes; notes/layout và UUID detail page. src/lib/local/database.ts dùng chung database version 2, tests/e2e/notes.spec.ts kiểm tra G4. Chưa có Server Actions hoặc API route.ts; Firebase/worker vẫn là kế hoạch. Bảng dưới tiếp tục mô tả vai trò mục tiêu; file chưa nằm trong các danh sách implementation vẫn là kế hoạch.
-
-| Vị trí | File sẽ tạo khi bắt đầu code | Vai trò |
-| --- | --- | --- |
-| src/app | layout.tsx, page.tsx, globals.css | Root layout, điều hướng đầu vào và style chung |
-| src/app | not-found.tsx, global-error.tsx | Không tìm thấy và lỗi root |
-| src/app/(auth)/login | page.tsx | Đăng nhập |
-| src/app/(private) | layout.tsx, error.tsx | Khung chung 5 phân hệ và boundary lỗi |
-| Mỗi route phân hệ | page.tsx; loading.tsx khi cần | Nội dung và skeleton |
-| projects/[projectId], notes/[noteId] | page.tsx, not-found.tsx khi cần | Chi tiết tài nguyên |
-| Các route src/app/api | route.ts | HTTP boundary có validation/xác thực |
-| src/lib/firebase | client.ts, admin.ts | Tách SDK browser/server |
-| src/lib/auth | require-user.ts, session.ts | Xác thực và quyền truy cập server |
-| Mỗi src/modules/<module> | service.ts, repository.ts, actions.ts, types.ts khi cần | Ca sử dụng, dữ liệu, mutation và hợp đồng |
-| Mỗi src/modules/<module>/components | Các component theo nhu cầu | UI nghiệp vụ; thư mục tạo lúc có component |
-| functions/src | index.ts và các worker/adapter | Export Functions và xử lý nền |
-
-## Cấu hình
-
-**Đã tạo:** package.json, pnpm workspace/lockfile, tsconfig, next.config, PostCSS/Tailwind v4, ESLint, Prettier scripts, Playwright, .npmrc, .nvmrc, .env.example và CI. next-env.d.ts được Next.js sinh tự động và bỏ qua Git.
-
-**Chưa tạo:** Firebase deploy config/Rules/indexes, apphosting.yaml và manifest/build cho domain/Functions. Danh sách mục tiêu đầy đủ:
-
-- package.json và pnpm-workspace.yaml; lockfile sinh từ cài đặt thật.
-- tsconfig.json, next.config.ts, next-env.d.ts theo bộ khởi tạo Next.js được chọn.
-- Cấu hình lint, Tailwind/PostCSS theo phiên bản thực tế.
-- firebase.json, .firebaserc, firestore.rules, firestore.indexes.json, storage.rules.
-- functions/package.json, functions/tsconfig.json, packages/domain/package.json.
-- apphosting.yaml, .env.example và .gitignore.
-- .github/workflows/ci.yml khi có scripts/checks thực tế.
-
-Không tạo config giả với project ID hoặc secrets. Kiến trúc đầy đủ chứa cây **mục tiêu**, bao gồm những phần chưa triển khai.
-
-## Quy tắc phụ thuộc
-
-| Lớp | Được phụ thuộc |
+| Việc cần làm | Vị trí |
 | --- | --- |
-| app | modules, components, lib/auth |
-| modules | domain, components, lib; repository server truy cập lib/firebase |
-| components | React/UI và types đã an toàn cho client |
-| lib | Firebase SDK và domain khi cần; không phụ thuộc UI |
-| domain | TypeScript và thư viện thuần đã chọn |
-| functions | domain và hạ tầng worker; không phụ thuộc Next.js/UI |
+| Điều hướng, sidebar, header, menu | src/components/layout/app-shell.tsx |
+| Màu, font, spacing, UI chung | src/app/globals.css và src/components/ui |
+| Lịch hẹn/thời khóa biểu | src/modules/calendar |
+| Ngoại lệ chuỗi tuần | calendar/model.ts, recurrence.ts, service.ts |
+| Xuất iCalendar | calendar/ics.ts |
+| Cài đặt lịch và lịch liên quan | calendar/components/calendar-settings.tsx, related-calendar.tsx |
+| Dự án, checklist/mốc, tiến độ | src/modules/projects |
+| Ghi chú, ảnh, lịch sử, autosave | src/modules/notes |
+| Khung Tổng quan và Cài đặt | overview/overview-screen.tsx, settings/settings-screen.tsx |
+| Kết nối/kho/version dữ liệu local | src/lib/local/database.ts |
+| Luồng người dùng và quy tắc thời gian | tests/e2e |
 
-Service chịu trách nhiệm nghiệp vụ; repository chỉ truy cập dữ liệu. Tổng quan tổng hợp qua service/query chuyên dụng, không import component của phân hệ khác để đọc dữ liệu.
+Projects/Notes/Calendar giữ model, service và repository riêng vì có quy tắc dữ liệu, transaction và kiểm tra version khác nhau. Hook đọc dữ liệu riêng phục vụ loading/error và cập nhật giữa tab. Editor, form, lịch sử và dialog được tách khi có trách nhiệm thực tế; không gom thành một file lớn chỉ để giảm số file.
 
-## Hoàn thành giai đoạn bộ khung
+Page/layout/loading/error nhỏ vẫn là file riêng vì Next.js dùng tên và vị trí để điều phối routing, server/client và boundary. UI dùng ở nhiều module vẫn ở components/ui. Module chỉ có một màn hình không cần thêm thư mục components.
 
-Cây thư mục và hướng dẫn đã có; web G1 chạy local theo README ở root. Hạ tầng Firebase chưa hoạt động, không có dữ liệu cá nhân hoặc auth guard. G2 tiếp tục xác thực và dữ liệu nền.
+## Luồng dữ liệu đang chạy
+
+Client Component → service → repository IndexedDB. Chưa có Server Actions hoặc API route.ts. Route group (private) chỉ là bố cục, chưa có auth guard.
+
+Database myos-local version 3 gồm projects, notes, noteAttachments, calendarEvents, calendarSettings. Calendar/Notes repository điều phối liên kết Projects trong transaction; khi ghi lỗi phải rollback. Liên kết event→note được đọc từ Calendar, không sao chép eventIds vào note. Xem [hướng dẫn module](../src/modules/README.md) và [quyết định kiến trúc](decisions/README.md).
+
+## Phần chưa triển khai
+
+Firebase hiện chỉ được mô tả trong kiến trúc và .env.example; chưa cài SDK, khởi tạo kết nối, có session hay chuyển dữ liệu. Hai helper cấu hình Firebase không có người dùng đã được bỏ trong lần dọn source; triển khai thật ở G2.
+
+| Phần dự kiến | Chỉ tạo khi có implementation |
+| --- | --- |
+| Session/quyền/Firebase/Firestore | src/lib/auth, firebase, firestore; API session/logout |
+| Worker nhắc và Zalo | functions/src; trigger, service, adapter, hạ tầng theo nhu cầu |
+| Domain dùng chung web/worker | packages/domain khi có code dùng chung thật; hiện quy tắc ở module |
+| Seed/migration | scripts với Emulator, dry-run, schemaVersion, backup và chạy lại an toàn |
+| Rules/integration/unit | tests theo lớp khi có kiểm thử thật |
+| Tài nguyên công khai | public khi có asset; không đặt ảnh ghi chú hoặc secrets ở đây |
+| Deploy/rules/indexes | apphosting.yaml, firebase.json, rules, indexes và cấu hình môi trường thật |
+| Runbook | docs/runbooks khi có quy trình setup/deploy/rollback/backup thực tế |
+
+Worker không import Next.js/UI; domain giữ TypeScript thuần, không SDK/DOM/secrets và phải được bundle vào artifact Functions. Endpoint HTTP chỉ tạo khi cần; export G5 hiện download ở client, không cần API export giữ chỗ. Không gửi tin trong transaction.
+
+## Quy tắc duy trì cấu trúc
+
+- Chỉ 4 README: root, modules, tests và mục lục decisions. Mô tả thư mục nhỏ đặt tại đây; quy tắc nghiệp vụ nằm trong hướng dẫn module/ADR.
+- Không tạo thư mục trống, README hay barrel index.ts chỉ để giữ cây mục tiêu trong Git.
+- Tách file khi có trách nhiệm rõ, dùng lại thật hoặc ranh giới server/client bắt buộc. Giữ helper nhỏ dùng một chỗ gần nơi dùng.
+- Cây mục tiêu trong MYOS_ARCHITECTURE.md là kế hoạch; tài liệu này là nguồn chính cho cấu trúc đang có.
+- Khi có worker/domain thật, thêm package workspace tương ứng; hiện chỉ có ứng dụng web ở root.
+
+Bước tiếp theo là G6 Tổng quan khi được yêu cầu. Auth/Firebase tiếp tục ở G2 cuối; nhắc tự động/Zalo chưa hoạt động.

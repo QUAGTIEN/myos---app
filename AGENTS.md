@@ -12,7 +12,7 @@ Yêu cầu mới của người dùng có thể chuyển giai đoạn; khi đó 
 
 1. README.md: trạng thái thực tế.
 2. MYOS_ARCHITECTURE.md: phạm vi sản phẩm và quyết định kiến trúc.
-3. docs/SOURCE_MAP.md và README của thư mục đang làm: trách nhiệm và phụ thuộc.
+3. docs/SOURCE_MAP.md và src/modules/README.md: cấu trúc thực tế, trách nhiệm và phụ thuộc.
 4. docs/decisions/: quyết định bổ sung nếu có.
 5. docs/IMPLEMENTATION_PLAN.md: thứ tự triển khai, phụ thuộc và tiêu chí hoàn thành.
 
@@ -64,6 +64,7 @@ Lịch G5 dùng Luxon với Asia/Ho_Chi_Minh, wall-clock `YYYY-MM-DDTHH:mm`, c�
 - Ưu tiên giải pháp đơn giản, tên biến/hàm rõ nghĩa, luồng xử lý dễ theo dõi; không dùng cách viết ngắn gây khó hiểu.
 - Mỗi hàm/component có trách nhiệm rõ ràng; tách phần lớn khi có lý do thực tế, tránh tạo nhiều lớp hoặc abstraction không cần thiết.
 - Giữ quy ước format và naming nhất quán; dùng component/helper chung cho hành vi lặp lại, không gom các nghiệp vụ khác nhau chỉ vì giống vài dòng code.
+- Giữ cấu trúc gọn: không tạo README/thư mục giữ chỗ, không xé helper nhỏ dùng một chỗ thành file riêng. Module một màn hình đặt file ngay trong module; chỉ thêm components khi có nhiều thành phần thực tế. Giữ model/service/repository riêng khi có quy tắc và I/O khác nhau; không ép gom thành file lớn. Hướng dẫn module tập trung ở src/modules/README.md, kiểm thử ở tests/README.md.
 - Thay đổi tập trung vào yêu cầu; tránh refactor, đổi tên hoặc format cả repository trong một thay đổi nhỏ.
 - Comment giải thích lý do hoặc quy tắc khó thấy; không kể lại những gì code đã thể hiện.
 - Xử lý lỗi có chủ đích, giữ dữ liệu đang nhập và báo lỗi dễ hiểu; không nuốt lỗi hoặc báo thành công khi chưa lưu được.

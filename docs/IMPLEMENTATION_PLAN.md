@@ -1,7 +1,7 @@
 # MyOS — Kế hoạch triển khai
 
 Ngày lập: **06/10/2026**.
-Trạng thái: **G1 hoàn thành; G3/G4 triển khai local; G2 chuyển xuống cuối theo yêu cầu người dùng**.
+Trạng thái: **G1 hoàn thành; G3/G4/G5 triển khai local; G2 chuyển xuống cuối theo yêu cầu người dùng**.
 Đây là kế hoạch toàn bộ dự án; chỉ các hạng mục ghi rõ đã hoàn thành mới có implementation.
 
 Nguồn phạm vi: [MYOS_ARCHITECTURE.md](../MYOS_ARCHITECTURE.md).
@@ -26,8 +26,8 @@ Các phần kỹ thuật dùng chung không tạo thêm phân hệ trong giao di
 | --- | --- | --- |
 | Routing và khung UI | src/app, src/components | Layout, điều hướng, form/UI cơ sở, loading/error |
 | Xác thực và Firebase | src/lib | Session, quyền, SDK, converters/DTO |
-| Quy tắc nghiệp vụ | packages/domain/src | Schema, thời gian, lịch lặp, tiến độ, version, nhắc lịch |
-| Tác vụ nền | functions/src | Job reminders, retry/lease, adapter Zalo, vòng đời tệp |
+| Quy tắc nghiệp vụ | Hiện ở modules; packages/domain/src khi cần dùng chung web/worker | Schema, thời gian, lịch lặp, tiến độ, version, nhắc lịch |
+| Tác vụ nền | functions/src khi triển khai worker | Job reminders, retry/lease, adapter Zalo, vòng đời tệp |
 
 Kiến trúc là một ứng dụng Next.js theo phân hệ, có worker deploy riêng. Không tách mỗi module thành một service hoặc một repository độc lập.
 
@@ -281,7 +281,7 @@ Không đặt lịch số tuần trước khi có khối lượng implementation
 
 | Hạng mục | Trạng thái hiện tại |
 | --- | --- |
-| Bộ khung thư mục và tài liệu | Đã tạo |
+| Bộ khung thư mục và tài liệu | Đã dọn gọn: chỉ giữ source thực tế, 4 README, bỏ nhánh giữ chỗ |
 | Kế hoạch triển khai | Đã lập |
 | G1 | Hoàn thành local: lint/typecheck/format/build đạt, 12 E2E desktop/mobile đạt |
 | G3 | Có implementation local: CRUD, checklist/mốc, tiến độ, ghim/lưu trữ, lịch sử; chất lượng kiểm tra ghi trong README |

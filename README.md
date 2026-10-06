@@ -1,6 +1,6 @@
 # MyOS
 
-Bộ khung ứng dụng Next.js cho phần mềm cá nhân gồm **Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**.
+Ứng dụng Next.js cho phần mềm cá nhân gồm **Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**.
 
 ## Trạng thái hiện tại
 
@@ -25,7 +25,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ~~~
 
-Mở http://localhost:3000. G1 chạy không cần .env hoặc tài khoản Firebase. Khi triển khai G2, tạo .env.local theo .env.example; không commit credential.
+Mở http://localhost:3000. Bản local hiện chạy không cần .env hoặc tài khoản Firebase. Khi triển khai G2, tạo .env.local theo .env.example; không commit credential. localhost và 127.0.0.1 có kho dữ liệu riêng, nên dùng nhất quán một địa chỉ.
 
 ## Kiểm tra
 
@@ -55,36 +55,33 @@ pnpm start chạy bản production ở port 3000 sau build. CI kiểm tra lint, 
 - Cloud Storage for Firebase cho ảnh/tệp.
 - Firebase App Hosting cho web Next.js.
 - Cloud Functions gen 2 + Cloud Scheduler cho nhắc lịch.
-- pnpm workspace dự kiến cho web ở root, domain và worker.
+- pnpm quản lý web ở root; thêm package domain/worker khi có mã dùng chung và tác vụ nền thật.
 
-Framework, Lucide, Radix Dialog, Zod, Tiptap, FullCalendar 6.1.21/Luxon 3.7.2, font và công cụ kiểm tra đã khóa phiên bản trong package.json/pnpm-lock.yaml. Firebase chỉ có cấu hình browser/server; SDK sẽ cài ở G2. Worker còn là kế hoạch. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md), [ADR G3](docs/decisions/002-local-projects.md), [ADR G4](docs/decisions/003-local-notes.md) và [ADR G5](docs/decisions/004-local-calendar.md).
+Framework, Lucide, Radix Dialog, Zod, Tiptap, FullCalendar 6.1.21/Luxon 3.7.2, font và công cụ kiểm tra đã khóa phiên bản trong package.json/pnpm-lock.yaml. Firebase hiện chỉ có mẫu biến môi trường; SDK và cấu hình hoạt động sẽ triển khai ở G2. Worker còn là kế hoạch. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md), [ADR G3](docs/decisions/002-local-projects.md), [ADR G4](docs/decisions/003-local-notes.md) và [ADR G5](docs/decisions/004-local-calendar.md).
 
 ## Tài liệu
 
 - [Kiến trúc đầy đủ](MYOS_ARCHITECTURE.md): công nghệ, 5 phân hệ, dữ liệu, triển khai và cách áp dụng Next.js Learn.
 - [Hướng dẫn agent](AGENTS.md): phạm vi, quy ước và ranh giới mã nguồn.
-- [Bản đồ source](docs/SOURCE_MAP.md): cây thư mục thực tế và các file sẽ tạo khi bắt đầu code.
+- [Bản đồ source](docs/SOURCE_MAP.md): cây thư mục thực tế, nơi tìm code và phần còn dự kiến.
+- [Hướng dẫn 5 phân hệ](src/modules/README.md): trách nhiệm, luồng dữ liệu và quy tắc nghiệp vụ hiện tại.
+- [Kiểm thử](tests/README.md): phạm vi, cách chạy và dữ liệu test.
 - [Kế hoạch triển khai](docs/IMPLEMENTATION_PLAN.md): 5 module, 8 giai đoạn và tiêu chí bàn giao.
 - [Quyết định kiến trúc](docs/decisions/README.md).
-- [Vận hành và triển khai](docs/runbooks/README.md).
 
 ## Cấu trúc chính
 
 | Thư mục | Vai trò |
 | --- | --- |
 | src/app | Route, page, layout, loading/error và HTTP boundary của Next.js |
-| src/modules | 5 phân hệ nghiệp vụ |
+| src/modules | 5 phân hệ; hướng dẫn tập trung trong một README |
 | src/components | UI và bố cục dùng chung |
-| src/lib | Firebase, xác thực và helper Firestore |
-| packages/domain/src | Quy tắc nghiệp vụ thuần dùng chung |
-| functions/src | Worker nhắc lịch và adapter tích hợp |
-| public | Tài nguyên tĩnh công khai |
-| scripts | Seed Emulator và migration được kiểm soát |
-| tests | Kiểm thử theo lớp khi có implementation |
-| docs | Bản đồ source, quyết định và runbook |
+| src/lib/local | IndexedDB dùng chung, version và thông báo cập nhật |
+| tests/e2e | Kiểm thử luồng desktop/mobile và quy tắc thời gian/iCalendar |
+| docs | Bản đồ source, kế hoạch và quyết định kiến trúc |
 
-Chi tiết trách nhiệm nằm trong README từng thư mục. **Nguồn chính cho phạm vi sản phẩm là MYOS_ARCHITECTURE.md**; SOURCE_MAP mô tả phần đã tạo trên ổ đĩa.
+Chỉ giữ **4 README**: root, modules, tests và mục lục decisions. Không tạo nhánh giữ chỗ cho domain, worker, API, migration hoặc asset chưa có implementation. Module chỉ có một màn hình đặt file trực tiếp; module nhiều nghiệp vụ giữ model/service/repository và components theo trách nhiệm thật. **Nguồn chính cho phạm vi sản phẩm là MYOS_ARCHITECTURE.md**; SOURCE_MAP mô tả cấu trúc đang chạy.
 
 ## Bước tiếp theo khi được yêu cầu lập trình
 
-G5: Lịch và thời khóa biểu, khi người dùng yêu cầu. G2 (xác thực và chuyển dữ liệu sang Firebase) thực hiện cuối, trước khi sử dụng cloud với dữ liệu riêng tư. Các phụ thuộc cloud trong kế hoạch vẫn cần đáp ứng trước khi triển khai production.
+G6: Tổng quan, khi người dùng yêu cầu. G2 (xác thực và chuyển dữ liệu sang Firebase) thực hiện cuối, trước khi sử dụng cloud với dữ liệu riêng tư. Các phụ thuộc cloud trong kế hoạch vẫn cần đáp ứng trước khi triển khai production.

@@ -1,10 +1,10 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
-Ngày cập nhật: **07/10/2026** · Phiên bản: **1.8 — G5 Lịch local; G2 chuyển xuống cuối**
+Ngày cập nhật: **07/10/2026** · Phiên bản: **1.9 — G5 local; cấu trúc source gọn; G2 chuyển xuống cuối**
 
 Tài liệu được cập nhật theo lựa chọn của người dùng: Firebase và đúng **5 phân hệ: Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**. Ngữ cảnh sản phẩm nằm trong [cuộc trò chuyện gốc](https://chatgpt.com/share/6ac3f0a0-ebb0-83ec-970a-56dcaaa98894).
 
-**Trạng thái hiện tại: G1, G3, G4 và G5 có implementation local.** G3 quản lý dự án, nội dung văn bản, ghim/lưu trữ, checklist/mốc, tiến độ và lịch sử bằng IndexedDB. Người dùng chuyển G2 xuống cuối; Firebase vẫn chỉ có cấu hình, chưa có Auth/session, collection cloud, worker hoặc deploy. Route group (private) chưa bảo vệ tài khoản. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md) và [ADR G3](docs/decisions/002-local-projects.md). Các phần cloud bên dưới là kiến trúc đích, chưa phải hành vi hiện tại.
+**Trạng thái hiện tại: G1, G3, G4 và G5 có implementation local.** G3 quản lý dự án, nội dung văn bản, ghim/lưu trữ, checklist/mốc, tiến độ và lịch sử bằng IndexedDB. Người dùng chuyển G2 xuống cuối; Firebase hiện chỉ có mẫu biến môi trường và định hướng, chưa có Auth/session, collection cloud, worker hoặc deploy. Route group (private) chưa bảo vệ tài khoản. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md) và [ADR G3](docs/decisions/002-local-projects.md). Các phần cloud bên dưới là kiến trúc đích, chưa phải hành vi hiện tại.
 
 G3–G5 tạm dùng luồng **Client Component → service → repository IndexedDB**. Schema Zod và quy tắc nằm trong module đến khi cần dùng chung. Mỗi lần ghi kiểm tra version trong cùng transaction, chỉ báo thành công sau commit. Firebase/Server Actions sẽ triển khai ở G2; chưa có chuyển dữ liệu local tự động. G4 có Tiptap JSON, ảnh Blob, autosave và 20 revisions; note/ảnh/liên kết dự án ghi nguyên tử. Database `myos-local` version 2 thêm `notes`, `noteAttachments` và giữ `projects`. Notes.projectIds là nguồn liên kết, Projects.relatedNoteIds được cập nhật cùng transaction. G5 thêm calendarEvents/calendarSettings ở database version 3, giữ các kho cũ. Có bộ lịch bốn views, lặp tuần/ngoại lệ, kéo/resize rollback, liên kết hai chiều Dự án/Ghi chú, .ics và cài đặt lịch. Nhắc chỉ lưu cấu hình; gửi tự động/Zalo chờ G7. Quyết định tại [ADR G5](docs/decisions/004-local-calendar.md). Xem [ADR G4](docs/decisions/003-local-notes.md).
 
@@ -106,7 +106,7 @@ Luồng ghi quan trọng: **Form → Server Action → xác thực session/allow
 
 ## 4. Cấu trúc mã nguồn mục tiêu
 
-Một repository, pnpm workspace nhỏ cho web, worker và mã domain dùng chung. **Cây dưới đây là mục tiêu tổng thể**, không phải danh sách file đã viết. G1 có web/config/CI; domain, worker và API nghiệp vụ còn định hướng. Xem [bản đồ source thực tế](docs/SOURCE_MAP.md).
+Một repository, pnpm workspace nhỏ cho web, worker và mã domain dùng chung. **Cây dưới đây là mục tiêu tổng thể**, không phải danh sách file đã viết. Web/config/CI đã có; domain, worker và API nghiệp vụ còn định hướng, không tạo thư mục giữ chỗ. Module một màn hình dùng file trực tiếp trong module; chỉ tạo components khi có nhiều thành phần thực tế. Xem [bản đồ source thực tế](docs/SOURCE_MAP.md).
 
 ~~~text
 MYOS/
@@ -182,7 +182,7 @@ MYOS/
     └── runbooks/
 ~~~
 
-Mỗi module có components, actions, service, repository, schemas/types khi cần. Tìm kiếm, upload, nhắc lịch và adapter tích hợp là dịch vụ dùng chung; không tạo thêm phân hệ trong giao diện. app chỉ điều phối routing và layout. packages/domain không có secrets hoặc Admin SDK. Khi deploy Functions, build/bundle phần domain vào artifact; không phụ thuộc symlink ngoài thư mục được upload. CI kiểm tra build web và worker.
+Mỗi module có components, actions, service, repository, schemas/types khi cần. Tìm kiếm, upload, nhắc lịch và adapter tích hợp là dịch vụ dùng chung; không tạo thêm phân hệ trong giao diện. app chỉ điều phối routing và layout. packages/domain không có secrets hoặc Admin SDK. Khi deploy Functions, build/bundle phần domain vào artifact; không phụ thuộc symlink ngoài thư mục được upload. CI hiện kiểm tra web; bổ sung build worker khi có implementation.
 
 Schema được quản lý bằng Zod/types, schemaVersion, scripts migration, rules và indexes trong Git. Không còn migration SQL, RPC hoặc types sinh từ PostgreSQL.
 

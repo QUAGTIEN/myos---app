@@ -1,11 +1,26 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { CalendarDays, Menu, Sprout, X } from "lucide-react";
+import {
+  CalendarDays,
+  FolderKanban,
+  LayoutDashboard,
+  Menu,
+  NotebookPen,
+  Settings2,
+  Sprout,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import { navigation } from "./navigation";
+const navigation = [
+  { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
+  { href: "/calendar", label: "Lịch", icon: CalendarDays },
+  { href: "/projects", label: "Dự án", icon: FolderKanban },
+  { href: "/notes", label: "Ghi chú", icon: NotebookPen },
+  { href: "/settings", label: "Cài đặt", icon: Settings2 },
+] as const;
 
 function Brand() {
   return (
