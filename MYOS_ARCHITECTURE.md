@@ -1,10 +1,10 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
-Ngày cập nhật: **06/10/2026** · Phiên bản: **Đề xuất 1.4 — Bộ khung source và hướng dẫn agent**
+Ngày cập nhật: **06/10/2026** · Phiên bản: **1.5 — Triển khai G1: framework và khung giao diện**
 
 Tài liệu được cập nhật theo lựa chọn của người dùng: Firebase và đúng **5 phân hệ: Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**. Ngữ cảnh sản phẩm nằm trong [cuộc trò chuyện gốc](https://chatgpt.com/share/6ac3f0a0-ebb0-83ec-970a-56dcaaa98894).
 
-**Trạng thái hiện tại: chỉ tạo bộ khung định hướng, chưa code.** Cây thư mục source và README mô tả trách nhiệm đã được tạo; chưa có file TS/TSX, dependencies, cấu hình chạy, collection thật, kết nối Firebase hoặc deploy. [README](README.md) ghi trạng thái dự án; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) liệt kê thư mục thực tế và file dự kiến. Các công nghệ, luồng và cấu hình dưới đây là thiết kế cho giai đoạn implementation.
+**Trạng thái hiện tại: G1 có mã Next.js và khung giao diện.** Có 5 route chính, shell responsive, login preview, lịch tháng điều hướng, loading/error/404 và cấu hình quality checks. Cấu hình Firebase browser/server đã tách riêng; chưa cài SDK hoặc gọi dịch vụ từ màn hình. Chưa có Auth/session, CRUD, collection thật, worker hoặc deploy. Route group (private) chưa bảo vệ dữ liệu. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định phiên bản/UI ở [ADR G1](docs/decisions/001-framework-shell.md). Các phần nghiệp vụ và cloud bên dưới tiếp tục là thiết kế.
 
 ## 1. Quyết định kiến trúc
 
@@ -104,7 +104,7 @@ Luồng ghi quan trọng: **Form → Server Action → xác thực session/allow
 
 ## 4. Cấu trúc mã nguồn mục tiêu
 
-Một repository, pnpm workspace nhỏ cho web, worker và mã domain dùng chung. **Cây dưới đây là mục tiêu khi triển khai**, không phải danh sách file đã viết. Hiện source chỉ có các thư mục và README; xem [bản đồ source thực tế](docs/SOURCE_MAP.md).
+Một repository, pnpm workspace nhỏ cho web, worker và mã domain dùng chung. **Cây dưới đây là mục tiêu tổng thể**, không phải danh sách file đã viết. G1 có web/config/CI; domain, worker và API nghiệp vụ còn định hướng. Xem [bản đồ source thực tế](docs/SOURCE_MAP.md).
 
 ~~~text
 MYOS/
@@ -492,7 +492,7 @@ Worker heartbeat khoảng mỗi 5 phút; Cloud Monitoring kiểm tra log/metric 
 
 Kế hoạch thực hiện chi tiết: [IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md), gồm 5 module nghiệp vụ, 8 giai đoạn và các mốc bàn giao. Mục này mô tả phạm vi tổng quát; kế hoạch chi tiết xác định thứ tự làm từng phần.
 
-**Bước 0 — Đã chuẩn bị:** bộ khung thư mục, README, bản đồ source, kiến trúc và AGENTS.md. Chưa khởi tạo framework hoặc viết mã; các bước dưới đây chỉ bắt đầu khi người dùng yêu cầu implementation.
+**Bước 0 — Đã chuẩn bị:** bộ khung thư mục và tài liệu. **G1 đã triển khai local:** framework, layout 5 mục, trang khung, Firebase lazy configuration và CI. Auth, Rules, staging, nghiệp vụ và deploy vẫn chưa triển khai; chi tiết theo IMPLEMENTATION_PLAN.md.
 
 1. **Nền móng:** Next.js, Firebase Auth, session/allowlist, Rules, schema/indexes, CI, staging và shell đúng năm mục menu.
 2. **Bản dùng hằng ngày:** Tổng quan cơ bản; Lịch một lần và thời khóa biểu tuần có ngày hiệu lực/ngoại lệ; Dự án và tiến độ; Ghi chú rich text/ảnh/autosave; Cài đặt hồ sơ/timezone; xuất .ics.

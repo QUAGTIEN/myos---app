@@ -1,10 +1,10 @@
 # Bản đồ source MyOS
 
-Ngày cập nhật: 06/10/2026. Giai đoạn: **bộ khung tài liệu, chưa implementation**.
+Ngày cập nhật: 06/10/2026. Giai đoạn: **G1 — framework và khung giao diện đã có implementation**.
 
 ## Cây thư mục hiện có
 
-Mỗi nhánh nghiệp vụ/hạ tầng có README.md mô tả vai trò. Cây dưới đây liệt kê thư mục thực tế; các tên .tsx/.ts chỉ xuất hiện trong phần kế hoạch, chưa được tạo.
+Mỗi nhánh nghiệp vụ/hạ tầng có README.md mô tả vai trò. Cây dưới đây tập trung vào thư mục; bảng phía sau phân biệt file đã triển khai và phần còn dự kiến.
 
 ~~~text
 MYOS/
@@ -43,7 +43,9 @@ MYOS/
 
 Các ký hiệu {a,b} mô tả nhiều thư mục ngang hàng, không phải tên thư mục thật. Dashboard tương ứng module overview.
 
-## Files Next.js dự kiến
+## Files Next.js và trạng thái
+
+**Đã tạo ở G1:** root layout/page/globals/not-found/global-error; login; private layout/error; dashboard/loading; 5 page chính; detail pages trả 404 khi chưa có dữ liệu; shell/menu; UI heading/empty/skeleton/notice/error; components màn hình của 5 module; cấu hình Firebase browser/server chưa có SDK. Chưa có actions, service, repository nghiệp vụ hoặc API route.ts. Bảng dưới tiếp tục mô tả vai trò mục tiêu; file chưa nằm trong danh sách G1 vẫn là kế hoạch.
 
 | Vị trí | File sẽ tạo khi bắt đầu code | Vai trò |
 | --- | --- | --- |
@@ -60,7 +62,11 @@ Các ký hiệu {a,b} mô tả nhiều thư mục ngang hàng, không phải tê
 | Mỗi src/modules/<module>/components | Các component theo nhu cầu | UI nghiệp vụ; thư mục tạo lúc có component |
 | functions/src | index.ts và các worker/adapter | Export Functions và xử lý nền |
 
-## Cấu hình dự kiến, chưa tạo
+## Cấu hình
+
+**Đã tạo:** package.json, pnpm workspace/lockfile, tsconfig, next.config, PostCSS/Tailwind v4, ESLint, Prettier scripts, Playwright, .npmrc, .nvmrc, .env.example và CI. next-env.d.ts được Next.js sinh tự động và bỏ qua Git.
+
+**Chưa tạo:** Firebase deploy config/Rules/indexes, apphosting.yaml và manifest/build cho domain/Functions. Danh sách mục tiêu đầy đủ:
 
 - package.json và pnpm-workspace.yaml; lockfile sinh từ cài đặt thật.
 - tsconfig.json, next.config.ts, next-env.d.ts theo bộ khởi tạo Next.js được chọn.
@@ -70,7 +76,7 @@ Các ký hiệu {a,b} mô tả nhiều thư mục ngang hàng, không phải tê
 - apphosting.yaml, .env.example và .gitignore.
 - .github/workflows/ci.yml khi có scripts/checks thực tế.
 
-Không tạo config giả với project ID, secrets hoặc commands chưa chạy được. Kiến trúc đầy đủ chứa cây **mục tiêu** có các file này; cây hiện tại chỉ là định hướng thư mục.
+Không tạo config giả với project ID hoặc secrets. Kiến trúc đầy đủ chứa cây **mục tiêu**, bao gồm những phần chưa triển khai.
 
 ## Quy tắc phụ thuộc
 
@@ -87,4 +93,4 @@ Service chịu trách nhiệm nghiệp vụ; repository chỉ truy cập dữ li
 
 ## Hoàn thành giai đoạn bộ khung
 
-Cây thư mục, hướng dẫn agent và tài liệu đã được chuẩn bị để bước lập trình tiếp theo có nơi đặt mã rõ ràng. Chưa có trang web chạy được hay hạ tầng Firebase đang hoạt động.
+Cây thư mục và hướng dẫn đã có; web G1 chạy local theo README ở root. Hạ tầng Firebase chưa hoạt động, không có dữ liệu cá nhân hoặc auth guard. G2 tiếp tục xác thực và dữ liệu nền.

@@ -1,8 +1,8 @@
 # MyOS — Kế hoạch triển khai
 
 Ngày lập: **06/10/2026**.
-Trạng thái: **đã có bộ khung tài liệu; chưa bắt đầu viết ứng dụng**.
-Đây là kế hoạch để thực hiện khi người dùng yêu cầu lập trình; không phải thông báo các chức năng đã hoàn thành.
+Trạng thái: **đã triển khai G1 local; G2–G8 chưa bắt đầu**.
+Đây là kế hoạch toàn bộ dự án; chỉ các hạng mục ghi rõ đã hoàn thành mới có implementation.
 
 Nguồn phạm vi: [MYOS_ARCHITECTURE.md](../MYOS_ARCHITECTURE.md).
 Vị trí mã: [SOURCE_MAP.md](SOURCE_MAP.md).
@@ -281,8 +281,9 @@ Không đặt lịch số tuần trước khi có khối lượng implementation
 | --- | --- |
 | Bộ khung thư mục và tài liệu | Đã tạo |
 | Kế hoạch triển khai | Đã lập |
-| G1–G8 | Chưa bắt đầu |
+| G1 | Hoàn thành local: lint/typecheck/format/build đạt, 12 E2E desktop/mobile đạt |
+| G2–G8 | Chưa bắt đầu |
 | Firebase/cloud/billing/deploy | Chưa thực hiện |
 | Khả năng gửi Zalo thực tế | Chưa kiểm chứng |
 
-**Việc đầu tiên khi bắt đầu code: G1 — khởi tạo Next.js và khung giao diện 5 mục.** Yêu cầu hiện tại chỉ lập kế hoạch, nên chưa cài dependencies hoặc viết mã ứng dụng.
+**Bước tiếp theo: G2 — xác thực và dữ liệu nền**, thực hiện khi người dùng yêu cầu. G1 chưa có Firebase Auth, CRUD hoặc cloud deploy.

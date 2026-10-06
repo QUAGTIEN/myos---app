@@ -2,7 +2,7 @@
 
 ## Phạm vi hiện tại
 
-Người dùng hiện chỉ yêu cầu **bộ khung định hướng, chưa code**. Thư mục chứa README và tài liệu thiết kế. Không tự khởi tạo Next.js, viết TS/TSX, cài dependencies, thêm cấu hình chạy hoặc deploy cho đến khi người dùng yêu cầu bước lập trình.
+Người dùng đã yêu cầu **G1 — khởi tạo framework và khung giao diện**. Có thể viết mã, cài dependencies và kiểm tra local trong phạm vi này. Tiếp tục G2–G8 khi được yêu cầu; không tự triển khai CRUD, đăng nhập thật, worker hoặc deploy cloud trong G1.
 
 Yêu cầu mới của người dùng có thể chuyển giai đoạn; khi đó thực hiện trong phạm vi được giao, không hỏi lại xác nhận chỉ vì đoạn hướng dẫn này. Không thêm phân hệ ngoài 5 phân hệ đã thống nhất.
 

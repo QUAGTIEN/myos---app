@@ -1,6 +1,6 @@
 # Next.js App Router
 
-Nơi điều phối route, page, layout và HTTP boundary. Hiện chỉ có thư mục và README.
+Nơi điều phối route, page, layout và HTTP boundary. G1 đã có root layout, 5 page chính, login preview, skeleton Tổng quan và error/404. API và xác thực session chưa triển khai.
 
 ## Kế hoạch
 
