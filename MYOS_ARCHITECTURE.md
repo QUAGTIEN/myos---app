@@ -44,7 +44,7 @@ Giả định:
 | Web và backend giao diện | Next.js App Router + React + TypeScript | Trang, layout, Server Components, Server Actions và Route Handlers |
 | Runtime | Node.js 22 LTS, khóa phiên bản được nền tảng hỗ trợ | Dùng chung cho web/Functions khi adapter và SDK tương thích |
 | Package manager | pnpm | Lockfile, build tái lập và workspace cho phần dùng chung |
-| UI | Tailwind CSS + shadcn/ui + Lucide | Giao diện đơn giản và thành phần thống nhất |
+| UI | Tailwind CSS + shadcn/ui + lucide-react | Giao diện thống nhất; icon có sẵn từ Lucide, không generate icon |
 | Form/validation | React Hook Form + Zod | Validate client, server và dữ liệu đọc từ Firestore |
 | Database | **Cloud Firestore Standard edition, Native mode** | Document/collection, transaction và index theo truy vấn |
 | Auth | Firebase Authentication | Email/password hoặc Google; không dùng phone OTP trong MVP |

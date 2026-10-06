@@ -78,6 +78,16 @@ Worker nhận job bằng transaction, gọi dịch vụ ngoài sau transaction.
 - Thao tác xóa hoặc có nguy cơ mất nội dung cần xác nhận hoặc cơ chế hoàn tác phù hợp; không thêm xác nhận cho mọi thao tác thường ngày.
 - Responsive theo nội dung thực tế; không chỉ thu nhỏ desktop. Mobile phải đọc được và bấm được, không có nội dung/nút chính bị che.
 
+## Icon: bắt buộc dùng Lucide
+
+- Dùng icon có sẵn từ [repo Lucide](https://github.com/lucide-icons/lucide/tree/main/icons); trong Next.js/React dùng package lucide-react khi bắt đầu implementation. [Tài liệu React chính thức](https://lucide.dev/guide/react).
+- Không generate icon bằng AI, không tự vẽ SVG/path, không dùng emoji hoặc trộn bộ icon khác để thay icon giao diện.
+- Import trực tiếp các icon cần dùng; không import toàn bộ catalog. Đối chiếu tên export với phiên bản package được cài.
+- Giữ size, strokeWidth và màu nhất quán theo design tokens; chọn icon đúng ý nghĩa hành động, không thêm hiệu ứng trang trí riêng cho từng icon.
+- Icon trang trí không thay nhãn; nút chỉ có icon phải có accessible name rõ ràng.
+- Nếu thiếu icon phù hợp, tìm biểu tượng gần nghĩa trong Lucide hoặc dùng nhãn chữ; không tự tạo icon thay thế.
+- Quy tắc này áp dụng cho icon giao diện; logo/favicon là tài sản nhận diện riêng, chưa được yêu cầu thiết kế và không tự generate.
+
 ## Ngăn lỗi giao diện và tương tác cơ bản
 
 - Dùng layout flow, Flex/Grid trước khi dùng absolute/fixed; không chữa bố cục bằng margin âm hoặc z-index tùy tiện.
