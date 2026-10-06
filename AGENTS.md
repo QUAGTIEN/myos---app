@@ -53,6 +53,52 @@ Worker nhận job bằng transaction, gọi dịch vụ ngoài sau transaction.
 - Schema nghiệp vụ dùng chung đặt tại domain; schema form đặc thù ở module.
 - Chọn bản stable tương thích Firebase App Hosting; không tự chuyển major framework trong thay đổi nhỏ.
 
+## Code sạch, dễ đọc và dễ review
+
+- Ưu tiên giải pháp đơn giản, tên biến/hàm rõ nghĩa, luồng xử lý dễ theo dõi; không dùng cách viết ngắn gây khó hiểu.
+- Mỗi hàm/component có trách nhiệm rõ ràng; tách phần lớn khi có lý do thực tế, tránh tạo nhiều lớp hoặc abstraction không cần thiết.
+- Giữ quy ước format và naming nhất quán; dùng component/helper chung cho hành vi lặp lại, không gom các nghiệp vụ khác nhau chỉ vì giống vài dòng code.
+- Thay đổi tập trung vào yêu cầu; tránh refactor, đổi tên hoặc format cả repository trong một thay đổi nhỏ.
+- Comment giải thích lý do hoặc quy tắc khó thấy; không kể lại những gì code đã thể hiện.
+- Xử lý lỗi có chủ đích, giữ dữ liệu đang nhập và báo lỗi dễ hiểu; không nuốt lỗi hoặc báo thành công khi chưa lưu được.
+- Không để nút giả, handler rỗng, TODO quan trọng hoặc dữ liệu mẫu xuất hiện như chức năng đã hoàn thành.
+- Khi bàn giao, nêu phần thay đổi, lý do, cách kiểm tra và giới hạn còn lại để người review dễ đánh giá.
+
+## UI/UX và phong cách thị giác
+
+Định hướng người dùng đã chốt: **đẹp, chuyên nghiệp, thân thiện, dễ dùng; ưu tiên giao diện light, màu tươi sáng và font dễ nhìn**. Dark mode là tùy chọn, không thay định hướng mặc định.
+
+- Thiết kế theo nhu cầu dùng hằng ngày của MyOS; phân cấp nội dung rõ, khoảng trắng hợp lý và thao tác chính dễ tìm.
+- Dùng nền sáng trung tính, một màu chủ đạo và số ít màu hỗ trợ; màu trạng thái nhất quán, chữ/icon có độ tương phản dễ đọc. Không dùng màu như dấu hiệu duy nhất để truyền đạt trạng thái.
+- Tránh giao diện “AI slop”: không mặc định gradient tím/xanh, glow, glassmorphism, khối trang trí lớn hoặc thẻ bo tròn lặp lại mà không có mục đích. Mỗi phần trang trí phải phục vụ nội dung và nhận diện.
+- Chọn font hỗ trợ đầy đủ dấu tiếng Việt, rõ ở cỡ chữ nội dung; giữ một hệ typography nhất quán. Không phối nhiều font hoặc dùng chữ quá nhỏ/mảnh để tạo vẻ hiện đại.
+- Quản lý màu, font, spacing, radius và shadow bằng tokens dùng chung; không mỗi trang tự chọn một hệ style riêng.
+- Nhãn nút rõ hành động; ưu tiên một hành động chính cho từng ngữ cảnh, giảm thao tác thừa. Icon-only button có tên truy cập và tooltip khi cần.
+- Có trạng thái hover, focus, active, disabled và pending rõ; hỗ trợ bàn phím, label cho form và focus hợp lý sau đóng dialog.
+- Thao tác xóa hoặc có nguy cơ mất nội dung cần xác nhận hoặc cơ chế hoàn tác phù hợp; không thêm xác nhận cho mọi thao tác thường ngày.
+- Responsive theo nội dung thực tế; không chỉ thu nhỏ desktop. Mobile phải đọc được và bấm được, không có nội dung/nút chính bị che.
+
+## Ngăn lỗi giao diện và tương tác cơ bản
+
+- Dùng layout flow, Flex/Grid trước khi dùng absolute/fixed; không chữa bố cục bằng margin âm hoặc z-index tùy tiện.
+- Quy định lớp cho header, dropdown, dialog và toast; dùng overlay/portal thống nhất. Kiểm tra stacking context, clipping và pointer-events khi thành phần bị che hoặc không bấm được.
+- Kiểm tra nội dung dài, dấu tiếng Việt, danh sách trống, nhiều mục, ảnh thiếu/lỗi và phóng to trình duyệt; tránh tràn ngang, chữ bị cắt và phần tử đè nhau.
+- Kiểm tra font đã tải, fallback và line-height để tránh nhảy bố cục hoặc mất dấu tiếng Việt.
+- Mọi nút có hành vi đúng: submit dùng type="submit", nút phụ trong form dùng type="button"; tránh gửi form ngoài ý muốn, gửi trùng hoặc thao tác bị overlay chặn.
+- Sau thao tác lưu/xóa/kéo thả, UI phải khớp kết quả server; nếu thất bại giữ hoặc khôi phục trạng thái và báo rõ.
+- Trước khi bàn giao UI, xem màn hình thật ở desktop và mobile; thử các nút chính, form, menu, dialog và bàn phím. Build thành công không thay việc kiểm tra giao diện.
+- Dùng test tự động khi có giá trị cho hành vi quan trọng hoặc lỗi hồi quy; không viết test chỉ để xác nhận từng class CSS hay chi tiết triển khai.
+
+## Tiết kiệm token và thao tác
+
+- Đọc đúng file/phần liên quan; ưu tiên rg và tìm có phạm vi, tránh dump toàn bộ source hoặc đọc lại tài liệu không thay đổi.
+- Gom các kiểm tra độc lập khi hợp lý; thao tác phụ thuộc kết quả phải làm tuần tự. Không gọi tool lặp lại nếu chưa có thay đổi hay thông tin mới.
+- Sửa đúng phần cần thiết bằng patch; không viết lại toàn bộ file dài chỉ để thay vài dòng.
+- Chỉ dùng dependency, abstraction hoặc công cụ mới khi giải quyết nhu cầu cụ thể; không tạo nhiều phương án/prototype mà yêu cầu chưa cần.
+- Chạy kiểm tra phù hợp một lần sau thay đổi; chỉ mở rộng/chạy lại khi có lỗi, thay đổi mới hoặc nghi vấn chưa giải quyết. Không bỏ kiểm tra cần thiết để tiết kiệm token.
+- Tra tài liệu khi API/phiên bản chưa rõ; không lặp tìm kiếm đã có kết quả đủ và còn phù hợp.
+- Cập nhật tiến độ ngắn, nêu kết quả và việc tiếp theo; tránh lặp kế hoạch, báo cáo dài hoặc sao chép output tool vào câu trả lời.
+
 ## Dữ liệu, quyền và tích hợp
 
 - Lấy UID từ session đã xác thực, không từ giá trị do client tự gửi.
