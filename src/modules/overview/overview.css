@@ -30,10 +30,10 @@
   align-items: center;
   gap: 16px;
   padding: 22px;
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--item-color);
+  border: 1px solid var(--metric-background);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: var(--metric-background);
+  color: var(--metric-foreground, white);
   box-shadow: var(--shadow);
   min-width: 0;
 }
@@ -49,22 +49,46 @@
   display: block;
   font-size: 30px;
   line-height: 1.35;
-  color: var(--ink);
+  color: inherit;
   margin-top: 5px;
 }
 .dashboard-metric small {
   display: block;
-  color: var(--danger);
+  color: inherit;
   font-size: 12px;
+  font-weight: 600;
   margin-top: 4px;
 }
 .dashboard-metric > svg {
   margin-left: auto;
-  color: var(--item-color);
+  color: inherit;
 }
 .dashboard-metric:hover {
-  border-color: var(--item-color);
+  filter: brightness(0.96);
   box-shadow: var(--shadow-raised);
+}
+.dashboard-metric:focus-visible {
+  outline-color: var(--ink);
+}
+.dashboard-metric .dashboard-record-icon {
+  background: #ffffff26;
+  color: inherit;
+}
+.dashboard-metric.dashboard-tone-blue {
+  --metric-background: var(--blue-solid);
+}
+.dashboard-metric.dashboard-tone-mint {
+  --metric-background: var(--turquoise-solid);
+}
+.dashboard-metric.dashboard-tone-orange {
+  --metric-background: var(--orange-solid);
+  --metric-foreground: var(--ink);
+}
+.dashboard-metric.dashboard-tone-orange .dashboard-record-icon {
+  background: #07334a12;
+}
+.dashboard-metric.dashboard-tone-violet {
+  --metric-background: var(--violet-solid);
 }
 .dashboard-tone-blue,
 .dashboard-color-blue {
@@ -347,13 +371,20 @@
   gap: 12px;
 }
 .dashboard-note {
+  --item-color: var(--lavender-ink);
+  --note-background: var(--lavender);
   display: flex;
   align-items: start;
   gap: 12px;
   padding: 14px;
   border: 1px solid var(--line);
   border-radius: 9px;
+  background: var(--note-background);
   min-width: 0;
+}
+.dashboard-note .dashboard-record-icon {
+  background: var(--surface);
+  color: var(--item-color);
 }
 .dashboard-note:hover {
   border-color: var(--lavender-ink);
@@ -379,9 +410,11 @@
 }
 .dashboard-note:nth-child(3n + 2) {
   --item-color: var(--orange-ink);
+  --note-background: var(--peach);
 }
 .dashboard-note:nth-child(3n) {
   --item-color: var(--primary);
+  --note-background: var(--primary-soft);
 }
 .dashboard-block-state {
   display: flex;

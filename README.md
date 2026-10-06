@@ -52,7 +52,7 @@ Tổng quan đã kiểm chứng lint/typecheck/format/build và toàn bộ E2E: 
 
 pnpm start chạy bản production ở port 3000 sau build. CI kiểm tra lint, typecheck, build và E2E bằng Node 22; không deploy tự động.
 
-Giao diện dùng sidebar navy, desktop rộng, panel trắng và điểm nhấn màu rõ ở icon/viền/tiến độ; hạn chế nền pastel lớn và chữ giới thiệu lặp lại. Tổng quan hiển thị dữ liệu thực tế.
+Giao diện dùng sidebar navy, desktop rộng, panel trắng và điểm nhấn màu rõ ở icon/viền/tiến độ. Bốn thẻ số liệu Tổng quan dùng nền màu tươi, các thẻ ghi chú giữ pastel; bỏ chữ giới thiệu lặp lại. Tổng quan hiển thị dữ liệu thực tế.
 
 ## Công nghệ đã chọn
 

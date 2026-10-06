@@ -33,6 +33,10 @@
   --shadow-raised: 0 6px 14px #17324f0a, 0 18px 35px #17324f0a;
   --orange-ink: #b55a1b;
   --danger: #b14366;
+  --blue-solid: #2563eb;
+  --turquoise-solid: #008578;
+  --orange-solid: #ffad38;
+  --violet-solid: #7950d4;
 }
 @theme inline {
   --color-background: var(--background);
