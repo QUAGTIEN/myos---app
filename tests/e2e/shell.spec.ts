@@ -63,7 +63,7 @@ test("calendar controls change months and return to today", async ({
   await expect(title).toHaveText(original!);
   await expect(
     page.getByRole("button", { name: "Tạo lịch hẹn" }),
-  ).toBeDisabled();
+  ).toBeEnabled();
 });
 
 test("unimplemented mutations and login are clearly unavailable", async ({

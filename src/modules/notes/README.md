@@ -15,4 +15,6 @@ Tối đa 20 phiên bản trước, gồm title/content/folder/tags/projectIds. 
 
 Khi tab khác cập nhật, bản sạch được refresh; bản đang sửa được giữ và tạm dừng autosave. Có sao chép văn bản, tải bản mới với xác nhận và Lưu ngay để thử lại. Nháp lỗi chỉ ở bộ nhớ trang, không phải backup; xóa browser storage mất mọi dữ liệu. Browser/origin khác không đồng bộ. UUID sai trả HTTP 404; UUID hợp lệ nhưng thiếu local hiển thị trạng thái trống phía client.
 
+G5 bổ sung Lịch liên quan trong sidebar và tạo lịch gắn ghi chú. Liên kết event→note là nguồn duy nhất, không thêm bản sao eventIds vào note. Trash/xóa note không xóa lịch; Calendar báo liên kết không khả dụng.
+
 Kiểm chứng trong `tests/e2e/notes.spec.ts`; quyết định tại [ADR G4](../../../docs/decisions/003-local-notes.md).

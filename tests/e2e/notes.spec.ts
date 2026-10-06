@@ -7,6 +7,7 @@ async function createNote(page: Page, title = "Ý tưởng cá nhân") {
   await page.getByLabel("Tiêu đề ghi chú").fill(title);
   await page.getByRole("button", { name: "Lưu ngay", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
+  await expect(page.locator(".note-save-bar")).toContainText("Đã lưu");
 }
 async function save(page: Page) {
   await page.getByRole("button", { name: "Lưu ngay", exact: true }).click();
@@ -263,13 +264,14 @@ test("two tabs preserve unsaved content and reject stale autosave", async ({
   page,
   context,
 }) => {
+  // Install before the application schedules timers; replacing active timers is undefined.
+  await page.clock.install({ time: new Date("2026-10-06T12:00:00Z") });
   await createNote(page, "Bản chung");
   const second = await context.newPage();
   await second.goto(page.url());
   await expect(second.getByLabel("Tiêu đề ghi chú")).toHaveValue("Bản chung");
-  // Freeze only this tab's debounce so the second tab commits first.
-  await page.clock.install({ time: new Date("2026-10-06T12:00:00Z") });
-  await page.clock.pauseAt(new Date("2026-10-06T12:00:01Z"));
+  // Pause debounce before editing, then manually commit the second tab first.
+  await page.clock.pauseAt(new Date("2026-10-06T12:01:00Z"));
   await page.getByLabel("Tiêu đề ghi chú").fill("Bản nháp cần giữ");
   await second.getByLabel("Tiêu đề ghi chú").fill("Bản mới từ tab hai");
   await save(second);

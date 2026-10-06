@@ -1,14 +1,8 @@
-import {
-  Bell,
-  CalendarDays,
-  Check,
-  Cloud,
-  Palette,
-  UserRound,
-} from "lucide-react";
+import { Bell, Check, Cloud, Palette, UserRound } from "lucide-react";
 import Link from "next/link";
 import { FeatureNotice } from "@/components/ui/feature-notice";
 import { PageHeading } from "@/components/ui/page-heading";
+import { CalendarSettingsPanel } from "@/modules/calendar/components/calendar-settings";
 
 export function SettingsScreen() {
   return (
@@ -19,8 +13,8 @@ export function SettingsScreen() {
         description="Tinh chỉnh không gian để phù hợp với thói quen của bạn."
       />
       <FeatureNotice>
-        Đây là cấu hình hiển thị của bản khung. Hồ sơ và tùy chọn cá nhân chưa
-        được lưu.
+        Cài đặt lịch được lưu trên trình duyệt này. Tài khoản, giao diện và đồng
+        bộ cloud sẽ được kết nối ở các bước sau.
       </FeatureNotice>
       <div className="settings-grid">
         <section className="panel settings-panel">
@@ -64,24 +58,7 @@ export function SettingsScreen() {
             <strong>Be Vietnam Pro</strong>
           </div>
         </section>
-        <section className="panel settings-panel">
-          <h2>
-            <CalendarDays size={20} aria-hidden="true" />
-            Lịch & thời gian
-          </h2>
-          <div className="setting-row">
-            <span>Múi giờ mặc định</span>
-            <strong>Việt Nam · UTC+7</strong>
-          </div>
-          <div className="setting-row">
-            <span>Ngày đầu tuần</span>
-            <strong>Thứ Hai</strong>
-          </div>
-          <div className="setting-row">
-            <span>Ngôn ngữ</span>
-            <strong>Tiếng Việt</strong>
-          </div>
-        </section>
+        <CalendarSettingsPanel />
         <section className="panel settings-panel">
           <h2>
             <Bell size={20} aria-hidden="true" />

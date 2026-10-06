@@ -2,7 +2,9 @@
 
 ## Phạm vi hiện tại
 
-Người dùng đã yêu cầu **G4 — Ghi chú** sau G3 Dự án, đồng thời giữ G2 (Firebase Auth/xác thực/dữ liệu nền) ở cuối. G3/G4 dùng IndexedDB qua repository riêng; G4 có Tiptap, ảnh Blob, autosave, thư mục/nhãn, thùng rác, 20 revisions và liên kết dự án. Chưa có tài khoản hoặc đồng bộ cloud. Không tự bật Firebase, Auth, Zalo hoặc deploy trong giai đoạn này. Thực hiện các module tiếp theo khi được yêu cầu.
+**Cập nhật G5:** người dùng đã cho phép code Lịch/thời khóa biểu local và tiếp tục hoãn G2. G5 thêm FullCalendar, chuỗi tuần/ngoại lệ, liên kết Dự án/Ghi chú, xuất .ics và cài đặt lịch. Database version 3 giữ kho cũ. Nhắc hiện chỉ lưu cấu hình; gửi tự động/Zalo chờ G7. Hướng dẫn dưới về G3/G4 tiếp tục áp dụng cho G5.
+
+Trước G5 đã hoàn thành **G4 — Ghi chú** sau G3 Dự án, đồng thời giữ G2 (Firebase Auth/xác thực/dữ liệu nền) ở cuối. G3/G4 dùng IndexedDB qua repository riêng; G4 có Tiptap, ảnh Blob, autosave, thư mục/nhãn, thùng rác, 20 revisions và liên kết dự án. Chưa có tài khoản hoặc đồng bộ cloud. Không tự bật Firebase, Auth, Zalo hoặc deploy trong giai đoạn này. Thực hiện các module tiếp theo khi được yêu cầu.
 
 Yêu cầu mới của người dùng có thể chuyển giai đoạn; khi đó thực hiện trong phạm vi được giao, không hỏi lại xác nhận chỉ vì đoạn hướng dẫn này. Không thêm phân hệ ngoài 5 phân hệ đã thống nhất.
 
@@ -41,6 +43,8 @@ Luồng ghi: form → Server Action → xác thực → Zod → service/transact
 Worker nhận job bằng transaction, gọi dịch vụ ngoài sau transaction.
 
 Ngoại lệ tạm cho G3/G4 đã được người dùng chấp thuận: Client Component → service → repository IndexedDB. Không tạo Server Action gọi database trình duyệt. Schema và quy tắc thuần hiện nằm trong từng module; chuyển sang domain khi có người dùng chung. `src/lib/local/database.ts` quản lý version database, sự kiện và kết nối dùng chung. Notes repository điều phối ghi note/ảnh/liên kết Projects trong một transaction; Projects không import service Notes. Khi đổi sang Firebase phải thiết kế migration riêng, không giả định dữ liệu local đã đồng bộ.
+
+Lịch G5 dùng Luxon với Asia/Ho_Chi_Minh, wall-clock `YYYY-MM-DDTHH:mm`, cả ngày `YYYY-MM-DD`, metadata UTC ISO; end exclusive. Exception giữ originalStart và chỉ override các fields đã đổi. Calendar repository ghi event/liên kết Projects nguyên tử, không chỉnh hạn mốc; Notes đọc liên kết từ Calendar. Xem [ADR 004](docs/decisions/004-local-calendar.md) trước khi thay quy tắc lặp/export. Không tạo Server Action gọi IndexedDB hoặc tự bật Firebase khi G2 còn hoãn.
 
 ## Next.js và TypeScript khi triển khai
 

@@ -12,7 +12,9 @@ Bộ khung ứng dụng Next.js cho phần mềm cá nhân gồm **Tổng quan, 
 
 **G2 được chuyển xuống cuối theo yêu cầu người dùng.** Chưa có Firebase Auth/session, upload, worker, Zalo hoặc cloud deployment. Route group (private) chưa có auth guard. Các chức năng chưa triển khai vẫn disabled kèm giải thích.
 
-Dữ liệu local thuộc từng browser profile và origin: localhost và 127.0.0.1 là hai kho khác nhau. Xóa dữ liệu trình duyệt sẽ mất dự án, ghi chú và ảnh; chưa có backup/export hoặc chuyển dữ liệu tự động sang Firestore. Bản nháp lưu lỗi được giữ trong bộ nhớ của trang, có nút sao chép văn bản và cảnh báo khi rời trang; ảnh chưa lưu không có backup. Không nhập dữ liệu quan trọng cần lưu an toàn vào bản này.
+Dữ liệu local thuộc từng browser profile và origin: localhost và 127.0.0.1 là hai kho khác nhau. Xóa dữ liệu trình duyệt sẽ mất dự án, ghi chú, ảnh và lịch; chưa có backup toàn kho hoặc chuyển dữ liệu tự động sang Firestore. .ics chỉ xuất lịch, không sao lưu các module khác. Bản nháp lưu lỗi được giữ trong bộ nhớ của trang, có nút sao chép văn bản và cảnh báo khi rời trang; ảnh chưa lưu không có backup. Không nhập dữ liệu quan trọng cần lưu an toàn vào bản này.
+
+**G5 đã triển khai local:** FullCalendar tháng/tuần/ngày/danh sách, lịch giờ/cả ngày, nhóm màu, đánh dấu, trùng giờ, kéo/resize rollback; chuỗi tuần và sửa/hủy/hoàn thành riêng từng buổi. Có liên kết Dự án/Ghi chú, tạo từ mốc giữ hạn mốc độc lập, `.ics` theo ngày/nhóm và cài đặt lịch. Database version 3 giữ dữ liệu cũ. Nhắc chỉ lưu cấu hình, chưa gửi tự động/Zalo. [ADR G5](docs/decisions/004-local-calendar.md).
 
 ## Chạy local
 
@@ -42,6 +44,8 @@ G3 đã kiểm chứng lint/typecheck/format/production build và 24 E2E trên d
 
 G4 đã kiểm chứng lint/typecheck/format/build và toàn bộ 40 E2E desktop/mobile (gồm 24 test cũ và 16 test Ghi chú). Đã xem ảnh màn hình editor, thư viện và lịch sử; kiểm tra upgrade giữ Projects và quota rollback giữ nháp/ảnh. Production dependency audit không có lỗ hổng đã biết.
 
+G5 kiểm chứng lint/typecheck/format/build và 61 kiểm thử đạt: 40 hồi quy, 15 luồng Calendar desktop/mobile, 6 domain/iCalendar. Có 7 skip chủ đích (6 domain không lặp lại ở mobile và 1 kéo/resize desktop; mobile sửa giờ qua form). Đã xem screenshots lịch/form/danh sách trên desktop/mobile, thử kéo/resize và rollback, hai tab, nâng DB v2→v3 giữ Notes/Blob/Projects và transaction liên kết. Production dependency audit không có lỗ hổng đã biết. `.ics` được parse bằng ical.js độc lập; chưa nhập thử qua tài khoản Google/Outlook thật.
+
 pnpm start chạy bản production ở port 3000 sau build. CI kiểm tra lint, typecheck, build và E2E bằng Node 22; không deploy tự động.
 
 ## Công nghệ đã chọn
@@ -53,7 +57,7 @@ pnpm start chạy bản production ở port 3000 sau build. CI kiểm tra lint, 
 - Cloud Functions gen 2 + Cloud Scheduler cho nhắc lịch.
 - pnpm workspace dự kiến cho web ở root, domain và worker.
 
-Framework, Lucide, Radix Dialog, Zod, Tiptap, font và công cụ kiểm tra đã khóa phiên bản trong package.json/pnpm-lock.yaml. Firebase chỉ có cấu hình browser/server; SDK sẽ cài ở G2. FullCalendar và nghiệp vụ domain/worker sẽ được thêm khi triển khai module tương ứng. Quyết định phiên bản ở [ADR G1](docs/decisions/001-framework-shell.md); lưu trữ tạm ở [ADR G3](docs/decisions/002-local-projects.md) và [ADR G4](docs/decisions/003-local-notes.md).
+Framework, Lucide, Radix Dialog, Zod, Tiptap, FullCalendar 6.1.21/Luxon 3.7.2, font và công cụ kiểm tra đã khóa phiên bản trong package.json/pnpm-lock.yaml. Firebase chỉ có cấu hình browser/server; SDK sẽ cài ở G2. Worker còn là kế hoạch. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md), [ADR G3](docs/decisions/002-local-projects.md), [ADR G4](docs/decisions/003-local-notes.md) và [ADR G5](docs/decisions/004-local-calendar.md).
 
 ## Tài liệu
 

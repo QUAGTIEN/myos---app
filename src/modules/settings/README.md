@@ -2,4 +2,4 @@
 
 Ca sử dụng: hồ sơ, tài khoản, timezone, tùy chọn giao diện/thông báo và kết nối tích hợp.
 
-Timezone ảnh hưởng hiển thị và nhắc lịch; thay đổi cần service xử lý nhất quán. Client chỉ nhận trạng thái kết nối, không nhận secret Zalo. Auth quản lý credential.
+G5 đã nối CalendarSettingsPanel: nhóm/tên/màu, giờ hiển thị, nhắc mặc định lưu IndexedDB có version conflict. Timezone cố định Việt Nam, Thứ Hai đầu tuần. Mặc định nhắc áp dụng lịch mới; chưa gửi thông báo/Zalo. Các phần tài khoản, theme và cloud còn preview; G2/G7/G8 bổ sung. Client không nhận secret tích hợp.

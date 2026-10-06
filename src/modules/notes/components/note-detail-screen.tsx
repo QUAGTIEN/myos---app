@@ -33,6 +33,7 @@ import { useNotes } from "../use-notes";
 import { useNoteDraft } from "../use-note-draft";
 import { RichEditor } from "./rich-editor";
 import { NoteHistory } from "./note-history";
+import { RelatedCalendar } from "@/modules/calendar/components/related-calendar";
 
 export function NoteDetailScreen({ noteId }: { noteId: string }) {
   const { note, loading, error, refresh } = useNotes(noteId);
@@ -415,6 +416,7 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
             Ảnh tối đa 5 MB/tệp, 20 ảnh/ghi chú. Lịch sử giữ 20 phiên bản trước;
             ảnh còn được tham chiếu sẽ được giữ.
           </p>
+          <RelatedCalendar kind="note" id={base.id} readonly={readonly} />
         </aside>
       </div>
       {showHistory && (

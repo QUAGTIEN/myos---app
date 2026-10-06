@@ -139,7 +139,7 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 ### G5. Module Lịch và thời khóa biểu
 
-**Phụ thuộc:** G2; G3/G4 cho liên kết. Đây là module có nhiều quy tắc thời gian nhất, chia thành 3 phần để nghiệm thu riêng.
+**Phụ thuộc cập nhật:** G1, G3/G4; G2 hoãn. G5 triển khai local qua IndexedDB theo [ADR 004](decisions/004-local-calendar.md), gồm cả 3 phần bên dưới. Auth/cloud/migration thực hiện ở G2; nhắc hiện chỉ lưu cấu hình.
 
 **G5.1 — Lịch một lần**
 
@@ -169,7 +169,7 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 **Hoàn thành khi:** timezone/cả ngày/qua đêm đúng; chuỗi có giới hạn không sinh document vô hạn; sửa một buổi không đổi buổi khác; .ics nhập được vào trình lịch khác với thời gian đúng.
 
-**Vị trí chính:** src/modules/calendar, domain/datetime, domain/recurrence và API export.
+**Vị trí hiện tại:** src/modules/calendar (Luxon, recurrence thuần, repository IndexedDB, FullCalendar và download .ics client). Domain dùng chung/API export có quyền tài khoản còn là kiến trúc cloud đích.
 
 ### G6. Module Tổng quan
 
@@ -287,8 +287,9 @@ Không đặt lịch số tuần trước khi có khối lượng implementation
 | G3 | Có implementation local: CRUD, checklist/mốc, tiến độ, ghim/lưu trữ, lịch sử; chất lượng kiểm tra ghi trong README |
 | G2 | Hoãn xuống cuối; chưa triển khai Auth/Firebase/migration |
 | G4 | Có implementation local: rich text/ảnh, autosave, thư mục/nhãn, thùng rác, revisions và liên kết Projects |
-| G5–G8 | Chưa bắt đầu; phạm vi local/cloud cần chốt ở lượt tương ứng |
+| G5 | Có implementation local: lịch đơn/cả ngày, tuần/ngoại lệ, marks, kéo/resize, liên kết, .ics và settings |
+| G6–G8 | Chưa bắt đầu; phạm vi local/cloud cần chốt ở lượt tương ứng |
 | Firebase/cloud/billing/deploy | Chưa thực hiện |
 | Khả năng gửi Zalo thực tế | Chưa kiểm chứng |
 
-**Bước tiếp theo: G5 — Lịch/thời khóa biểu**, khi người dùng yêu cầu. G2 triển khai cuối trước cloud production; chưa có Auth hoặc đồng bộ Firebase. G3/G4 chỉ có dữ liệu local.
+**Bước tiếp theo: G6 — Tổng quan**, khi người dùng yêu cầu. G2 triển khai cuối trước cloud production; chưa có Auth hoặc đồng bộ Firebase. G3–G5 chỉ có dữ liệu local.

@@ -12,6 +12,6 @@ G3 đã triển khai bằng IndexedDB local, chưa có Firebase hoặc auth. Che
 
 Nội dung dự án là plain text. Ngày dự kiến lưu `YYYY-MM-DD`; timestamps ISO hiển thị Asia/Ho_Chi_Minh. Tiến độ thủ công được giữ khi chuyển sang checklist. Mốc mặc định không tính vào tiến độ, có thể bật trong form. Lưu trữ giữ dữ liệu và chuyển chi tiết sang chỉ đọc; không có xóa dự án vĩnh viễn.
 
-Form giữ snapshot/version lúc mở. Tab khác ghi trước sẽ khiến lưu bị từ chối và giữ bản nháp. Có tối đa 200 item/dự án; phân trang danh sách local 12 mục, không phải Firestore cursor. Dữ liệu theo browser/origin, có thể mất khi xóa browser storage. Chưa có export/backup/migration cloud. `relatedNoteIds`/`relatedEventIds` chuẩn bị hợp đồng; chưa có thao tác liên kết thật.
+Form giữ snapshot/version lúc mở. Tab khác ghi trước sẽ khiến lưu bị từ chối và giữ bản nháp. Có tối đa 200 item/dự án; phân trang danh sách local 12 mục, không phải Firestore cursor. Dữ liệu theo browser/origin, có thể mất khi xóa browser storage. Chưa có export/backup/migration cloud. G4/G5 đã nối relatedNoteIds/relatedEventIds qua transaction repository Notes/Calendar. Detail có lịch liên quan và tạo lịch từ mốc; thay giờ lịch không đổi hạn/tiến độ mốc.
 
 Kiểm thử: `tests/e2e/projects.spec.ts`; quyết định: [ADR G3](../../../docs/decisions/002-local-projects.md).

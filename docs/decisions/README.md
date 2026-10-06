@@ -8,4 +8,6 @@ ADR đã áp dụng: [001 — Framework và shell](001-framework-shell.md), [002
 
 [003 — Notes, autosave và ảnh local](003-local-notes.md): database version 2, retention và transaction liên kết dự án.
 
+[004 — Calendar, recurrence và export local](004-local-calendar.md): database version 3, ngoại lệ từng buổi, timezone, liên kết và iCalendar.
+
 Quyết định chưa chốt: project IDs/region thật, provider đăng nhập, migration local/cloud và cơ chế Zalo đã kiểm chứng.

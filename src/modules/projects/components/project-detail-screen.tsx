@@ -1,5 +1,6 @@
 "use client";
 import { ProjectNotes } from "@/modules/notes/components/project-notes";
+import { RelatedCalendar } from "@/modules/calendar/components/related-calendar";
 
 import {
   Archive,
@@ -261,6 +262,15 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
                       </div>
                     </div>
                     <div className="project-item-actions">
+                      {item.kind === "milestone" && !archived && (
+                        <Link
+                          className="icon-button"
+                          aria-label={"Tạo lịch từ mốc " + item.title}
+                          href={`/calendar?projectId=${project.id}&milestoneId=${item.id}`}
+                        >
+                          <CalendarDays size={15} />
+                        </Link>
+                      )}
                       <button
                         type="button"
                         className="icon-button"
@@ -320,6 +330,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
             )}
           </section>
           <ProjectNotes projectId={project.id} archived={archived} />
+          <RelatedCalendar kind="project" id={project.id} readonly={archived} />
         </div>
         <aside className="project-detail-side">
           <section className="panel project-side-panel">

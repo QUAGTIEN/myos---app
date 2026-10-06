@@ -79,9 +79,6 @@ export function ProjectNotes({
           chú.
         </p>
       )}
-      <p className="project-related-placeholder">
-        Liên kết lịch sẽ được bổ sung ở G5.
-      </p>
     </section>
   );
 }

@@ -1,12 +1,12 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
-Ngày cập nhật: **06/10/2026** · Phiên bản: **1.7 — G4 Ghi chú local; G2 chuyển xuống cuối**
+Ngày cập nhật: **07/10/2026** · Phiên bản: **1.8 — G5 Lịch local; G2 chuyển xuống cuối**
 
 Tài liệu được cập nhật theo lựa chọn của người dùng: Firebase và đúng **5 phân hệ: Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**. Ngữ cảnh sản phẩm nằm trong [cuộc trò chuyện gốc](https://chatgpt.com/share/6ac3f0a0-ebb0-83ec-970a-56dcaaa98894).
 
-**Trạng thái hiện tại: G1, G3 và G4 có implementation local.** G3 quản lý dự án, nội dung văn bản, ghim/lưu trữ, checklist/mốc, tiến độ và lịch sử bằng IndexedDB. Người dùng chuyển G2 xuống cuối; Firebase vẫn chỉ có cấu hình, chưa có Auth/session, collection cloud, worker hoặc deploy. Route group (private) chưa bảo vệ tài khoản. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md) và [ADR G3](docs/decisions/002-local-projects.md). Các phần cloud bên dưới là kiến trúc đích, chưa phải hành vi hiện tại.
+**Trạng thái hiện tại: G1, G3, G4 và G5 có implementation local.** G3 quản lý dự án, nội dung văn bản, ghim/lưu trữ, checklist/mốc, tiến độ và lịch sử bằng IndexedDB. Người dùng chuyển G2 xuống cuối; Firebase vẫn chỉ có cấu hình, chưa có Auth/session, collection cloud, worker hoặc deploy. Route group (private) chưa bảo vệ tài khoản. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md) và [ADR G3](docs/decisions/002-local-projects.md). Các phần cloud bên dưới là kiến trúc đích, chưa phải hành vi hiện tại.
 
-G3/G4 tạm dùng luồng **Client Component → service → repository IndexedDB**. Schema Zod và quy tắc nằm trong module đến khi cần dùng chung. Mỗi lần ghi kiểm tra version trong cùng transaction, chỉ báo thành công sau commit. Firebase/Server Actions sẽ triển khai ở G2; chưa có chuyển dữ liệu local tự động. G4 có Tiptap JSON, ảnh Blob, autosave và 20 revisions; note/ảnh/liên kết dự án ghi nguyên tử. Database `myos-local` version 2 thêm `notes`, `noteAttachments` và giữ `projects`. Notes.projectIds là nguồn liên kết, Projects.relatedNoteIds được cập nhật cùng transaction. UI liên kết ghi chú hoạt động; liên kết lịch chờ G5. Xem [ADR G4](docs/decisions/003-local-notes.md).
+G3–G5 tạm dùng luồng **Client Component → service → repository IndexedDB**. Schema Zod và quy tắc nằm trong module đến khi cần dùng chung. Mỗi lần ghi kiểm tra version trong cùng transaction, chỉ báo thành công sau commit. Firebase/Server Actions sẽ triển khai ở G2; chưa có chuyển dữ liệu local tự động. G4 có Tiptap JSON, ảnh Blob, autosave và 20 revisions; note/ảnh/liên kết dự án ghi nguyên tử. Database `myos-local` version 2 thêm `notes`, `noteAttachments` và giữ `projects`. Notes.projectIds là nguồn liên kết, Projects.relatedNoteIds được cập nhật cùng transaction. G5 thêm calendarEvents/calendarSettings ở database version 3, giữ các kho cũ. Có bộ lịch bốn views, lặp tuần/ngoại lệ, kéo/resize rollback, liên kết hai chiều Dự án/Ghi chú, .ics và cài đặt lịch. Nhắc chỉ lưu cấu hình; gửi tự động/Zalo chờ G7. Quyết định tại [ADR G5](docs/decisions/004-local-calendar.md). Xem [ADR G4](docs/decisions/003-local-notes.md).
 
 ## 1. Quyết định kiến trúc
 
@@ -47,16 +47,16 @@ Giả định:
 | Runtime | Node.js 22 LTS, khóa phiên bản được nền tảng hỗ trợ | Dùng chung cho web/Functions khi adapter và SDK tương thích |
 | Package manager | pnpm | Lockfile, build tái lập và workspace cho phần dùng chung |
 | UI | Tailwind CSS + shadcn/ui + lucide-react | Giao diện thống nhất; icon có sẵn từ Lucide, không generate icon |
-| Form/validation | React Hook Form + Zod | Validate client, server và dữ liệu đọc từ Firestore |
+| Form/validation | React controlled forms + Zod (G3–G5); React Hook Form cân nhắc khi cần | Validate form/repository; validation server thêm ở G2 |
 | Database | **Cloud Firestore Standard edition, Native mode** | Document/collection, transaction và index theo truy vấn |
 | Auth | Firebase Authentication | Email/password hoặc Google; không dùng phone OTP trong MVP |
 | SDK browser | Firebase Web SDK dạng modular | Đăng nhập, upload có rules; listener nếu cần |
 | SDK server | Firebase Admin SDK | Session cookie, database và tác vụ nền; server tự kiểm tra quyền |
 | Lưu file | Cloud Storage for Firebase | Object riêng tư, metadata trong Firestore |
-| Lịch | FullCalendar + RRule plugin, plugin miễn phí | Ngày/tuần/tháng, thời khóa biểu lặp và ngoại lệ |
+| Lịch | FullCalendar 6.1.21, plugin miễn phí, mở rộng tuần trong module | Ngày/tuần/tháng/danh sách; RRule plugin chưa cần ở G5 |
 | Xuất lịch | iCalendar (.ics), theo RFC 5545 | Xuất lịch có giờ/cả ngày/lặp, giữ UID và timezone |
 | Editor ghi chú | Tiptap core + StarterKit + Image/TaskList, extension open-source tương thích | Nội dung định dạng, checklist và ảnh; lưu JSON có version |
-| Ngày giờ | date-fns + @date-fns/tz | Chuyển UTC và ngày địa phương |
+| Ngày giờ | Luxon 3.7.2 + FullCalendar luxon3 | UTC/ngày địa phương, múi giờ Việt Nam độc lập timezone máy |
 | Tác vụ nền | Cloud Functions gen 2 + Cloud Scheduler | Quét job nhắc mỗi phút, retry, đọc cập nhật Zalo |
 | Secrets | Google Secret Manager | Bot Token và bí mật tích hợp |
 | Hosting | **Firebase App Hosting** | Next.js động; build/deploy từ GitHub |
