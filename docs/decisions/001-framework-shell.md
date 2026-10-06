@@ -10,7 +10,7 @@ Ngày: 06/10/2026.
 - Pin override PostCSS 8.5.29 và sharp 0.35.5 để dùng các bản vá. Phải kiểm tra lại build/audit khi cập nhật framework; bỏ override khi upstream đã đáp ứng bản vá.
 - Node 22 là baseline CI/cloud; môi trường máy hiện Node 24 cũng được phép bởi engines.
 - pnpm 10.32.1 được khóa cho CI và lockfile. Tắt tự tải package manager bằng binary trong .npmrc vì môi trường Windows có đường dẫn chứa khoảng trắng; dùng phiên bản đã cài hoặc npx pnpm@10.32.1.
-- Tailwind v4 và CSS tokens cho nền light, màu xanh ngọc và typography nhất quán.
+- Tailwind v4 và CSS tokens cho nền light, typography nhất quán. Theo ảnh tham chiếu mới: turquoise #00B8A9, primary #007F78, navy #07334A, nền #F5F9FA và nền nhấn #E6F7F5. Primary được làm đậm để chữ trắng dễ đọc; không sao chép nền tối/hiệu ứng poster.
 - Be Vietnam Pro được self-host qua Fontsource, hỗ trợ tiếng Việt, không phụ thuộc tải font mạng khi build.
 - Icon từ lucide-react; Radix Dialog xử lý drawer mobile/focus/Escape. UI cơ sở hiện tự tổ chức, chưa chạy generator shadcn.
 - Auth chưa được triển khai: route group (private) chỉ tổ chức mã, không bảo vệ dữ liệu. Bản G1 không có dữ liệu cá nhân.

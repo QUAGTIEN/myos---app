@@ -1,16 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f8f6;
+  --background: #f5f9fa;
   --surface: #ffffff;
-  --ink: #203b35;
-  --muted: #687a74;
-  --line: #e5ebe7;
-  --primary: #196c59;
-  --primary-hover: #115744;
-  --mint: #edf5ef;
+  --surface-soft: #f3f9fa;
+  --ink: #07334a;
+  --muted: #58727e;
+  --line: #dfeaec;
+  --primary: #007f78;
+  --primary-hover: #006760;
+  --accent: #00b8a9;
+  --primary-soft: #e6f7f5;
+  --primary-border: #c8e8e3;
+  --focus: #008e85;
+  --skeleton: #e0edf0;
   --peach: #fff5ed;
-  --blue: #f0f5f9;
+  --warm-ink: #92704f;
+  --blue: #eef5fc;
+  --blue-ink: #507a9c;
   --radius: 14px;
   --layer-header: 10;
   --layer-overlay: 40;
@@ -71,7 +78,7 @@ svg {
   flex-shrink: 0;
 }
 :focus-visible {
-  outline: 3px solid #69ac9a;
+  outline: 3px solid var(--focus);
   outline-offset: 4px;
 }
 button:disabled {
@@ -144,7 +151,7 @@ button:disabled {
   height: 23px;
 }
 .brand-dot {
-  color: #60a68c;
+  color: var(--accent);
 }
 .workspace-label {
   display: flex;
@@ -157,11 +164,11 @@ button:disabled {
 .workspace-dot {
   width: 6px;
   height: 6px;
-  background: #74aa8b;
+  background: var(--accent);
   border-radius: 50%;
 }
 .nav-caption {
-  color: #73827c;
+  color: var(--muted);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 1.25px;
@@ -177,18 +184,18 @@ button:disabled {
   align-items: center;
   gap: 13px;
   padding: 12px 14px;
-  color: #62766e;
+  color: var(--muted);
   border-radius: 9px;
   min-height: 46px;
   font-size: 13px;
   font-weight: 500;
 }
 .nav-link:hover {
-  background: #f5f8f5;
+  background: var(--surface-soft);
   color: var(--primary);
 }
 .nav-link.active {
-  background: var(--mint);
+  background: var(--primary-soft);
   color: var(--primary);
 }
 .active-dot {
@@ -205,8 +212,8 @@ button:disabled {
 .sidebar-note {
   padding: 15px 12px;
   border-radius: 10px;
-  background: #f7f8f3;
-  color: #72826b;
+  background: var(--surface-soft);
+  color: var(--muted);
   display: flex;
   align-items: flex-start;
   gap: 9px;
@@ -231,8 +238,8 @@ button:disabled {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: #f0e7da;
-  color: #89664a;
+  background: var(--primary-soft);
+  color: var(--primary);
   font-weight: 600;
   font-size: 13px;
   flex-shrink: 0;
@@ -294,7 +301,7 @@ button:disabled {
   white-space: nowrap;
 }
 .preview-tag span {
-  background: #b79b62;
+  background: var(--accent);
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -322,7 +329,7 @@ button:disabled {
   margin-bottom: 30px;
 }
 .eyebrow {
-  color: #688b7a;
+  color: var(--primary);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 1.6px;
@@ -358,11 +365,11 @@ button:disabled {
 }
 .button.secondary {
   background: var(--surface);
-  border-color: #dbe4dd;
+  border-color: var(--line);
   color: var(--ink);
 }
 .button.secondary:hover:not(:disabled) {
-  background: var(--mint);
+  background: var(--primary-soft);
 }
 .button.small {
   min-height: 34px;
@@ -380,7 +387,7 @@ button:disabled {
   flex-shrink: 0;
 }
 .icon-button:hover {
-  background: #eaf1eb;
+  background: var(--primary-soft);
   color: var(--primary);
 }
 .welcome-panel {
@@ -388,15 +395,15 @@ button:disabled {
   grid-template-columns: 1.15fr 1fr;
   gap: 48px;
   padding: 32px 36px;
-  background: #eaf2e9;
-  border: 1px solid #dde9dd;
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-border);
   border-radius: var(--radius);
 }
 .welcome-label {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #557657;
+  color: var(--primary);
   font-size: 11px;
   font-weight: 500;
   margin-bottom: 16px;
@@ -408,7 +415,7 @@ button:disabled {
   letter-spacing: -0.7px;
 }
 .welcome-panel p {
-  color: #657b68;
+  color: var(--muted);
   font-size: 12px;
   margin-top: 12px;
   line-height: 1.9;
@@ -422,7 +429,7 @@ button:disabled {
 }
 .guide-number {
   display: block;
-  color: #728a71;
+  color: var(--muted);
   font-size: 10px;
   letter-spacing: 1.6px;
   margin-bottom: 12px;
@@ -431,9 +438,9 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 17px;
-  border-bottom: 1px solid #d4e2d4;
+  border-bottom: 1px solid var(--primary-border);
   padding: 16px 0;
-  color: #3a694f;
+  color: var(--primary);
 }
 .welcome-guide a:last-child {
   border-bottom: 0;
@@ -452,7 +459,7 @@ button:disabled {
 }
 .welcome-guide div span {
   display: block;
-  color: #708771;
+  color: var(--muted);
   font-size: 10px;
   margin-top: 5px;
 }
@@ -508,8 +515,8 @@ button:disabled {
   width: 74px;
   height: 74px;
   border-radius: 19px;
-  background: var(--mint);
-  color: #66957e;
+  background: var(--primary-soft);
+  color: var(--primary);
   display: grid;
   place-items: center;
   margin-bottom: 23px;
@@ -543,11 +550,11 @@ button:disabled {
 }
 .peach .empty-icon {
   background: var(--peach);
-  color: #b28b68;
+  color: var(--warm-ink);
 }
 .blue .empty-icon {
   background: var(--blue);
-  color: #7e9aaf;
+  color: var(--blue-ink);
 }
 .shell-caption {
   color: var(--muted);
@@ -560,7 +567,7 @@ button:disabled {
   justify-content: space-between;
   gap: 15px;
   padding: 18px 42px;
-  color: #77877f;
+  color: var(--muted);
   font-size: 10px;
 }
 .app-footer > span:last-child {
@@ -573,8 +580,8 @@ button:disabled {
   align-items: flex-start;
   gap: 9px;
   padding: 12px 15px;
-  background: #eef3ef;
-  color: #587665;
+  background: var(--primary-soft);
+  color: var(--primary);
   border-radius: 8px;
   font-size: 11px;
   line-height: 1.8;
@@ -632,7 +639,7 @@ button:disabled {
   display: flex;
   gap: 9px;
   align-items: center;
-  background: var(--mint);
+  background: var(--primary-soft);
   color: var(--primary);
   padding: 11px 12px;
   border-radius: 7px;
@@ -692,7 +699,7 @@ button:disabled {
   color: var(--muted);
   font-size: 11px;
   font-weight: 500;
-  background: #fafbf9;
+  background: var(--surface-soft);
   border-block: 1px solid var(--line);
 }
 .month-grid td {
@@ -719,8 +726,8 @@ button:disabled {
   font-weight: 600;
 }
 .outside-month {
-  background: #fbfcfa;
-  color: #a6b0aa;
+  background: var(--surface-soft);
+  color: var(--muted);
 }
 .calendar-bottom {
   display: flex;
@@ -757,7 +764,7 @@ button:disabled {
   margin-bottom: 25px;
 }
 .settings-panel h2 svg {
-  color: #608776;
+  color: var(--primary);
 }
 .account-preview {
   display: flex;
@@ -785,8 +792,8 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 14px;
-  border: 1px solid #c8dece;
-  background: #f9fcf9;
+  border: 1px solid var(--primary-border);
+  background: var(--surface-soft);
   border-radius: 9px;
   padding: 13px;
   margin-bottom: 10px;
@@ -798,7 +805,7 @@ button:disabled {
 .theme-sample {
   width: 55px;
   height: 41px;
-  border: 1px solid #d7e5d9;
+  border: 1px solid var(--primary-border);
   border-radius: 5px;
   background: white;
   display: flex;
@@ -807,8 +814,8 @@ button:disabled {
 }
 .theme-sample > span {
   width: 13px;
-  background: #e9f1e8;
-  border-right: 1px solid #d7e5d9;
+  background: var(--primary-soft);
+  border-right: 1px solid var(--primary-border);
 }
 .theme-sample > div {
   flex: 1;
@@ -819,7 +826,7 @@ button:disabled {
 }
 .theme-sample i {
   height: 4px;
-  background: #e9efea;
+  background: var(--primary-soft);
   border-radius: 1px;
 }
 .setting-row {
@@ -846,8 +853,8 @@ button:disabled {
   text-align: right;
 }
 .status-pill {
-  background: #f3f5f1;
-  border: 1px solid #e8ece5;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
   border-radius: 5px;
   padding: 3px 7px;
   white-space: nowrap;
@@ -870,7 +877,7 @@ button:disabled {
   gap: 19px;
 }
 .standalone-state > svg {
-  color: #739a87;
+  color: var(--primary);
 }
 .standalone-state p {
   color: var(--muted);
@@ -930,7 +937,7 @@ button:disabled {
   border: 1px solid var(--line);
   border-radius: 7px;
   font-size: 12px;
-  background: #fafbf9;
+  background: var(--surface-soft);
   color: var(--muted);
 }
 .login-form .button {
@@ -957,7 +964,7 @@ button:disabled {
   text-align: center;
 }
 .skeleton {
-  background: #e6ece7;
+  background: var(--skeleton);
   border-radius: 8px;
   animation: pulse 1.6s ease-in-out infinite;
 }
@@ -996,7 +1003,7 @@ button:disabled {
   position: fixed;
   inset: 0;
   z-index: var(--layer-overlay);
-  background: rgb(24 43 34 / 32%);
+  background: rgb(6 45 74 / 32%);
 }
 .mobile-sidebar {
   position: fixed;

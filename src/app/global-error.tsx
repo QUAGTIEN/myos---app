@@ -12,7 +12,7 @@ export default function GlobalError({
         style={{
           fontFamily: "Arial, sans-serif",
           margin: "48px",
-          color: "#203c35",
+          color: "#07334a",
         }}
       >
         <h1>MyOS đang gặp sự cố</h1>

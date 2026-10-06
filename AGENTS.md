@@ -68,6 +68,8 @@ Worker nhận job bằng transaction, gọi dịch vụ ngoài sau transaction.
 
 Định hướng người dùng đã chốt: **đẹp, chuyên nghiệp, thân thiện, dễ dùng; ưu tiên giao diện light, màu tươi sáng và font dễ nhìn**. Dark mode là tùy chọn, không thay định hướng mặc định.
 
+**Màu chủ đạo đã cập nhật theo ảnh tham chiếu:** xanh ngọc/turquoise kết hợp xanh navy. Dùng accent #00B8A9, primary #007F78 (cho nút/chữ cần tương phản), navy #07334A và nền light #F5F9FA; nền nhấn nhẹ #E6F7F5. Đây là bảng màu diễn giải từ ảnh, không phải mã màu thương hiệu đã xác nhận. Dùng tokens trong globals.css, không quay về tone xanh lá sage/olive cũ. Ảnh chỉ tham chiếu màu; giữ layout light và không tự thêm glow/gradient hoặc nội dung từ poster.
+
 - Thiết kế theo nhu cầu dùng hằng ngày của MyOS; phân cấp nội dung rõ, khoảng trắng hợp lý và thao tác chính dễ tìm.
 - Dùng nền sáng trung tính, một màu chủ đạo và số ít màu hỗ trợ; màu trạng thái nhất quán, chữ/icon có độ tương phản dễ đọc. Không dùng màu như dấu hiệu duy nhất để truyền đạt trạng thái.
 - Tránh giao diện “AI slop”: không mặc định gradient tím/xanh, glow, glassmorphism, khối trang trí lớn hoặc thẻ bo tròn lặp lại mà không có mục đích. Mỗi phần trang trí phải phục vụ nội dung và nhận diện.
