@@ -11,10 +11,13 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { EmptyState } from "@/components/ui/empty-state";
-import { FeatureNotice } from "@/components/ui/feature-notice";
-import { PageHeading } from "@/components/ui/page-heading";
-import { PageSkeleton } from "@/components/ui/skeleton";
+import {
+  EmptyState,
+  FeatureNotice,
+  PageHeading,
+  PageSkeleton,
+} from "@/components/page-ui";
+
 import {
   emptyNoteInput,
   imageIds,
@@ -23,7 +26,7 @@ import {
   plainText,
 } from "../model";
 import { noteService } from "../service";
-import { useNotes } from "../use-notes";
+import { useNotes } from "../hooks";
 
 function searchText(text: string) {
   return text

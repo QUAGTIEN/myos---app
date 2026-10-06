@@ -6,8 +6,7 @@ import {
   Sprout,
 } from "lucide-react";
 import Link from "next/link";
-import { EmptyState } from "@/components/ui/empty-state";
-import { PageHeading } from "@/components/ui/page-heading";
+import { EmptyState, PageHeading } from "@/components/page-ui";
 
 const sections = [
   {

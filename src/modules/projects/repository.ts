@@ -1,4 +1,4 @@
-import { openLocalDatabase, announceLocalChange } from "@/lib/local/database";
+import { openLocalDatabase, announceLocalChange } from "@/lib/local-database";
 import { projectSchema, type Project } from "./model";
 
 export interface ProjectRepository {

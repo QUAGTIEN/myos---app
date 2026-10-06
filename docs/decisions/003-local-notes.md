@@ -6,7 +6,7 @@ Ngày: 06/10/2026. Trạng thái: áp dụng G4 theo phạm vi đã được ng�
 
 Tiptap React/StarterKit/Core/PM/TaskList/TaskItem khóa cùng version 3.31.4. Next.js khởi tạo editor với `immediatelyRender: false`; nội dung JSON qua schema Zod. Chỉ các node/mark đã hỗ trợ được lưu. Không nhận ảnh URL bên ngoài hoặc SVG; ảnh local dùng node attachmentId và React node view, tạo Blob URL khi hiển thị và revoke khi unmount. `setEditable(..., false)` không phát onUpdate giả. Tham khảo [Tiptap React](https://tiptap.dev/docs/editor/getting-started/install/react), [React node views](https://tiptap.dev/docs/editor/extensions/custom-extensions/node-views/react).
 
-Chia sẻ `src/lib/local/database.ts` với Projects. Database `myos-local` nâng từ 1 lên 2, thêm `notes` và `noteAttachments` (index noteId), không xóa hoặc ghi lại Projects. Tab version cũ phải đóng/tải lại khi nâng cấp; kết nối nhận versionchange sẽ đóng. Firebase/cloud chưa được dùng.
+Chia sẻ `src/lib/local-database.ts` với Projects. Database `myos-local` nâng từ 1 lên 2, thêm `notes` và `noteAttachments` (index noteId), không xóa hoặc ghi lại Projects. Tab version cũ phải đóng/tải lại khi nâng cấp; kết nối nhận versionchange sẽ đóng. Firebase/cloud chưa được dùng.
 
 Ghi note, Blob mới, dọn Blob hết tham chiếu và cập nhật liên kết dự án trong một readwrite transaction. Kiểm tra version hiện tại, quyền sở hữu ảnh theo noteId, dự án tồn tại và không gắn mới vào dự án lưu trữ. Notes.projectIds là nguồn liên kết; Projects.relatedNoteIds được cập nhật nguyên tử, tăng version và history. Commit xong mới thông báo cả hai module. Các request được xếp trong callback IndexedDB, không await tác vụ ngoài trong transaction.
 

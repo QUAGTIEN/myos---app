@@ -14,10 +14,10 @@
 
 - app chỉ điều phối route/layout, validate tham số và gọi màn hình của module.
 - model.ts chứa schema/types/quy tắc dữ liệu; service.ts xử lý ca sử dụng; repository.ts truy cập IndexedDB và kiểm tra version trong transaction.
-- Hook đọc dữ liệu/cập nhật tab đặt cạnh service; use-note-draft.ts riêng vì quản lý autosave và xung đột bản nháp.
+- Hook đặt cạnh service; Notes gom vào hooks.ts với useNotes và useNoteDraft riêng để giữ vòng đời đọc dữ liệu/autosave.
 - components chỉ dùng ở module có nhiều màn hình/form/editor. Module có một màn hình đặt file ngay trong thư mục module.
 - Không tạo actions, DTO, schemas, types, index.ts hoặc package domain chỉ để đủ cây thư mục; tách khi có trách nhiệm hoặc người dùng chung thật.
-- CSS nằm cùng module; components/ui giữ các thành phần dùng chung; lib/local/database.ts quản lý kết nối/version/sự kiện.
+- CSS nằm cùng module; components/page-ui.tsx giữ các thành phần trang dùng chung; lib/local-database.ts quản lý kết nối/version/sự kiện.
 - Upload, tìm kiếm, thông báo là khả năng trong 5 phân hệ, không tạo thêm menu. Hiện chưa có Auth/cloud/worker.
 
 ## Dự án
@@ -47,9 +47,9 @@ G4 đã triển khai local; Firebase Storage/Auth chưa được dùng. Tiptap 3
 - `model.ts`: schema Zod, metadata, revisions, rich nodes và helper nội dung.
 - `repository.ts`: đọc/ghi Notes và ảnh, điều phối liên kết Projects nguyên tử cùng transaction.
 - `service.ts`: tạo/lưu/ghim/thùng rác/xóa vĩnh viễn, ảnh và retention.
-- `use-note-draft.ts`: debounce 800 ms, serialize các lần lưu, snapshot/version, giữ nháp trong bộ nhớ khi lỗi, manual retry.
-- `use-notes.ts`: đọc và refresh sau commit/focus/tab khác.
-- `components/`: thư viện, workspace, rich editor, lịch sử và ghi chú trên trang dự án; `notes.css` là style module.
+- `hooks.ts` / `useNoteDraft`: debounce 800 ms, serialize các lần lưu, snapshot/version, giữ nháp trong bộ nhớ khi lỗi, manual retry.
+- `hooks.ts` / `useNotes`: đọc và refresh sau commit/focus/tab khác.
+- `components/`: thư viện, workspace, rich editor và lịch sử; khối ghi chú liên quan nằm trong project-detail-screen.tsx; `notes.css` là style module.
 
 Tối đa 20 phiên bản trước, gồm title/content/folder/tags/projectIds. Ảnh được giữ khi nội dung hiện tại hoặc revision còn tham chiếu; dọn ảnh không còn tham chiếu trong cùng transaction. Thùng rác không tự hết hạn. Xóa vĩnh viễn bỏ note, revisions, ảnh và liên kết dự án. Thư mục là tên trên metadata (đổi/để trống tại ghi chú), nhãn tối đa 10; không có hệ thư mục lồng nhau.
 
@@ -63,7 +63,7 @@ Kiểm chứng trong `tests/e2e/notes.spec.ts`; quyết định tại [ADR G4](.
 
 Ca sử dụng: tạo/sửa lịch hẹn, thời khóa biểu lặp tuần, ngoại lệ, nhóm màu, đánh dấu, nhắc và xuất .ics.
 
-G5 đã triển khai local, G2 hoãn. `model.ts` Zod/timezone; `recurrence.ts` mở rộng tuần hữu hạn/ngoại lệ; `service.ts` mutations; `repository.ts` IndexedDB version 3 và liên kết Projects nguyên tử; `ics.ts` iCalendar; `use-calendar.ts` đọc/error/cập nhật tab; `components` FullCalendar, form, chi tiết, export, settings và lịch liên quan. CSS scoped `schedule-*`.
+G5 đã triển khai local, G2 hoãn. `model.ts` Zod/timezone; `recurrence.ts` mở rộng tuần hữu hạn/ngoại lệ; `service.ts` mutations; `repository.ts` IndexedDB version 3 và liên kết Projects nguyên tử; `ics.ts` iCalendar; `use-calendar.ts` đọc/error/cập nhật tab; `components` FullCalendar, form, chi tiết, dialogs.tsx (khung dialog và xuất lịch), settings và lịch liên quan. CSS scoped `schedule-*`.
 
 Việt Nam UTC+7; end exclusive, form cả ngày hiển thị ngày cuối inclusive. Chuỗi nhiều thứ tối đa 5 năm có ngày kết thúc, mỗi buổi tối đa 7 ngày. Exception giữ originalStart và chỉ override fields đã đổi. Đổi lịch gốc reset ngoại lệ sau xác nhận. Hủy soft, hoàn thành riêng từng buổi; lỗi/version conflict giữ nháp, kéo/resize rollback.
 

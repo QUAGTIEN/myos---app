@@ -18,8 +18,8 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { PageSkeleton } from "@/components/ui/skeleton";
-import { EmptyState } from "@/components/ui/empty-state";
+import { PageSkeleton, EmptyState } from "@/components/page-ui";
+
 import { useProjects } from "@/modules/projects/use-projects";
 import {
   noteError,
@@ -29,8 +29,8 @@ import {
   type Revision,
 } from "../model";
 import { noteService } from "../service";
-import { useNotes } from "../use-notes";
-import { useNoteDraft } from "../use-note-draft";
+import { useNotes, useNoteDraft } from "../hooks";
+
 import { RichEditor } from "./rich-editor";
 import { NoteHistory } from "./note-history";
 import { RelatedCalendar } from "@/modules/calendar/components/related-calendar";

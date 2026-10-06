@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState, type FormEvent } from "react";
 import { useProjects } from "@/modules/projects/use-projects";
-import { useNotes } from "@/modules/notes/use-notes";
+import { useNotes } from "@/modules/notes/hooks";
 import {
   addDays,
   calendarError,
@@ -20,7 +20,7 @@ import {
   newCalendarEvent,
   occurrenceToInput,
 } from "../service";
-import { CalendarDialog } from "./calendar-dialog";
+import { CalendarDialog } from "./dialogs";
 
 export function EventForm({
   initial,

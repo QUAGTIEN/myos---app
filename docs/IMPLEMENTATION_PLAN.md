@@ -135,7 +135,7 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 **Hoàn thành khi:** ảnh tải lại được sau reload và đúng quyền; lỗi upload không tạo ảnh hỏng được báo đã lưu; hai phiên sửa không âm thầm ghi đè; xóa/khôi phục giữ nội dung và ảnh trong retention.
 
-**Vị trí chính hiện tại:** src/modules/notes, src/lib/local/database.ts; liên kết dự án được điều phối ở Notes repository. Domain/Storage Rules còn là kiến trúc cloud đích.
+**Vị trí chính hiện tại:** src/modules/notes, src/lib/local-database.ts; liên kết dự án được điều phối ở Notes repository. Domain/Storage Rules còn là kiến trúc cloud đích.
 
 ### G5. Module Lịch và thời khóa biểu
 

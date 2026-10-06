@@ -1,6 +1,6 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
-Ngày cập nhật: **07/10/2026** · Phiên bản: **1.9 — G5 local; cấu trúc source gọn; G2 chuyển xuống cuối**
+Ngày cập nhật: **07/10/2026** · Phiên bản: **1.10 — Gom thành phần UI/hook nhỏ; G2 chuyển xuống cuối**
 
 Tài liệu được cập nhật theo lựa chọn của người dùng: Firebase và đúng **5 phân hệ: Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**. Ngữ cảnh sản phẩm nằm trong [cuộc trò chuyện gốc](https://chatgpt.com/share/6ac3f0a0-ebb0-83ec-970a-56dcaaa98894).
 
@@ -156,7 +156,7 @@ MYOS/
 │   │   ├── projects/
 │   │   ├── notes/
 │   │   └── settings/
-│   ├── components/{ui,layout}
+│   ├── components/{app-shell,page-ui}.tsx
 │   └── lib/
 │       ├── firebase/{client,admin}.ts
 │       ├── auth/                  # require-user, session, DAL server-only

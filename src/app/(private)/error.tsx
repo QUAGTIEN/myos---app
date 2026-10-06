@@ -1,10 +1,22 @@
 "use client";
-import { ErrorState } from "@/components/ui/error-state";
+
+import { RotateCcw, TriangleAlert } from "lucide-react";
+
 export default function WorkspaceError({
   reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  return <ErrorState reset={reset} />;
+  return (
+    <section className="standalone-state">
+      <TriangleAlert size={36} aria-hidden="true" />
+      <h1>Chưa thể mở nội dung</h1>
+      <p>Vui lòng thử lại. Nội dung đang nhập có thể chưa được lưu.</p>
+      <button type="button" className="button primary" onClick={reset}>
+        <RotateCcw size={17} aria-hidden="true" />
+        Thử lại
+      </button>
+    </section>
+  );
 }

@@ -2,7 +2,7 @@
 import { Check, Pencil, Repeat2, Star, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { useNotes } from "@/modules/notes/use-notes";
+import { useNotes } from "@/modules/notes/hooks";
 import { useProjects } from "@/modules/projects/use-projects";
 import {
   addDays,
@@ -11,7 +11,7 @@ import {
   type CalendarSettings,
   type Occurrence,
 } from "../model";
-import { CalendarDialog } from "./calendar-dialog";
+import { CalendarDialog } from "./dialogs";
 
 export function EventDetails({
   event,

@@ -18,10 +18,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { PageHeading } from "@/components/ui/page-heading";
-import { PageSkeleton } from "@/components/ui/skeleton";
+import { PageHeading, PageSkeleton } from "@/components/page-ui";
+
 import { useProjects } from "@/modules/projects/use-projects";
-import { useNotes } from "@/modules/notes/use-notes";
+import { useNotes } from "@/modules/notes/hooks";
 import {
   addDays,
   blankEvent,
@@ -43,7 +43,7 @@ import {
 import { useCalendar } from "../use-calendar";
 import { EventForm } from "./event-form";
 import { EventDetails } from "./event-details";
-import { ExportDialog } from "./export-dialog";
+import { ExportDialog } from "./dialogs";
 
 const plugins = [
   dayGridPlugin,

@@ -12,10 +12,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { EmptyState } from "@/components/ui/empty-state";
-import { FeatureNotice } from "@/components/ui/feature-notice";
-import { PageHeading } from "@/components/ui/page-heading";
-import { PageSkeleton } from "@/components/ui/skeleton";
+import {
+  EmptyState,
+  FeatureNotice,
+  PageHeading,
+  PageSkeleton,
+} from "@/components/page-ui";
+
 import { formatProjectDate, projectStatuses, type Project } from "../model";
 import { projectService } from "../service";
 import { useProjects } from "../use-projects";

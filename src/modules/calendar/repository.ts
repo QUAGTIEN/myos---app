@@ -1,4 +1,4 @@
-import { announceLocalChange, openLocalDatabase } from "@/lib/local/database";
+import { announceLocalChange, openLocalDatabase } from "@/lib/local-database";
 import { projectSchema, type Project } from "@/modules/projects/model";
 import { projectsChangedEvent } from "@/modules/projects/repository";
 import { noteSchema } from "@/modules/notes/model";

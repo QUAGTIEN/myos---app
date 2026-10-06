@@ -1,5 +1,7 @@
 "use client";
-import { ProjectNotes } from "@/modules/notes/components/project-notes";
+import { useNotes } from "@/modules/notes/hooks";
+import { emptyNoteInput, noteError } from "@/modules/notes/model";
+import { noteService } from "@/modules/notes/service";
 import { RelatedCalendar } from "@/modules/calendar/components/related-calendar";
 
 import {
@@ -10,6 +12,7 @@ import {
   CalendarDays,
   Flag,
   FolderKanban,
+  Link2,
   Pencil,
   Pin,
   PinOff,
@@ -17,10 +20,10 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { EmptyState } from "@/components/ui/empty-state";
-import { FeatureNotice } from "@/components/ui/feature-notice";
-import { PageSkeleton } from "@/components/ui/skeleton";
+import { EmptyState, FeatureNotice, PageSkeleton } from "@/components/page-ui";
+
 import {
   formatProjectDate,
   projectStatuses,
@@ -397,5 +400,81 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
         />
       )}
     </div>
+  );
+}
+
+function ProjectNotes({
+  projectId,
+  archived,
+}: {
+  projectId: string;
+  archived: boolean;
+}) {
+  const { notes, loading, error, refresh } = useNotes();
+  const [pending, setPending] = useState(false);
+  const [actionError, setActionError] = useState("");
+  const router = useRouter();
+  const linked = notes.filter(
+    (note) => !note.trashedAt && note.projectIds.includes(projectId),
+  );
+  async function create() {
+    setPending(true);
+    setActionError("");
+    try {
+      const note = await noteService.create({
+        ...emptyNoteInput,
+        projectIds: [projectId],
+      });
+      router.push("/notes/" + note.id);
+    } catch (cause) {
+      setActionError(noteError(cause));
+    } finally {
+      setPending(false);
+    }
+  }
+  return (
+    <section className="panel project-content-panel">
+      <div className="project-section-heading">
+        <h2>
+          <Link2 size={17} />
+          Ghi chú liên quan
+        </h2>
+        <button
+          type="button"
+          className="button secondary small"
+          disabled={loading || pending || archived || !!error}
+          onClick={() => {
+            void create();
+          }}
+        >
+          <Plus size={16} />
+          Tạo ghi chú
+        </button>
+      </div>
+      {(error || actionError) && (
+        <p role="alert">
+          {error || actionError}{" "}
+          <button className="text-link" type="button" onClick={refresh}>
+            Thử lại
+          </button>
+        </p>
+      )}
+      {loading ? (
+        <p>Đang tải ghi chú…</p>
+      ) : linked.length ? (
+        <ul className="project-note-links">
+          {linked.map((note) => (
+            <li key={note.id}>
+              <Link href={"/notes/" + note.id}>{note.title}</Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="project-related-placeholder">
+          Chưa có ghi chú liên quan. Tạo ở đây hoặc gắn dự án trong trang Ghi
+          chú.
+        </p>
+      )}
+    </section>
   );
 }

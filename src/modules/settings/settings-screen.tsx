@@ -1,7 +1,7 @@
 import { Bell, Check, Cloud, Palette, UserRound } from "lucide-react";
 import Link from "next/link";
-import { FeatureNotice } from "@/components/ui/feature-notice";
-import { PageHeading } from "@/components/ui/page-heading";
+import { FeatureNotice, PageHeading } from "@/components/page-ui";
+
 import { CalendarSettingsPanel } from "@/modules/calendar/components/calendar-settings";
 
 export function SettingsScreen() {

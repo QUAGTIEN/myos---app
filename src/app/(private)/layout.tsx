@@ -1,4 +1,4 @@
-import { AppShell } from "@/components/layout/app-shell";
+import { AppShell } from "@/components/app-shell";
 
 // Route group only: Firebase session guards will be added in G2.
 export default function WorkspaceLayout({

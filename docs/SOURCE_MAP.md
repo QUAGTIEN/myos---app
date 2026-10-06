@@ -26,8 +26,8 @@ MYOS/
 │   │       ├── notes/              # page.tsx, layout.tsx, [noteId]/page.tsx
 │   │       └── settings/page.tsx
 │   ├── components/
-│   │   ├── layout/app-shell.tsx    # Sidebar/header/menu desktop và mobile
-│   │   └── ui/                     # Heading, empty/error, notice và skeleton
+│   │   ├── app-shell.tsx           # Sidebar/header/menu desktop và mobile
+│   │   └── page-ui.tsx             # Heading, empty, notice và skeleton
 │   ├── modules/
 │   │   ├── README.md               # Hướng dẫn chung của cả 5 phân hệ
 │   │   ├── overview/overview-screen.tsx
@@ -35,7 +35,7 @@ MYOS/
 │   │   ├── projects/               # model, service, repository, hook, CSS, components
 │   │   ├── notes/                  # Như Projects, thêm autosave và rich editor
 │   │   └── calendar/               # Thêm recurrence, ics và bộ lịch
-│   └── lib/local/database.ts       # IndexedDB dùng chung, version 3
+│   └── lib/local-database.ts        # IndexedDB dùng chung, version 3
 ├── tests/
 │   ├── README.md                   # Cách chạy và phạm vi kiểm thử
 │   └── e2e/                       # 5 file test đang hoạt động
@@ -47,14 +47,14 @@ MYOS/
 
 node_modules, .next, test-results và playwright-report là dependency/output, không phải source và không commit. Chỉ giữ thư mục khi có file thực tế cần dùng.
 
-Rà soát bổ sung: 59 file TypeScript/React đều có vai trò route hoặc import thực tế. Đã bỏ 33 rule CSS (174 dòng) của các màn hình khung cũ khỏi globals.css và loại exclude dành cho packages/functions chưa tồn tại trong tsconfig. test-results và tsconfig.tsbuildinfo có thể dọn sau kiểm tra; .next cần cho production preview đang chạy, node_modules cần để chạy/build. Không xóa lockfile hoặc cấu hình kiểm thử để giảm số file.
+Rà soát bổ sung: 52 file TypeScript/React đều có vai trò route hoặc import thực tế. Đã bỏ 33 rule CSS (174 dòng) của các màn hình khung cũ khỏi globals.css và loại exclude dành cho packages/functions chưa tồn tại trong tsconfig. test-results và tsconfig.tsbuildinfo có thể dọn sau kiểm tra; .next cần cho production preview đang chạy, node_modules cần để chạy/build. Không xóa lockfile hoặc cấu hình kiểm thử để giảm số file.
 
 ## Tìm code theo nhiệm vụ
 
 | Việc cần làm | Vị trí |
 | --- | --- |
-| Điều hướng, sidebar, header, menu | src/components/layout/app-shell.tsx |
-| Màu, font, spacing, UI chung | src/app/globals.css và src/components/ui |
+| Điều hướng, sidebar, header, menu | src/components/app-shell.tsx |
+| Màu, font, spacing, UI chung | src/app/globals.css và src/components/page-ui.tsx |
 | Lịch hẹn/thời khóa biểu | src/modules/calendar |
 | Ngoại lệ chuỗi tuần | calendar/model.ts, recurrence.ts, service.ts |
 | Xuất iCalendar | calendar/ics.ts |
@@ -62,18 +62,32 @@ Rà soát bổ sung: 59 file TypeScript/React đều có vai trò route hoặc i
 | Dự án, checklist/mốc, tiến độ | src/modules/projects |
 | Ghi chú, ảnh, lịch sử, autosave | src/modules/notes |
 | Khung Tổng quan và Cài đặt | overview/overview-screen.tsx, settings/settings-screen.tsx |
-| Kết nối/kho/version dữ liệu local | src/lib/local/database.ts |
+| Kết nối/kho/version dữ liệu local | src/lib/local-database.ts |
 | Luồng người dùng và quy tắc thời gian | tests/e2e |
 
-Projects/Notes/Calendar giữ model, service và repository riêng vì có quy tắc dữ liệu, transaction và kiểm tra version khác nhau. Hook đọc dữ liệu riêng phục vụ loading/error và cập nhật giữa tab. Editor, form, lịch sử và dialog được tách khi có trách nhiệm thực tế; không gom thành một file lớn chỉ để giảm số file.
+Projects/Notes/Calendar giữ model, service và repository riêng vì có quy tắc dữ liệu, transaction và kiểm tra version khác nhau. Hook đọc dữ liệu phục vụ loading/error và cập nhật giữa tab; hai hook Notes nằm cùng hooks.ts, vẫn giữ hai hàm riêng. Editor, form, lịch sử và dialog được tách khi có trách nhiệm thực tế; không gom thành một file lớn chỉ để giảm số file.
 
-Page/layout/loading/error nhỏ vẫn là file riêng vì Next.js dùng tên và vị trí để điều phối routing, server/client và boundary. UI dùng ở nhiều module vẫn ở components/ui. Module chỉ có một màn hình không cần thêm thư mục components.
+Page/layout/loading/error nhỏ vẫn là file riêng vì Next.js dùng tên và vị trí để điều phối routing, server/client và boundary. Các thành phần trang dùng chung nằm cùng components/page-ui.tsx; thành phần lỗi chỉ dùng một nơi đặt trực tiếp tại app/(private)/error.tsx. Module chỉ có một màn hình không cần thêm thư mục components.
 
 ## Luồng dữ liệu đang chạy
 
 Client Component → service → repository IndexedDB. Chưa có Server Actions hoặc API route.ts. Route group (private) chỉ là bố cục, chưa có auth guard.
 
 Database myos-local version 3 gồm projects, notes, noteAttachments, calendarEvents, calendarSettings. Calendar/Notes repository điều phối liên kết Projects trong transaction; khi ghi lỗi phải rollback. Liên kết event→note được đọc từ Calendar, không sao chép eventIds vào note. Xem [hướng dẫn module](../src/modules/README.md) và [quyết định kiến trúc](decisions/README.md).
+
+## Các file nhỏ đã gom
+
+| File trước đây | Vị trí hiện tại | Lý do |
+| --- | --- | --- |
+| components/ui/{empty-state,page-heading,feature-notice,skeleton}.tsx | components/page-ui.tsx | Các thành phần bố cục/trạng thái trang thuần UI, cùng ranh giới server-compatible |
+| components/ui/error-state.tsx | app/(private)/error.tsx | Chỉ được dùng bởi route error; giữ use client và hành vi retry |
+| notes/use-notes.ts, use-note-draft.ts | notes/hooks.ts | Đọc dữ liệu và quản lý nháp của cùng module; giữ hai hook với vòng đời riêng |
+| calendar/components/calendar-dialog.tsx, export-dialog.tsx | calendar/components/dialogs.tsx | Khung modal và hộp thoại xuất lịch, giữ focus/pending/download |
+| notes/components/project-notes.tsx | projects/components/project-detail-screen.tsx | Khối ghi chú chỉ dùng trong chi tiết Dự án; giữ gọi hook/service Notes |
+| components/layout/app-shell.tsx | components/app-shell.tsx | Không cần lớp thư mục một file |
+| lib/local/database.ts | lib/local-database.ts | Hạ tầng local duy nhất, không cần thư mục một file |
+
+Từ 59 xuống 52 file TypeScript/React. page/layout/loading/error của Next.js vẫn phải giữ vị trí riêng. ProgressIndicator dùng ở cả danh sách/chi tiết; RelatedCalendar dùng ở Dự án/Ghi chú; NoteHistory có dialog/khôi phục riêng. Những thành phần này tiếp tục tách vì có mục đích thực tế. Không gộp editor, form, recurrence, repository vào màn hình lớn chỉ để giảm số file.
 
 ## Phần chưa triển khai
 

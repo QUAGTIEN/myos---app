@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { subscribeLocalChange } from "@/lib/local/database";
+import { subscribeLocalChange } from "@/lib/local-database";
 import {
   calendarError,
   defaultCalendarSettings,

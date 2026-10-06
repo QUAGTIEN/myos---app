@@ -75,8 +75,8 @@ Framework, Lucide, Radix Dialog, Zod, Tiptap, FullCalendar 6.1.21/Luxon 3.7.2, f
 | --- | --- |
 | src/app | Route, page, layout, loading/error và HTTP boundary của Next.js |
 | src/modules | 5 phân hệ; hướng dẫn tập trung trong một README |
-| src/components | UI và bố cục dùng chung |
-| src/lib/local | IndexedDB dùng chung, version và thông báo cập nhật |
+| src/components | app-shell.tsx và page-ui.tsx dùng chung |
+| src/lib/local-database.ts | IndexedDB dùng chung, version và thông báo cập nhật |
 | tests/e2e | Kiểm thử luồng desktop/mobile và quy tắc thời gian/iCalendar |
 | docs | Bản đồ source, kế hoạch và quyết định kiến trúc |
 
