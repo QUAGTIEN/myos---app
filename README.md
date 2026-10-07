@@ -60,6 +60,8 @@ Giao diện dùng sidebar navy, desktop rộng, panel trắng và điểm nhấn
 
 Trang Ghi chú có thanh thao tác thống nhất, thư viện tích hợp và thẻ pastel gọn; bố cục chuyển phù hợp desktop/mobile, giữ các chức năng G4.
 
+Trang Dự án dùng một khung nội dung thống nhất, số liệu gọn và thẻ nhỏ (4 cột desktop rộng); ghim/lưu trữ nằm trong menu ⋯, Thẻ/Kanban giữ chức năng hiện có. Đã kiểm chứng 32 E2E Dự án/hồ sơ/khung ứng dụng trên desktop/mobile; ảnh thực tế 1920 px dùng 4 cột, thẻ tối thiểu 212 px.
+
 ## Công nghệ đã chọn
 
 - Next.js App Router + React + TypeScript.

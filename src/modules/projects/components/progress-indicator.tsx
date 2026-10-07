@@ -1,15 +1,23 @@
 import { getProjectProgress, type Project } from "../model";
 
-export function ProgressIndicator({ project }: { project: Project }) {
+export function ProgressIndicator({
+  project,
+  compact = false,
+}: {
+  project: Project;
+  compact?: boolean;
+}) {
   const progress = getProjectProgress(project);
   const counted = project.items.filter((item) => item.countsTowardProgress);
   return (
     <div className="project-progress">
       <div>
         <span>
-          {project.progressMode === "manual"
-            ? "Tiến độ thủ công"
-            : "Tiến độ checklist"}
+          {compact
+            ? "Tiến độ"
+            : project.progressMode === "manual"
+              ? "Tiến độ thủ công"
+              : "Tiến độ checklist"}
         </span>
         <strong>
           {progress === null ? "Chưa có dữ liệu" : progress + "%"}
@@ -28,7 +36,7 @@ export function ProgressIndicator({ project }: { project: Project }) {
       >
         <span style={{ width: (progress ?? 0) + "%" }} />
       </div>
-      {project.progressMode === "checklist" && (
+      {!compact && project.progressMode === "checklist" && (
         <p>
           {counted.length
             ? counted.filter((item) => item.completed).length +

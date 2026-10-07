@@ -86,6 +86,35 @@ test("project creation, edit, progress, pin, search, archive and restore persist
     path: testInfo.outputPath("projects-populated.png"),
     fullPage: true,
   });
+  const actions = page.getByLabel("Thao tác Website cá nhân hoàn chỉnh", {
+    exact: true,
+  });
+  await actions.click();
+  await page.keyboard.press("Escape");
+  await expect(actions).toBeFocused();
+  await expect(
+    page.getByRole("button", {
+      name: "Bỏ ghim Website cá nhân hoàn chỉnh",
+      exact: true,
+    }),
+  ).not.toBeVisible();
+  await actions.click();
+  await page
+    .getByRole("button", {
+      name: "Bỏ ghim Website cá nhân hoàn chỉnh",
+      exact: true,
+    })
+    .click();
+  await expect(page.getByRole("status")).toContainText("Đã bỏ ghim");
+  await actions.click();
+  await page
+    .getByRole("button", {
+      name: "Ghim Website cá nhân hoàn chỉnh",
+      exact: true,
+    })
+    .click();
+  await expect(page.getByRole("status")).toContainText("Đã ghim dự án");
+  await actions.click();
   page.once("dialog", (confirm) => confirm.accept());
   await page
     .getByRole("button", { name: "Lưu trữ Website cá nhân hoàn chỉnh" })
@@ -323,7 +352,11 @@ test("search resets pagination and pinned projects sort first", async ({
   await expect(page.locator(".project-card")).toHaveCount(1);
   await page.getByRole("textbox", { name: "Tìm dự án" }).fill("Dự án 12");
   await expect(page.locator(".project-card")).toHaveCount(1);
-  await expect(page.locator(".project-pagination")).toContainText("Trang 1/1");
+  await expect(page.locator(".project-list-caption")).toHaveText("1 dự án");
+  await expect(page.locator(".project-pagination")).toHaveCount(0);
+  await page.getByRole("textbox", { name: "Tìm dự án" }).fill("");
+  await expect(page.locator(".project-card")).toHaveCount(12);
+  await expect(page.locator(".project-pagination")).toContainText("Trang 1/2");
 });
 
 test("blocked storage and missing local IDs show recoverable states", async ({
