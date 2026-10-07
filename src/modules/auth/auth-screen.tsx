@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
+import forestBackground from "../../../public/images/login-forest.jpg";
 import { Eye, EyeOff, Sprout } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import {
@@ -119,6 +121,16 @@ export function AuthScreen({ mode }: { mode: Mode }) {
   }
   return (
     <main className="auth-page">
+      <Image
+        className="auth-background"
+        src={forestBackground}
+        alt=""
+        fill
+        priority
+        sizes="(max-width: 650px) 160vh, 100vw"
+        quality={85}
+        placeholder="blur"
+      />
       <div className="auth-brand">
         <Sprout size={27} aria-hidden="true" />
         <span>

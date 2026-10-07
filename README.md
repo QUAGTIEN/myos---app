@@ -2,6 +2,8 @@
 
 Ứng dụng Next.js cho phần mềm cá nhân gồm **Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**.
 
+Nền màn hình xác thực: [A Green Forest — Lauri Poldre / Pexels](https://www.pexels.com/photo/a-green-forest-19635500/), ảnh gốc 6000 × 4000 trong public/images/login-forest.jpg, [Pexels License](https://www.pexels.com/license/). Next Image tải kích thước phù hợp; khung liquid dùng chung cho đăng nhập/đăng ký/quên mật khẩu.
+
 ## Trạng thái hiện tại
 
 **G1 đã có implementation:** khung giao diện responsive, menu 5 mục, lịch tháng có điều hướng, trang đăng nhập (đã nối Auth ở G2), loading/error/404. Các module đọc dữ liệu local, không dùng dữ liệu cá nhân giả.

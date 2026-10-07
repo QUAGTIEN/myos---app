@@ -79,6 +79,8 @@ Lịch G5 dùng Luxon với Asia/Ho_Chi_Minh, wall-clock `YYYY-MM-DDTHH:mm`, c�
 
 ## UI/UX và phong cách thị giác
 
+Màn hình xác thực đã được người dùng duyệt ngoại lệ liquid glass: nền rừng thật public/images/login-forest.jpg (Lauri Poldre/Pexels, 6000 × 4000), Next Image responsive, khung kính mờ nhẹ với chữ rõ. Áp dụng cho đăng nhập/đăng ký/quên mật khẩu; không mở rộng phong cách này sang các phân hệ khác. Giữ nguồn ảnh trong README.
+
 Định hướng người dùng đã chốt: **đẹp, chuyên nghiệp, thân thiện, dễ dùng; ưu tiên giao diện light, màu tươi sáng và font dễ nhìn**. Dark mode là tùy chọn, không thay định hướng mặc định.
 
 **Màu chủ đạo đã cập nhật theo ảnh tham chiếu:** xanh ngọc/turquoise kết hợp xanh navy. Dùng accent #00B8A9, primary #007F78 (cho nút/chữ cần tương phản), navy #102F49 cho sidebar, #07334A cho chữ và nền light #F2F4F8; nền nhấn nhẹ #E6F7F5. Đây là bảng màu diễn giải từ ảnh, không phải mã màu thương hiệu đã xác nhận. Dùng tokens trong globals.css, không quay về tone xanh lá sage/olive cũ. Ảnh chỉ tham chiếu màu; giữ layout light và không tự thêm glow/gradient hoặc nội dung từ poster.

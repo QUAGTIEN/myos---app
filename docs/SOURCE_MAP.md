@@ -43,7 +43,7 @@ MYOS/
 ├── scripts/test-data.mjs           # Build và test local/cloud với env riêng
 ├── firebase.json, firestore.rules, firestore.indexes.json
 ├── playwright.firebase.config.ts  # E2E Emulator port 3101
-├── public/images/login-clock.png  # Ảnh đồng hồ gốc cho đăng nhập
+├── public/images/login-forest.jpg # Ảnh rừng Pexels 6000 × 4000 cho màn hình xác thực
 ├── public/images/sidebar-city.png  # Ảnh người dùng cung cấp, nền chìm sidebar
 ├── tests/
 │   ├── README.md                   # Cách chạy và phạm vi kiểm thử
