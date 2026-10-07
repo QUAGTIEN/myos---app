@@ -12,7 +12,9 @@ Test autosave conflict cài clock trước khi tải ứng dụng để không t
 
 G5: calendar.spec.ts kiểm tra lịch đơn/cả ngày/tuần, sửa/hủy/hoàn thành riêng, bốn views, trùng giờ, hai tab, quota rollback, links/mốc, download, settings, kéo/resize. calendar-domain.spec.ts kiểm tra thời gian và iCalendar bằng parser độc lập, chỉ chạy project desktop để không lặp domain tests. Đăng nhập và quyền cloud thêm ở G2. Xem README ở root cho commands.
 
-Tổng quan: overview.spec.ts có 8 cases desktop/mobile, kiểm tra dữ liệu nguồn/loại lưu trữ-thùng rác, ngày Việt Nam trên máy khác timezone, lịch qua đêm/ngoại lệ/end exclusive, đổi ngày, cập nhật tab, checklist commit/rollback, tạo nhanh và lỗi nguồn/retry riêng. Suite có 76 cases; 7 skip theo cấu hình G5.
+Tổng quan: overview.spec.ts có 8 cases desktop/mobile, kiểm tra dữ liệu nguồn/loại lưu trữ-thùng rác, ngày Việt Nam trên máy khác timezone, lịch qua đêm/ngoại lệ/end exclusive, đổi ngày, cập nhật tab, checklist commit/rollback, tạo nhanh và lỗi nguồn/retry riêng. Suite hiện có 84 cases; 7 skip theo cấu hình G5.
+
+workspace.spec.ts: 8 cases desktop/mobile cho lưới năm/ngày, bộ thời khóa biểu lưu/đổi tên/sao chép, hồ sơ IoT/tài liệu/link an toàn/nhật ký, tệp tải/xóa và rollback, Kanban, conflict hai tab và nâng database v3→v4. Fixtures của version cũ khởi tạo trên /login trước khi ứng dụng mở IndexedDB.
 
 ## Tổ chức và chạy
 

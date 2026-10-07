@@ -9,6 +9,7 @@ export interface ProjectRepository {
     id: string,
     expectedVersion: number,
     transform: (current: Project) => Project,
+    attachment?: { add?: { id: string; blob: Blob }; remove?: string },
   ): Promise<Project>;
 }
 
@@ -76,10 +77,13 @@ export const localProjectRepository: ProjectRepository = {
         );
     });
   },
-  async update(id, expectedVersion, transform) {
+  async update(id, expectedVersion, transform, attachment) {
     const db = await openLocalDatabase();
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction(storeName, "readwrite");
+      const transaction = db.transaction(
+        attachment ? [storeName, "projectAttachments"] : storeName,
+        "readwrite",
+      );
       const store = transaction.objectStore(storeName);
       const request = store.get(id);
       let saved: Project;
@@ -98,6 +102,21 @@ export const localProjectRepository: ProjectRepository = {
           if (saved.id !== id || saved.version !== current.version + 1)
             throw new Error("Phiên bản cập nhật không hợp lệ.");
           store.put(saved);
+          if (attachment?.add) {
+            if (
+              !saved.workspace.attachments.some(
+                (file) => file.id === attachment.add!.id,
+              )
+            )
+              throw new Error("Tệp chưa có thông tin dự án.");
+            transaction
+              .objectStore("projectAttachments")
+              .add({ ...attachment.add, projectId: id });
+          }
+          if (attachment?.remove)
+            transaction
+              .objectStore("projectAttachments")
+              .delete(attachment.remove);
         } catch (error) {
           failure = error;
           transaction.abort();
@@ -119,3 +138,27 @@ export const localProjectRepository: ProjectRepository = {
     });
   },
 };
+
+export async function readProjectAttachment(
+  projectId: string,
+  id: string,
+): Promise<Blob> {
+  const db = await openLocalDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("projectAttachments", "readonly");
+    const request = tx.objectStore("projectAttachments").get(id);
+    let result: Blob | undefined;
+    request.onsuccess = () => {
+      if (
+        request.result?.projectId === projectId &&
+        request.result.blob instanceof Blob
+      )
+        result = request.result.blob;
+    };
+    tx.oncomplete = () =>
+      result
+        ? resolve(result)
+        : reject(new Error("Không tìm thấy tệp của dự án."));
+    tx.onabort = () => reject(tx.error ?? new Error("Không đọc được tệp."));
+  });
+}

@@ -290,8 +290,10 @@ Không đặt lịch số tuần trước khi có khối lượng implementation
 | G2 | Hoãn xuống cuối; chưa triển khai Auth/Firebase/migration |
 | G4 | Có implementation local: rich text/ảnh, autosave, thư mục/nhãn, thùng rác, revisions và liên kết Projects |
 | G5 | Có implementation local: lịch đơn/cả ngày, tuần/ngoại lệ, marks, kéo/resize, liên kết, .ics và settings |
-| G6–G8 | Chưa bắt đầu; phạm vi local/cloud cần chốt ở lượt tương ứng |
+| G6 local | Đã triển khai Tổng quan tổng hợp local; tìm kiếm chung/thông báo tích hợp còn kế hoạch |
+| Mở rộng theo yêu cầu | Tab Lịch/Công việc, bộ thời khóa biểu, Kanban và hồ sơ dự án/tệp local |
+| G7–G8 | Chưa triển khai gửi nhắc/Zalo/cloud; các mục còn lại chờ phạm vi được giao |
 | Firebase/cloud/billing/deploy | Chưa thực hiện |
 | Khả năng gửi Zalo thực tế | Chưa kiểm chứng |
 
-**Bước tiếp theo: G6 — Tổng quan**, khi người dùng yêu cầu. G2 triển khai cuối trước cloud production; chưa có Auth hoặc đồng bộ Firebase. G3–G5 chỉ có dữ liệu local.
+**Tổng quan local và lượt mở rộng Lịch/Dự án đã có implementation.** Phần tiếp theo thực hiện khi người dùng yêu cầu. G2 triển khai cuối trước cloud production; chưa có Auth hoặc đồng bộ Firebase. G3–G5 chỉ có dữ liệu local.

@@ -43,6 +43,7 @@ import {
 import { useCalendar } from "../use-calendar";
 import { EventForm } from "./event-form";
 import { EventDetails } from "./event-details";
+import { CalendarYear, TimetableDialog } from "./calendar-book";
 import { ExportDialog } from "./dialogs";
 
 const plugins = [
@@ -93,6 +94,13 @@ export function CalendarScreen({
   const [view, setView] = useState("dayGridMonth");
   const [chosenDate, setChosenDate] = useState(today);
   const [group, setGroup] = useState("");
+  const [tab, setTab] = useState<"book" | "work">(
+    query.eventId || query.projectId || query.noteId ? "work" : "book",
+  );
+  const [yearView, setYearView] = useState(false);
+  const [timetable, setTimetable] = useState<"create" | "edit" | "copy" | null>(
+    null,
+  );
   const [form, setForm] = useState<FormState | null>(null);
   const [detail, setDetail] = useState<{
     event: CalendarEvent;
@@ -104,12 +112,43 @@ export function CalendarScreen({
   const [actionError, setActionError] = useState("");
   const [message, setMessage] = useState("");
   const seenQuery = useRef("");
+  useEffect(() => {
+    if (query.eventId || query.projectId || query.noteId) return;
+    try {
+      if (sessionStorage.getItem("myos-calendar-tab") === "work")
+        setTab("work");
+    } catch {
+      /* Storage preferences are optional; schedules remain in IndexedDB. */
+    }
+  }, [query.eventId, query.projectId, query.noteId]);
+  function chooseTab(next: "book" | "work") {
+    setTab(next);
+    setYearView(false);
+    try {
+      sessionStorage.setItem("myos-calendar-tab", next);
+    } catch {
+      /* Keep this tab usable without sessionStorage. */
+    }
+    calendar.current
+      ?.getApi()
+      .changeView(next === "work" ? "timeGridWeek" : "dayGridMonth");
+  }
+  const visibleRange = useMemo(
+    () =>
+      yearView
+        ? {
+            from: chosenDate.slice(0, 4) + "-01-01",
+            until: String(Number(chosenDate.slice(0, 4)) + 1) + "-01-01",
+          }
+        : range,
+    [yearView, chosenDate, range],
+  );
   const occurrences = useMemo(
     () =>
-      expandEvents(data.events, range.from, range.until).filter(
-        (item) => !group || item.groupId === group,
+      expandEvents(data.events, visibleRange.from, visibleRange.until).filter(
+        (item) => tab === "book" || !group || item.groupId === group,
       ),
-    [data.events, range, group],
+    [data.events, visibleRange, group, tab],
   );
   const calendarEvents = useMemo(
     () =>
@@ -130,7 +169,7 @@ export function CalendarScreen({
             : localTime(occurrence.end).toISO()!,
           allDay: occurrence.allDay,
           backgroundColor: color,
-          borderColor: color,
+          borderColor: "transparent",
           classNames: occurrence.completed ? ["schedule-completed"] : [],
           extendedProps: { occurrence },
         };
@@ -154,6 +193,7 @@ export function CalendarScreen({
       setForm({
         initial: {
           ...initial,
+          ...(group ? { groupId: group } : {}),
           allDay: info.allDay,
           start: info.allDay
             ? info.startStr.slice(0, 10)
@@ -164,7 +204,7 @@ export function CalendarScreen({
       calendar.current?.getApi().unselect();
       setActionError("");
     },
-    [data.settings],
+    [data.settings, group],
   );
   useEffect(() => {
     const key = JSON.stringify(query);
@@ -180,6 +220,8 @@ export function CalendarScreen({
       return;
     seenQuery.current = key;
     if (query.eventId) {
+      setTab("work");
+      setYearView(false);
       const event = data.events.find(
         (item) => item.id === query.eventId && !item.cancelledAt,
       );
@@ -201,6 +243,8 @@ export function CalendarScreen({
       return;
     }
     if (!query.projectId && !query.noteId) return;
+    setTab("work");
+    setYearView(false);
     const initial = blankEvent(today, data.settings);
     let source: CalendarEvent["sourceMilestone"] = null;
     if (query.projectId) {
@@ -325,26 +369,51 @@ export function CalendarScreen({
   if (data.loading) return <PageSkeleton />;
   return (
     <div className="schedule-module">
+      <div className="schedule-tabs" role="group" aria-label="Phân mục lịch">
+        <button
+          type="button"
+          aria-pressed={tab === "book"}
+          onClick={() => chooseTab("book")}
+        >
+          Lịch
+        </button>
+        <button
+          type="button"
+          aria-pressed={tab === "work"}
+          onClick={() => chooseTab("work")}
+        >
+          Công việc
+        </button>
+      </div>
       <PageHeading
         title="Lịch"
         action={
-          <button
-            className="button primary"
-            type="button"
-            disabled={!!data.error || pending}
-            onClick={() => {
-              setForm({ initial: blankEvent(chosenDate, data.settings) });
-              setActionError("");
-            }}
-          >
-            <Plus size={18} />
-            Tạo lịch hẹn
-          </button>
+          tab === "work" && (
+            <button
+              className="button primary"
+              type="button"
+              disabled={!!data.error || pending}
+              onClick={() => {
+                setForm({
+                  initial: {
+                    ...blankEvent(chosenDate, data.settings),
+                    ...(group ? { groupId: group } : {}),
+                  },
+                });
+                setActionError("");
+              }}
+            >
+              <Plus size={18} />
+              Tạo lịch hẹn
+            </button>
+          )
         }
       />
-      <div className="schedule-note">
-        <Link href="/settings">Cài đặt lịch</Link>
-      </div>
+      {tab === "work" && (
+        <div className="schedule-note">
+          <Link href="/settings">Cài đặt lịch</Link>
+        </div>
+      )}
       {data.error && (
         <p className="schedule-error" role="alert">
           {data.error}{" "}
@@ -366,25 +435,55 @@ export function CalendarScreen({
       <section className="panel schedule-panel" aria-label="Bộ lịch">
         <div className="schedule-toolbar">
           <div className="calendar-month">
-            <h2 aria-live="polite">{title}</h2>
+            <h2 aria-live="polite">
+              {yearView ? "Năm " + chosenDate.slice(0, 4) : title}
+            </h2>
             <div className="calendar-controls">
               <button
                 className="icon-button"
                 aria-label={
-                  view === "dayGridMonth" ? "Tháng trước" : "Khoảng trước"
+                  yearView
+                    ? "Năm trước"
+                    : view === "dayGridMonth"
+                      ? "Tháng trước"
+                      : "Khoảng trước"
                 }
                 type="button"
-                onClick={() => calendar.current?.getApi().prev()}
+                disabled={yearView && Number(chosenDate.slice(0, 4)) <= 2000}
+                onClick={() =>
+                  yearView
+                    ? calendar.current
+                        ?.getApi()
+                        .gotoDate(
+                          localTime(chosenDate)
+                            .minus({ years: 1 })
+                            .toISODate()!,
+                        )
+                    : calendar.current?.getApi().prev()
+                }
               >
                 <ChevronLeft size={19} />
               </button>
               <button
                 className="icon-button"
                 aria-label={
-                  view === "dayGridMonth" ? "Tháng sau" : "Khoảng sau"
+                  yearView
+                    ? "Năm sau"
+                    : view === "dayGridMonth"
+                      ? "Tháng sau"
+                      : "Khoảng sau"
                 }
                 type="button"
-                onClick={() => calendar.current?.getApi().next()}
+                disabled={yearView && Number(chosenDate.slice(0, 4)) >= 2100}
+                onClick={() =>
+                  yearView
+                    ? calendar.current
+                        ?.getApi()
+                        .gotoDate(
+                          localTime(chosenDate).plus({ years: 1 }).toISODate()!,
+                        )
+                    : calendar.current?.getApi().next()
+                }
               >
                 <ChevronRight size={19} />
               </button>
@@ -430,30 +529,98 @@ export function CalendarScreen({
             role="group"
             aria-label="Chế độ xem lịch"
           >
-            {views.map((item) => (
+            {(tab === "work"
+              ? views
+              : views.filter(
+                  (item) => item.name === "Tháng" || item.name === "Ngày",
+                )
+            ).map((item) => (
               <button
                 type="button"
                 key={item.id}
-                aria-pressed={view === item.id}
-                onClick={() => calendar.current?.getApi().changeView(item.id)}
+                aria-pressed={!yearView && view === item.id}
+                onClick={() => {
+                  setYearView(false);
+                  calendar.current?.getApi().changeView(item.id);
+                }}
               >
                 {item.name}
               </button>
             ))}
+            {tab === "book" && (
+              <button
+                type="button"
+                aria-pressed={yearView}
+                onClick={() => setYearView(true)}
+              >
+                Năm
+              </button>
+            )}
           </div>
-          <label>
-            Lọc nhóm
-            <select value={group} onChange={(e) => setGroup(e.target.value)}>
-              <option value="">Tất cả nhóm</option>
-              {data.settings.groups.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </label>
+          {tab === "work" && (
+            <label>
+              Bộ thời khóa biểu
+              <select value={group} onChange={(e) => setGroup(e.target.value)}>
+                <option value="">Tất cả bộ lịch</option>
+                {data.settings.groups.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          {tab === "work" && (
+            <div className="timetable-actions">
+              <button
+                className="button secondary small"
+                type="button"
+                disabled={
+                  !!data.error || pending || data.settings.groups.length >= 20
+                }
+                onClick={() => setTimetable("create")}
+              >
+                Tạo bộ lịch
+              </button>
+              <button
+                className="button secondary small"
+                type="button"
+                disabled={!group || !!data.error || pending}
+                onClick={() => setTimetable("edit")}
+              >
+                Sửa bộ lịch
+              </button>
+              <button
+                className="button secondary small"
+                type="button"
+                disabled={
+                  !group ||
+                  !!data.error ||
+                  pending ||
+                  data.settings.groups.length >= 20
+                }
+                onClick={() => setTimetable("copy")}
+              >
+                Sao chép bộ lịch
+              </button>
+            </div>
+          )}
         </div>
-        <div className="schedule-calendar-scroll" aria-busy={pending}>
+        {yearView && (
+          <CalendarYear
+            year={Number(chosenDate.slice(0, 4))}
+            today={today}
+            onDate={(date) => {
+              setYearView(false);
+              calendar.current?.getApi().changeView("dayGridMonth", date);
+            }}
+          />
+        )}
+        <div
+          hidden={yearView}
+          className="schedule-calendar-scroll"
+          aria-busy={pending}
+        >
           <FullCalendar
             ref={calendar}
             plugins={plugins}
@@ -466,8 +633,8 @@ export function CalendarScreen({
             height={view.startsWith("timeGrid") ? 680 : "auto"}
             nowIndicator
             validRange={validRange}
-            selectable={!data.error && !pending}
-            editable={!data.error && !pending}
+            selectable={tab === "work" && !data.error && !pending}
+            editable={tab === "work" && !data.error && !pending}
             eventResizableFromStart
             slotMinTime={data.settings.slotMinTime}
             slotMaxTime={data.settings.slotMaxTime}
@@ -482,6 +649,12 @@ export function CalendarScreen({
             events={calendarEvents}
             select={select}
             dateClick={(info) => {
+              if (tab === "book") {
+                calendar.current
+                  ?.getApi()
+                  .changeView("timeGridDay", info.dateStr.slice(0, 10));
+                return;
+              }
               const initial = blankEvent(
                 info.dateStr.slice(0, 10),
                 data.settings,
@@ -492,6 +665,7 @@ export function CalendarScreen({
                   .plus({ hours: 1 })
                   .toFormat("yyyy-MM-dd'T'HH:mm");
               }
+              if (group) initial.groupId = group;
               if (!pending && !data.error) setForm({ initial });
             }}
             eventClick={(info) => {
@@ -546,6 +720,20 @@ export function CalendarScreen({
           <span>{occurrences.length} lịch</span>
         </footer>
       </section>
+      {timetable && (
+        <TimetableDialog
+          settings={data.settings}
+          groupId={group}
+          mode={timetable}
+          onClose={() => setTimetable(null)}
+          onSaved={(id) => {
+            setGroup(id);
+            setTimetable(null);
+            data.refresh();
+            setMessage("Đã lưu bộ thời khóa biểu.");
+          }}
+        />
+      )}
       {form && (
         <EventForm
           {...form}
@@ -601,8 +789,8 @@ export function CalendarScreen({
         <ExportDialog
           events={data.events}
           settings={data.settings}
-          from={range.from.slice(0, 10)}
-          until={range.until.slice(0, 10)}
+          from={visibleRange.from.slice(0, 10)}
+          until={visibleRange.until.slice(0, 10)}
           onClose={() => setExporting(false)}
         />
       )}

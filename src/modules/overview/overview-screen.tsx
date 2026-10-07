@@ -162,7 +162,7 @@ export function OverviewScreen() {
     <div className="dashboard">
       <div className="dashboard-heading">
         <div>
-          <h1>Tổng quan</h1>
+          <h1 className="sr-only">Tổng quan</h1>
           <time dateTime={today}>
             {localTime(today).setLocale("vi").toFormat("cccc, dd/MM/yyyy")}
           </time>

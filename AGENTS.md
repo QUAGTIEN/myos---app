@@ -2,6 +2,8 @@
 
 ## Phạm vi hiện tại
 
+**Cập nhật theo yêu cầu mới:** Lịch có tab xem ngày/tháng/năm và tab Công việc với nhiều bộ thời khóa biểu lưu riêng; dùng groups hiện hữu, không nhân bản kho lịch. Dự án có Thẻ/Kanban và hồ sơ mục tiêu, tài liệu, liên kết HTTP(S), phần cứng tùy chọn, nhật ký/kiểm thử, tệp Blob. Database v4 thêm projectAttachments; workspace có default tương thích dự án cũ. Tệp và metadata được ghi/xóa nguyên tử, có version check. G2 vẫn hoãn.
+
 **Tổng quan local đã được triển khai theo phạm vi mới:** số liệu thật, lịch theo ngày Việt Nam, checklist cần làm, tiến độ, ghi chú mới/ghim và mốc gần hạn. Overview dùng hook/service của module nguồn và selector thuần, không tạo kho tổng hợp hoặc schema mới. Form tạo nhanh dùng lại luồng lưu G3–G5. Tiếp tục hoãn G2, gửi nhắc/Zalo và deploy.
 
 **Cập nhật G5:** người dùng đã cho phép code Lịch/thời khóa biểu local và tiếp tục hoãn G2. G5 thêm FullCalendar, chuỗi tuần/ngoại lệ, liên kết Dự án/Ghi chú, xuất .ics và cài đặt lịch. Database version 3 giữ kho cũ. Nhắc hiện chỉ lưu cấu hình; gửi tự động/Zalo chờ G7. Hướng dẫn dưới về G3/G4 tiếp tục áp dụng cho G5.
@@ -81,7 +83,7 @@ Lịch G5 dùng Luxon với Asia/Ho_Chi_Minh, wall-clock `YYYY-MM-DDTHH:mm`, c�
 
 - Thiết kế theo nhu cầu dùng hằng ngày của MyOS; phân cấp nội dung rõ, khoảng trắng hợp lý và thao tác chính dễ tìm.
 - Sidebar desktop và drawer mobile dùng navy #102F49; nội dung desktop dùng toàn bộ chiều rộng khả dụng với padding hợp lý, không giới hạn hẹp như giao diện mobile. Bỏ khẩu hiệu, chữ giới thiệu và hướng dẫn lặp lại; giữ nhãn thao tác, trạng thái lưu/lỗi và thông tin cần để tránh hiểu sai tính năng.
-- Tổng quan cần dày thông tin và dùng số liệu thật. Bốn thẻ số liệu dùng nền màu tươi xanh lam, turquoise, cam và tím; chữ/icon tương phản. Panel nội dung giữ nền trắng, riêng các thẻ ghi chú dùng pastel. Dùng màu đậm ở icon, nhãn, viền và thanh tiến độ, cùng đổ bóng nhẹ để có chiều sâu. Dùng tokens chung; màu trạng thái nhất quán, chữ/icon có độ tương phản dễ đọc. Không dùng màu như dấu hiệu duy nhất để truyền đạt trạng thái.
+- Tổng quan cần dày thông tin và dùng số liệu thật. Bốn thẻ số liệu dùng nền màu tươi xanh lam, turquoise, cam và tím; chữ/icon tương phản. Panel nội dung giữ nền trắng, riêng các thẻ ghi chú dùng pastel. Bỏ viền màu trên thẻ; dùng màu đậm ở icon, nhãn và thanh tiến độ, cùng đổ bóng nhẹ để có chiều sâu. Tiêu đề phân hệ chỉ hiển thị trên thanh công cụ; giữ h1 ẩn cho ngữ nghĩa và giữ tên nội dung trong trang chi tiết. Menu đặt Ghi chú trước Dự án. Dùng tokens chung; màu trạng thái nhất quán, chữ/icon có độ tương phản dễ đọc. Không dùng màu như dấu hiệu duy nhất để truyền đạt trạng thái.
 - Tránh giao diện “AI slop”: không mặc định gradient tím/xanh, glow, glassmorphism, khối trang trí lớn hoặc thẻ bo tròn lặp lại mà không có mục đích. Mỗi phần trang trí phải phục vụ nội dung và nhận diện.
 - Chọn font hỗ trợ đầy đủ dấu tiếng Việt, rõ ở cỡ chữ nội dung; giữ một hệ typography nhất quán. Không phối nhiều font hoặc dùng chữ quá nhỏ/mảnh để tạo vẻ hiện đại.
 - Quản lý màu, font, spacing, radius và shadow bằng tokens dùng chung; không mỗi trang tự chọn một hệ style riêng.

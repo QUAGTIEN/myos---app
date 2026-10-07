@@ -279,3 +279,101 @@ export const localCalendarRepository: CalendarRepository = {
     });
   },
 };
+
+// Copy the saved timetable and its settings in one transaction; copies have independent identities.
+export async function copyCalendarGroup(
+  settings: CalendarSettings,
+  sourceId: string,
+  name: string,
+) {
+  const group = settings.groups.find((item) => item.id === sourceId);
+  if (!group) throw new Error("Bộ lịch không còn tồn tại.");
+  const id = crypto.randomUUID();
+  const next = settingsSchema.parse({
+    ...settings,
+    version: settings.version + 1,
+    groups: [...settings.groups, { ...group, id, name }],
+  });
+  const db = await openLocalDatabase();
+  return new Promise<string>((resolve, reject) => {
+    const tx = db.transaction(
+      ["calendarSettings", "calendarEvents"],
+      "readwrite",
+    );
+    let failure: unknown;
+    const preferences = tx.objectStore("calendarSettings").get("calendar");
+    preferences.onsuccess = () => {
+      try {
+        const version = preferences.result
+          ? settingsSchema.parse(preferences.result).version
+          : 0;
+        if (version !== settings.version)
+          throw new Error(
+            "Bộ lịch đã đổi ở tab khác. Đóng hộp thoại và mở lại bản mới.",
+          );
+        tx.objectStore("calendarSettings").put(next);
+        const events = tx.objectStore("calendarEvents").getAll();
+        events.onsuccess = () => {
+          try {
+            const at = new Date().toISOString();
+            for (const event of eventSchema
+              .array()
+              .parse(events.result)
+              .filter(
+                (item) => item.groupId === sourceId && !item.cancelledAt,
+              )) {
+              const clone = eventSchema.parse({
+                ...event,
+                id: crypto.randomUUID(),
+                version: 1,
+                createdAt: at,
+                updatedAt: at,
+                groupId: id,
+                completed: false,
+                projectIds: [],
+                noteIds: [],
+                sourceMilestone: null,
+                exceptions: event.exceptions.map((exception) => ({
+                  ...exception,
+                  input: exception.input
+                    ? {
+                        ...exception.input,
+                        groupId: id,
+                        completed: false,
+                        projectIds: [],
+                        noteIds: [],
+                      }
+                    : null,
+                  fields: exception.input
+                    ? [
+                        ...new Set([
+                          ...exception.fields,
+                          "groupId",
+                          "completed",
+                          "projectIds",
+                          "noteIds",
+                        ]),
+                      ]
+                    : [],
+                })),
+              });
+              tx.objectStore("calendarEvents").add(clone);
+            }
+          } catch (cause) {
+            failure = cause;
+            tx.abort();
+          }
+        };
+      } catch (cause) {
+        failure = cause;
+        tx.abort();
+      }
+    };
+    tx.oncomplete = () => {
+      announceLocalChange(calendarChangedEvent);
+      resolve(id);
+    };
+    tx.onabort = () =>
+      reject(failure ?? tx.error ?? new Error("Không sao chép được bộ lịch."));
+  });
+}

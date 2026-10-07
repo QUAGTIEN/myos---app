@@ -58,6 +58,77 @@ const updateSchema = z.object({
   message: z.string().max(300),
   at: z.string().datetime(),
 });
+export const workspaceSchema = z.object({
+  goal: z.string().max(20000).default(""),
+  documents: z
+    .array(
+      z.object({
+        id: z.string().uuid(),
+        title: z.string().trim().min(1).max(120),
+        content: z.string().max(40000),
+      }),
+    )
+    .max(50)
+    .default([]),
+  resources: z
+    .array(
+      z.object({
+        id: z.string().uuid(),
+        title: z.string().trim().min(1).max(120),
+        url: z
+          .string()
+          .url()
+          .max(2000)
+          .refine(
+            (value) => /^https?:\/\//i.test(value),
+            "Chỉ dùng liên kết HTTP hoặc HTTPS.",
+          ),
+      }),
+    )
+    .max(100)
+    .default([]),
+  hardwareEnabled: z.boolean().default(false),
+  hardware: z
+    .array(
+      z.object({
+        id: z.string().uuid(),
+        name: z.string().trim().min(1).max(120),
+        specification: z.string().max(2000),
+        quantity: z.number().int().min(1).max(100000),
+        unitPrice: z.number().min(0).max(1e12),
+      }),
+    )
+    .max(100)
+    .default([]),
+  journal: z
+    .array(
+      z.object({
+        id: z.string().uuid(),
+        title: z.string().trim().min(1).max(120),
+        content: z.string().max(20000),
+        result: z.enum(["log", "passed", "failed"]),
+        at: z.string().datetime(),
+      }),
+    )
+    .max(200)
+    .default([]),
+  attachments: z
+    .array(
+      z.object({
+        id: z.string().uuid(),
+        name: z.string().min(1).max(255),
+        size: z
+          .number()
+          .int()
+          .min(0)
+          .max(20 * 1024 * 1024),
+        type: z.string().max(255),
+      }),
+    )
+    .max(50)
+    .default([]),
+});
+export type ProjectWorkspace = z.infer<typeof workspaceSchema>;
 export const projectSchema = z
   .object({
     ...projectInputSchema.shape,
@@ -72,6 +143,7 @@ export const projectSchema = z
     updates: z.array(updateSchema).max(100),
     relatedNoteIds: z.array(z.string()),
     relatedEventIds: z.array(z.string()),
+    workspace: workspaceSchema.default(() => workspaceSchema.parse({})),
   })
   .refine(
     (project) =>

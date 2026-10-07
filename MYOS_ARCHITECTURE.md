@@ -1,6 +1,8 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
-Ngày cập nhật: **07/10/2026** · Phiên bản: **1.11 — Tổng quan dữ liệu local; G2 chuyển xuống cuối**
+Ngày cập nhật: **07/10/2026** · Phiên bản: **1.12 — Bộ thời khóa biểu và hồ sơ dự án local; G2 chuyển xuống cuối**
+
+**Mở rộng hiện tại:** Lịch tách xem ngày/tháng/năm và Công việc theo nhiều bộ thời khóa biểu. Groups là bộ lịch đã lưu; sao chép settings/events nguyên tử, identity mới, không sao chép liên kết nguồn. Dự án có Kanban và workspace được validate với defaults để đọc bản cũ; Blob ở projectAttachments, ghi/xóa cùng metadata trong transaction kiểm tra version. IndexedDB v4 giữ stores cũ. Chi tiết tại [ADR 005](docs/decisions/005-timetables-project-dossiers.md).
 
 Tài liệu được cập nhật theo lựa chọn của người dùng: Firebase và đúng **5 phân hệ: Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**. Ngữ cảnh sản phẩm nằm trong [cuộc trò chuyện gốc](https://chatgpt.com/share/6ac3f0a0-ebb0-83ec-970a-56dcaaa98894).
 

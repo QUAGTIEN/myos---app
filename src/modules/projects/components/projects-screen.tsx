@@ -5,6 +5,7 @@ import {
   ArrowRight,
   CalendarDays,
   FolderKanban,
+  GripVertical,
   Pin,
   PinOff,
   Plus,
@@ -41,6 +42,7 @@ function searchable(value: string) {
 export function ProjectsScreen() {
   const { projects, loading, error, pending, message, run, refresh } =
     useProjects();
+  const [layout, setLayout] = useState<"cards" | "kanban">("cards");
   const [creating, setCreating] = useState(false);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
@@ -89,6 +91,110 @@ export function ProjectsScreen() {
     );
   }
 
+  function renderCard(project: Project) {
+    return (
+      <article
+        key={project.id}
+        draggable={layout === "kanban" && !pending && !project.archivedAt}
+        onDragStart={(event) =>
+          event.dataTransfer.setData("text/myos-project", project.id)
+        }
+        className={"panel project-card project-color-" + project.color}
+      >
+        <div className="project-card-top">
+          {layout === "kanban" && !project.archivedAt && (
+            <span
+              className="kanban-handle"
+              draggable={!pending}
+              aria-label={"Kéo " + project.title}
+              title="Kéo để đổi trạng thái"
+            >
+              <GripVertical size={18} />
+            </span>
+          )}
+          <span className={"project-status status-" + project.status}>
+            {project.archivedAt ? "Lưu trữ" : projectStatuses[project.status]}
+          </span>
+          <button
+            type="button"
+            className="icon-button"
+            aria-label={
+              project.pinned
+                ? "Bỏ ghim " + project.title
+                : "Ghim " + project.title
+            }
+            aria-pressed={project.pinned}
+            disabled={pending}
+            onClick={() =>
+              void run(
+                () => projectService.togglePin(project),
+                project.pinned ? "Đã bỏ ghim." : "Đã ghim dự án.",
+              )
+            }
+          >
+            {project.pinned ? <PinOff size={17} /> : <Pin size={17} />}
+          </button>
+        </div>
+        <Link className="project-card-main" href={"/projects/" + project.id}>
+          <h2>{project.title}</h2>
+          <p>
+            {project.description ||
+              "Chưa có nội dung. Thêm mục tiêu và những điều cần lưu ý."}
+          </p>
+        </Link>
+        {layout === "kanban" && (
+          <label className="kanban-status-label">
+            Trạng thái
+            <select
+              aria-label={"Trạng thái " + project.title}
+              value={project.status}
+              disabled={pending || !!project.archivedAt}
+              onChange={(event) =>
+                void run(
+                  () =>
+                    projectService.setStatus(
+                      project,
+                      event.target.value as Project["status"],
+                    ),
+                  "Đã chuyển dự án.",
+                )
+              }
+            >
+              {Object.entries(projectStatuses).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+        <ProgressIndicator project={project} />
+        <div className="project-card-footer">
+          <span>
+            <CalendarDays size={15} aria-hidden="true" />
+            {project.dueDate
+              ? formatProjectDate(project.dueDate)
+              : "Chưa đặt hạn"}
+          </span>
+          <button
+            type="button"
+            className="icon-button"
+            disabled={pending}
+            aria-label={
+              (project.archivedAt ? "Khôi phục " : "Lưu trữ ") + project.title
+            }
+            onClick={() => archive(project)}
+          >
+            <Archive size={16} />
+          </button>
+        </div>
+        <Link href={"/projects/" + project.id} className="project-card-link">
+          Mở dự án
+          <ArrowRight size={15} aria-hidden="true" />
+        </Link>
+      </article>
+    );
+  }
   return (
     <div className="projects-module">
       <PageHeading
@@ -148,6 +254,28 @@ export function ProjectsScreen() {
               </div>
             ))}
           </div>
+          <div
+            className="project-layout-buttons"
+            role="group"
+            aria-label="Hiển thị dự án"
+          >
+            <button
+              type="button"
+              className="button secondary small"
+              aria-pressed={layout === "cards"}
+              onClick={() => setLayout("cards")}
+            >
+              Thẻ
+            </button>
+            <button
+              type="button"
+              className="button secondary small"
+              aria-pressed={layout === "kanban"}
+              onClick={() => setLayout("kanban")}
+            >
+              Kanban
+            </button>
+          </div>
           <div className="project-toolbar">
             <div
               className="project-filters"
@@ -204,86 +332,60 @@ export function ProjectsScreen() {
               </button>
             </div>
           </div>
-          {listed.length ? (
-            <div className="project-card-grid">
-              {listed.map((project) => (
-                <article
-                  key={project.id}
-                  className={
-                    "panel project-card project-color-" + project.color
-                  }
-                >
-                  <div className="project-card-top">
-                    <span className={"project-status status-" + project.status}>
-                      {project.archivedAt
-                        ? "Lưu trữ"
-                        : projectStatuses[project.status]}
-                    </span>
-                    <button
-                      type="button"
-                      className="icon-button"
-                      aria-label={
-                        project.pinned
-                          ? "Bỏ ghim " + project.title
-                          : "Ghim " + project.title
-                      }
-                      aria-pressed={project.pinned}
-                      disabled={pending}
-                      onClick={() =>
+          {layout === "kanban" ? (
+            <div className="project-kanban">
+              {Object.entries(projectStatuses).map(([status, label]) => {
+                const column = visible.filter(
+                  (project) => project.status === status,
+                );
+                return (
+                  <section
+                    className="kanban-column"
+                    key={status}
+                    aria-label={"Kanban " + label}
+                    onDragOver={(event) => {
+                      if (
+                        event.dataTransfer.types.includes("text/myos-project")
+                      )
+                        event.preventDefault();
+                    }}
+                    onDrop={(event) => {
+                      event.preventDefault();
+                      const project = visible.find(
+                        (item) =>
+                          item.id ===
+                          event.dataTransfer.getData("text/myos-project"),
+                      );
+                      if (
+                        project &&
+                        !pending &&
+                        !project.archivedAt &&
+                        project.status !== status
+                      )
                         void run(
-                          () => projectService.togglePin(project),
-                          project.pinned ? "Đã bỏ ghim." : "Đã ghim dự án.",
-                        )
-                      }
-                    >
-                      {project.pinned ? (
-                        <PinOff size={17} />
-                      ) : (
-                        <Pin size={17} />
-                      )}
-                    </button>
-                  </div>
-                  <Link
-                    className="project-card-main"
-                    href={"/projects/" + project.id}
+                          () =>
+                            projectService.setStatus(
+                              project,
+                              status as Project["status"],
+                            ),
+                          "Đã chuyển dự án.",
+                        );
+                    }}
                   >
-                    <h2>{project.title}</h2>
-                    <p>
-                      {project.description ||
-                        "Chưa có nội dung. Thêm mục tiêu và những điều cần lưu ý."}
-                    </p>
-                  </Link>
-                  <ProgressIndicator project={project} />
-                  <div className="project-card-footer">
-                    <span>
-                      <CalendarDays size={15} aria-hidden="true" />
-                      {project.dueDate
-                        ? formatProjectDate(project.dueDate)
-                        : "Chưa đặt hạn"}
-                    </span>
-                    <button
-                      type="button"
-                      className="icon-button"
-                      disabled={pending}
-                      aria-label={
-                        (project.archivedAt ? "Khôi phục " : "Lưu trữ ") +
-                        project.title
-                      }
-                      onClick={() => archive(project)}
-                    >
-                      <Archive size={16} />
-                    </button>
-                  </div>
-                  <Link
-                    href={"/projects/" + project.id}
-                    className="project-card-link"
-                  >
-                    Mở dự án
-                    <ArrowRight size={15} aria-hidden="true" />
-                  </Link>
-                </article>
-              ))}
+                    <h2>
+                      {label}
+                      <span>{column.length}</span>
+                    </h2>
+                    {column.map(renderCard)}
+                    {!column.length && (
+                      <p className="kanban-empty">Chưa có dự án</p>
+                    )}
+                  </section>
+                );
+              })}
             </div>
+          ) : listed.length ? (
+            <div className="project-card-grid">{listed.map(renderCard)}</div>
           ) : (
             !error && (
               <section className="panel large-empty">
@@ -307,29 +409,31 @@ export function ProjectsScreen() {
               </section>
             )
           )}
-          <div className="project-pagination">
-            <span>
-              {visible.length} dự án · Trang {currentPage}/{pageCount}
-            </span>
-            <div>
-              <button
-                type="button"
-                className="button secondary small"
-                disabled={currentPage === 1}
-                onClick={() => setPage(currentPage - 1)}
-              >
-                Trước
-              </button>
-              <button
-                type="button"
-                className="button secondary small"
-                disabled={currentPage === pageCount}
-                onClick={() => setPage(currentPage + 1)}
-              >
-                Sau
-              </button>
+          {layout === "cards" && (
+            <div className="project-pagination">
+              <span>
+                {visible.length} dự án · Trang {currentPage}/{pageCount}
+              </span>
+              <div>
+                <button
+                  type="button"
+                  className="button secondary small"
+                  disabled={currentPage === 1}
+                  onClick={() => setPage(currentPage - 1)}
+                >
+                  Trước
+                </button>
+                <button
+                  type="button"
+                  className="button secondary small"
+                  disabled={currentPage === pageCount}
+                  onClick={() => setPage(currentPage + 1)}
+                >
+                  Sau
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </>
       )}
       {creating && (

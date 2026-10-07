@@ -4,6 +4,8 @@ const appointment = (page: Page, title: string) =>
   page.locator(".fc-event").filter({ hasText: title });
 async function calendar(page: Page) {
   await page.goto("/calendar");
+  await page.getByRole("button", { name: "Công việc", exact: true }).click();
+  await page.getByRole("button", { name: "Tháng", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }),
   ).toBeEnabled();
@@ -360,9 +362,11 @@ test("calendar settings and custom group persist and apply to new appointments",
   });
   await form.getByRole("button", { name: "Lưu lịch hẹn" }).click();
   await expect(form).not.toBeVisible();
-  await page.getByLabel("Lọc nhóm").selectOption("work");
+  await page.getByLabel("Bộ thời khóa biểu").selectOption("work");
   await expect(appointment(page, "Tập thể dục")).toHaveCount(0);
-  await page.getByLabel("Lọc nhóm").selectOption({ label: "Sức khỏe" });
+  await page
+    .getByLabel("Bộ thời khóa biểu")
+    .selectOption({ label: "Sức khỏe" });
   await expect(appointment(page, "Tập thể dục")).toHaveCount(1);
 });
 
@@ -554,7 +558,7 @@ test("version 2 upgrade retains notes, image blobs and projects; denied storage 
     db.close();
     return version;
   });
-  expect(version).toBe(3);
+  expect(version).toBe(4);
   await page.goto("/projects/" + ids.projectId);
   await expect(page.getByRole("progressbar")).toHaveAttribute(
     "aria-valuenow",
@@ -579,6 +583,7 @@ test("version 2 upgrade retains notes, image blobs and projects; denied storage 
     }),
   );
   await denied.goto("/calendar");
+  await denied.getByRole("button", { name: "Công việc", exact: true }).click();
   await expect(denied.locator(".schedule-error")).toContainText(
     "quyền lưu trữ",
   );

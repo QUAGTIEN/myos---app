@@ -308,7 +308,7 @@ test("overview checklist commits progress, preserves failed changes and refreshe
   await other.goto("/login");
   await other.evaluate(async (note) => {
     const db = await new Promise<IDBDatabase>((resolve) => {
-      const request = indexedDB.open("myos-local", 3);
+      const request = indexedDB.open("myos-local");
       request.onsuccess = () => resolve(request.result);
     });
     await new Promise<void>((resolve, reject) => {

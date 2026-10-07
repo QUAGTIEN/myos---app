@@ -22,7 +22,9 @@
 
 ## Dự án
 
-Ca sử dụng: tạo/sửa dự án, nội dung, checklist, mốc, cập nhật và tiến độ.
+Ca sử dụng: Thẻ/Kanban, tạo/sửa dự án, nội dung, checklist, mốc, cập nhật, tiến độ và hồ sơ chi tiết.
+
+Hồ sơ ở components/project-workspace.tsx: mục tiêu, tài liệu plain text, liên kết HTTP(S), linh kiện và chi phí VND tùy chọn, nhật ký/kiểm thử, tệp Blob tối đa 20 MB/tệp và 50 tệp/dự án. workspaceSchema default đọc được dự án cũ. Database v4 thêm projectAttachments; metadata/Blob ghi-xóa cùng transaction Projects với version check. Bản nháp hồ sơ giữ khi lỗi/conflict; dự án lưu trữ chỉ đọc. Xem [ADR 005](../../docs/decisions/005-timetables-project-dossiers.md).
 
 G3 đã triển khai bằng IndexedDB local, chưa có Firebase hoặc auth. Checklist thuộc dự án, không mở thêm phân hệ công việc độc lập.
 
@@ -61,9 +63,11 @@ Kiểm chứng trong `tests/e2e/notes.spec.ts`; quyết định tại [ADR G4](.
 
 ## Lịch
 
-Ca sử dụng: tạo/sửa lịch hẹn, thời khóa biểu lặp tuần, ngoại lệ, nhóm màu, đánh dấu, nhắc và xuất .ics.
+Ca sử dụng: tab Lịch xem ngày/tháng/năm, tab Công việc lập nhiều bộ thời khóa biểu tuần/tháng; lịch lặp tuần, ngoại lệ, đánh dấu, nhắc và xuất .ics.
 
-G5 đã triển khai local, G2 hoãn. `model.ts` Zod/timezone; `recurrence.ts` mở rộng tuần hữu hạn/ngoại lệ; `service.ts` mutations; `repository.ts` IndexedDB version 3 và liên kết Projects nguyên tử; `ics.ts` iCalendar; `use-calendar.ts` đọc/error/cập nhật tab; `components` FullCalendar, form, chi tiết, dialogs.tsx (khung dialog và xuất lịch), settings và lịch liên quan. CSS scoped `schedule-*`.
+calendar-book.tsx giữ lưới năm và form bộ lịch. Groups hiện hữu là bộ lịch lưu riêng: tên/màu, sự kiện theo groupId; tạo nhanh dùng bộ đang chọn. Sao chép nhóm và masters/ngoại lệ nguyên tử; bản sao cùng khoảng ngày có ID riêng, không mang liên kết và trạng thái hoàn thành từ bản gốc. Chưa có dịch toàn bộ bộ lịch sang kỳ mới. Tab đang chọn được giữ trong sessionStorage; nội dung vẫn ở IndexedDB.
+
+G5 đã triển khai local, G2 hoãn. `model.ts` Zod/timezone; `recurrence.ts` mở rộng tuần hữu hạn/ngoại lệ; `service.ts` mutations; `repository.ts` IndexedDB version 4 và liên kết Projects nguyên tử; `ics.ts` iCalendar; `use-calendar.ts` đọc/error/cập nhật tab; `components` FullCalendar, form, chi tiết, dialogs.tsx (khung dialog và xuất lịch), settings và lịch liên quan. CSS scoped `schedule-*`.
 
 Việt Nam UTC+7; end exclusive, form cả ngày hiển thị ngày cuối inclusive. Chuỗi nhiều thứ tối đa 5 năm có ngày kết thúc, mỗi buổi tối đa 7 ngày. Exception giữ originalStart và chỉ override fields đã đổi. Đổi lịch gốc reset ngoại lệ sau xác nhận. Hủy soft, hoàn thành riêng từng buổi; lỗi/version conflict giữ nháp, kéo/resize rollback.
 

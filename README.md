@@ -16,6 +16,8 @@ Dữ liệu local thuộc từng browser profile và origin: localhost và 127.0
 
 **G5 đã triển khai local:** FullCalendar tháng/tuần/ngày/danh sách, lịch giờ/cả ngày, nhóm màu, đánh dấu, trùng giờ, kéo/resize rollback; chuỗi tuần và sửa/hủy/hoàn thành riêng từng buổi. Có liên kết Dự án/Ghi chú, tạo từ mốc giữ hạn mốc độc lập, `.ics` theo ngày/nhóm và cài đặt lịch. Database version 3 giữ dữ liệu cũ. Nhắc chỉ lưu cấu hình, chưa gửi tự động/Zalo. [ADR G5](docs/decisions/004-local-calendar.md).
 
+**Lịch và Dự án đã mở rộng local:** Lịch chia tab Lịch (ngày/tháng/năm) và Công việc (tuần/tháng/ngày/danh sách). Tạo, đổi tên/màu và sao chép bộ thời khóa biểu; bản sao giữ khoảng ngày và ngoại lệ, bỏ liên kết nguồn và đặt lại hoàn thành. Dự án có Thẻ/Kanban, kéo trên desktop hoặc chọn trạng thái trên mobile; hồ sơ mục tiêu, tài liệu, link HTTP(S), linh kiện/chi phí tùy chọn, nhật ký/kiểm thử và tệp đính kèm tối đa 20 MB/tệp. Database v4 thêm kho Blob dự án, giữ dữ liệu cũ. [Quyết định mở rộng](docs/decisions/005-timetables-project-dossiers.md).
+
 **Tổng quan đã có dữ liệu local:** 4 số liệu, lịch ngày/qua đêm/lặp có ngoại lệ, checklist cần làm/quá hạn, tiến độ dự án, ghi chú mới/ghim và mốc gần hạn. Có tạo nhanh, mở/sửa/hoàn thành lịch và hoàn thành checklist; cập nhật theo tab nguồn và đổi ngày Việt Nam. Mỗi nguồn có loading/error/retry riêng. Tìm kiếm chung và vùng thông báo tích hợp vẫn chưa triển khai.
 
 ## Chạy local
@@ -52,7 +54,9 @@ Tổng quan đã kiểm chứng lint/typecheck/format/build và toàn bộ E2E: 
 
 pnpm start chạy bản production ở port 3000 sau build. CI kiểm tra lint, typecheck, build và E2E bằng Node 22; không deploy tự động.
 
-Giao diện dùng sidebar navy, desktop rộng, panel trắng và điểm nhấn màu rõ ở icon/viền/tiến độ. Bốn thẻ số liệu Tổng quan dùng nền màu tươi, các thẻ ghi chú giữ pastel; bỏ chữ giới thiệu lặp lại. Tổng quan hiển thị dữ liệu thực tế.
+Lượt mở rộng Lịch/Dự án đã kiểm chứng lint/typecheck/format/build và toàn bộ E2E: 77 đạt, 7 skip theo cấu hình G5. Đã kiểm tra ảnh desktop/mobile, kéo Kanban, sao chép bộ lịch rollback, xuất khoảng năm, hồ sơ IoT, link an toàn, tệp tải/xóa/rollback, conflict hai tab và upgrade v3→v4; dữ liệu Notes/Projects/Calendar cũ vẫn giữ.
+
+Giao diện dùng sidebar navy, desktop rộng, panel trắng và điểm nhấn màu rõ ở icon/viền/tiến độ. Bốn thẻ số liệu Tổng quan dùng nền màu tươi, các thẻ ghi chú giữ pastel. Thẻ không có viền màu, tiêu đề phân hệ chỉ hiển thị trên thanh công cụ; menu đặt Ghi chú trước Dự án. Tổng quan hiển thị dữ liệu thực tế.
 
 ## Công nghệ đã chọn
 

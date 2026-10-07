@@ -32,8 +32,8 @@ export function PageHeading({
   action?: ReactNode;
 }) {
   return (
-    <div className="page-heading">
-      <div>
+    <div className={action ? "page-heading" : "sr-only"}>
+      <div className="sr-only">
         <h1>{title}</h1>
       </div>
       {action && <div className="heading-action">{action}</div>}

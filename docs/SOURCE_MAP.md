@@ -38,7 +38,7 @@ MYOS/
 │   └── lib/local-database.ts        # IndexedDB dùng chung, version 3
 ├── tests/
 │   ├── README.md                   # Cách chạy và phạm vi kiểm thử
-│   └── e2e/                       # 6 file test đang hoạt động
+│   └── e2e/                       # 7 file test đang hoạt động
 └── docs/
     ├── SOURCE_MAP.md
     ├── IMPLEMENTATION_PLAN.md
@@ -47,7 +47,7 @@ MYOS/
 
 node_modules, .next, test-results và playwright-report là dependency/output, không phải source và không commit. Chỉ giữ thư mục khi có file thực tế cần dùng.
 
-Rà soát bổ sung: 53 file TypeScript/React đều có vai trò route hoặc import thực tế. Đã bỏ 33 rule CSS (174 dòng) của các màn hình khung cũ khỏi globals.css và loại exclude dành cho packages/functions chưa tồn tại trong tsconfig. test-results và tsconfig.tsbuildinfo có thể dọn sau kiểm tra; .next cần cho production preview đang chạy, node_modules cần để chạy/build. Không xóa lockfile hoặc cấu hình kiểm thử để giảm số file.
+Rà soát bổ sung: 55 file TypeScript/React đều có vai trò route hoặc import thực tế. Đã bỏ 33 rule CSS (174 dòng) của các màn hình khung cũ khỏi globals.css và loại exclude dành cho packages/functions chưa tồn tại trong tsconfig. test-results và tsconfig.tsbuildinfo có thể dọn sau kiểm tra; .next cần cho production preview đang chạy, node_modules cần để chạy/build. Không xóa lockfile hoặc cấu hình kiểm thử để giảm số file.
 
 ## Tìm code theo nhiệm vụ
 
@@ -58,6 +58,8 @@ Rà soát bổ sung: 53 file TypeScript/React đều có vai trò route hoặc i
 | Lịch hẹn/thời khóa biểu | src/modules/calendar |
 | Ngoại lệ chuỗi tuần | calendar/model.ts, recurrence.ts, service.ts |
 | Xuất iCalendar | calendar/ics.ts |
+| Lịch năm và bộ thời khóa biểu | calendar/components/calendar-book.tsx; groups trong calendarSettings |
+| Hồ sơ, linh kiện và tệp dự án | projects/components/project-workspace.tsx; model/service/repository Projects; store projectAttachments |
 | Cài đặt lịch và lịch liên quan | calendar/components/calendar-settings.tsx, related-calendar.tsx |
 | Dự án, checklist/mốc, tiến độ | src/modules/projects |
 | Ghi chú, ảnh, lịch sử, autosave | src/modules/notes |
@@ -114,4 +116,4 @@ Worker không import Next.js/UI; domain giữ TypeScript thuần, không SDK/DOM
 - Cây mục tiêu trong MYOS_ARCHITECTURE.md là kế hoạch; tài liệu này là nguồn chính cho cấu trúc đang có.
 - Khi có worker/domain thật, thêm package workspace tương ứng; hiện chỉ có ứng dụng web ở root.
 
-Bước tiếp theo là G6 Tổng quan khi được yêu cầu. Auth/Firebase tiếp tục ở G2 cuối; nhắc tự động/Zalo chưa hoạt động.
+Tổng quan local và lượt mở rộng Lịch/Dự án đã triển khai. Auth/Firebase tiếp tục ở G2 cuối; nhắc tự động/Zalo chưa hoạt động.

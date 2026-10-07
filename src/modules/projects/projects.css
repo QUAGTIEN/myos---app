@@ -99,22 +99,19 @@
 }
 .project-card {
   padding: 24px;
-  border-top: 3px solid var(--primary);
+  border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
   min-width: 0;
   background: var(--surface);
 }
 .project-color-blue {
-  border-top-color: var(--blue-ink);
   background: var(--surface);
 }
 .project-color-amber {
-  border-top-color: var(--warm-ink);
   background: var(--surface);
 }
 .project-color-rose {
-  border-top-color: #a6607b;
   background: var(--surface);
 }
 .project-card-top {
@@ -666,4 +663,247 @@
 }
 .project-summary > div:nth-child(3) strong {
   color: var(--warm-ink);
+}
+.project-layout-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.project-layout-buttons button[aria-pressed="true"] {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+.project-kanban {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+.kanban-column {
+  background: var(--surface-soft);
+  border-radius: var(--radius);
+  padding: 14px;
+  min-width: 0;
+  min-height: 200px;
+}
+.kanban-column > h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+.kanban-column > h2 span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.kanban-column .project-card {
+  margin-bottom: 14px;
+  padding: 18px;
+}
+.kanban-empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 12px 0;
+}
+.kanban-status-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+.kanban-status-label select {
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+.project-workspace-panel {
+  padding: 24px;
+}
+.workspace-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.workspace-tabs button {
+  background: var(--surface-soft);
+  color: var(--muted);
+  padding: 8px 12px;
+  border-radius: 7px;
+  font-size: 13px;
+}
+.workspace-tabs button[aria-pressed="true"] {
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 600;
+}
+.workspace-form fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.workspace-form label:not(.workspace-upload) {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.workspace-form input:not([type="checkbox"]):not([type="file"]),
+.workspace-form textarea,
+.workspace-form select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 9px 11px;
+  color: var(--ink);
+  background: var(--surface);
+  font: inherit;
+}
+.workspace-form textarea {
+  resize: vertical;
+}
+.workspace-entry {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.workspace-entry:first-child {
+  padding-top: 0;
+}
+.workspace-entry h3 {
+  font-size: 15px;
+  margin: 0 0 10px;
+}
+.workspace-entry time {
+  font-size: 12px;
+  color: var(--muted);
+}
+.workspace-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+.workspace-resource {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--blue-ink);
+  font-size: 14px;
+}
+.workspace-resource span {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.workspace-empty {
+  color: var(--muted);
+  font-size: 14px;
+  padding: 12px 0;
+}
+.workspace-form fieldset > .button {
+  margin-top: 12px;
+}
+.workspace-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.workspace-form .workspace-checkbox {
+  flex-direction: row;
+  align-items: center;
+}
+.workspace-total {
+  font-size: 14px;
+  margin-top: 16px;
+}
+.workspace-save {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.workspace-file {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.workspace-file > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.workspace-file span,
+.workspace-file-limit {
+  font-size: 12px;
+  color: var(--muted);
+}
+.workspace-upload {
+  position: relative;
+  overflow: hidden;
+}
+.workspace-upload input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+}
+.workspace-upload:has(input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.workspace-upload:focus-within {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.workspace-result {
+  display: inline-block;
+  font-size: 12px;
+  padding: 3px 7px;
+  margin: 0 8px 10px 0;
+  border-radius: 5px;
+  background: var(--surface-soft);
+}
+.result-passed {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+.result-failed {
+  background: var(--rose);
+  color: var(--danger);
+}
+@media (max-width: 950px) {
+  .project-kanban {
+    grid-template-columns: 1fr;
+  }
+  .kanban-column {
+    min-height: 0;
+  }
+}
+@media (max-width: 600px) {
+  .project-workspace-panel {
+    padding: 18px;
+  }
+  .workspace-field-row {
+    grid-template-columns: 1fr;
+  }
+}
+.kanban-handle {
+  display: grid;
+  place-items: center;
+  cursor: grab;
+  color: var(--muted);
+}
+.kanban-handle:active {
+  cursor: grabbing;
 }

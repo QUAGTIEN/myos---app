@@ -34,6 +34,7 @@ import {
 import { projectService } from "../service";
 import { useProjects } from "../use-projects";
 import { ItemDialog } from "./item-dialog";
+import { ProjectWorkspacePanel } from "./project-workspace";
 import { ProjectDialog } from "./project-dialog";
 import { ProgressIndicator } from "./progress-indicator";
 
@@ -175,6 +176,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
       )}
       <div className="project-detail-grid">
         <div className="project-detail-main">
+          <ProjectWorkspacePanel project={project} />
           <section className="panel project-content-panel">
             <div className="project-section-heading">
               <h2>Nội dung dự án</h2>

@@ -30,7 +30,7 @@
   align-items: center;
   gap: 16px;
   padding: 22px;
-  border: 1px solid var(--metric-background);
+  border: 0;
   border-radius: var(--radius);
   background: var(--metric-background);
   color: var(--metric-foreground, white);
@@ -209,7 +209,7 @@
   color: var(--ink);
 }
 .dashboard-agenda-entry {
-  border-left: 3px solid var(--item-color);
+  border: 0;
   background: var(--surface-soft);
   text-align: left;
   padding: 10px 12px;
@@ -387,7 +387,7 @@
   color: var(--item-color);
 }
 .dashboard-note:hover {
-  border-color: var(--lavender-ink);
+  box-shadow: var(--shadow-raised);
 }
 .dashboard-note > div {
   min-width: 0;

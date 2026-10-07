@@ -779,12 +779,3 @@ button:disabled {
   background: var(--surface);
   color: var(--ink);
 }
-.settings-panel.blue {
-  border-top: 3px solid var(--blue-ink);
-}
-.settings-panel.lavender {
-  border-top: 3px solid var(--lavender-ink);
-}
-.settings-panel.peach {
-  border-top: 3px solid var(--orange-ink);
-}

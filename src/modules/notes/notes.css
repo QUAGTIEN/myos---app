@@ -118,13 +118,11 @@
   flex-direction: column;
   min-width: 0;
   padding: 23px;
-  border-top: 3px solid var(--primary-border);
   transition: border-color 0.15s;
   background: var(--surface);
-  border-top-color: #b5c9ee;
 }
 .note-card:hover {
-  border-color: var(--primary);
+  border-color: var(--line);
   box-shadow: var(--shadow-raised);
 }
 .note-card-top {
@@ -631,11 +629,9 @@
 }
 .note-card:nth-child(3n + 2) {
   background: var(--surface);
-  border-top-color: #eccba8;
 }
 .note-card:nth-child(3n) {
   background: var(--surface);
-  border-top-color: #d3c5ed;
 }
 .note-property-panel + .note-property-panel {
   background: var(--surface);

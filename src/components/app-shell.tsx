@@ -17,8 +17,8 @@ import { useState, type ReactNode } from "react";
 const navigation = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
   { href: "/calendar", label: "Lịch", icon: CalendarDays },
-  { href: "/projects", label: "Dự án", icon: FolderKanban },
   { href: "/notes", label: "Ghi chú", icon: NotebookPen },
+  { href: "/projects", label: "Dự án", icon: FolderKanban },
   { href: "/settings", label: "Cài đặt", icon: Settings2 },
 ] as const;
 

@@ -2,6 +2,8 @@ import {
   emptyProjectInput,
   itemInputSchema,
   projectInputSchema,
+  workspaceSchema,
+  type ProjectWorkspace,
   type ItemInput,
   type Project,
   type ProjectInput,
@@ -18,17 +20,23 @@ export function createProjectService(repository: ProjectRepository) {
     message: string,
     change: (current: Project) => Project,
     allowArchived = false,
+    attachment?: { add?: { id: string; blob: Blob }; remove?: string },
   ) {
-    return repository.update(project.id, project.version, (current) => {
-      if (current.archivedAt && !allowArchived)
-        throw new Error("Khôi phục dự án trước khi chỉnh sửa.");
-      return {
-        ...change(current),
-        version: current.version + 1,
-        updatedAt: new Date().toISOString(),
-        updates: [history(message), ...current.updates].slice(0, 100),
-      };
-    });
+    return repository.update(
+      project.id,
+      project.version,
+      (current) => {
+        if (current.archivedAt && !allowArchived)
+          throw new Error("Khôi phục dự án trước khi chỉnh sửa.");
+        return {
+          ...change(current),
+          version: current.version + 1,
+          updatedAt: new Date().toISOString(),
+          updates: [history(message), ...current.updates].slice(0, 100),
+        };
+      },
+      attachment,
+    );
   }
   return {
     async create(input: ProjectInput) {
@@ -48,6 +56,7 @@ export function createProjectService(repository: ProjectRepository) {
         updates: [history("Đã tạo dự án.")],
         relatedNoteIds: [],
         relatedEventIds: [],
+        workspace: workspaceSchema.parse({}),
       });
     },
     edit(project: Project, input: ProjectInput) {
@@ -56,6 +65,61 @@ export function createProjectService(repository: ProjectRepository) {
         project,
         "Đã cập nhật nội dung và thiết lập dự án.",
         (current) => ({ ...current, ...parsed }),
+      );
+    },
+    setStatus(project: Project, status: Project["status"]) {
+      const parsed = projectInputSchema.shape.status.parse(status);
+      return update(project, "Đã đổi trạng thái dự án.", (current) => ({
+        ...current,
+        status: parsed,
+      }));
+    },
+    saveWorkspace(project: Project, input: ProjectWorkspace) {
+      const parsed = workspaceSchema.parse(input);
+      return update(project, "Đã cập nhật tài liệu dự án.", (current) => ({
+        ...current,
+        workspace: { ...parsed, attachments: current.workspace.attachments },
+      }));
+    },
+    attach(project: Project, file: File) {
+      if (file.size > 20 * 1024 * 1024) throw new Error("Tệp tối đa 20 MB.");
+      if (project.workspace.attachments.length >= 50)
+        throw new Error("Mỗi dự án tối đa 50 tệp.");
+      const id = crypto.randomUUID();
+      return update(
+        project,
+        "Đã thêm tệp: " + file.name,
+        (current) => ({
+          ...current,
+          workspace: {
+            ...current.workspace,
+            attachments: [
+              ...current.workspace.attachments,
+              { id, name: file.name, size: file.size, type: file.type },
+            ],
+          },
+        }),
+        false,
+        { add: { id, blob: file } },
+      );
+    },
+    removeAttachment(project: Project, id: string) {
+      if (!project.workspace.attachments.some((file) => file.id === id))
+        throw new Error("Không tìm thấy tệp.");
+      return update(
+        project,
+        "Đã xóa tệp đính kèm.",
+        (current) => ({
+          ...current,
+          workspace: {
+            ...current.workspace,
+            attachments: current.workspace.attachments.filter(
+              (file) => file.id !== id,
+            ),
+          },
+        }),
+        false,
+        { remove: id },
       );
     },
     togglePin(project: Project) {
