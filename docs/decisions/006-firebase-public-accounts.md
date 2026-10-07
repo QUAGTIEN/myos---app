@@ -19,6 +19,10 @@ Ngày: 07/10/2026. Phạm vi người dùng duyệt: G2 bước 1–5; Vercel do
 
 ## Cấu hình và kiểm chứng
 
+Ngày 08/10/2026: runtime Vercel báo ERR_REQUIRE_ESM khi jwks-rsa nạp jose 6 bằng require(). Khóa riêng dependency `jwks-rsa>jose` ở 5.10.0, có export CommonJS và các API importJWK/exportSPKI mà jwks-rsa sử dụng. Không hạ Firebase Admin hoặc thay đổi xác thực. CI kiểm tra nạp Admin Auth với require(ESM) bị tắt để bắt lỗi này; tham chiếu [Firebase issue 3181](https://github.com/firebase/firebase-admin-node/issues/3181).
+
+Kiểm chứng bản sửa: Admin Auth và chuyển đổi RSA JWK đạt với `--no-experimental-require-module`; lint/typecheck/format/build và 6 E2E Emulator desktop/mobile đạt, audit production sạch. Bước đăng ký đầu tiên chờ tối đa 15 giây cho cold start Emulator; lần chạy đầu hết hạn 5 giây khi vẫn pending, lần chạy lại đạt toàn bộ. Vercel cần deployment mới để xác nhận kết quả thực tế.
+
 Firebase Web config không thay thế Admin credentials. Local dùng `GOOGLE_APPLICATION_CREDENTIALS` tới JSON; Vercel dùng FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL và FIREBASE_PRIVATE_KEY phía server. Console cần Email/Password, Firestore Standard Native `(default)`, Authorized domains và Rules deny-all. Không commit credentials, không deploy/bật billing tự động.
 
 `pnpm test:firebase` chỉ demo-myos với cả Auth/Firestore Emulator, env riêng, không gọi project thật. `pnpm test:local` build và chạy suite hồi quy IndexedDB riêng. CI có Java 21 và hai suite. Project thật chỉ xác nhận hoạt động sau khi có credentials và thử kết nối thực; kiểm thử Emulator không thay bước đó.

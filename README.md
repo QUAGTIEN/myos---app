@@ -103,6 +103,8 @@ Chỉ giữ **4 README**: root, modules, tests và mục lục decisions. Không
 
 ## Bước tiếp theo khi được yêu cầu lập trình
 
+**Sửa runtime Vercel 08/10/2026:** khóa `jwks-rsa>jose` ở 5.10.0 để Firebase Admin nạp được qua CommonJS, tránh ERR_REQUIRE_ESM trên /dashboard. CI kiểm tra nạp Admin với require(ESM) bị tắt. Sau khi cập nhật source, cần deployment mới trên Vercel. Kết nối Admin tới Authentication và đọc Firestore project thật đã kiểm tra thành công trên máy local; chưa xác nhận đăng nhập/CRUD trên Vercel.
+
 Tổng quan đã hoàn thành phạm vi tổng hợp local được yêu cầu. Các hạng mục còn lại thực hiện khi người dùng yêu cầu. G2 (xác thực và chuyển dữ liệu sang Firebase) thực hiện cuối, trước khi sử dụng cloud với dữ liệu riêng tư. Các phụ thuộc cloud trong kế hoạch vẫn cần đáp ứng trước khi triển khai production.
 
 **G2 kiểm chứng:** lint/typecheck/format/build đạt; 77 hồi quy local đạt, 7 skip chủ đích; 6 E2E Auth/Firestore Emulator desktop/mobile đạt. Kiểm tra cách ly hai UID, CSRF, cookie/thu hồi riêng từng phiên, CRUD/reload, profile/đầu tuần, lỗi cloud giữ nháp, liên kết nguyên tử, version conflict, sao chép bộ lịch, revisions và Rules deny-all. Đã xem màn hình đăng nhập/cài đặt desktop/mobile. Production dependency audit không có lỗ hổng đã biết sau khi khóa bản vá transitive SDK. Project thật chưa smoke-test do chưa có Firebase Admin credentials; không deploy hoặc gửi email/tin nhắn thật khi kiểm thử.

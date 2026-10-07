@@ -53,7 +53,8 @@ async function register(page: Page, email: string) {
   await page
     .getByRole("button", { name: "Tạo tài khoản", exact: true })
     .click();
-  await expect(page).toHaveURL(/dashboard$/);
+  // The first Firestore request can include Emulator/server cold start.
+  await expect(page).toHaveURL(/dashboard$/, { timeout: 15000 });
 }
 
 test("public signup, cloud CRUD, settings, logout and login on desktop/mobile", async ({
