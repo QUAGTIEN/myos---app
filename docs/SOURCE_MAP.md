@@ -35,14 +35,15 @@ MYOS/
 │   │   ├── projects/               # model, service, repository, hook, CSS, components
 │   │   ├── notes/                  # Như Projects, thêm autosave và rich editor
 │   │   └── calendar/               # Thêm recurrence, ics và bộ lịch
-│   └── lib/local-database.ts        # IndexedDB dùng chung, version 3
+│   └── lib/local-database.ts        # IndexedDB dùng chung, version 4
+├── public/images/sidebar-city.png  # Ảnh người dùng cung cấp, nền chìm sidebar
 ├── tests/
 │   ├── README.md                   # Cách chạy và phạm vi kiểm thử
 │   └── e2e/                       # 7 file test đang hoạt động
 └── docs/
     ├── SOURCE_MAP.md
     ├── IMPLEMENTATION_PLAN.md
-    └── decisions/                  # Mục lục và 4 quyết định đã áp dụng
+    └── decisions/                  # Mục lục và 5 quyết định đã áp dụng
 ~~~
 
 node_modules, .next, test-results và playwright-report là dependency/output, không phải source và không commit. Chỉ giữ thư mục khi có file thực tế cần dùng.
@@ -102,7 +103,7 @@ Firebase hiện chỉ được mô tả trong kiến trúc và .env.example; ch�
 | Domain dùng chung web/worker | packages/domain khi có code dùng chung thật; hiện quy tắc ở module |
 | Seed/migration | scripts với Emulator, dry-run, schemaVersion, backup và chạy lại an toàn |
 | Rules/integration/unit | tests theo lớp khi có kiểm thử thật |
-| Tài nguyên công khai | public khi có asset; không đặt ảnh ghi chú hoặc secrets ở đây |
+| Tài nguyên công khai bổ sung | public khi cần asset khác; không đặt ảnh ghi chú hoặc secrets ở đây |
 | Deploy/rules/indexes | apphosting.yaml, firebase.json, rules, indexes và cấu hình môi trường thật |
 | Runbook | docs/runbooks khi có quy trình setup/deploy/rollback/backup thực tế |
 
