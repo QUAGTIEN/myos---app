@@ -9,7 +9,7 @@ import {
   type OccurrenceInput,
 } from "./model";
 import { baseOccurrence, isOriginalOccurrence } from "./recurrence";
-import { localCalendarRepository, type CalendarRepository } from "./repository";
+import { calendarRepository, type CalendarRepository } from "./repository";
 
 export function newCalendarEvent(
   input: EventInput,
@@ -134,4 +134,4 @@ export function createCalendarService(repository: CalendarRepository) {
     },
   };
 }
-export const calendarService = createCalendarService(localCalendarRepository);
+export const calendarService = createCalendarService(calendarRepository);

@@ -1,3 +1,5 @@
+import { firebaseEnabled } from "@/lib/firebase/client";
+import { cloudProjectRepository } from "@/lib/firebase/cloud-client";
 import { openLocalDatabase, announceLocalChange } from "@/lib/local-database";
 import { projectSchema, type Project } from "./model";
 
@@ -143,6 +145,7 @@ export async function readProjectAttachment(
   projectId: string,
   id: string,
 ): Promise<Blob> {
+  if (firebaseEnabled) throw new Error("Tệp cloud sẽ được triển khai sau.");
   const db = await openLocalDatabase();
   return new Promise((resolve, reject) => {
     const tx = db.transaction("projectAttachments", "readonly");
@@ -162,3 +165,7 @@ export async function readProjectAttachment(
     tx.onabort = () => reject(tx.error ?? new Error("Không đọc được tệp."));
   });
 }
+
+export const projectRepository: ProjectRepository = firebaseEnabled
+  ? cloudProjectRepository
+  : localProjectRepository;

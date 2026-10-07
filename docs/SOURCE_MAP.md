@@ -1,6 +1,6 @@
 # Bản đồ source MyOS
 
-Cập nhật 07/10/2026. G1, G3, G4, G5 và Tổng quan đã chạy local; G2 hoãn đến cuối. Cây này mô tả source hiện có, không dựng thư mục giữ chỗ cho kế hoạch cloud.
+Cập nhật 07/10/2026. G2 bước 1–5 thêm tài khoản công khai và Firestore; local giữ riêng, không migration. Cây này mô tả source hiện có, không dựng thư mục giữ chỗ cho kế hoạch cloud.
 
 ## Cấu trúc hiện tại
 
@@ -17,7 +17,8 @@ MYOS/
 │   ├── app/                        # Quy ước route/layout của Next.js
 │   │   ├── layout.tsx, page.tsx, globals.css
 │   │   ├── global-error.tsx, not-found.tsx
-│   │   ├── (auth)/login/page.tsx    # Preview, chưa xác thực
+│   │   ├── (auth)/                 # login/register/forgot-password, layout
+│   │   ├── api/{auth,data}/route.ts # Session/CSRF và dữ liệu có kiểm tra UID
 │   │   └── (private)/
 │   │       ├── layout.tsx, error.tsx
 │   │       ├── dashboard/          # page.tsx và loading.tsx
@@ -31,19 +32,26 @@ MYOS/
 │   ├── modules/
 │   │   ├── README.md               # Hướng dẫn chung của cả 5 phân hệ
 │   │   ├── overview/               # overview-screen.tsx, model.ts, overview.css
+│   │   ├── auth/                   # auth-screen.tsx, account-context.tsx, auth.css
 │   │   ├── settings/settings-screen.tsx
 │   │   ├── projects/               # model, service, repository, hook, CSS, components
 │   │   ├── notes/                  # Như Projects, thêm autosave và rich editor
 │   │   └── calendar/               # Thêm recurrence, ics và bộ lịch
-│   └── lib/local-database.ts        # IndexedDB dùng chung, version 4
+│   └── lib/
+│       ├── local-database.ts       # IndexedDB cũ, version 4
+│       └── firebase/               # client, server, session, data, profile, cloud-client
+├── scripts/test-data.mjs           # Build và test local/cloud với env riêng
+├── firebase.json, firestore.rules, firestore.indexes.json
+├── playwright.firebase.config.ts  # E2E Emulator port 3101
+├── public/images/login-clock.png  # Ảnh đồng hồ gốc cho đăng nhập
 ├── public/images/sidebar-city.png  # Ảnh người dùng cung cấp, nền chìm sidebar
 ├── tests/
 │   ├── README.md                   # Cách chạy và phạm vi kiểm thử
-│   └── e2e/                       # 7 file test đang hoạt động
+│   └── e2e/                       # 8 file test đang hoạt động
 └── docs/
     ├── SOURCE_MAP.md
     ├── IMPLEMENTATION_PLAN.md
-    └── decisions/                  # Mục lục và 5 quyết định đã áp dụng
+    └── decisions/                  # Mục lục và 6 quyết định đã áp dụng
 ~~~
 
 node_modules, .next, test-results và playwright-report là dependency/output, không phải source và không commit. Chỉ giữ thư mục khi có file thực tế cần dùng.
@@ -74,7 +82,7 @@ Page/layout/loading/error nhỏ vẫn là file riêng vì Next.js dùng tên và
 
 ## Luồng dữ liệu đang chạy
 
-Client Component → service → repository IndexedDB. Chưa có Server Actions hoặc API route.ts. Route group (private) chỉ là bố cục, chưa có auth guard.
+Cloud: Client Component → service → repository HTTP → API xác thực/CSRF/Zod → Firestore transaction. Layout private dùng requirePageUser nhưng mọi API tự kiểm tra session. Local: Client → service → IndexedDB chỉ khi cấu hình local.
 
 Database myos-local version 3 gồm projects, notes, noteAttachments, calendarEvents, calendarSettings. Calendar/Notes repository điều phối liên kết Projects trong transaction; khi ghi lỗi phải rollback. Liên kết event→note được đọc từ Calendar, không sao chép eventIds vào note. Xem [hướng dẫn module](../src/modules/README.md) và [quyết định kiến trúc](decisions/README.md).
 
@@ -94,17 +102,16 @@ Từ 59 xuống 52 file TypeScript/React. page/layout/loading/error của Next.j
 
 ## Phần chưa triển khai
 
-Firebase hiện chỉ được mô tả trong kiến trúc và .env.example; chưa cài SDK, khởi tạo kết nối, có session hay chuyển dữ liệu. Hai helper cấu hình Firebase không có người dùng đã được bỏ trong lần dọn source; triển khai thật ở G2.
+Firebase Web/Admin và session đã có mã thực tế trong lib/firebase; API không cache dữ liệu riêng. Không nhập dữ liệu local hoặc triển khai ảnh/tệp cloud. Worker và Zalo vẫn là kế hoạch.
 
 | Phần dự kiến | Chỉ tạo khi có implementation |
 | --- | --- |
-| Session/quyền/Firebase/Firestore | src/lib/auth, firebase, firestore; API session/logout |
 | Worker nhắc và Zalo | functions/src; trigger, service, adapter, hạ tầng theo nhu cầu |
 | Domain dùng chung web/worker | packages/domain khi có code dùng chung thật; hiện quy tắc ở module |
 | Seed/migration | scripts với Emulator, dry-run, schemaVersion, backup và chạy lại an toàn |
 | Rules/integration/unit | tests theo lớp khi có kiểm thử thật |
 | Tài nguyên công khai bổ sung | public khi cần asset khác; không đặt ảnh ghi chú hoặc secrets ở đây |
-| Deploy/rules/indexes | apphosting.yaml, firebase.json, rules, indexes và cấu hình môi trường thật |
+| Deploy | Vercel do người dùng triển khai; firebase.json/rules/indexes đã có source |
 | Runbook | docs/runbooks khi có quy trình setup/deploy/rollback/backup thực tế |
 
 Worker không import Next.js/UI; domain giữ TypeScript thuần, không SDK/DOM/secrets và phải được bundle vào artifact Functions. Endpoint HTTP chỉ tạo khi cần; export G5 hiện download ở client, không cần API export giữ chỗ. Không gửi tin trong transaction.
@@ -117,4 +124,4 @@ Worker không import Next.js/UI; domain giữ TypeScript thuần, không SDK/DOM
 - Cây mục tiêu trong MYOS_ARCHITECTURE.md là kế hoạch; tài liệu này là nguồn chính cho cấu trúc đang có.
 - Khi có worker/domain thật, thêm package workspace tương ứng; hiện chỉ có ứng dụng web ở root.
 
-Tổng quan local và lượt mở rộng Lịch/Dự án đã triển khai. Auth/Firebase tiếp tục ở G2 cuối; nhắc tự động/Zalo chưa hoạt động.
+G2 nối Tổng quan/Lịch/Dự án/Ghi chú/Cài đặt với Firestore theo UID. Kiểm thử firebase.spec.ts dùng demo-myos; nhắc/Zalo và deploy chưa thực hiện.

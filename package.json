@@ -10,12 +10,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint src tests/e2e next.config.ts playwright.config.ts eslint.config.mjs postcss.config.mjs --max-warnings=0",
+    "lint": "eslint src tests/e2e next.config.ts playwright.config.ts playwright.firebase.config.ts scripts/test-data.mjs eslint.config.mjs postcss.config.mjs --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "check": "pnpm lint && pnpm typecheck",
     "test:e2e": "playwright test",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"tests/e2e/*.ts\" playwright.config.ts next.config.ts eslint.config.mjs postcss.config.mjs",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"tests/e2e/*.ts\" playwright.config.ts next.config.ts eslint.config.mjs postcss.config.mjs"
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"tests/e2e/*.ts\" playwright.config.ts next.config.ts eslint.config.mjs postcss.config.mjs playwright.firebase.config.ts scripts/test-data.mjs",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"tests/e2e/*.ts\" playwright.config.ts next.config.ts eslint.config.mjs postcss.config.mjs playwright.firebase.config.ts scripts/test-data.mjs",
+    "test:local": "node scripts/test-data.mjs local",
+    "test:firebase": "node scripts/test-data.mjs firebase",
+    "emulator:start": "firebase emulators:start --only auth,firestore --project demo-myos"
   },
   "dependencies": {
     "@fontsource/be-vietnam-pro": "5.3.0",
@@ -33,11 +36,14 @@
     "@tiptap/pm": "3.31.4",
     "@tiptap/react": "3.31.4",
     "@tiptap/starter-kit": "3.31.4",
+    "firebase": "12.19.0",
+    "firebase-admin": "14.5.0",
     "lucide-react": "1.52.0",
     "luxon": "3.7.2",
     "next": "15.5.27",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "server-only": "0.0.1",
     "zod": "4.6.5"
   },
   "devDependencies": {
@@ -50,6 +56,7 @@
     "@types/react-dom": "19.3.0",
     "eslint": "9.39.5",
     "eslint-config-next": "15.5.27",
+    "firebase-tools": "15.32.1",
     "ical.js": "2.2.1",
     "prettier": "3.9.9",
     "tailwindcss": "4.3.3",

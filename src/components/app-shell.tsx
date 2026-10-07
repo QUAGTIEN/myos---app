@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
+import { useAccount } from "@/modules/auth/account-context";
 const navigation = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
   { href: "/calendar", label: "Lịch", icon: CalendarDays },
@@ -42,6 +43,9 @@ function SidebarContent({
   pathname: string;
   onNavigate?: () => void;
 }) {
+  const account = useAccount();
+  const initial =
+    account?.profile.displayName.trim().charAt(0).toUpperCase() || "M";
   return (
     <>
       <Brand />
@@ -69,9 +73,9 @@ function SidebarContent({
           className="workspace-footer"
           onClick={onNavigate}
         >
-          <span className="avatar">M</span>
+          <span className="avatar">{initial}</span>
           <div>
-            <strong>Cá nhân</strong>
+            <strong>{account?.profile.displayName ?? "Cá nhân"}</strong>
           </div>
         </Link>
       </div>
@@ -80,6 +84,7 @@ function SidebarContent({
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const account = useAccount();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const current = navigation.find(
@@ -140,7 +145,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               className="header-avatar"
               aria-label="Mở cài đặt không gian"
             >
-              M
+              {account?.profile.displayName.trim().charAt(0).toUpperCase() ||
+                "M"}
             </Link>
           </div>
         </header>

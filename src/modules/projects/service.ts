@@ -8,7 +8,7 @@ import {
   type Project,
   type ProjectInput,
 } from "./model";
-import { localProjectRepository, type ProjectRepository } from "./repository";
+import { projectRepository, type ProjectRepository } from "./repository";
 
 function history(message: string) {
   return { id: crypto.randomUUID(), message, at: new Date().toISOString() };
@@ -212,4 +212,4 @@ export function createProjectService(repository: ProjectRepository) {
   };
 }
 
-export const projectService = createProjectService(localProjectRepository);
+export const projectService = createProjectService(projectRepository);

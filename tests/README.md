@@ -29,3 +29,7 @@ pnpm test:e2e
 Có thể đặt PLAYWRIGHT_CHANNEL=chrome hoặc msedge để dùng browser đã cài. Playwright quản lý production server port 3100, 2 workers và hai cấu hình desktop/mobile. Không chạy build trong lúc production preview port 3000 đang dùng cùng .next; dừng preview trước và khởi động lại sau build.
 
 Khi triển khai Auth/cloud, bổ sung kiểm thử quyền Firestore/Storage bằng Emulator và transaction/lease. Chỉ tạo tests/rules, tests/integration hoặc tests/unit khi có test thật. Adapter gửi tin trong test không gửi tin ra bên ngoài.
+
+## G2 Firebase
+
+`pnpm test:firebase` build với env demo-myos, chạy Auth/Firestore Emulator (Java 21+) và firebase.spec.ts qua port 3101, desktop/mobile. Kiểm tra đăng ký/đăng nhập/quên mật khẩu/logout, hồ sơ, CRUD cloud, hai UID, từ chối liên kết chéo, transaction, version conflict, 20 revisions, Rules và cookie đã thu hồi. `pnpm test:local` tự build local trước suite cũ. Sau đó `pnpm build` để khôi phục cấu hình thực tế. Emulator chỉ demo project, không dùng key Admin hoặc dữ liệu thật.

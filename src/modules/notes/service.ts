@@ -8,7 +8,7 @@ import {
   type NoteInput,
   type Attachment,
 } from "./model";
-import { localNoteRepository, type NoteRepository } from "./repository";
+import { noteRepository, type NoteRepository } from "./repository";
 
 export async function prepareImages(
   files: File[],
@@ -91,8 +91,7 @@ export function createNoteService(repository: NoteRepository) {
       updatedAt: at,
       revisions,
     };
-    await repository.commit(note, next, attachments);
-    return next;
+    return (await repository.commit(note, next, attachments))!;
   }
   return {
     async create(input: NoteInput = emptyNoteInput, files: File[] = []) {
@@ -113,8 +112,7 @@ export function createNoteService(repository: NoteRepository) {
         updatedAt: at,
         revisions: [],
       };
-      await repository.commit(null, note, attachments);
-      return note;
+      return (await repository.commit(null, note, attachments))!;
     },
     save(note: Note, input: NoteInput, attachments: Attachment[] = []) {
       if (note.trashedAt)
@@ -136,4 +134,4 @@ export function createNoteService(repository: NoteRepository) {
     },
   };
 }
-export const noteService = createNoteService(localNoteRepository);
+export const noteService = createNoteService(noteRepository);

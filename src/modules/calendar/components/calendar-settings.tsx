@@ -1,8 +1,9 @@
 "use client";
+import { firebaseEnabled } from "@/lib/firebase/client";
 import { CalendarDays, Plus } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { calendarColors, calendarError, type CalendarSettings } from "../model";
-import { localCalendarRepository } from "../repository";
+import { calendarRepository } from "../repository";
 import { useCalendar } from "../use-calendar";
 import "../calendar.css";
 
@@ -41,9 +42,13 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
     setError("");
     setMessage("");
     try {
-      const saved = await localCalendarRepository.saveSettings(draft);
+      const saved = await calendarRepository.saveSettings(draft);
       setDraft(saved);
-      setMessage("Đã lưu cài đặt lịch trên trình duyệt này.");
+      setMessage(
+        firebaseEnabled
+          ? "Đã lưu cài đặt lịch vào tài khoản."
+          : "Đã lưu cài đặt lịch trên trình duyệt này.",
+      );
     } catch (cause) {
       setError(calendarError(cause));
     } finally {

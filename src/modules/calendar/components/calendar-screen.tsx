@@ -1,4 +1,5 @@
 "use client";
+import { useAccount } from "@/modules/auth/account-context";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -81,6 +82,7 @@ export function CalendarScreen({
   today: string;
   query?: CalendarQuery;
 }) {
+  const account = useAccount();
   const calendar = useRef<FullCalendar>(null);
   const data = useCalendar();
   const {
@@ -628,7 +630,7 @@ export function CalendarScreen({
             timeZone={calendarZone}
             initialDate={today}
             initialView="dayGridMonth"
-            firstDay={1}
+            firstDay={account?.profile.firstDay ?? 1}
             headerToolbar={false}
             height={view.startsWith("timeGrid") ? 680 : "auto"}
             nowIndicator

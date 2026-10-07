@@ -1,4 +1,5 @@
 "use client";
+import { firebaseEnabled } from "@/lib/firebase/client";
 import { Download, FilePlus, Pencil, Plus, Trash2 } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
 import {
@@ -692,6 +693,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                   aria-label="Thêm tệp dự án"
                   type="file"
                   disabled={
+                    firebaseEnabled ||
                     !!project.archivedAt ||
                     !!snapshot ||
                     workspace.attachments.length >= 50
@@ -708,7 +710,9 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                 />
               </label>
               <p className="workspace-file-limit">
-                Tối đa 20 MB/tệp · 50 tệp/dự án
+                {firebaseEnabled
+                  ? "Tệp cloud sẽ triển khai sau"
+                  : "Tối đa 20 MB/tệp · 50 tệp/dự án"}
               </p>
             </>
           )}

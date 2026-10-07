@@ -1,4 +1,5 @@
 "use client";
+import { firebaseEnabled } from "@/lib/firebase/client";
 import {
   ImagePlus,
   NotebookPen,
@@ -142,7 +143,8 @@ export function NotesScreen() {
           <button
             className="button secondary"
             type="button"
-            disabled={loading || pending || !!error}
+            disabled={firebaseEnabled || loading || pending || !!error}
+            title={firebaseEnabled ? "Ảnh cloud sẽ triển khai sau" : undefined}
             onClick={() => imageInput.current?.click()}
           >
             <ImagePlus size={17} />

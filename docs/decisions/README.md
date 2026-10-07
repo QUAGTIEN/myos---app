@@ -10,6 +10,8 @@ ADR đã áp dụng: [001 — Framework và shell](001-framework-shell.md), [002
 
 [004 — Calendar, recurrence và export local](004-local-calendar.md): database version 3, ngoại lệ từng buổi, timezone, liên kết và iCalendar.
 
-Quyết định chưa chốt: project IDs/region thật, provider đăng nhập, migration local/cloud và cơ chế Zalo đã kiểm chứng.
+Project hiện tại myos-app-40f4d, provider Email/Password công khai. Region/credentials và kết nối thật cần xác nhận; migration, Storage và Zalo hoãn.
 
 [005 — Bộ thời khóa biểu và hồ sơ dự án](005-timetables-project-dossiers.md): tab lịch/năm, Kanban, workspace và tệp dự án nguyên tử; database version 4.
+
+[006 — Firebase, tài khoản tự đăng ký và dữ liệu cloud](006-firebase-public-accounts.md): cookie session/CSRF, ownership tại API, transactions, giữ local riêng và Vercel.

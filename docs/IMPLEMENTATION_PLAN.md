@@ -1,7 +1,7 @@
 # MyOS — Kế hoạch triển khai
 
 Ngày lập: **06/10/2026**.
-Trạng thái: **G1 hoàn thành; G3/G4/G5 triển khai local; G2 chuyển xuống cuối theo yêu cầu người dùng**.
+Trạng thái: **G2 bước 1–5 đã có source theo yêu cầu mới: đăng ký công khai/Auth/session/hồ sơ/Firestore; giữ local riêng. Vercel do người dùng deploy; ảnh/tệp cloud, Zalo và migration hoãn.** Xem [ADR 006](decisions/006-firebase-public-accounts.md).
 Đây là kế hoạch toàn bộ dự án; chỉ các hạng mục ghi rõ đã hoàn thành mới có implementation.
 
 Nguồn phạm vi: [MYOS_ARCHITECTURE.md](../MYOS_ARCHITECTURE.md).
@@ -48,7 +48,7 @@ Mỗi tính năng đi qua các bước:
 Ngoại lệ G3 local: **Client Component → service → repository IndexedDB**, validate Zod và ghi có version trong transaction. Không cần Server Action/Emulator cho adapter trình duyệt.
 
 Luồng cloud đích: **Server Component → DAL → service → repository → DTO → UI**.
-Luồng ghi: **form → Server Action → session/quyền → validation → service → Firestore**.
+Luồng ghi: **form → repository HTTP → Route Handler → session/quyền → validation → service → Firestore**.
 
 Mỗi tính năng cần phân biệt rõ phần server và client. Firebase Admin chỉ ở server; quyền phải kiểm tra lại khi gọi action/API, không dựa duy nhất vào layout.
 
@@ -64,7 +64,7 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 **Công việc:**
 
-- Chọn phiên bản stable Next.js/React/TypeScript tương thích Firebase App Hosting.
+- Chọn phiên bản stable Next.js/React/TypeScript tương thích Vercel.
 - Khởi tạo Next.js ở root, giữ lại thư mục và tài liệu đã có.
 - Tạo manifests pnpm workspace, TypeScript strict và scripts dev/build/lint/typecheck.
 - Thiết lập UI cơ sở: màu, typography tiếng Việt, spacing, form, dialog, skeleton.
@@ -85,11 +85,11 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 - Firebase Emulator Suite, bộ dữ liệu test và repositories cơ sở.
 - Chốt schema users, account access, DTO và schemaVersion; thống nhất timestamp/timezone.
-- Rules Firestore/Storage và indexes ban đầu.
+- Rules Firestore deny-all và indexes ban đầu; Storage hoãn.
 - Triển khai một phương thức đăng nhập trước, mặc định email/password; thêm Google sau nếu cần.
-- Endpoint session/logout, cookie an toàn, CSRF, allowlist và DAL requireUser.
+- Endpoint /api/auth và /api/data, cookie an toàn, CSRF, UID và DAL requireUser.
 - Kiểm tra UID tại read/action/handler; không tin UID từ form.
-- Cài đặt: tên hiển thị, hồ sơ, timezone, ngày đầu tuần, giao diện sáng/tối/hệ thống.
+- Cài đặt: tên hiển thị, hồ sơ, timezone Việt Nam, ngày đầu tuần; giữ giao diện sáng.
 - Luồng thay đổi thông tin tài khoản có xác thực lại khi triển khai phần nhạy cảm.
 - Chuẩn bị cấu hình staging; kết nối cloud khi có project và cấu hình hợp lệ.
 
@@ -97,7 +97,7 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 **Hoàn thành khi:** dữ liệu/tùy chọn còn sau reload; người chưa đăng nhập bị chặn; hai UID không đọc/ghi chéo qua cả server và Rules; logout kết thúc phiên ở browser/server.
 
-**Kiểm chứng Zalo sớm:** từ giai đoạn này lập thử nghiệm nhỏ về API chính thức, quyền gửi chủ động, người nhận, hạn mức và chi phí khi có tài khoản/credential. Không đợi G7 mới phát hiện kênh gửi không khả dụng. Chưa viết tích hợp đầy đủ ở G2.
+**Phạm vi mới:** chưa làm upload ảnh/tệp, Zalo hoặc deploy; không nhập local vào cloud. Vercel do người dùng triển khai.
 
 ### G3. Module Dự án
 
@@ -125,7 +125,7 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 1. Tạo/sửa/đọc ghi chú, tiêu đề và nội dung Tiptap JSON có version.
 2. Autosave, trạng thái lưu, giữ bản nháp khi lỗi và xử lý conflict.
-3. Lưu ảnh Blob local, metadata và node attachmentId; kiểm tra ảnh/kích thước. Storage/quyền cloud thực hiện ở G2.
+3. Lưu ảnh Blob local, metadata và node attachmentId; kiểm tra ảnh/kích thước. Storage cloud hoãn theo phạm vi G2 mới.
 4. Tạo ghi chú từ ảnh hoặc nội dung dán; chọn ảnh trên mobile.
 5. Ghim, thư mục/tag, tìm theo tiêu đề, thùng rác và khôi phục.
 6. Gắn/mở ghi chú từ dự án; giữ attachment được tham chiếu khi khôi phục.
@@ -139,7 +139,7 @@ Tổng quan có trang khung từ đầu nhưng dữ liệu tổng hợp làm sau
 
 ### G5. Module Lịch và thời khóa biểu
 
-**Phụ thuộc cập nhật:** G1, G3/G4; G2 hoãn. G5 triển khai local qua IndexedDB theo [ADR 004](decisions/004-local-calendar.md), gồm cả 3 phần bên dưới. Auth/cloud/migration thực hiện ở G2; nhắc hiện chỉ lưu cấu hình.
+**Phụ thuộc cập nhật:** G1, G3/G4; G2 hoãn. G5 triển khai local qua IndexedDB theo [ADR 004](decisions/004-local-calendar.md), gồm cả 3 phần bên dưới. Auth/cloud thực hiện ở G2, migration hoãn; nhắc hiện chỉ lưu cấu hình.
 
 **G5.1 — Lịch một lần**
 
@@ -238,7 +238,7 @@ Nếu Zalo chưa đạt điều kiện thì bàn giao nhắc trong app, ghi rõ 
 - Build web/worker, bundle domain, logs/metrics và cảnh báo job trễ.
 - Runbook deploy/rollback và kiểm tra sau deploy trên staging.
 - Backup/restore Firestore + Storage + Auth UID; thử khôi phục dữ liệu và ảnh thật.
-- Chuẩn bị production App Hosting/Functions/Rules/indexes theo môi trường thực tế; triển khai khi người dùng yêu cầu.
+- Chuẩn bị production Vercel/Functions/Rules/indexes theo môi trường thực tế; triển khai khi người dùng yêu cầu.
 
 **Bàn giao:** phiên bản sử dụng cá nhân có thể vận hành và phục hồi dữ liệu.
 
@@ -287,7 +287,7 @@ Không đặt lịch số tuần trước khi có khối lượng implementation
 | Kế hoạch triển khai | Đã lập |
 | G1 | Hoàn thành local: lint/typecheck/format/build đạt, 12 E2E desktop/mobile đạt |
 | G3 | Có implementation local: CRUD, checklist/mốc, tiến độ, ghim/lưu trữ, lịch sử; chất lượng kiểm tra ghi trong README |
-| G2 | Hoãn xuống cuối; chưa triển khai Auth/Firebase/migration |
+| G2 | Auth/Firebase bước 1–5 có source; chờ cấu hình project thật, không migration |
 | G4 | Có implementation local: rich text/ảnh, autosave, thư mục/nhãn, thùng rác, revisions và liên kết Projects |
 | G5 | Có implementation local: lịch đơn/cả ngày, tuần/ngoại lệ, marks, kéo/resize, liên kết, .ics và settings |
 | G6 local | Đã triển khai Tổng quan tổng hợp local; tìm kiếm chung/thông báo tích hợp còn kế hoạch |
@@ -296,4 +296,4 @@ Không đặt lịch số tuần trước khi có khối lượng implementation
 | Firebase/cloud/billing/deploy | Chưa thực hiện |
 | Khả năng gửi Zalo thực tế | Chưa kiểm chứng |
 
-**Tổng quan local và lượt mở rộng Lịch/Dự án đã có implementation.** Phần tiếp theo thực hiện khi người dùng yêu cầu. G2 triển khai cuối trước cloud production; chưa có Auth hoặc đồng bộ Firebase. G3–G5 chỉ có dữ liệu local.
+**Tổng quan local và lượt mở rộng Lịch/Dự án đã có implementation.** Phần tiếp theo thực hiện khi người dùng yêu cầu. G2 đã được yêu cầu triển khai bước 1–5. Dữ liệu cloud theo UID; local giữ riêng. Upload/Zalo/deploy không thuộc lượt này.

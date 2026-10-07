@@ -1,4 +1,5 @@
 "use client";
+import { firebaseEnabled } from "@/lib/firebase/client";
 /* eslint-disable @next/next/no-img-element -- IndexedDB images use local Blob URLs with their natural dimensions. */
 import { Node, mergeAttributes, type JSONContent } from "@tiptap/core";
 import {
@@ -34,7 +35,7 @@ import {
   type Attachment,
   type RichNode,
 } from "../model";
-import { localNoteRepository } from "../repository";
+import { noteRepository } from "../repository";
 
 const ImageContext = createContext<{ noteId: string; assets: Attachment[] }>({
   noteId: "",
@@ -53,8 +54,7 @@ function LocalImageView({ node, editor, deleteNode }: NodeViewProps) {
     void (async () => {
       try {
         const asset =
-          pending ??
-          (await localNoteRepository.attachment(attachmentId, noteId));
+          pending ?? (await noteRepository.attachment(attachmentId, noteId));
         if (!asset) throw new Error("Ảnh không còn trong dữ liệu local.");
         if (disposed) return;
         objectUrl = URL.createObjectURL(asset.blob);
@@ -204,6 +204,10 @@ export function RichEditor({
   }, [editor, content]);
   async function addImages(files: File[]) {
     if (!editor || !onUpload || uploading || readOnly) return;
+    if (firebaseEnabled) {
+      setImageError("Ảnh cloud sẽ được triển khai sau.");
+      return;
+    }
     setUploading(true);
     setImageError("");
     try {
@@ -328,7 +332,7 @@ export function RichEditor({
             type="button"
             aria-label="Thêm ảnh"
             title="PNG, JPEG, WebP, GIF · tối đa 5 MB/ảnh"
-            disabled={uploading}
+            disabled={firebaseEnabled || uploading}
             onClick={() => fileInput.current?.click()}
           >
             <ImagePlus size={18} />

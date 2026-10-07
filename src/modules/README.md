@@ -1,14 +1,17 @@
-# Phân hệ MyOS
+# Hướng dẫn phân hệ MyOS
+
+**G2 cập nhật:** mặc định cloud với tài khoản tự đăng ký; các repository chọn cloud HTTP hoặc IndexedDB theo NEXT_PUBLIC_MYOS_MODE. Layout cung cấp hồ sơ qua AccountProvider, mọi API kiểm tra phiên/UID. Auth là hạ tầng, không thêm phân hệ/menu. Media cloud chưa bật; phần mô tả Blob/local bên dưới chỉ áp dụng chế độ local. Không có migration tự động. Chi tiết [ADR 006](../../docs/decisions/006-firebase-public-accounts.md).
+
 
 Ứng dụng chỉ có 5 phân hệ. Tài liệu này mô tả mã đang chạy; kiến trúc cloud và kế hoạch nằm ở MYOS_ARCHITECTURE.md và docs/IMPLEMENTATION_PLAN.md.
 
 | Phân hệ | Route | Source | Trạng thái |
 | --- | --- | --- | --- |
-| Tổng quan | /dashboard | overview/overview-screen.tsx | Tổng hợp local từ G3–G5 |
-| Lịch | /calendar | calendar/ | G5 local |
-| Dự án | /projects, /projects/[projectId] | projects/ | G3 local |
-| Ghi chú | /notes, /notes/[noteId] | notes/ | G4 local |
-| Cài đặt | /settings | settings/settings-screen.tsx | Cài đặt lịch local; tài khoản/cloud còn preview |
+| Tổng quan | /dashboard | overview/overview-screen.tsx | Tổng hợp nguồn cloud hoặc local |
+| Lịch | /calendar | calendar/ | G5 + Firestore |
+| Dự án | /projects, /projects/[projectId] | projects/ | G3 + Firestore |
+| Ghi chú | /notes, /notes/[noteId] | notes/ | G4 + Firestore (chưa media) |
+| Cài đặt | /settings | settings/settings-screen.tsx | Hồ sơ tài khoản, đầu tuần và cài đặt lịch cloud |
 
 ## Cách tổ chức
 
@@ -18,7 +21,7 @@
 - components chỉ dùng ở module có nhiều màn hình/form/editor. Module có một màn hình đặt file ngay trong thư mục module.
 - Không tạo actions, DTO, schemas, types, index.ts hoặc package domain chỉ để đủ cây thư mục; tách khi có trách nhiệm hoặc người dùng chung thật.
 - CSS nằm cùng module; components/page-ui.tsx giữ các thành phần trang dùng chung; lib/local-database.ts quản lý kết nối/version/sự kiện.
-- Upload, tìm kiếm, thông báo là khả năng trong 5 phân hệ, không tạo thêm menu. Hiện chưa có Auth/cloud/worker.
+- Upload, tìm kiếm, thông báo là khả năng trong 5 phân hệ, không tạo thêm menu. Auth/cloud đã có source G2; worker chưa triển khai.
 
 ## Dự án
 
@@ -79,4 +82,4 @@ overview-screen.tsx dùng useCalendar/useProjects/useNotes để đọc/cập nh
 
 ## Cài đặt
 
-settings-screen.tsx dùng CalendarSettingsPanel của module Lịch: nhóm/tên/màu, giờ hiển thị và nhắc mặc định được lưu IndexedDB có kiểm tra version. Timezone Việt Nam và đầu tuần Thứ Hai. Tài khoản, theme, cloud và gửi nhắc chưa hoạt động; reminder chỉ là cấu hình.
+settings-screen.tsx dùng CalendarSettingsPanel của module Lịch: nhóm/tên/màu, giờ hiển thị và nhắc mặc định được lưu IndexedDB có kiểm tra version. Timezone Việt Nam; đầu tuần Thứ Hai/Chủ Nhật lưu hồ sơ và áp dụng cả lưới năm/FullCalendar. Tài khoản chỉnh tên và đăng xuất; theme sáng cố định, reminder chỉ là cấu hình.

@@ -248,7 +248,13 @@ button:disabled {
   font-size: 14px;
   flex-shrink: 0;
 }
+.workspace-footer > div {
+  min-width: 0;
+}
 .workspace-footer strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   display: block;
   font-size: 14px;
   font-weight: 500;
@@ -795,4 +801,13 @@ button:disabled {
 .settings-panel.peach {
   background: var(--surface);
   color: var(--ink);
+}
+
+.account-email {
+  margin: 0 0 16px;
+  overflow-wrap: anywhere;
+}
+
+.account-session-actions {
+  margin-top: 14px;
 }

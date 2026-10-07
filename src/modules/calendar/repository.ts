@@ -1,3 +1,8 @@
+import { firebaseEnabled } from "@/lib/firebase/client";
+import {
+  cloudCalendarRepository,
+  cloudCopyCalendarGroup,
+} from "@/lib/firebase/cloud-client";
 import { announceLocalChange, openLocalDatabase } from "@/lib/local-database";
 import { projectSchema, type Project } from "@/modules/projects/model";
 import { projectsChangedEvent } from "@/modules/projects/repository";
@@ -281,7 +286,7 @@ export const localCalendarRepository: CalendarRepository = {
 };
 
 // Copy the saved timetable and its settings in one transaction; copies have independent identities.
-export async function copyCalendarGroup(
+async function copyLocalCalendarGroup(
   settings: CalendarSettings,
   sourceId: string,
   name: string,
@@ -377,3 +382,11 @@ export async function copyCalendarGroup(
       reject(failure ?? tx.error ?? new Error("Không sao chép được bộ lịch."));
   });
 }
+
+export const calendarRepository: CalendarRepository = firebaseEnabled
+  ? cloudCalendarRepository
+  : localCalendarRepository;
+
+export const copyCalendarGroup = firebaseEnabled
+  ? cloudCopyCalendarGroup
+  : copyLocalCalendarGroup;

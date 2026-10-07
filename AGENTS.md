@@ -2,6 +2,8 @@
 
 ## Phạm vi hiện tại
 
+**G2 bước 1–5 được người dùng cho phép:** tự đăng ký Email/Password, đăng nhập/quên mật khẩu/logout, session server/CSRF/UID, hồ sơ và dữ liệu Firestore. Không allowlist hoặc admin-users. Mặc định cloud; giữ IndexedDB cũ riêng, không migration. Host Vercel do người dùng deploy. Không upload ảnh/tệp cloud, không Zalo/worker/deploy. Xem ADR 006; các đoạn G2 hoãn bên dưới ghi lịch sử trước yêu cầu mới.
+
 **Cập nhật theo yêu cầu mới:** Lịch có tab xem ngày/tháng/năm và tab Công việc với nhiều bộ thời khóa biểu lưu riêng; dùng groups hiện hữu, không nhân bản kho lịch. Dự án có Thẻ/Kanban và hồ sơ mục tiêu, tài liệu, liên kết HTTP(S), phần cứng tùy chọn, nhật ký/kiểm thử, tệp Blob. Database v4 thêm projectAttachments; workspace có default tương thích dự án cũ. Tệp và metadata được ghi/xóa nguyên tử, có version check. G2 vẫn hoãn.
 
 **Tổng quan local đã được triển khai theo phạm vi mới:** số liệu thật, lịch theo ngày Việt Nam, checklist cần làm, tiến độ, ghi chú mới/ghim và mốc gần hạn. Overview dùng hook/service của module nguồn và selector thuần, không tạo kho tổng hợp hoặc schema mới. Form tạo nhanh dùng lại luồng lưu G3–G5. Tiếp tục hoãn G2, gửi nhắc/Zalo và deploy.
@@ -26,7 +28,7 @@ AGENTS.md là tên file chuẩn để công cụ coding agent tìm thấy; khôn
 
 - Framework: Next.js App Router; UI: React; ngôn ngữ: TypeScript.
 - Database: Cloud Firestore; auth: Firebase Authentication.
-- Ảnh/tệp: Cloud Storage for Firebase; host: Firebase App Hosting.
+- Ảnh/tệp: Cloud Storage for Firebase (hoãn); host: Vercel (người dùng deploy).
 - Worker: Cloud Functions gen 2 và Cloud Scheduler; domain dùng chung.
 - Chỉ có Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt.
 - Tiếng Việt; timezone mặc định Asia/Ho_Chi_Minh; web responsive.
@@ -42,11 +44,11 @@ AGENTS.md là tên file chuẩn để công cụ coding agent tìm thấy; khôn
 - functions/src không import src/app hoặc UI. Logic domain dùng chung phải được bundle vào artifact worker.
 - Module không gọi vòng nhau. Điều phối liên kết lịch/dự án/ghi chú qua service và hợp đồng dữ liệu rõ ràng.
 
-Luồng đọc: Server Component → DAL/requireUser → service → repository → DTO.
-Luồng ghi: form → Server Action → xác thực → Zod → service/transaction → repository.
+Luồng cloud hiện tại: private layout → requirePageUser → profile DTO; Client Component → service → repository HTTP → Route Handler → session/UID/Zod → Firestore transaction. API tự kiểm tra quyền, không dựa riêng layout.
+Luồng ghi cloud: form → service → repository HTTP → API xác thực/CSRF/Zod → transaction. Mã Admin/DAL server-only; browser Firestore deny-all.
 Worker nhận job bằng transaction, gọi dịch vụ ngoài sau transaction.
 
-Ngoại lệ tạm cho G3/G4 đã được người dùng chấp thuận: Client Component → service → repository IndexedDB. Không tạo Server Action gọi database trình duyệt. Schema và quy tắc thuần hiện nằm trong từng module; chuyển sang domain khi có người dùng chung. `src/lib/local-database.ts` quản lý version database, sự kiện và kết nối dùng chung. Notes repository điều phối ghi note/ảnh/liên kết Projects trong một transaction; Projects không import service Notes. Khi đổi sang Firebase phải thiết kế migration riêng, không giả định dữ liệu local đã đồng bộ.
+Ngoại lệ tạm cho G3/G4 đã được người dùng chấp thuận: Client Component → service → repository IndexedDB. Không tạo Server Action gọi database trình duyệt. Schema và quy tắc thuần hiện nằm trong từng module; chuyển sang domain khi có người dùng chung. `src/lib/local-database.ts` quản lý version database, sự kiện và kết nối dùng chung. Notes repository điều phối ghi note/ảnh/liên kết Projects trong một transaction; Projects không import service Notes. G2 giữ mode local riêng; không giả định dữ liệu local đã đồng bộ hoặc tự nhập vào tài khoản.
 
 Lịch G5 dùng Luxon với Asia/Ho_Chi_Minh, wall-clock `YYYY-MM-DDTHH:mm`, cả ngày `YYYY-MM-DD`, metadata UTC ISO; end exclusive. Exception giữ originalStart và chỉ override các fields đã đổi. Calendar repository ghi event/liên kết Projects nguyên tử, không chỉnh hạn mốc; Notes đọc liên kết từ Calendar. Xem [ADR 004](docs/decisions/004-local-calendar.md) trước khi thay quy tắc lặp/export. Không tạo Server Action gọi IndexedDB hoặc tự bật Firebase khi G2 còn hoãn.
 
@@ -61,7 +63,7 @@ Lịch G5 dùng Luxon với Asia/Ho_Chi_Minh, wall-clock `YYYY-MM-DDTHH:mm`, c�
 - Có loading, empty, error và pending phù hợp; không dùng dữ liệu mẫu giả làm dữ liệu thật.
 - TypeScript strict khi khởi tạo; hạn chế any, đặt tên mô tả nghiệp vụ, validate dữ liệu không tin cậy.
 - Schema nghiệp vụ dùng chung đặt tại domain; schema form đặc thù ở module.
-- Chọn bản stable tương thích Firebase App Hosting; không tự chuyển major framework trong thay đổi nhỏ.
+- Chọn bản stable tương thích Vercel; không tự chuyển major framework trong thay đổi nhỏ.
 
 ## Code sạch, dễ đọc và dễ review
 

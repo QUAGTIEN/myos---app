@@ -1,0 +1,512 @@
+import {
+  expect,
+  test,
+  type APIRequestContext,
+  type Page,
+} from "@playwright/test";
+import { randomUUID } from "node:crypto";
+import {
+  emptyProjectInput,
+  projectSchema,
+} from "../../src/modules/projects/model";
+import {
+  emptyNoteInput,
+  noteSchema,
+  type Note,
+} from "../../src/modules/notes/model";
+import {
+  blankEvent,
+  defaultCalendarSettings,
+  eventSchema,
+} from "../../src/modules/calendar/model";
+
+const password = "MyOS-test-2026!";
+async function write(request: APIRequestContext, body: unknown) {
+  const { csrfToken } = await (await request.get("/api/auth")).json();
+  return request.post("/api/data", {
+    headers: { Origin: "http://127.0.0.1:3101", "x-myos-csrf": csrfToken },
+    data: body,
+  });
+}
+async function account(request: APIRequestContext) {
+  const email = `test-${randomUUID()}@example.com`;
+  const signup = await request.post(
+    "http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:signUp?key=demo-key",
+    { data: { email, password, returnSecureToken: true } },
+  );
+  expect(signup.ok()).toBeTruthy();
+  const { idToken, localId } = await signup.json();
+  const { csrfToken } = await (await request.get("/api/auth")).json();
+  const result = await request.post("/api/auth", {
+    headers: { Origin: "http://127.0.0.1:3101", "x-myos-csrf": csrfToken },
+    data: { idToken, remember: true },
+  });
+  expect(result.status()).toBe(200);
+  return { email, uid: String(localId), idToken: String(idToken) };
+}
+async function register(page: Page, email: string) {
+  await page.goto("/register");
+  await page.getByLabel("Tên hiển thị").fill("Tiến thử nghiệm");
+  await page.getByLabel("Email", { exact: true }).fill(email);
+  await page.getByLabel("Mật khẩu", { exact: true }).fill(password);
+  await page.getByLabel("Nhập lại mật khẩu").fill(password);
+  await page
+    .getByRole("button", { name: "Tạo tài khoản", exact: true })
+    .click();
+  await expect(page).toHaveURL(/dashboard$/);
+}
+
+test("public signup, cloud CRUD, settings, logout and login on desktop/mobile", async ({
+  page,
+  context,
+}, info) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto("/projects");
+  await expect(page).toHaveURL(/login$/);
+  await page.evaluate(() => document.fonts.ready);
+  await page.screenshot({ path: info.outputPath("login.png"), fullPage: true });
+  const email = `ui-${randomUUID()}@example.com`;
+  await register(page, email);
+  await page.goto("/projects");
+  await page.getByRole("button", { name: "Tạo dự án", exact: true }).click();
+  await page.getByRole("dialog").getByLabel("Tên dự án").fill("IoT cloud");
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Tạo dự án", exact: true })
+    .click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await page.getByRole("heading", { name: "IoT cloud", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "IoT cloud", level: 1 }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "IoT cloud", level: 1 }),
+  ).toBeVisible();
+  await page.goto("/notes");
+  await expect(
+    page.getByRole("button", { name: "Từ ảnh", exact: true }),
+  ).toBeDisabled();
+  await page.getByRole("button", { name: "Tạo ghi chú", exact: true }).click();
+  await page.getByLabel("Tiêu đề ghi chú").fill("Ghi chú cloud");
+  await page
+    .getByRole("textbox", { name: "Nội dung ghi chú" })
+    .fill("Nội dung được lưu trong Firestore.");
+  await page.getByRole("button", { name: "Lưu ngay", exact: true }).click();
+  await expect(page.locator(".note-save-bar")).toContainText("Đã lưu");
+  await expect(
+    page.getByRole("button", { name: "Thêm ảnh", exact: true }),
+  ).toBeDisabled();
+  await page.reload();
+  await expect(
+    page.getByRole("textbox", { name: "Nội dung ghi chú" }),
+  ).toContainText("Nội dung được lưu");
+  await page.route("**/api/data", (route) =>
+    route.request().method() === "POST"
+      ? route.fulfill({
+          status: 503,
+          contentType: "application/json",
+          body: JSON.stringify({
+            error: "Không lưu được cloud. Bản nháp vẫn được giữ.",
+          }),
+        })
+      : route.continue(),
+  );
+  await page
+    .getByRole("textbox", { name: "Nội dung ghi chú" })
+    .fill("Giữ bản nháp khi mất kết nối.");
+  await expect(page.locator(".note-save-bar")).toContainText("Lưu lỗi");
+  await expect(
+    page.getByRole("textbox", { name: "Nội dung ghi chú" }),
+  ).toContainText("Giữ bản nháp");
+  await page.unroute("**/api/data");
+  await page.getByRole("button", { name: "Lưu ngay", exact: true }).click();
+  await expect(page.locator(".note-save-bar")).toContainText("Đã lưu");
+  await page.goto("/calendar");
+  await page.getByRole("button", { name: "Công việc", exact: true }).click();
+  await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
+  const dialog = page.getByRole("dialog");
+  await dialog.getByLabel("Tên lịch hẹn", { exact: true }).fill("Lịch cloud");
+  await dialog.getByLabel("Bắt đầu", { exact: true }).fill("2026-10-08T09:00");
+  await dialog.getByLabel("Kết thúc", { exact: true }).fill("2026-10-08T10:00");
+  await dialog
+    .getByRole("button", { name: "Lưu lịch hẹn", exact: true })
+    .click();
+  await expect(dialog).not.toBeVisible();
+  await page.goto("/settings");
+  await page.getByLabel("Tên hiển thị").fill("Tiến cloud");
+  await page.getByLabel("Ngày đầu tuần").selectOption("0");
+  await page
+    .getByRole("button", { name: "Lưu tài khoản", exact: true })
+    .click();
+  await expect(page.getByRole("status")).toContainText(
+    "Đã lưu cài đặt tài khoản",
+  );
+  await page.reload();
+  await expect(page.getByLabel("Tên hiển thị")).toHaveValue("Tiến cloud");
+  await expect(page.getByLabel("Ngày đầu tuần")).toHaveValue("0");
+  await page.screenshot({
+    path: info.outputPath("settings-cloud.png"),
+    fullPage: true,
+  });
+  expect(
+    (await context.cookies()).find((c) => c.name === "myos-session")?.httpOnly,
+  ).toBe(true);
+  await page.getByRole("button", { name: "Đăng xuất", exact: true }).click();
+  await expect(page).toHaveURL(/login$/);
+  await page.getByLabel("Email", { exact: true }).fill(email);
+  await page.getByLabel("Mật khẩu", { exact: true }).fill("incorrect-password");
+  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
+  await expect(page.locator(".auth-error")).toContainText(
+    "Email hoặc mật khẩu chưa đúng",
+  );
+  await page.getByLabel("Mật khẩu", { exact: true }).fill(password);
+  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
+  await expect(page).toHaveURL(/dashboard$/);
+  await page.goto("/notes");
+  await expect(
+    page.getByRole("heading", { name: "Ghi chú cloud", exact: true }),
+  ).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test("two accounts: ownership, atomic links, versions, revisions and rules", async ({
+  playwright,
+  request,
+}) => {
+  const a = request;
+  const b = await playwright.request.newContext({
+    baseURL: "http://127.0.0.1:3101",
+  });
+  try {
+    const owner = await account(a);
+    await account(b);
+    const now = new Date().toISOString();
+    const project = projectSchema.parse({
+      ...emptyProjectInput,
+      title: "Dự án A",
+      id: randomUUID(),
+      schemaVersion: 1,
+      version: 1,
+      createdAt: now,
+      updatedAt: now,
+      archivedAt: null,
+      pinned: false,
+      items: [],
+      updates: [],
+      relatedNoteIds: [],
+      relatedEventIds: [],
+      workspace: {},
+    });
+    expect(
+      (
+        await write(a, {
+          kind: "projects",
+          operation: "save",
+          id: project.id,
+          expectedVersion: 0,
+          value: project,
+        })
+      ).status(),
+    ).toBe(200);
+    expect(
+      (await (await b.get(`/api/data?kind=projects&id=${project.id}`)).json())
+        .value,
+    ).toBeNull();
+    const note = noteSchema.parse({
+      ...emptyNoteInput,
+      title: "Ghi chú A",
+      id: randomUUID(),
+      schemaVersion: 1,
+      version: 1,
+      createdAt: now,
+      updatedAt: now,
+      pinned: false,
+      trashedAt: null,
+      revisions: [],
+      projectIds: [project.id],
+    });
+    expect(
+      (
+        await write(b, {
+          kind: "notes",
+          operation: "save",
+          id: note.id,
+          expectedVersion: 0,
+          value: note,
+        })
+      ).status(),
+    ).toBe(400);
+    expect(
+      (await (await b.get(`/api/data?kind=notes&id=${note.id}`)).json()).value,
+    ).toBeNull();
+    expect(
+      (
+        await write(a, {
+          kind: "notes",
+          operation: "save",
+          id: note.id,
+          expectedVersion: 0,
+          value: note,
+        })
+      ).status(),
+    ).toBe(200);
+    let linked = projectSchema.parse(
+      (await (await a.get(`/api/data?kind=projects&id=${project.id}`)).json())
+        .value,
+    );
+    expect(linked.relatedNoteIds).toEqual([note.id]);
+    expect(linked.version).toBe(2);
+    expect(
+      (
+        await write(a, {
+          kind: "projects",
+          operation: "save",
+          id: project.id,
+          expectedVersion: 1,
+          value: { ...project, version: 2 },
+        })
+      ).status(),
+    ).toBe(409);
+    const event = eventSchema.parse({
+      ...blankEvent("2026-10-08", defaultCalendarSettings),
+      id: randomUUID(),
+      schemaVersion: 1,
+      title: "Buổi IoT",
+      version: 1,
+      createdAt: now,
+      updatedAt: now,
+      cancelledAt: null,
+      exceptions: [],
+      sourceMilestone: null,
+      projectIds: [project.id],
+      noteIds: [note.id],
+    });
+    expect(
+      (
+        await write(a, {
+          kind: "calendarEvents",
+          operation: "save",
+          id: event.id,
+          expectedVersion: 0,
+          value: event,
+        })
+      ).status(),
+    ).toBe(200);
+    linked = projectSchema.parse(
+      (await (await a.get(`/api/data?kind=projects&id=${project.id}`)).json())
+        .value,
+    );
+    expect(linked.relatedEventIds).toEqual([event.id]);
+    expect(
+      (
+        await write(a, {
+          kind: "calendarSettings",
+          operation: "copy",
+          id: "calendar",
+          expectedVersion: 0,
+          sourceId: event.groupId,
+          name: "Bộ lịch bản sao",
+        })
+      ).status(),
+    ).toBe(200);
+    const copies = eventSchema
+      .array()
+      .parse(
+        (await (await a.get("/api/data?kind=calendarEvents")).json()).value,
+      );
+    expect(copies.length).toBe(2);
+    const copy = copies.find((item) => item.id !== event.id)!;
+    expect(copy.projectIds).toEqual([]);
+    expect(copy.noteIds).toEqual([]);
+    expect(copy.groupId).not.toBe(event.groupId);
+    expect(
+      (
+        await write(a, {
+          kind: "calendarSettings",
+          operation: "copy",
+          id: "calendar",
+          expectedVersion: 0,
+          sourceId: event.groupId,
+          name: "Không lưu",
+        })
+      ).status(),
+    ).toBe(409);
+    let latest: Note = note;
+    for (let index = 0; index < 22; index++) {
+      const result = await write(a, {
+        kind: "notes",
+        operation: "save",
+        id: note.id,
+        expectedVersion: latest.version,
+        value: {
+          ...latest,
+          title: `Bản ${index}`,
+          version: latest.version + 1,
+          revisions: [],
+        },
+      });
+      expect(result.status()).toBe(200);
+      latest = noteSchema.parse((await result.json()).value);
+    }
+    expect(latest.revisions.length).toBe(20);
+    const reload = noteSchema.parse(
+      (await (await a.get(`/api/data?kind=notes&id=${note.id}`)).json()).value,
+    );
+    expect(reload.revisions).toEqual(latest.revisions);
+    expect(
+      (
+        await write(a, {
+          kind: "projects",
+          operation: "save",
+          id: project.id,
+          expectedVersion: linked.version,
+          value: { ...linked, version: linked.version + 1 },
+          uid: owner.uid,
+        })
+      ).status(),
+    ).toBe(400);
+    expect(
+      (await a.post("/api/data", { data: { kind: "notes" } })).status(),
+    ).toBe(403);
+    const denied = await a.get(
+      `http://127.0.0.1:8080/v1/projects/demo-myos/databases/(default)/documents/users/${owner.uid}/projects/${project.id}`,
+      { headers: { Authorization: `Bearer ${owner.idToken}` } },
+    );
+    expect(denied.status()).toBe(403);
+    expect(
+      (
+        await write(a, {
+          kind: "notes",
+          operation: "remove",
+          id: note.id,
+          expectedVersion: latest.version,
+        })
+      ).status(),
+    ).toBe(400);
+    const trash = await write(a, {
+      kind: "notes",
+      operation: "save",
+      id: note.id,
+      expectedVersion: latest.version,
+      value: {
+        ...latest,
+        revisions: [],
+        version: latest.version + 1,
+        trashedAt: now,
+      },
+    });
+    expect(trash.status()).toBe(200);
+    latest = noteSchema.parse((await trash.json()).value);
+    expect(
+      (
+        await write(a, {
+          kind: "notes",
+          operation: "remove",
+          id: note.id,
+          expectedVersion: latest.version,
+        })
+      ).status(),
+    ).toBe(200);
+    linked = projectSchema.parse(
+      (await (await a.get(`/api/data?kind=projects&id=${project.id}`)).json())
+        .value,
+    );
+    expect(linked.relatedNoteIds).toEqual([]);
+  } finally {
+    await b.dispose();
+  }
+});
+
+test("logout revokes a copied session; forgot password and network error preserve form", async ({
+  page,
+  playwright,
+}) => {
+  await page.goto("/forgot-password");
+  await page
+    .getByLabel("Email", { exact: true })
+    .fill(`absent-${randomUUID()}@example.com`);
+  await page.getByRole("button", { name: "Gửi liên kết đặt lại" }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "Nếu email có tài khoản",
+  );
+  const a = await playwright.request.newContext({
+    baseURL: "http://127.0.0.1:3101",
+  });
+  const owner = await account(a);
+  const otherDevice = await playwright.request.newContext({
+    baseURL: "http://127.0.0.1:3101",
+  });
+  const csrf = await (await otherDevice.get("/api/auth")).json();
+  expect(
+    (
+      await otherDevice.post("/api/auth", {
+        headers: {
+          Origin: "http://127.0.0.1:3101",
+          "x-myos-csrf": csrf.csrfToken,
+        },
+        data: { idToken: owner.idToken, remember: false },
+      })
+    ).status(),
+  ).toBe(200);
+  expect(
+    (await otherDevice.storageState()).cookies.find(
+      (c) => c.name === "myos-session",
+    )?.expires,
+  ).toBe(-1);
+  const state = await a.storageState();
+  const copied = await playwright.request.newContext({
+    baseURL: "http://127.0.0.1:3101",
+    storageState: state,
+  });
+  try {
+    expect((await copied.get("/api/data?kind=profile")).status()).toBe(200);
+    const { csrfToken } = await (await a.get("/api/auth")).json();
+    expect(
+      (
+        await a.delete("/api/auth", {
+          headers: {
+            Origin: "http://127.0.0.1:3101",
+            "x-myos-csrf": csrfToken,
+          },
+        })
+      ).status(),
+    ).toBe(200);
+    expect((await copied.get("/api/data?kind=profile")).status()).toBe(401);
+    expect((await otherDevice.get("/api/data?kind=profile")).status()).toBe(
+      200,
+    );
+  } finally {
+    await a.dispose();
+    await copied.dispose();
+    await otherDevice.dispose();
+  }
+  const email = `failure-${randomUUID()}@example.com`;
+  await page.route("**/api/auth", (route) =>
+    route.request().method() === "POST"
+      ? route.fulfill({
+          status: 503,
+          contentType: "application/json",
+          body: JSON.stringify({
+            error: "Không kết nối được Firebase phía server.",
+          }),
+        })
+      : route.continue(),
+  );
+  await page.goto("/register");
+  await page.getByLabel("Tên hiển thị").fill("Bản nháp");
+  await page.getByLabel("Email", { exact: true }).fill(email);
+  await page.getByLabel("Mật khẩu", { exact: true }).fill(password);
+  await page.getByLabel("Nhập lại mật khẩu").fill(password);
+  await page
+    .getByRole("button", { name: "Tạo tài khoản", exact: true })
+    .click();
+  await expect(page.locator(".auth-error")).toContainText(
+    "Tài khoản đã được tạo",
+  );
+  await expect(page.getByLabel("Email", { exact: true })).toHaveValue(email);
+  await expect(
+    page.getByRole("button", { name: "Thử đăng nhập lại" }),
+  ).toBeEnabled();
+});

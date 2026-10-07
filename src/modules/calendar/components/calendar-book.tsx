@@ -1,8 +1,9 @@
 "use client";
+import { useAccount } from "@/modules/auth/account-context";
 import { DateTime } from "luxon";
 import { useRef, useState, type FormEvent } from "react";
 import { calendarError, calendarZone, type CalendarSettings } from "../model";
-import { copyCalendarGroup, localCalendarRepository } from "../repository";
+import { copyCalendarGroup, calendarRepository } from "../repository";
 import { CalendarDialog } from "./dialogs";
 
 export function CalendarYear({
@@ -14,6 +15,11 @@ export function CalendarYear({
   today: string;
   onDate: (date: string) => void;
 }) {
+  const firstDay = useAccount()?.profile.firstDay ?? 1;
+  const weekdays =
+    firstDay === 1
+      ? ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
+      : ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
   return (
     <div className="calendar-year" aria-label={"Lịch năm " + year}>
       {Array.from({ length: 12 }, (_, index) => {
@@ -21,7 +27,7 @@ export function CalendarYear({
           { year, month: index + 1, day: 1 },
           { zone: calendarZone },
         );
-        const offset = month.weekday - 1;
+        const offset = (month.weekday - firstDay + 7) % 7;
         return (
           <section
             className="calendar-year-month"
@@ -36,7 +42,7 @@ export function CalendarYear({
               Tháng {index + 1}
             </button>
             <div className="calendar-year-days">
-              {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((day) => (
+              {weekdays.map((day) => (
                 <span className="calendar-weekday" key={day}>
                   {day}
                 </span>
@@ -118,7 +124,7 @@ export function TimetableDialog({
                 item.id === id ? { ...item, name, color } : item,
               )
             : [...settings.groups, { id, name, color }];
-        await localCalendarRepository.saveSettings({ ...settings, groups });
+        await calendarRepository.saveSettings({ ...settings, groups });
       }
       onSaved(id);
     } catch (cause) {

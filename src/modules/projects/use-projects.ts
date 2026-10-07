@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { projectErrorMessage, type Project } from "./model";
-import { localProjectRepository, projectsChangedEvent } from "./repository";
+import { projectRepository, projectsChangedEvent } from "./repository";
 
 export function useProjects(projectId?: string) {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -20,8 +20,8 @@ export function useProjects(projectId?: string) {
       const request = ++generation;
       try {
         const data = projectId
-          ? await localProjectRepository.get(projectId)
-          : await localProjectRepository.list();
+          ? await projectRepository.get(projectId)
+          : await projectRepository.list();
         if (disposed || request !== generation) return;
         if (Array.isArray(data)) setProjects(data);
         else setProject(data);

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { subscribeLocalChange } from "@/lib/local-database";
-import { localNoteRepository } from "./repository";
+import { noteRepository } from "./repository";
 import {
   noteError,
   noteInput,
@@ -27,8 +27,8 @@ export function useNotes(id?: string) {
       const current = ++generation;
       try {
         const data = id
-          ? await localNoteRepository.get(id)
-          : await localNoteRepository.list();
+          ? await noteRepository.get(id)
+          : await noteRepository.list();
         if (disposed || current !== generation) return;
         if (Array.isArray(data)) setNotes(data);
         else setNote(data);

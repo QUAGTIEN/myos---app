@@ -1,20 +1,20 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
-Ngày cập nhật: **07/10/2026** · Phiên bản: **1.12 — Bộ thời khóa biểu và hồ sơ dự án local; G2 chuyển xuống cuối**
+Ngày cập nhật: **07/10/2026** · Phiên bản: **1.13 — G2 tài khoản tự đăng ký và Firestore, Vercel**
 
-**Mở rộng hiện tại:** Lịch tách xem ngày/tháng/năm và Công việc theo nhiều bộ thời khóa biểu. Groups là bộ lịch đã lưu; sao chép settings/events nguyên tử, identity mới, không sao chép liên kết nguồn. Dự án có Kanban và workspace được validate với defaults để đọc bản cũ; Blob ở projectAttachments, ghi/xóa cùng metadata trong transaction kiểm tra version. IndexedDB v4 giữ stores cũ. Chi tiết tại [ADR 005](docs/decisions/005-timetables-project-dossiers.md).
+**Lịch sử mở rộng local:** Lịch tách xem ngày/tháng/năm và Công việc theo nhiều bộ thời khóa biểu. Groups là bộ lịch đã lưu; sao chép settings/events nguyên tử, identity mới, không sao chép liên kết nguồn. Dự án có Kanban và workspace được validate với defaults để đọc bản cũ; Blob ở projectAttachments, ghi/xóa cùng metadata trong transaction kiểm tra version. IndexedDB v4 giữ stores cũ. Chi tiết tại [ADR 005](docs/decisions/005-timetables-project-dossiers.md).
 
 Tài liệu được cập nhật theo lựa chọn của người dùng: Firebase và đúng **5 phân hệ: Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt**. Ngữ cảnh sản phẩm nằm trong [cuộc trò chuyện gốc](https://chatgpt.com/share/6ac3f0a0-ebb0-83ec-970a-56dcaaa98894).
 
-**Trạng thái hiện tại: G1, G3, G4, G5 và Tổng quan có implementation local.** G3 quản lý dự án, nội dung văn bản, ghim/lưu trữ, checklist/mốc, tiến độ và lịch sử bằng IndexedDB. Người dùng chuyển G2 xuống cuối; Firebase hiện chỉ có mẫu biến môi trường và định hướng, chưa có Auth/session, collection cloud, worker hoặc deploy. Route group (private) chưa bảo vệ tài khoản. [README](README.md) ghi cách chạy; [AGENTS.md](AGENTS.md) hướng dẫn agent; [SOURCE_MAP](docs/SOURCE_MAP.md) phân biệt mã đã có và phần dự kiến. Quyết định ở [ADR G1](docs/decisions/001-framework-shell.md) và [ADR G3](docs/decisions/002-local-projects.md). Các phần cloud bên dưới là kiến trúc đích, chưa phải hành vi hiện tại.
+**Trạng thái hiện tại:** G2 bước 1–5 có source Auth/session/hồ sơ/Firestore cho 5 phân hệ; chưa xác nhận project thật khi thiếu Admin credentials. Local v4 giữ riêng, không migration; ảnh/tệp cloud, worker, Zalo và deploy hoãn. Quyết định hiện hành ở [ADR 006](docs/decisions/006-firebase-public-accounts.md); các phần worker/media bên dưới là kế hoạch.
 
-G3–G5 tạm dùng luồng **Client Component → service → repository IndexedDB**. Schema Zod và quy tắc nằm trong module đến khi cần dùng chung. Mỗi lần ghi kiểm tra version trong cùng transaction, chỉ báo thành công sau commit. Firebase/Server Actions sẽ triển khai ở G2; chưa có chuyển dữ liệu local tự động. G4 có Tiptap JSON, ảnh Blob, autosave và 20 revisions; note/ảnh/liên kết dự án ghi nguyên tử. Database `myos-local` version 2 thêm `notes`, `noteAttachments` và giữ `projects`. Notes.projectIds là nguồn liên kết, Projects.relatedNoteIds được cập nhật cùng transaction. G5 thêm calendarEvents/calendarSettings ở database version 3, giữ các kho cũ. Có bộ lịch bốn views, lặp tuần/ngoại lệ, kéo/resize rollback, liên kết hai chiều Dự án/Ghi chú, .ics và cài đặt lịch. Nhắc chỉ lưu cấu hình; gửi tự động/Zalo chờ G7. Quyết định tại [ADR G5](docs/decisions/004-local-calendar.md). Xem [ADR G4](docs/decisions/003-local-notes.md).
+Trước G2, G3–G5 dùng luồng **Client Component → service → repository IndexedDB**. Schema Zod và quy tắc nằm trong module đến khi cần dùng chung. Mỗi lần ghi kiểm tra version trong cùng transaction, chỉ báo thành công sau commit. G2 đã thêm API session/data và Firestore; chưa có chuyển dữ liệu local tự động. G4 có Tiptap JSON, ảnh Blob, autosave và 20 revisions; note/ảnh/liên kết dự án ghi nguyên tử. Database `myos-local` version 2 thêm `notes`, `noteAttachments` và giữ `projects`. Notes.projectIds là nguồn liên kết, Projects.relatedNoteIds được cập nhật cùng transaction. G5 thêm calendarEvents/calendarSettings ở database version 3, giữ các kho cũ. Có bộ lịch bốn views, lặp tuần/ngoại lệ, kéo/resize rollback, liên kết hai chiều Dự án/Ghi chú, .ics và cài đặt lịch. Nhắc chỉ lưu cấu hình; gửi tự động/Zalo chờ G7. Quyết định tại [ADR G5](docs/decisions/004-local-calendar.md). Xem [ADR G4](docs/decisions/003-local-notes.md).
 
 Tổng quan đọc G3–G5 qua các hook hiện có và `overview/model.ts` để tổng hợp trong bộ nhớ: ngày Việt Nam, lịch lặp/qua đêm, checklist và mốc của dự án chưa hoàn thành/chưa lưu trữ, dự án active, ghi chú ngoài thùng rác. Không thêm collection/store hoặc bản sao dữ liệu. Mutations gọi lại service nguồn; từng khối tải lỗi có retry riêng. `overview-screen.tsx` điều phối thao tác và các panel; `overview.css` giữ bố cục responsive. Tìm kiếm chung và vùng thông báo tích hợp còn là kế hoạch.
 
 ## 1. Quyết định kiến trúc
 
-**Chọn Next.js + TypeScript, Cloud Firestore, Firebase Authentication, Cloud Storage for Firebase và Firebase App Hosting. Nhắc lịch chạy bằng Cloud Functions for Firebase thế hệ 2 + Cloud Scheduler.**
+**Chọn Next.js + TypeScript, Cloud Firestore, Firebase Authentication, Cloud Storage for Firebase (hoãn) và Vercel. Nhắc lịch chạy bằng Cloud Functions for Firebase thế hệ 2 + Cloud Scheduler.**
 
 Phân biệt tên dịch vụ:
 
@@ -28,13 +28,13 @@ Phân biệt tên dịch vụ:
 | Firebase Authentication | Đăng nhập và định danh người dùng |
 | Cloud Functions + Cloud Scheduler | Tác vụ nền và nhắc lịch |
 
-**Firestore không phải dịch vụ host website.** Với kiến trúc Next.js có Server Actions, chọn **Firebase App Hosting**. Firebase hỗ trợ Next.js trong App Hosting. [App Hosting](https://firebase.google.com/docs/app-hosting), [Firebase Hosting](https://firebase.google.com/docs/hosting)
+**Firestore là database.** Người dùng chọn Vercel để host Next.js với API/session server; Firebase App Hosting là phương án tham khảo cũ. [App Hosting](https://firebase.google.com/docs/app-hosting), [Firebase Hosting](https://firebase.google.com/docs/hosting)
 
 Kiến trúc vẫn là **modular monolith**: một ứng dụng chính chia theo nghiệp vụ, một database; worker deploy riêng để chạy khi đóng web. Không cần microservices, Kubernetes hay Redis ở giai đoạn đầu.
 
 Giả định:
 
-- Một người dùng, giao diện tiếng Việt, timezone Asia/Ho_Chi_Minh.
+- Nhiều tài khoản tự đăng ký, mỗi người có không gian riêng; tiếng Việt, timezone Asia/Ho_Chi_Minh.
 - Sidebar và điều hướng mobile chỉ có Tổng quan, Lịch, Dự án, Ghi chú, Cài đặt. Tệp đính kèm, tìm kiếm và nhắc Zalo là khả năng bên trong các phân hệ này.
 - Web responsive cho Windows và điện thoại; bổ sung PWA sau.
 - Đăng nhập riêng tư; quyền ứng dụng chỉ cấp cho tài khoản được cho phép.
@@ -63,7 +63,7 @@ Giả định:
 | Ngày giờ | Luxon 3.7.2 + FullCalendar luxon3 | UTC/ngày địa phương, múi giờ Việt Nam độc lập timezone máy |
 | Tác vụ nền | Cloud Functions gen 2 + Cloud Scheduler | Quét job nhắc mỗi phút, retry, đọc cập nhật Zalo |
 | Secrets | Google Secret Manager | Bot Token và bí mật tích hợp |
-| Hosting | **Firebase App Hosting** | Next.js động; build/deploy từ GitHub |
+| Hosting | **Vercel** | Next.js động; người dùng deploy |
 | Kiểm thử | Vitest, Testing Library, Playwright, Firebase Emulator Suite | Domain, Security Rules, transactions và E2E |
 | Source/CI | GitHub private repo + GitHub Actions | Kiểm tra trước triển khai |
 | Giám sát | Cloud Logging + Cloud Monitoring | Lỗi và tình trạng worker |
@@ -76,7 +76,7 @@ Dùng Zod schema và Firestore converters cho kiểu dữ liệu; không giả �
 
 ~~~mermaid
 flowchart TB
-    U[Máy tính / Điện thoại] --> W[Next.js trên Firebase App Hosting]
+    U[Máy tính / Điện thoại] --> W[Next.js trên Vercel]
     U --> A[Firebase Authentication]
     W --> M[Service theo phân hệ]
     M --> D[(Cloud Firestore)]
@@ -99,7 +99,7 @@ flowchart TB
 | Domain | Quy tắc ngày giờ, lịch lặp, tiến độ và phiên bản nội dung |
 | Infrastructure | Repository Firestore, Storage và adapter Zalo |
 
-Luồng ghi quan trọng: **Form → Server Action → xác thực session/allowlist → service → Firestore transaction**.
+Luồng ghi hiện tại: **Form → service → repository HTTP → Route Handler → xác thực session/CSRF/UID/Zod → Firestore transaction**.
 
 - Dùng Firebase Auth ở browser; endpoint session kiểm tra ID token, recent sign-in và chống CSRF trước khi tạo HttpOnly/Secure cookie. Server xác minh cookie cho từng thao tác; đăng xuất xóa cookie và state browser. [Session cookies](https://firebase.google.com/docs/auth/admin/manage-cookies)
 - Admin SDK **bỏ qua Firestore Security Rules** và dùng IAM; mọi server service phải lấy UID từ session đã xác thực, tự kiểm tra quyền và phạm vi đường dẫn. Không tin UID do form gửi lên. [Firestore security](https://firebase.google.com/docs/firestore/security/overview)
@@ -344,7 +344,7 @@ notificationJobs/{jobId}/attempts/{attemptId}
 integrationConnections/{connectionId} # server-only; UID/provider/chatId
 integrationPairings/{codeHash}         # server-only; mã một lần có TTL
 system/workerState                    # cursor/lease và heartbeat
-accessGrants/{uid}                    # allowlist; client không tự ghi
+users/{uid}/sessions/{hash}           # phiên server, client không truy cập
 ~~~
 
 | Collection | Trường chính |
@@ -398,7 +398,7 @@ Scheduled function có thể được gọi lại hoặc chạy đồng thời. 
 
 Mục tiêu thử nghiệm: thường gửi trong khoảng 1–2 phút quanh mốc nhắc, không phải SLA. Zalo nhận request thành công không có nghĩa người dùng đã đọc. Nếu request timeout sau khi provider đã nhận, có thể gửi trùng khi retry; lưu unknown và xử lý thận trọng, không hứa exactly-once. Lịch sửa khi lệnh gửi đã bắt đầu vẫn có cửa sổ race.
 
-Ghép nối Zalo: người dùng đăng nhập lấy mã một lần rồi gửi mã cho Bot MyOS. Mã được hash, hết hạn và consume bằng transaction; chỉ UID trong allowlist được kết nối. Bot Token ở Secret Manager, chatId chỉ ở collection server-only. Không lấy người nhắn đầu tiên làm chủ sở hữu.
+Ghép nối Zalo: người dùng đăng nhập lấy mã một lần rồi gửi mã cho Bot MyOS. Mã được hash, hết hạn và consume bằng transaction; chỉ UID đã xác thực được kết nối. Bot Token ở Secret Manager, chatId chỉ ở collection server-only. Không lấy người nhắn đầu tiên làm chủ sở hữu.
 
 Bước đầu poll getUpdates theo lịch phù hợp hạn mức; giữ cursor/lease bền vững, xử lý cập nhật idempotent. Chưa cần long polling vô hạn. Nếu chuyển webhook, kiểm tra cơ chế xác thực nhà cung cấp trước khi mở endpoint.
 
@@ -412,7 +412,7 @@ Chỉ bật production sau thử gửi sau 10 phút, ngày hôm sau khi không t
 
 | Thành phần | Nơi triển khai |
 | --- | --- |
-| Next.js có server | Firebase App Hosting |
+| Next.js có server | Vercel (người dùng deploy) |
 | Database | Cloud Firestore Standard, Native mode |
 | Đăng nhập | Firebase Authentication |
 | Ảnh/tài liệu | Cloud Storage for Firebase |
@@ -426,7 +426,7 @@ Chỉ bật production sau thử gửi sau 10 phút, ngày hôm sau khi không t
 
 Có thể đổi frontend thành **React + Vite SPA**, host static trên Firebase Hosting, dùng Firebase Auth/Firestore Web SDK và callable/HTTP Functions cho nghiệp vụ server. Đây là phương án hợp lý nếu không cần Next.js server rendering.
 
-Next.js static export cũng cần bỏ/thay Server Actions và các khả năng cần server; không upload build tĩnh rồi mong API/session server tiếp tục chạy. Tài liệu hiện tại ưu tiên App Hosting để giữ Next.js.
+Next.js static export cũng cần bỏ/thay Server Actions và các khả năng cần server; không upload build tĩnh rồi mong API/session server tiếp tục chạy. Người dùng đã chọn Vercel để giữ Next.js có server.
 
 ### Chi phí
 
@@ -444,10 +444,10 @@ Local dùng Emulator Suite; cloud thử nghiệm bắt đầu bằng tài nguyê
 Tách local/emulator, staging và production bằng Firebase project riêng; alias không được tự động mặc định vào production. Không dùng dữ liệu riêng trong seed, E2E hoặc preview.
 
 1. Khởi tạo Next.js/workspace, Functions, Emulator Suite, rules, indexes và CI.
-2. Cấu hình Auth provider, allowlist và session; test quyền của hai UID.
+2. Cấu hình Auth Email/Password và session; test quyền của hai UID.
 3. Tạo staging, region và billing sau khi người dùng chọn cấu hình; tạo service account quyền tối thiểu.
 4. CI chạy lint/typecheck, test domain/rules/transactions, build web/worker.
-5. Deploy indexes và rules tương thích; chờ index ready, chạy migration nếu có; deploy Functions, rồi App Hosting.
+5. Deploy indexes và rules tương thích; chờ index ready, chạy migration nếu có; deploy Functions khi đến phạm vi worker, web qua Vercel theo yêu cầu người dùng.
 6. Smoke test lịch, job, upload và ghép nối bằng bot thử. Staging không gửi dữ liệu mẫu vào kênh production.
 7. Production bật scheduler và gửi thật sau kiểm tra secrets/IAM. Theo dõi logs, job lỗi, lease và bill.
 
@@ -459,11 +459,11 @@ Firebase web config/API key không phải khóa Admin; dữ liệu được bả
 
 ## 10. Quyền, dữ liệu riêng và sao lưu
 
-- Firestore Rules mặc định deny; chỉ grant collection/field cần thiết cho UID đúng và còn accessGrant. Phải viết match rõ cho subcollections; không dùng wildcard cho phép mọi dữ liệu dưới user.
-- Browser không được ghi notificationJobs, integrationConnections, pairings, accessGrants hoặc dữ liệu tổng hợp do server quản lý. Bản đầu server thực hiện các ghi nghiệp vụ; rules cho đọc giới hạn nếu cần.
-- Server Admin SDK bỏ qua Rules: kiểm tra session, allowlist, ownership ở service và cấp IAM tối thiểu. Test server authorization riêng với test Rules.
+- Firestore Rules mặc định deny; chỉ grant collection/field cần thiết cho UID đúng đã xác thực. Phải viết match rõ cho subcollections; không dùng wildcard cho phép mọi dữ liệu dưới user.
+- Browser không được ghi notificationJobs, integrationConnections, pairings hoặc dữ liệu tổng hợp do server quản lý. Bản đầu server thực hiện các ghi nghiệp vụ; rules cho đọc giới hạn nếu cần.
+- Server Admin SDK bỏ qua Rules: kiểm tra session, ownership ở service và cấp IAM tối thiểu. Test server authorization riêng với test Rules.
 - App Check là lớp bổ sung cho endpoint/SDK hỗ trợ, không thay Auth/ownership. Endpoint server có CSRF/rate limit theo tính chất thao tác.
-- Storage path users/{uid}/attachments/{attachmentId}/...; Rules kiểm tra UID, allowlist, MIME và size. Upload trực tiếp bằng SDK có Auth; server finalize xác minh object.
+- Storage path users/{uid}/attachments/{attachmentId}/...; Rules kiểm tra UID đã xác thực, MIME và size. Upload trực tiếp bằng SDK có Auth; server finalize xác minh object.
 - Với tài liệu riêng, cấp signed URL ngắn hạn sau khi xác thực hoặc tải qua SDK có Rules; tránh dùng download-token URL dài hạn như URL công khai trong danh mục.
 - Nội dung rich text/HTML xuất từ editor được sanitize. PWA không mặc định cache file riêng; đăng xuất xóa dữ liệu client. Không log Bot Token, session, signed URL hoặc toàn văn ghi chú.
 - Logs vận hành giữ ID/mã lỗi/thời gian; retention dự kiến 30 ngày. Collection job lớn được dọn riêng, không dùng TTL làm scheduler.
@@ -500,7 +500,7 @@ Kế hoạch thực hiện chi tiết: [IMPLEMENTATION_PLAN.md](docs/IMPLEMENTAT
 
 **Bước 0 — Đã chuẩn bị:** bộ khung thư mục và tài liệu. **G1 đã triển khai local:** framework, layout 5 mục, trang khung, Firebase lazy configuration và CI. Auth, Rules, staging, nghiệp vụ và deploy vẫn chưa triển khai; chi tiết theo IMPLEMENTATION_PLAN.md.
 
-1. **Nền móng:** Next.js, Firebase Auth, session/allowlist, Rules, schema/indexes, CI, staging và shell đúng năm mục menu.
+1. **Nền móng:** Next.js, Firebase Auth, session/UID, Rules, schema/indexes, CI, staging và shell đúng năm mục menu.
 2. **Bản dùng hằng ngày:** Tổng quan cơ bản; Lịch một lần và thời khóa biểu tuần có ngày hiệu lực/ngoại lệ; Dự án và tiến độ; Ghi chú rich text/ảnh/autosave; Cài đặt hồ sơ/timezone; xuất .ics.
 3. **Nhắc lịch:** Thử Zalo ngay từ sớm song song nền móng, rồi tích hợp scheduler, ghép nối và retry khi đạt; lời nhắc trong app hoạt động độc lập.
 4. **Hoàn thiện:** Các kiểu lặp tháng, sửa chuỗi từ một buổi, checklist/mốc dự án, folder/tag/tìm kiếm, revision/thùng rác, in lịch và backup/restore.
@@ -514,7 +514,7 @@ Lịch lặp theo tuần và ghi chú hình ảnh là nhu cầu cốt lõi, đư
 | --- | --- |
 | Database | Firestore Standard Native mode |
 | Hosting | App Hosting cho Next.js; Hosting static là phương án SPA thay thế |
-| Người dùng | Một người, tài khoản được allowlist |
+| Người dùng | Tự đăng ký, dữ liệu cách ly theo UID |
 | Region | Singapore khi từng dịch vụ hỗ trợ |
 | Billing | Blaze cho bộ chức năng đầy đủ; dự trù thử 5–10 USD/tháng |
 | Nội dung ghi chú | Rich text + ảnh, đính kèm PDF/file; size và retention có giới hạn |
@@ -531,7 +531,7 @@ Thay đổi từ phiên bản 1.1: giới hạn toàn bộ sản phẩm vào T�
 
 ## 14. Áp dụng Next.js Learn vào MyOS
 
-Đã đọc 16 chapter của [Next.js Learn — Dashboard App](https://nextjs.org/learn/dashboard-app), đối chiếu ngày 06/10/2026. Bảng dưới đây là quyết định áp dụng cho dự án; chưa phải mã ứng dụng đã triển khai. Khóa học minh họa bằng dashboard hóa đơn, PostgreSQL, NextAuth và Vercel. MyOS giữ **Next.js + React + TypeScript, Firestore, Firebase Auth và Firebase App Hosting**, với đúng 5 phân hệ ở mục 5.
+Đã đọc 16 chapter của [Next.js Learn — Dashboard App](https://nextjs.org/learn/dashboard-app), đối chiếu ngày 06/10/2026. Bảng dưới đây là quyết định áp dụng cho dự án; chưa phải mã ứng dụng đã triển khai. Khóa học minh họa bằng dashboard hóa đơn, PostgreSQL, NextAuth và Vercel. MyOS giữ **Next.js + React + TypeScript, Firestore, Firebase Auth và Vercel**, với đúng 5 phân hệ ở mục 5.
 
 ### 14.1. Đối chiếu toàn bộ chapter
 
@@ -595,7 +595,7 @@ error.tsx là Client Component, thông báo dễ hiểu và có thử lại; log
 
 ### 14.5. Form và Server Actions
 
-Luồng ghi: **Form/client → Server Action → requireUser → Zod → service/transaction → Firestore → làm mới phần UI liên quan**. Action kiểm tra lại session, quyền sở hữu và dữ liệu mỗi lần gọi; ID gửi từ client là đầu vào chưa được tin cậy.
+Luồng ghi: **Form/client → service → repository HTTP → Route Handler → requireUser/CSRF → Zod/transaction → Firestore → làm mới UI**. Action kiểm tra lại session, quyền sở hữu và dữ liệu mỗi lần gọi; ID gửi từ client là đầu vào chưa được tin cậy.
 
 Form đơn giản có thể dùng useActionState/useFormStatus cho lỗi và pending. Form lịch phức tạp tiếp tục dùng React Hook Form + Zod; chọn một nơi quản lý trạng thái form, tránh hai cơ chế giữ giá trị cạnh tranh. Vô hiệu hóa gửi trùng khi pending, báo lỗi theo trường, focus đúng chỗ và giữ dữ liệu sau lỗi. Client validation hỗ trợ trải nghiệm, server validation quyết định dữ liệu được lưu.
 

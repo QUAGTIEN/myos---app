@@ -1,0 +1,11 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    { "collectionGroup": "projects", "fieldPath": "payload", "indexes": [] },
+    { "collectionGroup": "notes", "fieldPath": "payload", "indexes": [] },
+    { "collectionGroup": "revisions", "fieldPath": "payload", "indexes": [] },
+    { "collectionGroup": "calendarEvents", "fieldPath": "payload", "indexes": [] },
+    { "collectionGroup": "calendarSettings", "fieldPath": "payload", "indexes": [] },
+    { "collectionGroup": "users", "fieldPath": "payload", "indexes": [] }
+  ]
+}

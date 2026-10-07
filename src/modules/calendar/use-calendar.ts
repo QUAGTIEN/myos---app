@@ -6,7 +6,7 @@ import {
   defaultCalendarSettings,
   type CalendarEvent,
 } from "./model";
-import { calendarChangedEvent, localCalendarRepository } from "./repository";
+import { calendarChangedEvent, calendarRepository } from "./repository";
 
 export function useCalendar() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -22,8 +22,8 @@ export function useCalendar() {
       const current = ++generation;
       try {
         const [next, preferences] = await Promise.all([
-          localCalendarRepository.list(),
-          localCalendarRepository.settings(),
+          calendarRepository.list(),
+          calendarRepository.settings(),
         ]);
         if (disposed || current !== generation) return;
         setEvents(next);

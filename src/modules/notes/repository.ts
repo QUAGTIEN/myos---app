@@ -1,3 +1,5 @@
+import { firebaseEnabled } from "@/lib/firebase/client";
+import { cloudNoteRepository } from "@/lib/firebase/cloud-client";
 import { openLocalDatabase, announceLocalChange } from "@/lib/local-database";
 import { projectSchema, type Project } from "@/modules/projects/model";
 import { projectsChangedEvent } from "@/modules/projects/repository";
@@ -226,3 +228,7 @@ export const localNoteRepository: NoteRepository = {
     });
   },
 };
+
+export const noteRepository: NoteRepository = firebaseEnabled
+  ? cloudNoteRepository
+  : localNoteRepository;
