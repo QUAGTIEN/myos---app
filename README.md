@@ -58,6 +58,8 @@ Lượt mở rộng Lịch/Dự án đã kiểm chứng lint/typecheck/format/bu
 
 Giao diện dùng sidebar navy, desktop rộng, panel trắng và điểm nhấn màu rõ ở icon/viền/tiến độ. Bốn thẻ số liệu Tổng quan dùng nền màu tươi, các thẻ ghi chú giữ pastel. Thẻ không có viền màu, tiêu đề phân hệ chỉ hiển thị trên thanh công cụ; menu đặt Ghi chú trước Dự án. Tổng quan hiển thị dữ liệu thực tế.
 
+Trang Ghi chú có thanh thao tác thống nhất, thư viện tích hợp và thẻ pastel gọn; bố cục chuyển phù hợp desktop/mobile, giữ các chức năng G4.
+
 ## Công nghệ đã chọn
 
 - Next.js App Router + React + TypeScript.

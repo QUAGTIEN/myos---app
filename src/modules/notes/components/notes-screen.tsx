@@ -7,11 +7,12 @@ import {
   Trash2,
   Folder,
   Plus,
+  Clock3,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { EmptyState, PageHeading, PageSkeleton } from "@/components/page-ui";
+import { EmptyState, PageSkeleton } from "@/components/page-ui";
 
 import {
   emptyNoteInput,
@@ -103,22 +104,7 @@ export function NotesScreen() {
   }
   return (
     <div className="notes-module">
-      <PageHeading
-        title="Ghi chú"
-        action={
-          <button
-            className="button primary"
-            type="button"
-            disabled={loading || !!error || pending}
-            onClick={() => {
-              void create();
-            }}
-          >
-            <Plus size={18} />
-            {pending ? "Đang tạo…" : "Tạo ghi chú"}
-          </button>
-        }
-      />
+      <h1 className="sr-only">Ghi chú</h1>
       {(error || actionError) && (
         <div className="note-error" role="alert">
           <p>{error || actionError}</p>
@@ -138,193 +124,222 @@ export function NotesScreen() {
           </button>
         </div>
       )}
-      {loading ? (
-        <PageSkeleton />
-      ) : (
-        <div className="note-library">
-          <aside
-            className="panel note-library-sidebar"
-            aria-label="Thư viện ghi chú"
+      <div className="note-library-workspace">
+        <div className="note-list-toolbar">
+          <label className="note-search">
+            <Search size={18} />
+            <input
+              type="search"
+              aria-label="Tìm ghi chú theo tiêu đề"
+              placeholder="Tìm theo tiêu đề…"
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setPage(1);
+              }}
+            />
+          </label>
+          <button
+            className="button secondary"
+            type="button"
+            disabled={loading || pending || !!error}
+            onClick={() => imageInput.current?.click()}
           >
-            <h2>Thư viện</h2>
-            <button
-              type="button"
-              className={collection === "all" ? "selected" : ""}
-              onClick={() => selectCollection("all")}
+            <ImagePlus size={17} />
+            Từ ảnh
+          </button>
+          <button
+            className="button primary"
+            type="button"
+            disabled={loading || !!error || pending}
+            onClick={() => {
+              void create();
+            }}
+          >
+            <Plus size={18} />
+            {pending ? "Đang tạo…" : "Tạo ghi chú"}
+          </button>
+          <input
+            className="sr-only"
+            ref={imageInput}
+            type="file"
+            aria-label="Tạo ghi chú từ ảnh"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            multiple
+            onChange={(event) => {
+              void create(Array.from(event.target.files ?? []));
+            }}
+          />
+        </div>
+        {loading ? (
+          <PageSkeleton />
+        ) : (
+          <div className="note-library">
+            <aside
+              className="note-library-sidebar"
+              aria-label="Thư viện ghi chú"
             >
-              <NotebookPen size={17} />
-              Tất cả ghi chú<span>{live.length}</span>
-            </button>
-            <button
-              type="button"
-              className={collection === "pinned" ? "selected" : ""}
-              onClick={() => selectCollection("pinned")}
-            >
-              <Pin size={17} />
-              Đã ghim<span>{live.filter((note) => note.pinned).length}</span>
-            </button>
-            <button
-              type="button"
-              className={collection === "trash" ? "selected" : ""}
-              onClick={() => selectCollection("trash")}
-            >
-              <Trash2 size={17} />
-              Thùng rác<span>{notes.length - live.length}</span>
-            </button>
-            {!!folders.length && <h3>Thư mục</h3>}
-            {folders.length
-              ? folders.map((name) => (
+              <h2>Thư viện</h2>
+              <button
+                type="button"
+                className={collection === "all" && !folder ? "selected" : ""}
+                aria-pressed={collection === "all" && !folder}
+                onClick={() => selectCollection("all")}
+              >
+                <NotebookPen size={17} />
+                Tất cả ghi chú<span>{live.length}</span>
+              </button>
+              <button
+                type="button"
+                className={collection === "pinned" ? "selected" : ""}
+                aria-pressed={collection === "pinned"}
+                onClick={() => selectCollection("pinned")}
+              >
+                <Pin size={17} />
+                Đã ghim<span>{live.filter((note) => note.pinned).length}</span>
+              </button>
+              <button
+                type="button"
+                className={collection === "trash" ? "selected" : ""}
+                aria-pressed={collection === "trash"}
+                onClick={() => selectCollection("trash")}
+              >
+                <Trash2 size={17} />
+                Thùng rác<span>{notes.length - live.length}</span>
+              </button>
+              {!!folders.length && <h3>Thư mục</h3>}
+              {folders.length
+                ? folders.map((name) => (
+                    <button
+                      key={name}
+                      type="button"
+                      className={folder === name ? "selected" : ""}
+                      aria-pressed={folder === name}
+                      onClick={() => {
+                        setCollection("all");
+                        setFolder(name);
+                        setPage(1);
+                      }}
+                    >
+                      <Folder size={16} />
+                      <span className="note-folder-name">{name}</span>
+                    </button>
+                  ))
+                : null}
+              {!!tags.length && <h3>Nhãn</h3>}
+              <div className="note-tag-filter">
+                {tags.map((name) => (
                   <button
-                    key={name}
                     type="button"
-                    className={folder === name ? "selected" : ""}
+                    key={name}
+                    className={tag === name ? "selected" : ""}
+                    aria-pressed={tag === name}
                     onClick={() => {
-                      setCollection("all");
-                      setFolder(name);
+                      setTag(tag === name ? "" : name);
                       setPage(1);
                     }}
                   >
-                    <Folder size={16} />
-                    <span className="note-folder-name">{name}</span>
+                    #{name}
                   </button>
-                ))
-              : null}
-            {!!tags.length && <h3>Nhãn</h3>}
-            <div className="note-tag-filter">
-              {tags.map((name) => (
-                <button
-                  type="button"
-                  key={name}
-                  className={tag === name ? "selected" : ""}
-                  onClick={() => {
-                    setTag(tag === name ? "" : name);
-                    setPage(1);
-                  }}
-                >
-                  #{name}
-                </button>
-              ))}
-            </div>
-          </aside>
-          <section className="note-library-main" aria-label="Danh sách ghi chú">
-            <div className="note-list-toolbar">
-              <label className="note-search">
-                <Search size={18} />
-                <input
-                  type="search"
-                  aria-label="Tìm ghi chú theo tiêu đề"
-                  placeholder="Tìm theo tiêu đề…"
-                  value={query}
-                  onChange={(event) => {
-                    setQuery(event.target.value);
-                    setPage(1);
-                  }}
-                />
-              </label>
-              <button
-                className="button secondary"
-                type="button"
-                disabled={pending || !!error}
-                onClick={() => imageInput.current?.click()}
-              >
-                <ImagePlus size={17} />
-                Từ ảnh
-              </button>
-              <input
-                className="sr-only"
-                ref={imageInput}
-                type="file"
-                aria-label="Tạo ghi chú từ ảnh"
-                accept="image/png,image/jpeg,image/webp,image/gif"
-                multiple
-                onChange={(event) => {
-                  void create(Array.from(event.target.files ?? []));
-                }}
-              />
-            </div>
-            <div className="note-list-caption">
-              <span>
-                {collection === "trash"
-                  ? "Thùng rác"
-                  : collection === "pinned"
-                    ? "Đã ghim"
-                    : folder || "Tất cả ghi chú"}
-                {tag ? " · #" + tag : ""}
-              </span>
-              <span>{filtered.length} ghi chú</span>
-            </div>
-            {!filtered.length ? (
-              <section className="panel">
-                <EmptyState
-                  icon={NotebookPen}
-                  title={
-                    collection === "trash"
-                      ? "Thùng rác đang trống"
-                      : "Chưa có ghi chú"
-                  }
-                />
-              </section>
-            ) : (
-              <div className="note-card-grid">
-                {filtered
-                  .slice((currentPage - 1) * 12, currentPage * 12)
-                  .map((note) => (
-                    <Link
-                      href={"/notes/" + note.id}
-                      className="panel note-card"
-                      key={note.id}
-                    >
-                      <div className="note-card-top">
-                        <span>{note.folder || "Chưa phân thư mục"}</span>
-                        {note.pinned && <Pin size={15} aria-label="Đã ghim" />}
-                      </div>
-                      <h2>{note.title}</h2>
-                      <p className="note-card-preview">
-                        {plainText(note.content) || "Chưa có nội dung."}
-                      </p>
-                      <div className="note-card-tags">
-                        {note.tags.map((name) => (
-                          <span key={name}>#{name}</span>
-                        ))}
-                      </div>
-                      <div className="note-card-bottom">
-                        <time dateTime={note.updatedAt}>
-                          {noteTime(note.updatedAt)}
-                        </time>
-                        {imageIds(note.content).length > 0 && (
-                          <span>{imageIds(note.content).length} ảnh</span>
-                        )}
-                      </div>
-                    </Link>
-                  ))}
+                ))}
               </div>
-            )}
-            {pageCount > 1 && (
-              <div className="note-pagination">
+            </aside>
+            <section
+              className="note-library-main"
+              aria-label="Danh sách ghi chú"
+            >
+              <div className="note-list-caption">
                 <span>
-                  Trang {currentPage}/{pageCount}
+                  {collection === "trash"
+                    ? "Thùng rác"
+                    : collection === "pinned"
+                      ? "Đã ghim"
+                      : folder || "Tất cả ghi chú"}
+                  {tag ? " · #" + tag : ""}
                 </span>
-                <button
-                  className="button secondary small"
-                  type="button"
-                  disabled={currentPage === 1}
-                  onClick={() => setPage(currentPage - 1)}
-                >
-                  Trước
-                </button>
-                <button
-                  className="button secondary small"
-                  type="button"
-                  disabled={currentPage === pageCount}
-                  onClick={() => setPage(currentPage + 1)}
-                >
-                  Sau
-                </button>
+                <span>{filtered.length} ghi chú</span>
               </div>
-            )}
-          </section>
-        </div>
-      )}
+              {!filtered.length ? (
+                <section className="note-library-empty">
+                  <EmptyState
+                    icon={NotebookPen}
+                    title={
+                      collection === "trash"
+                        ? "Thùng rác đang trống"
+                        : "Chưa có ghi chú"
+                    }
+                  />
+                </section>
+              ) : (
+                <div className="note-card-grid">
+                  {filtered
+                    .slice((currentPage - 1) * 12, currentPage * 12)
+                    .map((note) => (
+                      <Link
+                        href={"/notes/" + note.id}
+                        className="note-card"
+                        key={note.id}
+                      >
+                        <div className="note-card-top">
+                          <h2>{note.title}</h2>
+                          {note.pinned && (
+                            <Pin size={15} aria-label="Đã ghim" />
+                          )}
+                        </div>
+                        <p className="note-card-preview">
+                          {plainText(note.content) || "Chưa có nội dung."}
+                        </p>
+                        {!!note.tags.length && (
+                          <div className="note-card-tags">
+                            {note.tags.map((name) => (
+                              <span key={name}>#{name}</span>
+                            ))}
+                          </div>
+                        )}
+                        <div className="note-card-bottom">
+                          <span className="note-card-folder">
+                            <Folder size={14} aria-hidden="true" />
+                            {note.folder || "Chưa phân thư mục"}
+                          </span>
+                          <time dateTime={note.updatedAt}>
+                            <Clock3 size={14} aria-hidden="true" />
+                            {noteTime(note.updatedAt)}
+                          </time>
+                          {imageIds(note.content).length > 0 && (
+                            <span>{imageIds(note.content).length} ảnh</span>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                </div>
+              )}
+              {pageCount > 1 && (
+                <div className="note-pagination">
+                  <span>
+                    Trang {currentPage}/{pageCount}
+                  </span>
+                  <button
+                    className="button secondary small"
+                    type="button"
+                    disabled={currentPage === 1}
+                    onClick={() => setPage(currentPage - 1)}
+                  >
+                    Trước
+                  </button>
+                  <button
+                    className="button secondary small"
+                    type="button"
+                    disabled={currentPage === pageCount}
+                    onClick={() => setPage(currentPage + 1)}
+                  >
+                    Sau
+                  </button>
+                </div>
+              )}
+            </section>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
