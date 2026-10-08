@@ -4,6 +4,7 @@ import {
   cloudCopyCalendarGroup,
 } from "@/lib/firebase/cloud-client";
 import { announceLocalChange, openLocalDatabase } from "@/lib/local-database";
+import { announceRepositorySave } from "@/lib/repository-cache";
 import { projectSchema, type Project } from "@/modules/projects/model";
 import { projectsChangedEvent } from "@/modules/projects/repository";
 import { noteSchema } from "@/modules/notes/model";
@@ -236,7 +237,11 @@ export const localCalendarRepository: CalendarRepository = {
         }
       };
       tx.oncomplete = () => {
-        announceLocalChange(calendarChangedEvent);
+        announceRepositorySave({
+          kind: "calendarEvents",
+          id: parsed.id,
+          value: parsed,
+        });
         announceLocalChange(projectsChangedEvent);
         resolve(parsed);
       };
@@ -276,7 +281,11 @@ export const localCalendarRepository: CalendarRepository = {
         }
       };
       tx.oncomplete = () => {
-        announceLocalChange(calendarChangedEvent);
+        announceRepositorySave({
+          kind: "calendarSettings",
+          id: "calendar",
+          value: parsed,
+        });
         resolve(parsed);
       };
       tx.onabort = () =>

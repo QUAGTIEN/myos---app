@@ -4,6 +4,7 @@ import { signOut } from "firebase/auth";
 import { browserAuth } from "@/lib/firebase/client";
 import { authenticatedFetch } from "@/lib/firebase/cloud-client";
 import type { AccountProfile } from "@/lib/firebase/profile";
+import { RepositoryCacheProvider } from "@/lib/repository-cache";
 const AccountContext = createContext<{
   profile: AccountProfile;
   setProfile: (profile: AccountProfile) => void;
@@ -18,7 +19,9 @@ export function AccountProvider({
   const [profile, setProfile] = useState(initial);
   return (
     <AccountContext.Provider value={{ profile, setProfile }}>
-      {children}
+      <RepositoryCacheProvider key={initial.uid}>
+        {children}
+      </RepositoryCacheProvider>
     </AccountContext.Provider>
   );
 }

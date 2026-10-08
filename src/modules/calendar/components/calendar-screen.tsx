@@ -310,7 +310,6 @@ export function CalendarScreen({
       await operation();
       setDetail(null);
       setMessage(success);
-      data.refresh();
     } catch (cause) {
       setActionError(calendarError(cause));
       throw cause;
@@ -731,7 +730,6 @@ export function CalendarScreen({
           onSaved={(id) => {
             setGroup(id);
             setTimetable(null);
-            data.refresh();
             setMessage("Đã lưu bộ thời khóa biểu.");
           }}
         />

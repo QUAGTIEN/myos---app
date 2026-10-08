@@ -1,15 +1,10 @@
 import { firebaseEnabled } from "@/lib/firebase/client";
 import { cloudNoteRepository } from "@/lib/firebase/cloud-client";
 import { openLocalDatabase, announceLocalChange } from "@/lib/local-database";
+import { announceRepositorySave } from "@/lib/repository-cache";
 import { projectSchema, type Project } from "@/modules/projects/model";
 import { projectsChangedEvent } from "@/modules/projects/repository";
-import {
-  imageIds,
-  noteSchema,
-  notesChangedEvent,
-  type Note,
-  type Attachment,
-} from "./model";
+import { imageIds, noteSchema, type Note, type Attachment } from "./model";
 
 export interface NoteRepository {
   list(): Promise<Note[]>;
@@ -215,7 +210,7 @@ export const localNoteRepository: NoteRepository = {
         }
       };
       tx.oncomplete = () => {
-        announceLocalChange(notesChangedEvent);
+        announceRepositorySave({ kind: "notes", id, value: next });
         announceLocalChange(projectsChangedEvent);
         resolve(next);
       };

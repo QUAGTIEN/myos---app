@@ -66,13 +66,25 @@ export async function authenticatedUser(token?: string) {
     const [jwt, nonce] = value.split("~");
     if (!nonce || !/^[a-f0-9]{64}$/.test(nonce))
       throw new HttpError(401, "Phiên đăng nhập không hợp lệ.");
-    const claims = await auth.verifySessionCookie(jwt, true);
-    const session = await sessionReference(claims.uid, value).get();
+    const claims = await auth.verifySessionCookie(jwt);
+    // Verify signature first; check revocation/disabled with the same UserRecord
+    // returned to the DAL instead of fetching it twice through the Admin SDK.
+    const [user, session] = await Promise.all([
+      auth.getUser(claims.uid),
+      sessionReference(claims.uid, value).get(),
+    ]);
     if (!session.exists || Number(session.get("expiresAt")) <= Date.now())
       throw new HttpError(401, "Phiên đăng nhập đã kết thúc.");
-    const user = await auth.getUser(claims.uid);
     if (user.disabled)
       throw new HttpError(401, "Tài khoản không còn hoạt động.");
+    if (
+      user.tokensValidAfterTime &&
+      claims.auth_time * 1000 < new Date(user.tokensValidAfterTime).getTime()
+    )
+      throw new HttpError(
+        401,
+        "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
+      );
     return user;
   } catch (cause) {
     if (cause instanceof HttpError) throw cause;

@@ -4,6 +4,8 @@
 
 **G2 bước 1–5 được người dùng cho phép:** tự đăng ký Email/Password, đăng nhập/quên mật khẩu/logout, session server/CSRF/UID, hồ sơ và dữ liệu Firestore. Không allowlist hoặc admin-users. Mặc định cloud; giữ IndexedDB cũ riêng, không migration. Host Vercel do người dùng deploy. Không upload ảnh/tệp cloud, không Zalo/worker/deploy. Xem ADR 006; các đoạn G2 hoãn bên dưới ghi lịch sử trước yêu cầu mới.
 
+Tối ưu dữ liệu: hooks đọc Projects/Notes/Calendar dùng SWR qua `src/lib/repository-cache.tsx`, cache riêng dưới layout theo UID, không persist/CDN. Giữ cập nhật canonical sau cloud commit, version checks, refresh và thông báo tab khác; không quay về mỗi component tự tải riêng hoặc broadcast cả ba module cho mọi lần ghi. Broadcast có mã nguồn tab để bỏ qua thông báo của chính tab. Logout/đổi phiên/401 xóa cache; không cache quyền server hoặc bỏ kiểm tra thu hồi/vô hiệu hóa.
+
 **Cập nhật theo yêu cầu mới:** Lịch có tab xem ngày/tháng/năm và tab Công việc với nhiều bộ thời khóa biểu lưu riêng; dùng groups hiện hữu, không nhân bản kho lịch. Dự án có Thẻ/Kanban và hồ sơ mục tiêu, tài liệu, liên kết HTTP(S), phần cứng tùy chọn, nhật ký/kiểm thử, tệp Blob. Database v4 thêm projectAttachments; workspace có default tương thích dự án cũ. Tệp và metadata được ghi/xóa nguyên tử, có version check. G2 vẫn hoãn.
 
 **Tổng quan local đã được triển khai theo phạm vi mới:** số liệu thật, lịch theo ngày Việt Nam, checklist cần làm, tiến độ, ghi chú mới/ghim và mốc gần hạn. Overview dùng hook/service của module nguồn và selector thuần, không tạo kho tổng hợp hoặc schema mới. Form tạo nhanh dùng lại luồng lưu G3–G5. Tiếp tục hoãn G2, gửi nhắc/Zalo và deploy.

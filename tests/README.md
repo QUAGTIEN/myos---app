@@ -18,6 +18,8 @@ workspace.spec.ts: 8 cases desktop/mobile cho lưới năm/ngày, bộ thời kh
 
 ## Tổ chức và chạy
 
+Firebase suite bổ sung kiểm tra cache qua điều hướng desktop/mobile, số request ở Tổng quan/dialog, canonical sau tạo/ghim, GET cũ về sau POST không ghi đè, CSRF tái dùng và cookie hết hạn không ghi trùng. Kiểm tra riêng tài khoản disabled và refresh token bị thu hồi trên Emulator để bảo vệ tối ưu DAL. Không tạo dữ liệu hoặc gửi email trên Firebase thật.
+
 Chỉ có tests/e2e vì đây là bộ kiểm thử đang hoạt động. calendar-domain.spec.ts chạy quy tắc thời gian/iCalendar qua cùng runner Playwright, không cần tạo thêm runner hoặc thư mục unit trống.
 
 ~~~powershell

@@ -12,7 +12,7 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { useAccount } from "@/modules/auth/account-context";
 const navigation = [
@@ -44,6 +44,7 @@ function SidebarContent({
   onNavigate?: () => void;
 }) {
   const account = useAccount();
+  const router = useRouter();
   const initial =
     account?.profile.displayName.trim().charAt(0).toUpperCase() || "M";
   return (
@@ -59,6 +60,8 @@ function SidebarContent({
               className={active ? "nav-link active" : "nav-link"}
               aria-current={active ? "page" : undefined}
               onClick={onNavigate}
+              onPointerEnter={() => router.prefetch(href)}
+              onFocus={() => router.prefetch(href)}
             >
               <Icon size={20} aria-hidden="true" />
               <span>{label}</span>

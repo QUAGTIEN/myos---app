@@ -14,6 +14,8 @@ Tổng quan đọc G3–G5 qua các hook hiện có và `overview/model.ts` đ�
 
 ## 1. Quyết định kiến trúc
 
+**Tối ưu đọc ngày 08/10/2026:** `RepositoryCacheProvider` dùng SWR trong layout riêng, Map mới theo UID (local có scope riêng), chia sẻ nguồn Projects/Notes/Calendar giữa Tổng quan, danh sách và dialog. Không persist dữ liệu riêng tư và không cache CDN. Yêu cầu cùng key gộp 30 giây; cập nhật nền khi remount/focus/reconnect, sự kiện tab khác và retry chủ động. Ghi cloud chỉ cập nhật cache sau server commit, với kết quả canonical; kiểm tra version server vẫn bắt buộc. CSRF dùng lại trong bộ nhớ tối đa 55 phút, chỉ retry một lần khi server từ chối token trước ghi. DAL xác thực chữ ký rồi đọc UserRecord/session song song, kiểm tra disabled/revocation bằng cùng UserRecord; không cache quyền giữa các request. Chi tiết [ADR 006](docs/decisions/006-firebase-public-accounts.md).
+
 **Chọn Next.js + TypeScript, Cloud Firestore, Firebase Authentication, Cloud Storage for Firebase (hoãn) và Vercel. Nhắc lịch chạy bằng Cloud Functions for Firebase thế hệ 2 + Cloud Scheduler.**
 
 Phân biệt tên dịch vụ:

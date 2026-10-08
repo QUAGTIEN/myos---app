@@ -36,6 +36,7 @@ export function createProjectService(repository: ProjectRepository) {
         };
       },
       attachment,
+      project,
     );
   }
   return {

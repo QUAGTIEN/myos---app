@@ -2,16 +2,27 @@
 
 import { z } from "zod";
 import { announceLocalChange } from "@/lib/local-database";
+import {
+  announceRepositorySave,
+  announceSessionChange,
+  repositoryEvents,
+} from "@/lib/repository-cache";
 import type { ProjectRepository } from "@/modules/projects/repository";
 import type { NoteRepository } from "@/modules/notes/repository";
 import type { CalendarRepository } from "@/modules/calendar/repository";
 import { projectSchema } from "@/modules/projects/model";
-import { noteSchema, notesChangedEvent } from "@/modules/notes/model";
+import { noteSchema } from "@/modules/notes/model";
+import { profileSchema } from "./profile";
+import { effectiveOccurrence } from "@/modules/calendar/recurrence";
 import {
   eventSchema,
   settingsSchema,
   type CalendarSettings,
+  type CalendarEvent,
 } from "@/modules/calendar/model";
+
+let csrf: { token: string; expiresAt: number } | undefined;
+let csrfRequest: Promise<string> | undefined;
 
 async function request(url: string, options: RequestInit) {
   return fetch(url, options).catch(() => {
@@ -21,6 +32,10 @@ async function request(url: string, options: RequestInit) {
   });
 }
 async function json(response: Response) {
+  if (response.status === 401) {
+    csrf = undefined;
+    announceSessionChange();
+  }
   const body = z
     .object({
       error: z.string().optional(),
@@ -42,16 +57,32 @@ async function json(response: Response) {
   return result;
 }
 export async function csrfToken() {
-  return (await json(await request("/api/auth", { cache: "no-store" })))
-    .csrfToken as string;
+  if (csrf && csrf.expiresAt > Date.now()) return csrf.token;
+  if (csrfRequest) return csrfRequest;
+  csrfRequest = (async () => {
+    const token = (
+      await json(await request("/api/auth", { cache: "no-store" }))
+    ).csrfToken;
+    if (!token)
+      throw new Error(
+        "Không tạo được phiên thao tác. Tải lại trang rồi thử lại.",
+      );
+    csrf = { token, expiresAt: Date.now() + 55 * 60000 };
+    return token;
+  })();
+  try {
+    return await csrfRequest;
+  } finally {
+    csrfRequest = undefined;
+  }
 }
 export async function authenticatedFetch(
   url: string,
   body: unknown,
   method = "POST",
 ) {
-  return json(
-    await request(url, {
+  const send = async () =>
+    request(url, {
       method,
       headers: {
         "Content-Type": "application/json",
@@ -59,8 +90,27 @@ export async function authenticatedFetch(
       },
       body: body === undefined ? undefined : JSON.stringify(body),
       cache: "no-store",
-    }),
-  );
+    });
+  let response = await send();
+  // A CSRF rejection happens before mutation; retry only that explicit rejection.
+  if (
+    response.status === 403 &&
+    (
+      await response
+        .clone()
+        .json()
+        .catch(() => null)
+    )?.error === "Phiên thao tác đã hết hạn. Tải lại trang rồi thử lại."
+  ) {
+    csrf = undefined;
+    response = await send();
+  }
+  const result = await json(response);
+  if (url === "/api/auth" && (method === "DELETE" || method === "POST")) {
+    csrf = undefined;
+    announceSessionChange();
+  }
+  return result;
 }
 export async function cloudRead(kind: string, id?: string): Promise<unknown> {
   const search = new URLSearchParams({ kind, ...(id ? { id } : {}) });
@@ -68,15 +118,43 @@ export async function cloudRead(kind: string, id?: string): Promise<unknown> {
     await json(await request("/api/data?" + search, { cache: "no-store" }))
   ).value;
 }
-export async function cloudWrite(body: unknown): Promise<unknown> {
+export async function cloudWrite(
+  body: unknown,
+  relatedProjectsChanged = false,
+): Promise<unknown> {
   const value = (await authenticatedFetch("/api/data", body)).value;
-  for (const event of [
-    "myos:projects-changed",
-    notesChangedEvent,
-    "myos:calendar-changed",
-  ])
-    announceLocalChange(event);
-  return value;
+  const command = z
+    .object({
+      kind: z.enum([
+        "projects",
+        "notes",
+        "calendarEvents",
+        "calendarSettings",
+        "profile",
+      ]),
+      id: z.string(),
+      operation: z.string(),
+    })
+    .parse(body);
+  if (command.kind === "profile") return profileSchema.parse(value);
+  if (command.operation === "copy") {
+    const id = z.string().parse(value);
+    announceLocalChange(repositoryEvents.calendarEvents);
+    return id;
+  }
+  const saved =
+    command.kind === "projects"
+      ? projectSchema.parse(value)
+      : command.kind === "notes"
+        ? value
+          ? noteSchema.parse(value)
+          : null
+        : command.kind === "calendarEvents"
+          ? eventSchema.parse(value)
+          : settingsSchema.parse(value);
+  announceRepositorySave({ kind: command.kind, id: command.id, value: saved });
+  if (relatedProjectsChanged) announceLocalChange(repositoryEvents.projects);
+  return saved;
 }
 export const cloudProjectRepository: ProjectRepository = {
   async list() {
@@ -97,14 +175,14 @@ export const cloudProjectRepository: ProjectRepository = {
       }),
     );
   },
-  async update(id, expectedVersion, transform, attachment) {
+  async update(id, expectedVersion, transform, attachment, baseline) {
     if (attachment)
       throw new Error(
         "Tệp cloud sẽ được triển khai sau. Tệp local cũ vẫn được giữ.",
       );
-    const current = await this.get(id);
+    const current = baseline ?? (await this.get(id));
     if (!current) throw new Error("Không tìm thấy dự án.");
-    if (current.version !== expectedVersion)
+    if (current.id !== id || current.version !== expectedVersion)
       throw new Error(
         "Dự án đã thay đổi ở thiết bị khác. Tải lại bản mới trước khi lưu.",
       );
@@ -136,13 +214,16 @@ export const cloudNoteRepository: NoteRepository = {
         "Ảnh cloud sẽ được triển khai sau. Ảnh local cũ vẫn được giữ.",
       );
     if (!previous && !next) throw new Error("Thiếu ghi chú.");
-    const value = await cloudWrite({
-      kind: "notes",
-      operation: next ? "save" : "remove",
-      id: (next ?? previous)!.id,
-      expectedVersion: previous?.version ?? 0,
-      ...(next ? { value: { ...next, revisions: [] } } : {}),
-    });
+    const value = await cloudWrite(
+      {
+        kind: "notes",
+        operation: next ? "save" : "remove",
+        id: (next ?? previous)!.id,
+        expectedVersion: previous?.version ?? 0,
+        ...(next ? { value: { ...next, revisions: [] } } : {}),
+      },
+      !sameIds(previous?.projectIds ?? [], next?.projectIds ?? []),
+    );
     return value ? noteSchema.parse(value) : null;
   },
 };
@@ -155,13 +236,16 @@ export const cloudCalendarRepository: CalendarRepository = {
   },
   async commit(previous, next) {
     return eventSchema.parse(
-      await cloudWrite({
-        kind: "calendarEvents",
-        operation: "save",
-        id: next.id,
-        expectedVersion: previous?.version ?? 0,
-        value: next,
-      }),
+      await cloudWrite(
+        {
+          kind: "calendarEvents",
+          operation: "save",
+          id: next.id,
+          expectedVersion: previous?.version ?? 0,
+          value: next,
+        },
+        !sameIds(calendarProjectIds(previous), calendarProjectIds(next)),
+      ),
     );
   },
   async saveSettings(settings) {
@@ -176,6 +260,23 @@ export const cloudCalendarRepository: CalendarRepository = {
     );
   },
 };
+function sameIds(a: string[], b: string[]) {
+  return [...a].sort().join(",") === [...b].sort().join(",");
+}
+function calendarProjectIds(event: CalendarEvent | null) {
+  if (!event || event.cancelledAt) return [];
+  return [
+    ...new Set([
+      ...event.projectIds,
+      ...event.exceptions
+        .filter((item) => !item.cancelled)
+        .flatMap(
+          (item) =>
+            effectiveOccurrence(event, item.originalStart)?.projectIds ?? [],
+        ),
+    ]),
+  ];
+}
 export async function cloudCopyCalendarGroup(
   settings: CalendarSettings,
   sourceId: string,

@@ -18,6 +18,7 @@
 - app chỉ điều phối route/layout, validate tham số và gọi màn hình của module.
 - model.ts chứa schema/types/quy tắc dữ liệu; service.ts xử lý ca sử dụng; repository.ts truy cập IndexedDB và kiểm tra version trong transaction.
 - Hook đặt cạnh service; Notes gom vào hooks.ts với useNotes và useNoteDraft riêng để giữ vòng đời đọc dữ liệu/autosave.
+- Hook đọc dùng `lib/repository-cache.tsx`/SWR để chia sẻ dữ liệu và gộp request dưới layout. Cloud/local ghi cập nhật cache bằng bản đã commit; tab khác đọc lại repository sau tín hiệu. Nháp Notes và version checks không thuộc cache, giữ quy tắc hiện có.
 - components chỉ dùng ở module có nhiều màn hình/form/editor. Module có một màn hình đặt file ngay trong thư mục module.
 - Không tạo actions, DTO, schemas, types, index.ts hoặc package domain chỉ để đủ cây thư mục; tách khi có trách nhiệm hoặc người dùng chung thật.
 - CSS nằm cùng module; components/page-ui.tsx giữ các thành phần trang dùng chung; lib/local-database.ts quản lý kết nối/version/sự kiện.

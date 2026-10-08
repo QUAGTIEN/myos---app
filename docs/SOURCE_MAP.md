@@ -39,6 +39,7 @@ MYOS/
 │   │   └── calendar/               # Thêm recurrence, ics và bộ lịch
 │   └── lib/
 │       ├── local-database.ts       # IndexedDB cũ, version 4
+│       ├── repository-cache.tsx    # SWR provider/hook, cache theo UID, cập nhật sau commit
 │       └── firebase/               # client, server, session, data, profile, cloud-client
 ├── scripts/test-data.mjs           # Build và test local/cloud với env riêng
 ├── firebase.json, firestore.rules, firestore.indexes.json

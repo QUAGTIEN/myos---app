@@ -5,6 +5,8 @@ import {
   type Page,
 } from "@playwright/test";
 import { randomUUID } from "node:crypto";
+import { initializeApp, deleteApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 import {
   emptyProjectInput,
   projectSchema,
@@ -56,6 +58,208 @@ async function register(page: Page, email: string) {
   // The first Firestore request can include Emulator/server cold start.
   await expect(page).toHaveURL(/dashboard$/, { timeout: 15000 });
 }
+
+async function navigate(page: Page, label: string) {
+  const menu = page.getByRole("button", { name: "Mở menu", exact: true });
+  if (await menu.isVisible()) await menu.click();
+  await page
+    .getByRole("navigation", { name: "Điều hướng chính" })
+    .getByRole("link", { name: label, exact: true })
+    .click();
+}
+
+test("shared data survives navigation, deduplicates dialogs and updates only affected sources", async ({
+  page,
+  context,
+}, info) => {
+  await account(context.request);
+  const reads: Record<string, number> = {};
+  let csrfReads = 0;
+  page.on("request", (request) => {
+    const url = new URL(request.url());
+    if (request.method() !== "GET") return;
+    if (url.pathname === "/api/auth") csrfReads++;
+    if (url.pathname === "/api/data") {
+      const key = url.searchParams.get("kind")!;
+      reads[key] = (reads[key] ?? 0) + 1;
+    }
+  });
+  await page.goto("/dashboard");
+  await expect(page.locator(".dashboard-block-loading")).toHaveCount(0);
+  await expect.poll(() => Object.keys(reads).length).toBe(4);
+  await expect(page.locator(".dashboard-block-loading")).toHaveCount(0);
+  const initial = { ...reads };
+  expect(Object.values(initial)).toEqual([1, 1, 1, 1]);
+  for (const [label, path, ready] of [
+    ["Ghi chú", "/notes", "Tạo ghi chú"],
+    ["Dự án", "/projects", "Tạo dự án"],
+    ["Lịch", "/calendar", "Công việc"],
+  ]) {
+    await navigate(page, label);
+    await expect(page).toHaveURL(new RegExp(path + "$"));
+    await expect(page.locator(".page-skeleton")).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: ready, exact: true }),
+    ).toBeEnabled();
+  }
+  await page.getByRole("button", { name: "Công việc", exact: true }).click();
+  await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  expect(reads).toEqual(initial);
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Đóng hộp thoại lịch", exact: true })
+    .click();
+  await navigate(page, "Dự án");
+  await page.getByRole("button", { name: "Tạo dự án", exact: true }).click();
+  const dialog = page.getByRole("dialog");
+  await dialog.getByLabel("Tên dự án").fill("Cache IoT");
+  await dialog.getByRole("button", { name: "Tạo dự án", exact: true }).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Cache IoT", exact: true }),
+  ).toBeVisible();
+  expect(reads).toEqual(initial);
+  expect(csrfReads).toBe(1);
+
+  // An old GET completes after a successful POST: it must not undo the save.
+  let releaseRead!: () => void;
+  let capturedRead!: () => void;
+  const captured = new Promise<void>((resolve) => {
+    capturedRead = resolve;
+  });
+  const release = new Promise<void>((resolve) => {
+    releaseRead = resolve;
+  });
+  await page.route("**/api/data?kind=projects", async (route) => {
+    const response = await route.fetch();
+    capturedRead();
+    await release;
+    await route.fulfill({ response });
+  });
+  await page.evaluate(() =>
+    window.dispatchEvent(new Event("myos:projects-changed")),
+  );
+  await captured;
+  await page.getByLabel("Thao tác Cache IoT").click();
+  await page
+    .getByRole("button", { name: "Ghim Cache IoT", exact: true })
+    .click();
+  await expect(page.getByRole("status")).toContainText("Đã ghim");
+  const readComplete = page.waitForResponse(
+    (response) => new URL(response.url()).search === "?kind=projects",
+  );
+  releaseRead();
+  await readComplete;
+  await page.unroute("**/api/data?kind=projects");
+  await page.getByLabel("Thao tác Cache IoT").click();
+  await expect(
+    page.getByRole("button", { name: "Bỏ ghim Cache IoT", exact: true }),
+  ).toBeVisible();
+  expect(csrfReads).toBe(1);
+  expect(reads.notes).toBe(initial.notes);
+  expect(reads.calendarEvents).toBe(initial.calendarEvents);
+
+  // Cookie expiry is retried once, only after the server rejects CSRF pre-write.
+  await context.clearCookies({ name: "myos-csrf" });
+  await page
+    .getByRole("button", { name: "Bỏ ghim Cache IoT", exact: true })
+    .click();
+  await expect(page.getByRole("status")).toContainText("Đã bỏ ghim");
+  expect(csrfReads).toBe(2);
+  const saved = projectSchema
+    .array()
+    .parse(
+      (await (await context.request.get("/api/data?kind=projects")).json())
+        .value,
+    );
+  expect(saved[0].version).toBe(3);
+  await page.screenshot({
+    path: info.outputPath("projects-cached.png"),
+    fullPage: true,
+  });
+});
+
+test("session optimization preserves disabled account and token revocation checks", async ({
+  request,
+  playwright,
+}) => {
+  expect(process.env.FIREBASE_AUTH_EMULATOR_HOST).toBe("127.0.0.1:9099");
+  const app = initializeApp({ projectId: "demo-myos" }, randomUUID());
+  const second = await playwright.request.newContext({
+    baseURL: "http://127.0.0.1:3101",
+  });
+  try {
+    const revoked = await account(request);
+    const disabled = await account(second);
+    expect((await request.get("/api/data?kind=profile")).status()).toBe(200);
+    await getAuth(app).updateUser(disabled.uid, { disabled: true });
+    expect((await second.get("/api/data?kind=profile")).status()).toBe(401);
+    // Auth tokens use seconds; revoke after the creation second has passed.
+    await new Promise((resolve) => setTimeout(resolve, 1100));
+    await getAuth(app).revokeRefreshTokens(revoked.uid);
+    expect((await request.get("/api/data?kind=profile")).status()).toBe(401);
+  } finally {
+    await second.dispose();
+    await deleteApp(app);
+  }
+});
+
+test("logout clears cached data in another tab and a new account starts with its own cache", async ({
+  page,
+  context,
+}) => {
+  await account(context.request);
+  const now = new Date().toISOString();
+  const note = noteSchema.parse({
+    ...emptyNoteInput,
+    title: "Ghi chú tài khoản cũ",
+    id: randomUUID(),
+    schemaVersion: 1,
+    version: 1,
+    createdAt: now,
+    updatedAt: now,
+    pinned: false,
+    trashedAt: null,
+    revisions: [],
+  });
+  expect(
+    (
+      await write(context.request, {
+        kind: "notes",
+        operation: "save",
+        id: note.id,
+        expectedVersion: 0,
+        value: note,
+      })
+    ).status(),
+  ).toBe(200);
+  const otherTab = await context.newPage();
+  await otherTab.goto("/notes");
+  await expect(
+    otherTab.getByRole("heading", { name: note.title, exact: true }),
+  ).toBeVisible();
+  await page.goto("/settings");
+  await page.getByRole("button", { name: "Đăng xuất", exact: true }).click();
+  await expect(page).toHaveURL(/login$/);
+  await expect(
+    otherTab.getByRole("heading", { name: note.title, exact: true }),
+  ).not.toBeVisible();
+  await expect(
+    otherTab
+      .getByRole("alert")
+      .filter({ hasText: "Phiên đăng nhập đã kết thúc" }),
+  ).toContainText("Phiên đăng nhập đã kết thúc");
+  await register(page, `new-cache-${randomUUID()}@example.com`);
+  await navigate(page, "Ghi chú");
+  await expect(
+    page.getByRole("button", { name: "Tạo ghi chú", exact: true }),
+  ).toBeEnabled();
+  await expect(
+    page.getByRole("heading", { name: note.title, exact: true }),
+  ).not.toBeVisible();
+  await otherTab.close();
+});
 
 test("public signup, cloud CRUD, settings, logout and login on desktop/mobile", async ({
   page,

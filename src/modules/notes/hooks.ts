@@ -1,13 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { subscribeLocalChange } from "@/lib/local-database";
+import { useRepositoryData } from "@/lib/repository-cache";
 import { noteRepository } from "./repository";
 import {
   noteError,
   noteInput,
   noteFingerprint,
-  notesChangedEvent,
   type Note,
   type NoteInput,
   type Attachment,
@@ -15,45 +14,15 @@ import {
 import { noteService, prepareImages } from "./service";
 
 export function useNotes(id?: string) {
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [note, setNote] = useState<Note | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [retry, setRetry] = useState(0);
-  useEffect(() => {
-    let disposed = false;
-    let generation = 0;
-    const load = async () => {
-      const current = ++generation;
-      try {
-        const data = id
-          ? await noteRepository.get(id)
-          : await noteRepository.list();
-        if (disposed || current !== generation) return;
-        if (Array.isArray(data)) setNotes(data);
-        else setNote(data);
-        setError("");
-      } catch (cause) {
-        if (!disposed && current === generation) setError(noteError(cause));
-      } finally {
-        if (!disposed && current === generation) setLoading(false);
-      }
-    };
-    void load();
-    const unsubscribe = subscribeLocalChange(notesChangedEvent, () => {
-      void load();
-    });
-    return () => {
-      disposed = true;
-      unsubscribe();
-    };
-  }, [id, retry]);
+  const result = useRepositoryData<Note[] | Note | null>("notes", id, () =>
+    id ? noteRepository.get(id) : noteRepository.list(),
+  );
   return {
-    notes,
-    note,
-    loading,
-    error,
-    refresh: () => setRetry((value) => value + 1),
+    notes: Array.isArray(result.data) ? result.data : [],
+    note: result.data && !Array.isArray(result.data) ? result.data : null,
+    loading: result.loading,
+    error: result.error ? noteError(result.error) : "",
+    refresh: result.refresh,
   };
 }
 

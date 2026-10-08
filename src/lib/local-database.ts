@@ -50,33 +50,24 @@ export function openLocalDatabase(): Promise<IDBDatabase> {
   return connection;
 }
 
-export function announceLocalChange(event: string) {
-  window.dispatchEvent(new Event(event));
+let windowId: string | undefined;
+function currentWindowId() {
+  return (windowId ??= crypto.randomUUID());
+}
+export function isOwnLocalChange(event: MessageEvent) {
+  return event.data?.source === currentWindowId();
+}
+export function announceLocalChange(event: string, detail?: unknown) {
+  window.dispatchEvent(
+    detail ? new CustomEvent(event, { detail }) : new Event(event),
+  );
   try {
     if (typeof BroadcastChannel !== "undefined") {
       const channel = new BroadcastChannel(event);
-      channel.postMessage("changed");
+      channel.postMessage({ source: currentWindowId() });
       channel.close();
     }
   } catch {
     /* Focus refresh still works when channels are restricted. */
   }
-}
-
-export function subscribeLocalChange(event: string, refresh: () => void) {
-  let channel: BroadcastChannel | null = null;
-  try {
-    if (typeof BroadcastChannel !== "undefined")
-      channel = new BroadcastChannel(event);
-  } catch {
-    /* The focus listener remains available. */
-  }
-  channel?.addEventListener("message", refresh);
-  window.addEventListener(event, refresh);
-  window.addEventListener("focus", refresh);
-  return () => {
-    channel?.close();
-    window.removeEventListener(event, refresh);
-    window.removeEventListener("focus", refresh);
-  };
 }

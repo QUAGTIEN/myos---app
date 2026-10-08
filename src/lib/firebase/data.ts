@@ -138,6 +138,8 @@ async function noteInTransaction(
 }
 export async function ensureProfile(user: UserRecord) {
   const ref = reference(user.uid, "profile", "profile");
+  const existing = unpack(await ref.get());
+  if (existing) return profileSchema.parse(existing);
   return database().runTransaction(async (tx) => {
     const stored = unpack(await tx.get(ref));
     if (stored) return profileSchema.parse(stored);

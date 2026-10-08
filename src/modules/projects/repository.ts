@@ -1,6 +1,7 @@
 import { firebaseEnabled } from "@/lib/firebase/client";
 import { cloudProjectRepository } from "@/lib/firebase/cloud-client";
-import { openLocalDatabase, announceLocalChange } from "@/lib/local-database";
+import { openLocalDatabase } from "@/lib/local-database";
+import { announceRepositorySave } from "@/lib/repository-cache";
 import { projectSchema, type Project } from "./model";
 
 export interface ProjectRepository {
@@ -12,6 +13,7 @@ export interface ProjectRepository {
     expectedVersion: number,
     transform: (current: Project) => Project,
     attachment?: { add?: { id: string; blob: Blob }; remove?: string },
+    baseline?: Project,
   ): Promise<Project>;
 }
 
@@ -64,7 +66,11 @@ export const localProjectRepository: ProjectRepository = {
       const transaction = db.transaction(storeName, "readwrite");
       transaction.objectStore(storeName).add(validated);
       transaction.oncomplete = () => {
-        announceLocalChange(projectsChangedEvent);
+        announceRepositorySave({
+          kind: "projects",
+          id: validated.id,
+          value: validated,
+        });
         resolve(validated);
       };
       transaction.onabort = () =>
@@ -125,7 +131,7 @@ export const localProjectRepository: ProjectRepository = {
         }
       };
       transaction.oncomplete = () => {
-        announceLocalChange(projectsChangedEvent);
+        announceRepositorySave({ kind: "projects", id, value: saved });
         resolve(saved);
       };
       transaction.onabort = () =>
