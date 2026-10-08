@@ -16,6 +16,8 @@ Tổng quan: overview.spec.ts có 8 cases desktop/mobile, kiểm tra dữ liệu
 
 workspace.spec.ts: 8 cases desktop/mobile cho lưới năm/ngày, bộ thời khóa biểu lưu/đổi tên/sao chép, hồ sơ IoT/tài liệu/link an toàn/nhật ký, tệp tải/xóa và rollback, Kanban, conflict hai tab và nâng database v3→v4. Fixtures của version cũ khởi tạo trên /login trước khi ứng dụng mở IndexedDB.
 
+Thanh công cụ Lịch: workspace kiểm tra menu Thao tác lịch mở bằng Enter, đóng bằng Escape/click ngoài, trả focus sau dialog, ẩn sửa/sao chép khi chưa chọn bộ và không tràn ở 320 px. Calendar/workspace mở menu trước khi xuất `.ics`; kiểm tra điều hướng tháng dùng heading trong region Bộ lịch thay vì phụ thuộc class bố cục cũ.
+
 ## Tổ chức và chạy
 
 Firebase suite bổ sung kiểm tra cache qua điều hướng desktop/mobile, số request ở Tổng quan/dialog, canonical sau tạo/ghim, GET cũ về sau POST không ghi đè, CSRF tái dùng và cookie hết hạn không ghi trùng. Kiểm tra riêng tài khoản disabled và refresh token bị thu hồi trên Emulator để bảo vệ tối ưu DAL. Không tạo dữ liệu hoặc gửi email trên Firebase thật.

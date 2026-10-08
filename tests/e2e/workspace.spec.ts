@@ -54,6 +54,32 @@ test("calendar book navigates year/day; independent timetables persist and copy 
   await page.getByRole("button", { name: "Ngày", exact: true }).click();
   await expect(page.locator(".fc-timeGridDay-view")).toBeVisible();
   await page.getByRole("button", { name: "Công việc", exact: true }).click();
+  const tools = page.getByLabel("Thao tác lịch", { exact: true });
+  await expect(
+    page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Tạo bộ lịch", exact: true }),
+  ).not.toBeVisible();
+  await tools.focus();
+  await tools.press("Enter");
+  await expect(
+    page.getByRole("button", { name: "Tạo bộ lịch", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Sửa bộ lịch", exact: true }),
+  ).toHaveCount(0);
+  await tools.press("Escape");
+  await expect(tools).toBeFocused();
+  await expect(
+    page.getByRole("button", { name: "Tạo bộ lịch", exact: true }),
+  ).not.toBeVisible();
+  await tools.click();
+  await page.locator(".schedule-period h2").click();
+  await expect(
+    page.getByRole("button", { name: "Tạo bộ lịch", exact: true }),
+  ).not.toBeVisible();
+  await tools.click();
   await page.getByRole("button", { name: "Tạo bộ lịch", exact: true }).click();
   let dialog = page.getByRole("dialog");
   await dialog.getByLabel("Tên bộ lịch").fill("Học kỳ IoT");
@@ -62,6 +88,7 @@ test("calendar book navigates year/day; independent timetables persist and copy 
     .getByRole("button", { name: "Lưu bộ lịch", exact: true })
     .click();
   await expect(dialog).not.toBeVisible();
+  await expect(tools).toBeFocused();
   const sourceId = await page.getByLabel("Bộ thời khóa biểu").inputValue();
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
   await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
@@ -77,6 +104,7 @@ test("calendar book navigates year/day; independent timetables persist and copy 
     .getByRole("button", { name: "Lưu lịch hẹn", exact: true })
     .click();
   await expect(dialog).not.toBeVisible();
+  await tools.click();
   await page
     .getByRole("button", { name: "Sao chép bộ lịch", exact: true })
     .click();
@@ -142,6 +170,7 @@ test("calendar book navigates year/day; independent timetables persist and copy 
   await expect(
     page.locator(".fc-event").filter({ hasText: "Thực hành cảm biến" }),
   ).toHaveCount(4);
+  await tools.click();
   await page.getByRole("button", { name: "Sửa bộ lịch", exact: true }).click();
   dialog = page.getByRole("dialog");
   await dialog.getByLabel("Tên bộ lịch").fill("Bộ học tại nhà");
@@ -168,6 +197,23 @@ test("calendar book navigates year/day; independent timetables persist and copy 
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+  if (isMobile) {
+    await page.setViewportSize({ width: 320, height: 900 });
+    await tools.click();
+    await expect(
+      page.getByRole("button", { name: "Sửa bộ lịch", exact: true }),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: info.outputPath("calendar-tools-narrow.png"),
+      fullPage: true,
+    });
+    await tools.press("Escape");
+  }
   const state = await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {
       const request = indexedDB.open("myos-local");
@@ -196,6 +242,7 @@ test("calendar book navigates year/day; independent timetables persist and copy 
     .click();
   await page.getByRole("button", { name: "Năm", exact: true }).click();
   await expect(page.locator(".schedule-footer")).toContainText("8 lịch");
+  await tools.click();
   await page.getByRole("button", { name: "Xuất .ics", exact: true }).click();
   await expect(
     page.getByRole("dialog").getByLabel("Từ ngày", { exact: true }),

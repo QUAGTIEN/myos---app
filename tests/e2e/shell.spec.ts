@@ -52,7 +52,9 @@ test("calendar controls change months and return to today", async ({
   page,
 }) => {
   await page.goto("/calendar");
-  const title = page.locator(".calendar-month h2");
+  const title = page
+    .getByRole("region", { name: "Bộ lịch", exact: true })
+    .getByRole("heading", { level: 2 });
   const original = await title.textContent();
   await page.getByRole("button", { name: "Tháng sau", exact: true }).click();
   await expect(title).not.toHaveText(original!);

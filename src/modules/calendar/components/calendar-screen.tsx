@@ -10,12 +10,19 @@ import viLocale from "@fullcalendar/core/locales/vi";
 import type { EventApi, DateSelectArg, DatesSetArg } from "@fullcalendar/core";
 import {
   Check,
+  CalendarDays,
   ChevronLeft,
   ChevronRight,
+  Copy,
   Download,
+  ListTodo,
+  MoreHorizontal,
+  Pencil,
   Plus,
   Repeat2,
+  Settings2,
   Star,
+  type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -74,6 +81,79 @@ export type CalendarQuery = {
   eventId?: string;
   occurrence?: string;
 };
+
+function CalendarTools({
+  actions,
+}: {
+  actions: {
+    label: string;
+    icon: LucideIcon;
+    disabled: boolean;
+    onSelect: () => void;
+  }[];
+}) {
+  const disclosure = useRef<HTMLDetailsElement>(null);
+  function close() {
+    if (disclosure.current) disclosure.current.open = false;
+    disclosure.current?.querySelector("summary")?.focus();
+  }
+  useEffect(() => {
+    function dismiss(event: PointerEvent) {
+      if (
+        disclosure.current?.open &&
+        event.target instanceof Node &&
+        !disclosure.current.contains(event.target)
+      )
+        disclosure.current.open = false;
+    }
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
+  }, []);
+  return (
+    <details
+      className="schedule-tools"
+      ref={disclosure}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && disclosure.current?.open) {
+          event.preventDefault();
+          close();
+        }
+      }}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget))
+          event.currentTarget.open = false;
+      }}
+    >
+      <summary
+        className="icon-button"
+        aria-label="Thao tác lịch"
+        title="Thao tác lịch"
+      >
+        <MoreHorizontal size={20} aria-hidden="true" />
+      </summary>
+      <div className="schedule-tools-actions">
+        {actions.map(({ label, icon: Icon, disabled, onSelect }) => (
+          <button
+            key={label}
+            type="button"
+            disabled={disabled}
+            onClick={() => {
+              close();
+              onSelect();
+            }}
+          >
+            <Icon size={17} aria-hidden="true" />
+            {label}
+          </button>
+        ))}
+        <Link href="/settings" onClick={close}>
+          <Settings2 size={17} aria-hidden="true" />
+          Cài đặt lịch
+        </Link>
+      </div>
+    </details>
+  );
+}
 
 export function CalendarScreen({
   today,
@@ -370,51 +450,46 @@ export function CalendarScreen({
   if (data.loading) return <PageSkeleton />;
   return (
     <div className="schedule-module">
-      <div className="schedule-tabs" role="group" aria-label="Phân mục lịch">
-        <button
-          type="button"
-          aria-pressed={tab === "book"}
-          onClick={() => chooseTab("book")}
-        >
-          Lịch
-        </button>
-        <button
-          type="button"
-          aria-pressed={tab === "work"}
-          onClick={() => chooseTab("work")}
-        >
-          Công việc
-        </button>
-      </div>
-      <PageHeading
-        title="Lịch"
-        action={
-          tab === "work" && (
-            <button
-              className="button primary"
-              type="button"
-              disabled={!!data.error || pending}
-              onClick={() => {
-                setForm({
-                  initial: {
-                    ...blankEvent(chosenDate, data.settings),
-                    ...(group ? { groupId: group } : {}),
-                  },
-                });
-                setActionError("");
-              }}
-            >
-              <Plus size={18} />
-              Tạo lịch hẹn
-            </button>
-          )
-        }
-      />
-      {tab === "work" && (
-        <div className="schedule-note">
-          <Link href="/settings">Cài đặt lịch</Link>
+      <PageHeading title="Lịch" />
+      <div className="schedule-heading">
+        <div className="schedule-tabs" role="group" aria-label="Phân mục lịch">
+          <button
+            type="button"
+            aria-pressed={tab === "book"}
+            onClick={() => chooseTab("book")}
+          >
+            <CalendarDays size={19} aria-hidden="true" />
+            Lịch
+          </button>
+          <button
+            type="button"
+            aria-pressed={tab === "work"}
+            onClick={() => chooseTab("work")}
+          >
+            <ListTodo size={19} aria-hidden="true" />
+            Công việc
+          </button>
         </div>
-      )}
+        {tab === "work" && (
+          <button
+            className="button primary"
+            type="button"
+            disabled={!!data.error || pending}
+            onClick={() => {
+              setForm({
+                initial: {
+                  ...blankEvent(chosenDate, data.settings),
+                  ...(group ? { groupId: group } : {}),
+                },
+              });
+              setActionError("");
+            }}
+          >
+            <Plus size={18} />
+            Tạo lịch hẹn
+          </button>
+        )}
+      </div>
       {data.error && (
         <p className="schedule-error" role="alert">
           {data.error}{" "}
@@ -435,7 +510,7 @@ export function CalendarScreen({
       )}
       <section className="panel schedule-panel" aria-label="Bộ lịch">
         <div className="schedule-toolbar">
-          <div className="calendar-month">
+          <div className="schedule-period">
             <h2 aria-live="polite">
               {yearView ? "Năm " + chosenDate.slice(0, 4) : title}
             </h2>
@@ -489,8 +564,6 @@ export function CalendarScreen({
                 <ChevronRight size={19} />
               </button>
             </div>
-          </div>
-          <div className="schedule-toolbar-actions">
             <button
               className="button secondary small"
               type="button"
@@ -498,33 +571,7 @@ export function CalendarScreen({
             >
               Hôm nay
             </button>
-            <label className="schedule-date-label">
-              Đến ngày
-              <input
-                aria-label="Đến ngày"
-                type="date"
-                min="2000-01-01"
-                max="2100-12-31"
-                value={chosenDate}
-                onChange={(e) => {
-                  setChosenDate(e.target.value);
-                  if (e.target.value)
-                    calendar.current?.getApi().gotoDate(e.target.value);
-                }}
-              />
-            </label>
-            <button
-              className="button secondary small"
-              type="button"
-              disabled={!!data.error}
-              onClick={() => setExporting(true)}
-            >
-              <Download size={16} />
-              Xuất .ics
-            </button>
           </div>
-        </div>
-        <div className="schedule-filter-row">
           <div
             className="schedule-view-buttons"
             role="group"
@@ -558,10 +605,28 @@ export function CalendarScreen({
               </button>
             )}
           </div>
-          {tab === "work" && (
-            <label>
-              Bộ thời khóa biểu
-              <select value={group} onChange={(e) => setGroup(e.target.value)}>
+          <div className="schedule-toolbar-actions">
+            <input
+              className="schedule-date-input"
+              aria-label="Đến ngày"
+              title="Đến ngày"
+              type="date"
+              min="2000-01-01"
+              max="2100-12-31"
+              value={chosenDate}
+              onChange={(e) => {
+                setChosenDate(e.target.value);
+                if (e.target.value)
+                  calendar.current?.getApi().gotoDate(e.target.value);
+              }}
+            />
+            {tab === "work" && (
+              <select
+                className="schedule-group-select"
+                aria-label="Bộ thời khóa biểu"
+                value={group}
+                onChange={(e) => setGroup(e.target.value)}
+              >
                 <option value="">Tất cả bộ lịch</option>
                 {data.settings.groups.map((item) => (
                   <option key={item.id} value={item.id}>
@@ -569,43 +634,50 @@ export function CalendarScreen({
                   </option>
                 ))}
               </select>
-            </label>
-          )}
-          {tab === "work" && (
-            <div className="timetable-actions">
-              <button
-                className="button secondary small"
-                type="button"
-                disabled={
-                  !!data.error || pending || data.settings.groups.length >= 20
-                }
-                onClick={() => setTimetable("create")}
-              >
-                Tạo bộ lịch
-              </button>
-              <button
-                className="button secondary small"
-                type="button"
-                disabled={!group || !!data.error || pending}
-                onClick={() => setTimetable("edit")}
-              >
-                Sửa bộ lịch
-              </button>
-              <button
-                className="button secondary small"
-                type="button"
-                disabled={
-                  !group ||
-                  !!data.error ||
-                  pending ||
-                  data.settings.groups.length >= 20
-                }
-                onClick={() => setTimetable("copy")}
-              >
-                Sao chép bộ lịch
-              </button>
-            </div>
-          )}
+            )}
+            <CalendarTools
+              actions={[
+                ...(tab === "work"
+                  ? [
+                      {
+                        label: "Tạo bộ lịch",
+                        icon: Plus,
+                        disabled:
+                          !!data.error ||
+                          pending ||
+                          data.settings.groups.length >= 20,
+                        onSelect: () => setTimetable("create"),
+                      },
+                      ...(group
+                        ? [
+                            {
+                              label: "Sửa bộ lịch",
+                              icon: Pencil,
+                              disabled: !!data.error || pending,
+                              onSelect: () => setTimetable("edit"),
+                            },
+                            {
+                              label: "Sao chép bộ lịch",
+                              icon: Copy,
+                              disabled:
+                                !!data.error ||
+                                pending ||
+                                data.settings.groups.length >= 20,
+                              onSelect: () => setTimetable("copy"),
+                            },
+                          ]
+                        : []),
+                    ]
+                  : []),
+                {
+                  label: "Xuất .ics",
+                  icon: Download,
+                  disabled: !!data.error,
+                  onSelect: () => setExporting(true),
+                },
+              ]}
+            />
+          </div>
         </div>
         {yearView && (
           <CalendarYear

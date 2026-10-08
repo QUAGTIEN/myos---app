@@ -10,7 +10,11 @@ async function calendar(page: Page) {
     page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }),
   ).toBeEnabled();
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
-  await expect(page.locator(".calendar-month h2")).toContainText("2026");
+  await expect(
+    page
+      .getByRole("region", { name: "Bộ lịch", exact: true })
+      .getByRole("heading", { level: 2 }),
+  ).toContainText("2026");
 }
 async function create(page: Page, title: string, repeat = false) {
   await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
@@ -166,6 +170,7 @@ test("overlap warning requires acknowledgement and browser download is valid ICS
   page.once("dialog", (dialog) => dialog.accept());
   await form.getByRole("button", { name: "Lưu lịch hẹn" }).click();
   await expect(form).not.toBeVisible();
+  await page.getByLabel("Thao tác lịch", { exact: true }).click();
   await page.getByRole("button", { name: "Xuất .ics", exact: true }).click();
   await form.getByLabel("Từ ngày").fill("2026-10-06");
   await form.getByLabel("Đến hết ngày").fill("2026-10-06");
