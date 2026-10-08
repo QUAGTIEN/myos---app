@@ -15,6 +15,8 @@ export const repositoryEvents = {
   notes: "myos:notes-changed",
   calendarEvents: "myos:calendar-changed",
   calendarSettings: "myos:calendar-changed",
+  attendanceActivities: "myos:attendance-activities-changed",
+  attendanceMonths: "myos:attendance-months-changed",
 } as const;
 export type RepositoryKind = keyof typeof repositoryEvents;
 type SavedRecord = { id: string; [field: string]: unknown };

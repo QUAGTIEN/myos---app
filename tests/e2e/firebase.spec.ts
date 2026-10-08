@@ -23,6 +23,154 @@ import {
 } from "../../src/modules/calendar/model";
 
 const password = "MyOS-test-2026!";
+test("attendance cloud stores atomic months, rejects stale/foreign records and keeps offline drafts", async ({
+  page,
+  context,
+  playwright,
+}) => {
+  await account(context.request);
+  const other = await playwright.request.newContext({
+    baseURL: "http://127.0.0.1:3101",
+  });
+  try {
+    await account(other);
+    const now = new Date().toISOString();
+    const id = randomUUID();
+    const activity = {
+      id,
+      name: "Đi dạy cloud",
+      color: "turquoise",
+      version: 1,
+      createdAt: now,
+      updatedAt: now,
+    };
+    expect(
+      (
+        await write(context.request, {
+          kind: "attendanceActivities",
+          operation: "save",
+          id,
+          expectedVersion: 0,
+          value: activity,
+        })
+      ).status(),
+    ).toBe(200);
+    const month = {
+      id: id + "_2026-10",
+      activityId: id,
+      month: "2026-10",
+      entries: [
+        {
+          date: "2026-10-05",
+          status: "done",
+          start: "09:00",
+          end: "11:00",
+          note: "Lớp A",
+        },
+      ],
+      version: 1,
+      updatedAt: now,
+    };
+    const command = {
+      kind: "attendanceMonths",
+      operation: "save",
+      id: month.id,
+      expectedVersion: 0,
+      value: month,
+    };
+    expect((await write(other, command)).status()).toBe(400);
+    expect(
+      (
+        await other
+          .get(`/api/data?kind=attendanceActivities&id=${id}`)
+          .then((response) => response.json())
+      ).value,
+    ).toBeNull();
+    expect((await write(context.request, command)).status()).toBe(200);
+    expect((await write(context.request, command)).status()).toBe(409);
+    const invalid = {
+      ...command,
+      expectedVersion: 1,
+      value: {
+        ...month,
+        version: 2,
+        entries: [...month.entries, ...month.entries],
+      },
+    };
+    expect((await write(context.request, invalid)).status()).toBe(400);
+    expect(
+      (
+        await other
+          .get(`/api/data?kind=attendanceMonths&id=${month.id}`)
+          .then((response) => response.json())
+      ).value,
+    ).toBeNull();
+    expect(
+      (await context.request.get("/api/data?kind=attendanceMonths")).status(),
+    ).toBe(400);
+    await page.goto("/calendar");
+    await page.getByRole("button", { name: "Chấm công", exact: true }).click();
+    await page.getByLabel("Tháng chấm công").fill("2026-10");
+    await expect(
+      page.getByRole("button", {
+        name: "Chấm công 2026-10-05, Đã thực hiện",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", {
+        name: "Chấm công 2026-10-08, Chưa chấm",
+        exact: true,
+      })
+      .click();
+    let fail = true;
+    await page.route("**/api/data", (route) =>
+      route.request().method() === "POST" && fail
+        ? route.abort()
+        : route.continue(),
+    );
+    const save = page.getByRole("button", {
+      name: "Lưu chấm công",
+      exact: true,
+    });
+    await save.click();
+    await expect(page.locator(".attendance-module [role=alert]")).toContainText(
+      "Bản nháp vẫn được giữ",
+    );
+    await expect(
+      page.getByRole("button", {
+        name: "Chấm công 2026-10-08, Đã thực hiện",
+        exact: true,
+      }),
+    ).toBeVisible();
+    fail = false;
+    await save.click();
+    await expect(page.locator(".attendance-save-state")).toHaveText(
+      "Đã lưu chấm công.",
+    );
+    const stored = (
+      await (
+        await context.request.get(
+          `/api/data?kind=attendanceMonths&id=${month.id}`,
+        )
+      ).json()
+    ).value;
+    expect(stored.version).toBe(2);
+    expect(stored.entries.map((entry: { date: string }) => entry.date)).toEqual(
+      ["2026-10-05", "2026-10-08"],
+    );
+    expect(stored.entries[0].note).toBe("Lớp A");
+    await page.reload();
+    await expect(
+      page.getByRole("button", {
+        name: "Chấm công 2026-10-08, Đã thực hiện",
+        exact: true,
+      }),
+    ).toBeVisible();
+  } finally {
+    await other.dispose();
+  }
+});
 async function write(request: APIRequestContext, body: unknown) {
   const { csrfToken } = await (await request.get("/api/auth")).json();
   return request.post("/api/data", {
@@ -93,7 +241,7 @@ test("shared data survives navigation, deduplicates dialogs and updates only aff
   for (const [label, path, ready] of [
     ["Ghi chú", "/notes", "Tạo ghi chú"],
     ["Dự án", "/projects", "Tạo dự án"],
-    ["Lịch", "/calendar", "Công việc"],
+    ["Lịch", "/calendar", "Chấm công"],
   ]) {
     await navigate(page, label);
     await expect(page).toHaveURL(new RegExp(path + "$"));
@@ -102,7 +250,6 @@ test("shared data survives navigation, deduplicates dialogs and updates only aff
       page.getByRole("button", { name: ready, exact: true }),
     ).toBeEnabled();
   }
-  await page.getByRole("button", { name: "Công việc", exact: true }).click();
   await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   expect(reads).toEqual(initial);
@@ -329,7 +476,6 @@ test("public signup, cloud CRUD, settings, logout and login on desktop/mobile", 
   await page.getByRole("button", { name: "Lưu ngay", exact: true }).click();
   await expect(page.locator(".note-save-bar")).toContainText("Đã lưu");
   await page.goto("/calendar");
-  await page.getByRole("button", { name: "Công việc", exact: true }).click();
   await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
   const dialog = page.getByRole("dialog");
   await dialog.getByLabel("Tên lịch hẹn", { exact: true }).fill("Lịch cloud");

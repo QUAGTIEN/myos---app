@@ -67,11 +67,13 @@ Kiểm chứng trong `tests/e2e/notes.spec.ts`; quyết định tại [ADR G4](.
 
 ## Lịch
 
-Ca sử dụng: tab Lịch xem ngày/tháng/năm, tab Công việc lập nhiều bộ thời khóa biểu tuần/tháng; lịch lặp tuần, ngoại lệ, đánh dấu, nhắc và xuất .ics.
+Ca sử dụng: tab Lịch xem tháng/tuần; thêm lịch hẹn/công việc/ghi chú ở từng ô ngày. Tab Chấm công tạo công việc và bảng chấm tháng riêng; vẫn giữ lịch lặp tuần, ngoại lệ, nhóm/bộ lịch, liên kết và xuất .ics.
 
-calendar-book.tsx giữ lưới năm và form bộ lịch. Groups hiện hữu là bộ lịch lưu riêng: tên/màu, sự kiện theo groupId; tạo nhanh dùng bộ đang chọn. Sao chép nhóm và masters/ngoại lệ nguyên tử; bản sao cùng khoảng ngày có ID riêng, không mang liên kết và trạng thái hoàn thành từ bản gốc. Chưa có dịch toàn bộ bộ lịch sang kỳ mới. Tab đang chọn được giữ trong sessionStorage; nội dung vẫn ở IndexedDB.
+calendar-book.tsx giữ form bộ lịch, lưới năm đã bỏ. Groups hiện hữu là bộ lịch lưu riêng: tên/màu, sự kiện theo groupId; tạo nhanh dùng bộ đang chọn. Sao chép nhóm và masters/ngoại lệ nguyên tử; bản sao cùng khoảng ngày có ID riêng, không mang liên kết và trạng thái hoàn thành từ bản gốc. Chưa có dịch toàn bộ bộ lịch sang kỳ mới. Tab đang chọn được giữ trong sessionStorage; nội dung vẫn ở IndexedDB.
 
-G5 đã triển khai local, G2 hoãn. `model.ts` Zod/timezone; `recurrence.ts` mở rộng tuần hữu hạn/ngoại lệ; `service.ts` mutations; `repository.ts` IndexedDB version 4 và liên kết Projects nguyên tử; `ics.ts` iCalendar; `use-calendar.ts` đọc/error/cập nhật tab; `components` FullCalendar, form, chi tiết, dialogs.tsx (khung dialog và xuất lịch), settings và lịch liên quan. CSS scoped `schedule-*`.
+G5 dùng cloud/local qua repository. `model.ts` Zod/timezone; `recurrence.ts` mở rộng tuần hữu hạn/ngoại lệ; `service.ts` mutations; `repository.ts` IndexedDB version 5 và liên kết Projects nguyên tử; `ics.ts` iCalendar; `use-calendar.ts` đọc/error/cập nhật tab; `components` FullCalendar, form, chi tiết, dialogs.tsx (khung dialog và xuất lịch), settings và lịch liên quan. CSS scoped `schedule-*`.
+
+`attendance-model.ts` validate activities, bảng tháng và ngày chấm; `attendance-repository.ts` đọc/ghi cloud hoặc local, chia sẻ cache. `components/attendance.tsx` giữ bảng tháng, form công việc/ngày và bản nháp chờ Lưu chấm công. Một bản ghi/ngày/công việc, giờ tùy chọn trong cùng ngày. Chưa chấm là thiếu bản ghi, không suy ra vắng hoặc định mức. Đọc cloud bằng id tháng; transaction kiểm tra activity thuộc UID và version. Chi tiết [ADR 007](../../docs/decisions/007-calendar-attendance.md).
 
 Việt Nam UTC+7; end exclusive, form cả ngày hiển thị ngày cuối inclusive. Chuỗi nhiều thứ tối đa 5 năm có ngày kết thúc, mỗi buổi tối đa 7 ngày. Exception giữ originalStart và chỉ override fields đã đổi. Đổi lịch gốc reset ngoại lệ sau xác nhận. Hủy soft, hoàn thành riêng từng buổi; lỗi/version conflict giữ nháp, kéo/resize rollback.
 
@@ -83,4 +85,4 @@ overview-screen.tsx dùng useCalendar/useProjects/useNotes để đọc/cập nh
 
 ## Cài đặt
 
-settings-screen.tsx dùng CalendarSettingsPanel của module Lịch: nhóm/tên/màu, giờ hiển thị và nhắc mặc định được lưu IndexedDB có kiểm tra version. Timezone Việt Nam; đầu tuần Thứ Hai/Chủ Nhật lưu hồ sơ và áp dụng cả lưới năm/FullCalendar. Tài khoản chỉnh tên và đăng xuất; theme sáng cố định, reminder chỉ là cấu hình.
+settings-screen.tsx dùng CalendarSettingsPanel của module Lịch: nhóm/tên/màu, giờ hiển thị và nhắc mặc định được lưu IndexedDB có kiểm tra version. Timezone Việt Nam; đầu tuần Thứ Hai/Chủ Nhật lưu hồ sơ và áp dụng FullCalendar và bảng chấm công. Tài khoản chỉnh tên và đăng xuất; theme sáng cố định, reminder chỉ là cấu hình.

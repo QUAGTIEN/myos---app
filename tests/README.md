@@ -6,17 +6,21 @@ G3: projects.spec.ts kiểm tra CRUD local/reload, ghim/lưu trữ/khôi phục,
 
 G4: notes.spec.ts thêm 16 test desktop/mobile cho autosave/rich text/checklist, ảnh chọn/dán/reload/history, quota rollback, conflict hai tab, links Projects, database upgrade, retention/cleanup và pagination. G4 có 40 test; dữ liệu/canvas ảnh chỉ là fixture trong context test, không đi vào dữ liệu người dùng.
 
-Sau G5: suite có 68 cases, 61 chạy và 7 skip có chủ đích (6 domain trên mobile, 1 kéo/resize trên mobile). Resize cần hover hiện tay nắm và giữ điểm đến trong viewport; không dùng force hoặc sửa DOM để giả lập kéo. Tất cả browser tests dùng dữ liệu riêng theo BrowserContext.
+Sau G5: suite có 68 cases, 61 chạy và 7 skip có chủ đích (6 domain trên mobile, 1 kéo/resize trên mobile). Lịch mới kiểm tra kéo đổi ngày và sửa giờ qua form; không dùng force hoặc sửa DOM để giả lập kéo. Tất cả browser tests dùng dữ liệu riêng theo BrowserContext.
 
 Test autosave conflict cài clock trước khi tải ứng dụng để không thay timer đang hoạt động, và đợi trạng thái “Đã lưu” trước khi mở tab thứ hai. Test liên kết dùng ngày/giờ hẹn cụ thể để không vô tình trùng mốc khi ngày hôm nay thay đổi.
 
-G5: calendar.spec.ts kiểm tra lịch đơn/cả ngày/tuần, sửa/hủy/hoàn thành riêng, bốn views, trùng giờ, hai tab, quota rollback, links/mốc, download, settings, kéo/resize. calendar-domain.spec.ts kiểm tra thời gian và iCalendar bằng parser độc lập, chỉ chạy project desktop để không lặp domain tests. Đăng nhập và quyền cloud thêm ở G2. Xem README ở root cho commands.
+G5: calendar.spec.ts kiểm tra lịch đơn/cả ngày/tuần, sửa/hủy/hoàn thành riêng, tháng/tuần, trùng giờ, hai tab, quota rollback, links/mốc, download, settings, kéo đổi ngày và sửa giờ qua form. calendar-domain.spec.ts kiểm tra thời gian và iCalendar bằng parser độc lập, chỉ chạy project desktop để không lặp domain tests. Đăng nhập và quyền cloud thêm ở G2. Xem README ở root cho commands.
 
 Tổng quan: overview.spec.ts có 8 cases desktop/mobile, kiểm tra dữ liệu nguồn/loại lưu trữ-thùng rác, ngày Việt Nam trên máy khác timezone, lịch qua đêm/ngoại lệ/end exclusive, đổi ngày, cập nhật tab, checklist commit/rollback, tạo nhanh và lỗi nguồn/retry riêng. Suite hiện có 84 cases; 7 skip theo cấu hình G5.
 
-workspace.spec.ts: 8 cases desktop/mobile cho lưới năm/ngày, bộ thời khóa biểu lưu/đổi tên/sao chép, hồ sơ IoT/tài liệu/link an toàn/nhật ký, tệp tải/xóa và rollback, Kanban, conflict hai tab và nâng database v3→v4. Fixtures của version cũ khởi tạo trên /login trước khi ứng dụng mở IndexedDB.
+workspace.spec.ts: 8 cases desktop/mobile cho lịch tháng/tuần, bộ thời khóa biểu lưu/đổi tên/sao chép, hồ sơ IoT/tài liệu/link an toàn/nhật ký, tệp tải/xóa và rollback, Kanban, conflict hai tab và nâng database v3→v5. Fixtures của version cũ khởi tạo trên /login trước khi ứng dụng mở IndexedDB.
 
 Thanh công cụ Lịch: workspace kiểm tra menu Thao tác lịch mở bằng Enter, đóng bằng Escape/click ngoài, trả focus sau dialog, ẩn sửa/sao chép khi chưa chọn bộ và không tràn ở 320 px. Calendar/workspace mở menu trước khi xuất `.ics`; kiểm tra điều hướng tháng dùng heading trong region Bộ lịch thay vì phụ thuộc class bố cục cũ.
+
+attendance.spec.ts kiểm tra nội dung ngày tháng/tuần, chấm công chủ động theo tháng, giờ/ghi chú, hoạt động độc lập, nháp/conflict/rollback, ngày nhuận và mobile 320 px. Firebase suite thêm lưu bảng tháng nguyên tử, cách ly UID, schema/version và giữ nháp khi mạng lỗi; không tạo dữ liệu thật.
+
+Kiểm chứng ngày 08/10/2026: lint, typecheck, format và production build đạt; Attendance desktop/mobile đạt 7 cases, 1 skip để không lặp schema test; Firebase Emulator đạt 14 cases. Suite local đầy đủ đã chạy 92 cases: 82 đạt, 8 skip và 2 lỗi locator của Attendance; sau khi sửa locator, các cases Attendance chạy lại đạt. Calendar/domain/workspace cũng chạy lại sau thay đổi giao diện. Không xác nhận tốc độ hoặc dữ liệu trên deployment thật từ các kết quả Emulator này.
 
 ## Tổ chức và chạy
 

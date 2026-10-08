@@ -53,6 +53,12 @@ export function EventForm({
   } = useProjects();
   const { notes, loading: notesLoading, error: noteError } = useNotes();
   const one = !!event?.repeat && scope === "one";
+  const label =
+    input.entryKind === "note"
+      ? "ghi chú"
+      : input.entryKind === "task"
+        ? "công việc"
+        : "lịch hẹn";
   const conflicts = useMemo(() => {
     try {
       return conflictingEvents(
@@ -141,8 +147,8 @@ export function EventForm({
   }
   return (
     <CalendarDialog
-      title={event ? "Sửa lịch hẹn" : "Tạo lịch hẹn"}
-      description="Giờ Việt Nam (UTC+7). Nội dung được lưu trên trình duyệt này."
+      title={(event ? "Sửa " : "Tạo ") + label}
+      description="Nội dung trên lịch theo giờ Việt Nam (UTC+7)."
       pending={pending}
       onClose={close}
     >
@@ -163,7 +169,7 @@ export function EventForm({
             </label>
           )}
           <label>
-            Tên lịch hẹn
+            {"Tên " + label}
             <input
               required
               autoFocus
@@ -469,7 +475,7 @@ export function EventForm({
             Đóng
           </button>
           <button className="button primary" type="submit" disabled={pending}>
-            {pending ? "Đang lưu…" : "Lưu lịch hẹn"}
+            {pending ? "Đang lưu…" : "Lưu " + label}
           </button>
         </div>
       </form>

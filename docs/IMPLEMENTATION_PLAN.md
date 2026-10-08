@@ -265,7 +265,7 @@ Nếu Zalo chưa đạt điều kiện thì bàn giao nhắc trong app, ghi rõ 
 | Hoàn thiện kế hoạch này | Nhắc trong app, Zalo có điều kiện kiểm chứng, mở rộng lịch lặp, đính kèm, cấu hình đầy đủ, in lịch, backup/restore và deploy |
 | Nâng cấp riêng sau | OCR/AI, nhập ghi chú qua tin nhắn Zalo, PWA/offline, tìm kiếm toàn văn, đồng bộ Google Calendar |
 
-Không thêm phân hệ tài chính, chấm công hoặc kho file độc lập. “Giống Google Calendar/Notes” là định hướng trải nghiệm cho phạm vi đã mô tả, không cam kết sao chép toàn bộ sản phẩm.
+Chấm công được thêm theo yêu cầu mới, là tab bên trong Lịch. Không thêm phân hệ tài chính, chấm công hoặc kho file độc lập. “Giống Google Calendar/Notes” là định hướng trải nghiệm cho phạm vi đã mô tả, không cam kết sao chép toàn bộ sản phẩm.
 
 ## 6. Tiêu chí hoàn thành một giai đoạn
 
@@ -291,7 +291,7 @@ Không đặt lịch số tuần trước khi có khối lượng implementation
 | G4 | Có implementation local: rich text/ảnh, autosave, thư mục/nhãn, thùng rác, revisions và liên kết Projects |
 | G5 | Có implementation local: lịch đơn/cả ngày, tuần/ngoại lệ, marks, kéo/resize, liên kết, .ics và settings |
 | G6 local | Đã triển khai Tổng quan tổng hợp local; tìm kiếm chung/thông báo tích hợp còn kế hoạch |
-| Mở rộng theo yêu cầu | Tab Lịch/Công việc, bộ thời khóa biểu, Kanban và hồ sơ dự án/tệp local |
+| Mở rộng theo yêu cầu | Lịch Tháng/Tuần và tab Chấm công; giữ bộ lịch, Kanban và hồ sơ dự án/tệp local |
 | G7–G8 | Chưa triển khai gửi nhắc/Zalo/cloud; các mục còn lại chờ phạm vi được giao |
 | Firebase/cloud/billing/deploy | Chưa thực hiện |
 | Khả năng gửi Zalo thực tế | Chưa kiểm chứng |

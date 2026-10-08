@@ -29,6 +29,11 @@ import {
 import { database } from "./server";
 import { HttpError } from "./session";
 import { preferencesSchema, profileSchema } from "./profile";
+import {
+  activitySchema,
+  attendanceId,
+  attendanceMonthSchema,
+} from "@/modules/calendar/attendance-model";
 
 export const kindSchema = z.enum([
   "projects",
@@ -36,6 +41,8 @@ export const kindSchema = z.enum([
   "calendarEvents",
   "calendarSettings",
   "profile",
+  "attendanceActivities",
+  "attendanceMonths",
 ]);
 type Kind = z.infer<typeof kindSchema>;
 export const commandSchema = z
@@ -54,7 +61,8 @@ function reference(uid: string, kind: Kind, id: string) {
   if (kind === "profile") return database().doc(`users/${uid}`);
   if (kind === "calendarSettings") {
     if (id !== "calendar") throw new HttpError(400, "Sai mã cài đặt lịch.");
-  } else identifier.parse(id);
+  } else if (kind === "attendanceMonths") attendanceId.parse(id);
+  else identifier.parse(id);
   return database().doc(`users/${uid}/${kind}/${id}`);
 }
 function unpack(snapshot: {
@@ -171,9 +179,18 @@ export async function readData(user: UserRecord, kind: Kind, id?: string) {
       return database().runTransaction((tx) => noteInTransaction(tx, ref));
     const value = unpack(await ref.get());
     return value
-      ? (kind === "projects" ? projectSchema : eventSchema).parse(value)
+      ? (kind === "attendanceActivities"
+          ? activitySchema
+          : kind === "attendanceMonths"
+            ? attendanceMonthSchema
+            : kind === "projects"
+              ? projectSchema
+              : eventSchema
+        ).parse(value)
       : null;
   }
+  if (kind === "attendanceMonths")
+    throw new HttpError(400, "Chọn công việc và tháng để đọc chấm công.");
   // Read bounded pages, with a hard ceiling rather than silently omitting records.
   const collection = database().collection(`users/${user.uid}/${kind}`);
   const result: unknown[] = [];
@@ -191,11 +208,13 @@ export async function readData(user: UserRecord, kind: Kind, id?: string) {
     result.push(
       ...page.docs.map((doc) => {
         const value = unpack(doc);
-        return kind === "projects"
-          ? projectSchema.parse(value)
-          : kind === "notes"
-            ? noteSchema.parse({ ...value, revisions: [] })
-            : eventSchema.parse(value);
+        return kind === "attendanceActivities"
+          ? activitySchema.parse(value)
+          : kind === "projects"
+            ? projectSchema.parse(value)
+            : kind === "notes"
+              ? noteSchema.parse({ ...value, revisions: [] })
+              : eventSchema.parse(value);
       }),
     );
     if (page.size)
@@ -239,6 +258,44 @@ export async function writeData(user: UserRecord, raw: unknown) {
       expectedVersion,
     );
     const now = new Date().toISOString();
+    if (kind === "attendanceActivities" || kind === "attendanceMonths") {
+      const schema =
+        kind === "attendanceActivities"
+          ? activitySchema
+          : attendanceMonthSchema;
+      const input = schema.parse(command.value);
+      if (input.id !== id || input.version !== expectedVersion + 1)
+        throw new HttpError(400, "Sai phiên bản chấm công.");
+      if (kind === "attendanceActivities" && !previous) {
+        const activities = await tx.get(
+          database().collection(`users/${uid}/attendanceActivities`).limit(50),
+        );
+        if (activities.size >= 50)
+          throw new HttpError(400, "Tối đa 50 loại công việc.");
+      }
+      if (kind === "attendanceMonths") {
+        const month = attendanceMonthSchema.parse(input);
+        const activity = unpack(
+          await tx.get(
+            reference(uid, "attendanceActivities", month.activityId),
+          ),
+        );
+        if (!activity)
+          throw new HttpError(
+            400,
+            "Công việc không tồn tại hoặc không thuộc tài khoản.",
+          );
+      }
+      const saved = schema.parse({
+        ...input,
+        updatedAt: now,
+        ...(kind === "attendanceActivities"
+          ? { createdAt: previous?.createdAt ?? now }
+          : {}),
+      });
+      tx.set(ref, pack(saved));
+      return saved;
+    }
     if (kind === "profile") {
       if (!previous) throw new HttpError(404, "Không tìm thấy hồ sơ.");
       const saved = profileSchema.parse({

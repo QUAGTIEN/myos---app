@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const calendarZone = "Asia/Ho_Chi_Minh";
 export const occurrenceFields = [
+  "entryKind",
   "title",
   "description",
   "start",
@@ -34,6 +35,7 @@ export const dateSchema = z
     "Ngày phải hợp lệ trong khoảng 2000–2100.",
   );
 const inputShape = {
+  entryKind: z.enum(["appointment", "task", "note"]).default("appointment"),
   title: z.string().trim().min(1, "Nhập tên lịch hẹn.").max(120),
   description: z.string().max(10000),
   start: z.string(),
@@ -106,7 +108,7 @@ export const eventSchema = z
           originalStart: z.string(),
           cancelled: z.boolean(),
           input: occurrenceInputSchema.nullable(),
-          fields: z.array(z.enum(occurrenceFields)).max(11),
+          fields: z.array(z.enum(occurrenceFields)).max(12),
         }),
       )
       .max(2000),
@@ -225,6 +227,7 @@ export function blankEvent(
   settings: CalendarSettings,
 ): EventInput {
   return {
+    entryKind: "appointment",
     title: "",
     description: "",
     start: date + "T09:00",

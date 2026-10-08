@@ -3,10 +3,13 @@ let connection: Promise<IDBDatabase> | undefined;
 export function openLocalDatabase(): Promise<IDBDatabase> {
   if (connection) return connection;
   connection = new Promise<IDBDatabase>((resolve, reject) => {
-    const request = indexedDB.open("myos-local", 4);
+    const request = indexedDB.open("myos-local", 5);
     let abandoned = false;
     request.onupgradeneeded = () => {
       const db = request.result;
+      for (const name of ["attendanceActivities", "attendanceMonths"])
+        if (!db.objectStoreNames.contains(name))
+          db.createObjectStore(name, { keyPath: "id" });
       if (!db.objectStoreNames.contains("projects"))
         db.createObjectStore("projects", { keyPath: "id" });
       if (!db.objectStoreNames.contains("projectAttachments"))

@@ -6,6 +6,8 @@ Nền màn hình xác thực: [A Green Forest — Lauri Poldre / Pexels](https:/
 
 ## Trạng thái hiện tại
 
+**Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần, mỗi ô ngày thêm lịch hẹn/công việc/ghi chú; cột Hôm nay/Sắp tới dùng dữ liệu thật. Tab Chấm công có loại công việc và bảng tháng riêng, nhập giờ/ghi chú, Lưu chấm công ghi nguyên tử cả tháng với version check; lỗi giữ nháp. Firebase lưu dưới UID; IndexedDB v5 giữ toàn bộ dữ liệu cũ. Tổng kết không suy ra định mức hoặc số buổi còn thiếu. [ADR 007](docs/decisions/007-calendar-attendance.md).
+
 **G1 đã có implementation:** khung giao diện responsive, menu 5 mục, lịch tháng có điều hướng, trang đăng nhập (đã nối Auth ở G2), loading/error/404. Các module đọc dữ liệu local, không dùng dữ liệu cá nhân giả.
 
 **G3 đã triển khai local:** tạo/sửa dự án, tìm kiếm/lọc/phân trang, ghim/lưu trữ/khôi phục, tiến độ thủ công hoặc checklist, mốc và lịch sử cập nhật. Nội dung dự án là văn bản thường. Dữ liệu lưu trong IndexedDB của trình duyệt qua repository riêng; chưa đồng bộ Firebase.
@@ -24,7 +26,7 @@ Dữ liệu local thuộc từng browser profile và origin: localhost và 127.0
 
 **Tổng quan đã có dữ liệu local:** 4 số liệu, lịch ngày/qua đêm/lặp có ngoại lệ, checklist cần làm/quá hạn, tiến độ dự án, ghi chú mới/ghim và mốc gần hạn. Có tạo nhanh, mở/sửa/hoàn thành lịch và hoàn thành checklist; cập nhật theo tab nguồn và đổi ngày Việt Nam. Mỗi nguồn có loading/error/retry riêng. Tìm kiếm chung và vùng thông báo tích hợp vẫn chưa triển khai.
 
-Thanh công cụ Lịch: tab Lịch/Công việc tách rõ ở đầu trang, Tạo lịch hẹn ở bên phải; điều hướng ngày, chế độ xem và chọn bộ lịch cùng một hàng trên desktop. Menu Thao tác lịch chứa tạo/sửa/sao chép bộ lịch, xuất `.ics` và cài đặt; sửa/sao chép chỉ hiện khi chọn bộ cụ thể. Mobile xuống hàng theo chiều rộng, hỗ trợ bàn phím và focus khi đóng menu/dialog.
+Thanh công cụ Lịch có điều hướng, Tháng/Tuần, tìm kiếm, ngày và bộ lọc bộ lịch. Tạo lịch hẹn đặt bên phải; menu Thao tác lịch giữ tạo/sửa/sao chép bộ lịch, xuất `.ics` và cài đặt. Tab Công việc và lịch năm đã được thay theo phạm vi mới, dữ liệu groups/events cũ vẫn giữ.
 
 ## Chạy local
 

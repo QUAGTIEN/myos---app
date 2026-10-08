@@ -38,7 +38,7 @@ MYOS/
 │   │   ├── notes/                  # Như Projects, thêm autosave và rich editor
 │   │   └── calendar/               # Thêm recurrence, ics và bộ lịch
 │   └── lib/
-│       ├── local-database.ts       # IndexedDB cũ, version 4
+│       ├── local-database.ts       # IndexedDB local, version 5
 │       ├── repository-cache.tsx    # SWR provider/hook, cache theo UID, cập nhật sau commit
 │       └── firebase/               # client, server, session, data, profile, cloud-client
 ├── scripts/test-data.mjs           # Build và test local/cloud với env riêng
@@ -48,11 +48,11 @@ MYOS/
 ├── public/images/sidebar-city.png  # Ảnh người dùng cung cấp, nền chìm sidebar
 ├── tests/
 │   ├── README.md                   # Cách chạy và phạm vi kiểm thử
-│   └── e2e/                       # 8 file test đang hoạt động
+│   └── e2e/                       # các luồng local và Firebase Emulator
 └── docs/
     ├── SOURCE_MAP.md
     ├── IMPLEMENTATION_PLAN.md
-    └── decisions/                  # Mục lục và 6 quyết định đã áp dụng
+    └── decisions/                  # Mục lục và 7 quyết định đã áp dụng
 ~~~
 
 node_modules, .next, test-results và playwright-report là dependency/output, không phải source và không commit. Chỉ giữ thư mục khi có file thực tế cần dùng.
@@ -68,7 +68,8 @@ Rà soát bổ sung: 55 file TypeScript/React đều có vai trò route hoặc i
 | Lịch hẹn/thời khóa biểu | src/modules/calendar |
 | Ngoại lệ chuỗi tuần | calendar/model.ts, recurrence.ts, service.ts |
 | Xuất iCalendar | calendar/ics.ts |
-| Lịch năm và bộ thời khóa biểu | calendar/components/calendar-book.tsx; groups trong calendarSettings |
+| Bộ lịch hiện hữu | calendar/components/calendar-book.tsx; groups trong calendarSettings |
+| Chấm công theo công việc/tháng | calendar/attendance-model.ts, attendance-repository.ts, components/attendance.tsx; API trong lib/firebase/data.ts |
 | Hồ sơ, linh kiện và tệp dự án | projects/components/project-workspace.tsx; model/service/repository Projects; store projectAttachments |
 | Cài đặt lịch và lịch liên quan | calendar/components/calendar-settings.tsx, related-calendar.tsx |
 | Dự án, checklist/mốc, tiến độ | src/modules/projects |
@@ -85,7 +86,7 @@ Page/layout/loading/error nhỏ vẫn là file riêng vì Next.js dùng tên và
 
 Cloud: Client Component → service → repository HTTP → API xác thực/CSRF/Zod → Firestore transaction. Layout private dùng requirePageUser nhưng mọi API tự kiểm tra session. Local: Client → service → IndexedDB chỉ khi cấu hình local.
 
-Database myos-local version 3 gồm projects, notes, noteAttachments, calendarEvents, calendarSettings. Calendar/Notes repository điều phối liên kết Projects trong transaction; khi ghi lỗi phải rollback. Liên kết event→note được đọc từ Calendar, không sao chép eventIds vào note. Xem [hướng dẫn module](../src/modules/README.md) và [quyết định kiến trúc](decisions/README.md).
+Database myos-local version 5 gồm projects, projectAttachments, notes, noteAttachments, calendarEvents, calendarSettings, attendanceActivities và attendanceMonths. Calendar/Notes repository điều phối liên kết Projects trong transaction; khi ghi lỗi phải rollback. Liên kết event→note được đọc từ Calendar, không sao chép eventIds vào note. Xem [hướng dẫn module](../src/modules/README.md) và [quyết định kiến trúc](decisions/README.md).
 
 ## Các file nhỏ đã gom
 

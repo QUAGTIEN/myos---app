@@ -63,7 +63,6 @@ test("calendar controls change months and return to today", async ({
   await page.getByRole("button", { name: "Tháng trước", exact: true }).click();
   await page.getByRole("button", { name: "Hôm nay", exact: true }).click();
   await expect(title).toHaveText(original!);
-  await page.getByRole("button", { name: "Công việc", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "Tạo lịch hẹn" }),
   ).toBeEnabled();

@@ -15,3 +15,5 @@ Project hiện tại myos-app-40f4d, provider Email/Password công khai. Region/
 [005 — Bộ thời khóa biểu và hồ sơ dự án](005-timetables-project-dossiers.md): tab lịch/năm, Kanban, workspace và tệp dự án nguyên tử; database version 4.
 
 [006 — Firebase, tài khoản tự đăng ký và dữ liệu cloud](006-firebase-public-accounts.md): cookie session/CSRF, ownership tại API, transactions, giữ local riêng và Vercel.
+
+[007 — Lịch tháng/tuần và chấm công](007-calendar-attendance.md): tab mới, Calendar entryKind tương thích, bảng tháng nguyên tử theo UID và IndexedDB v5.

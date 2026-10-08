@@ -35,6 +35,12 @@ export function EventDetails({
   onCancel: (whole: boolean) => void;
 }) {
   const [whole, setWhole] = useState(false);
+  const label =
+    occurrence.entryKind === "note"
+      ? "ghi chú"
+      : occurrence.entryKind === "task"
+        ? "công việc"
+        : "lịch hẹn";
   const { projects, error: projectsError } = useProjects();
   const { notes, error: notesError } = useNotes();
   const format = (value: string) =>
@@ -164,7 +170,7 @@ export function EventDetails({
             onClick={onEdit}
           >
             <Pencil size={16} />
-            Sửa lịch hẹn
+            {"Sửa " + label}
           </button>
           <button
             type="button"
@@ -182,14 +188,16 @@ export function EventDetails({
             onClick={() => {
               if (
                 window.confirm(
-                  whole ? "Hủy toàn bộ chuỗi lịch này?" : "Hủy lịch hẹn này?",
+                  whole
+                    ? "Hủy toàn bộ chuỗi lịch này?"
+                    : "Hủy " + label + " này?",
                 )
               )
                 onCancel(whole);
             }}
           >
             <Trash2 size={16} />
-            {whole ? "Hủy toàn chuỗi" : "Hủy lịch hẹn"}
+            {whole ? "Hủy toàn chuỗi" : "Hủy " + label}
           </button>
         </div>
       </div>

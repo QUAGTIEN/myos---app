@@ -30,30 +30,19 @@ async function saveWorkspace(page: Page) {
   ).not.toBeVisible();
 }
 
-test("calendar book navigates year/day; independent timetables persist and copy atomically", async ({
+test("calendar month/week navigation; independent timetables persist and copy atomically", async ({
   page,
   isMobile,
 }, info) => {
   await page.goto("/calendar");
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
-  await page.getByRole("button", { name: "Năm", exact: true }).click();
-  await expect(page.getByLabel("Lịch năm 2026")).toBeVisible();
-  await expect(page.locator(".calendar-year-month")).toHaveCount(12);
   await expect(
-    page.getByRole("button", { name: "Ngày 29 tháng 2 năm 2026", exact: true }),
+    page.getByRole("button", { name: "Năm", exact: true }),
   ).toHaveCount(0);
-  await page.getByRole("button", { name: "Năm sau", exact: true }).click();
-  await expect(page.getByLabel("Lịch năm 2027")).toBeVisible();
-  await page.screenshot({
-    path: info.outputPath("calendar-year.png"),
-    fullPage: true,
-  });
-  await page
-    .getByRole("button", { name: "Ngày 6 tháng 10 năm 2027", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Ngày", exact: true }).click();
-  await expect(page.locator(".fc-timeGridDay-view")).toBeVisible();
-  await page.getByRole("button", { name: "Công việc", exact: true }).click();
+  await page.getByRole("button", { name: "Tuần", exact: true }).click();
+  await expect(page.locator(".fc-dayGridWeek-view")).toBeVisible();
+  await page.getByRole("button", { name: "Tuần sau", exact: true }).click();
+  await page.getByRole("button", { name: "Tháng", exact: true }).click();
   const tools = page.getByLabel("Thao tác lịch", { exact: true });
   await expect(
     page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }),
@@ -240,16 +229,17 @@ test("calendar book navigates year/day; independent timetables persist and copy 
     .getByRole("group", { name: "Phân mục lịch" })
     .getByRole("button", { name: "Lịch", exact: true })
     .click();
-  await page.getByRole("button", { name: "Năm", exact: true }).click();
-  await expect(page.locator(".schedule-footer")).toContainText("8 lịch");
+  await page.getByLabel("Bộ thời khóa biểu").selectOption("");
+  await page.getByRole("button", { name: "Tháng", exact: true }).click();
+  await expect(page.locator(".schedule-footer")).toContainText("8 mục");
   await tools.click();
   await page.getByRole("button", { name: "Xuất .ics", exact: true }).click();
   await expect(
     page.getByRole("dialog").getByLabel("Từ ngày", { exact: true }),
-  ).toHaveValue("2026-01-01");
+  ).toHaveValue("2026-09-28");
   await expect(
     page.getByRole("dialog").getByLabel("Đến hết ngày", { exact: true }),
-  ).toHaveValue("2026-12-31");
+  ).toHaveValue("2026-11-01");
 });
 
 test("project dossier saves documents, safe links, IoT hardware, journal and files; kanban changes status", async ({
@@ -460,7 +450,7 @@ test("legacy version 3 project gains empty dossier; attachment rollback leaves n
     db.close();
     return { version, count, metadata: project.workspace.attachments.length };
   }, id);
-  expect(state).toEqual({ version: 4, count: 1, metadata: 1 });
+  expect(state).toEqual({ version: 5, count: 1, metadata: 1 });
   page.once("dialog", (dialog) => dialog.accept());
   await panel
     .getByRole("button", { name: "Xóa success.txt", exact: true })

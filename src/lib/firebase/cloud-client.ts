@@ -13,6 +13,10 @@ import type { CalendarRepository } from "@/modules/calendar/repository";
 import { projectSchema } from "@/modules/projects/model";
 import { noteSchema } from "@/modules/notes/model";
 import { profileSchema } from "./profile";
+import {
+  activitySchema,
+  attendanceMonthSchema,
+} from "@/modules/calendar/attendance-model";
 import { effectiveOccurrence } from "@/modules/calendar/recurrence";
 import {
   eventSchema,
@@ -131,6 +135,8 @@ export async function cloudWrite(
         "calendarEvents",
         "calendarSettings",
         "profile",
+        "attendanceActivities",
+        "attendanceMonths",
       ]),
       id: z.string(),
       operation: z.string(),
@@ -143,15 +149,19 @@ export async function cloudWrite(
     return id;
   }
   const saved =
-    command.kind === "projects"
-      ? projectSchema.parse(value)
-      : command.kind === "notes"
-        ? value
-          ? noteSchema.parse(value)
-          : null
-        : command.kind === "calendarEvents"
-          ? eventSchema.parse(value)
-          : settingsSchema.parse(value);
+    command.kind === "attendanceActivities"
+      ? activitySchema.parse(value)
+      : command.kind === "attendanceMonths"
+        ? attendanceMonthSchema.parse(value)
+        : command.kind === "projects"
+          ? projectSchema.parse(value)
+          : command.kind === "notes"
+            ? value
+              ? noteSchema.parse(value)
+              : null
+            : command.kind === "calendarEvents"
+              ? eventSchema.parse(value)
+              : settingsSchema.parse(value);
   announceRepositorySave({ kind: command.kind, id: command.id, value: saved });
   if (relatedProjectsChanged) announceLocalChange(repositoryEvents.projects);
   return saved;

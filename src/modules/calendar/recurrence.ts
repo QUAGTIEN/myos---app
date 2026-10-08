@@ -116,7 +116,9 @@ export function conflictingEvents(
   events: CalendarEvent[],
   candidate: CalendarEvent,
 ): Occurrence[] {
-  const proposed = allOccurrences(candidate);
+  const proposed = allOccurrences(candidate).filter(
+    (item) => item.entryKind !== "note",
+  );
   if (!proposed.length) return [];
   const from = proposed.reduce(
     (min, item) => (item.start < min ? item.start : min),
@@ -130,7 +132,7 @@ export function conflictingEvents(
     events.filter((item) => item.id !== candidate.id),
     from,
     until,
-  );
+  ).filter((item) => item.entryKind !== "note");
   const ranges = proposed.map((item) => ({
     start: millis(item.start),
     end: millis(item.end),

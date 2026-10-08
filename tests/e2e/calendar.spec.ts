@@ -4,7 +4,6 @@ const appointment = (page: Page, title: string) =>
   page.locator(".fc-event").filter({ hasText: title });
 async function calendar(page: Page) {
   await page.goto("/calendar");
-  await page.getByRole("button", { name: "Công việc", exact: true }).click();
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }),
@@ -43,7 +42,7 @@ async function edit(page: Page, title: string, index = 0) {
   return page.getByRole("dialog");
 }
 
-test("appointment CRUD, marks, four views and all-day overnight times persist", async ({
+test("appointment CRUD, marks, month/week views and all-day overnight times persist", async ({
   page,
 }, info) => {
   const errors: string[] = [];
@@ -61,7 +60,7 @@ test("appointment CRUD, marks, four views and all-day overnight times persist", 
   await expect(form).not.toBeVisible();
   await page.reload();
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
-  for (const name of ["Tuần", "Ngày", "Danh sách", "Tháng"]) {
+  for (const name of ["Tuần", "Tháng"]) {
     await page
       .getByRole("group", { name: "Chế độ xem lịch" })
       .getByRole("button", { name, exact: true })
@@ -103,7 +102,7 @@ test("weekly sessions support completion, cancellation and rescheduling independ
 }, info) => {
   await calendar(page);
   await create(page, "Học Next.js", true);
-  await page.getByRole("button", { name: "Danh sách", exact: true }).click();
+  await page.getByRole("button", { name: "Tháng", exact: true }).click();
   await expect(appointment(page, "Học Next.js")).toHaveCount(4);
   await appointment(page, "Học Next.js").first().click();
   await page.getByRole("button", { name: "Hoàn thành buổi này" }).click();
@@ -132,7 +131,7 @@ test("weekly sessions support completion, cancellation and rescheduling independ
   await expect(page.locator(".fc-event.schedule-completed")).toHaveCount(1);
   await page.reload();
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
-  await page.getByRole("button", { name: "Danh sách", exact: true }).click();
+  await page.getByRole("button", { name: "Tháng", exact: true }).click();
   await expect(appointment(page, "Học React mới")).toHaveCount(3);
   await appointment(page, "Học React mới").last().click();
   await expect(page.getByRole("dialog")).toContainText("16/10/2026 · 13:00");
@@ -433,30 +432,14 @@ test("desktop drag saves the new date and reverts when storage fails", async ({
   await appointment(page, "Lịch kéo thả").click();
   await expect(page.getByRole("dialog")).toContainText("07/10/2026 · 09:00");
   await page.getByRole("button", { name: "Đóng hộp thoại lịch" }).click();
-  await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-07");
+  await appointment(page, "Lịch kéo thả").click();
+  await page.getByRole("button", { name: "Sửa lịch hẹn", exact: true }).click();
   await page
-    .getByRole("group", { name: "Chế độ xem lịch" })
-    .getByRole("button", { name: "Ngày", exact: true })
-    .click();
-  const resize = page.locator(".fc-timegrid-event .fc-event-resizer-end");
-  // Keep the handle AND the destination inside the viewport while dragging.
-  await page.evaluate(() => window.scrollBy(0, 200));
-  await page.locator(".fc-timegrid-event").hover();
-  await expect(resize).toBeVisible();
-  const handle = await resize.boundingBox();
-  const slot = await page
-    .locator(".fc-timegrid-slot[data-time='10:00:00']")
-    .first()
-    .boundingBox();
-  await page.mouse.move(handle!.x + handle!.width / 2, handle!.y + 2);
-  await page.mouse.down();
-  await page.mouse.move(
-    handle!.x + handle!.width / 2,
-    handle!.y + 2 + slot!.height + 2,
-    { steps: 10 },
-  );
-  await page.mouse.up();
-  await expect(page.getByRole("status")).toContainText("Đã cập nhật thời gian");
+    .getByRole("dialog")
+    .getByLabel("Kết thúc", { exact: true })
+    .fill("2026-10-07T10:30");
+  await page.getByRole("button", { name: "Lưu lịch hẹn", exact: true }).click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
   await appointment(page, "Lịch kéo thả").click();
   await expect(page.getByRole("dialog")).toContainText("07/10/2026 · 10:30");
 });
@@ -563,7 +546,7 @@ test("version 2 upgrade retains notes, image blobs and projects; denied storage 
     db.close();
     return version;
   });
-  expect(version).toBe(4);
+  expect(version).toBe(5);
   await page.goto("/projects/" + ids.projectId);
   await expect(page.getByRole("progressbar")).toHaveAttribute(
     "aria-valuenow",
@@ -588,7 +571,6 @@ test("version 2 upgrade retains notes, image blobs and projects; denied storage 
     }),
   );
   await denied.goto("/calendar");
-  await denied.getByRole("button", { name: "Công việc", exact: true }).click();
   await expect(denied.locator(".schedule-error")).toContainText(
     "quyền lưu trữ",
   );

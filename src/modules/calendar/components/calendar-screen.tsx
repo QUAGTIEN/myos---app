@@ -2,12 +2,10 @@
 import { useAccount } from "@/modules/auth/account-context";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import luxonPlugin from "@fullcalendar/luxon3";
 import viLocale from "@fullcalendar/core/locales/vi";
-import type { EventApi, DateSelectArg, DatesSetArg } from "@fullcalendar/core";
+import type { EventApi, DatesSetArg } from "@fullcalendar/core";
 import {
   Check,
   CalendarDays,
@@ -15,7 +13,10 @@ import {
   ChevronRight,
   Copy,
   Download,
+  ClipboardCheck,
+  FileText,
   ListTodo,
+  Search,
   MoreHorizontal,
   Pencil,
   Plus,
@@ -51,22 +52,15 @@ import {
 import { useCalendar } from "../use-calendar";
 import { EventForm } from "./event-form";
 import { EventDetails } from "./event-details";
-import { CalendarYear, TimetableDialog } from "./calendar-book";
-import { ExportDialog } from "./dialogs";
+import { TimetableDialog } from "./calendar-book";
+import { CalendarDialog, ExportDialog } from "./dialogs";
+import { Attendance } from "./attendance";
 
-const plugins = [
-  dayGridPlugin,
-  timeGridPlugin,
-  listPlugin,
-  interactionPlugin,
-  luxonPlugin,
-];
+const plugins = [dayGridPlugin, interactionPlugin, luxonPlugin];
 const validRange = { start: "2000-01-01", end: "2100-12-31" };
 const views = [
   { id: "dayGridMonth", name: "Tháng" },
-  { id: "timeGridWeek", name: "Tuần" },
-  { id: "timeGridDay", name: "Ngày" },
-  { id: "listMonth", name: "Danh sách" },
+  { id: "dayGridWeek", name: "Tuần" },
 ];
 type FormState = {
   initial: EventInput;
@@ -176,10 +170,11 @@ export function CalendarScreen({
   const [view, setView] = useState("dayGridMonth");
   const [chosenDate, setChosenDate] = useState(today);
   const [group, setGroup] = useState("");
-  const [tab, setTab] = useState<"book" | "work">(
-    query.eventId || query.projectId || query.noteId ? "work" : "book",
-  );
-  const [yearView, setYearView] = useState(false);
+  const [tab, setTab] = useState<"book" | "attendance">("book");
+  const [search, setSearch] = useState("");
+  const [dayActions, setDayActions] = useState<string | null>(null);
+  const attendanceDirty = useRef(false);
+  const [attendanceBusy, setAttendanceBusy] = useState(false);
   const [timetable, setTimetable] = useState<"create" | "edit" | "copy" | null>(
     null,
   );
@@ -197,41 +192,77 @@ export function CalendarScreen({
   useEffect(() => {
     if (query.eventId || query.projectId || query.noteId) return;
     try {
-      if (sessionStorage.getItem("myos-calendar-tab") === "work")
-        setTab("work");
+      if (sessionStorage.getItem("myos-calendar-tab") === "attendance")
+        setTab("attendance");
     } catch {
-      /* Storage preferences are optional; schedules remain in IndexedDB. */
+      /* Preferences are optional. */
     }
   }, [query.eventId, query.projectId, query.noteId]);
-  function chooseTab(next: "book" | "work") {
+  function chooseTab(next: "book" | "attendance") {
+    if (next === tab || attendanceBusy) return;
+    if (
+      attendanceDirty.current &&
+      !window.confirm("Bỏ các ngày chấm công chưa lưu?")
+    )
+      return;
+    attendanceDirty.current = false;
     setTab(next);
-    setYearView(false);
     try {
       sessionStorage.setItem("myos-calendar-tab", next);
     } catch {
-      /* Keep this tab usable without sessionStorage. */
+      /* Preferences are optional. */
     }
-    calendar.current
-      ?.getApi()
-      .changeView(next === "work" ? "timeGridWeek" : "dayGridMonth");
   }
-  const visibleRange = useMemo(
-    () =>
-      yearView
-        ? {
-            from: chosenDate.slice(0, 4) + "-01-01",
-            until: String(Number(chosenDate.slice(0, 4)) + 1) + "-01-01",
-          }
-        : range,
-    [yearView, chosenDate, range],
-  );
+  const visibleRange = range;
   const occurrences = useMemo(
     () =>
-      expandEvents(data.events, visibleRange.from, visibleRange.until).filter(
-        (item) => tab === "book" || !group || item.groupId === group,
+      expandEvents(data.events, range.from, range.until).filter(
+        (item) =>
+          (!group || item.groupId === group) &&
+          (!search.trim() ||
+            (item.title + " " + item.description)
+              .toLocaleLowerCase("vi")
+              .includes(search.trim().toLocaleLowerCase("vi"))),
       ),
-    [data.events, visibleRange, group, tab],
+    [data.events, range, group, search],
   );
+  const agenda = useMemo(
+    () =>
+      expandEvents(data.events, today, addDays(today, 32))
+        .filter((item) => !item.completed && (!group || item.groupId === group))
+        .sort((a, b) => a.start.localeCompare(b.start)),
+    [data.events, today, group],
+  );
+  const todayItems = agenda
+    .filter((item) => item.start.slice(0, 10) <= today && item.end > today)
+    .slice(0, 8);
+  const upcomingItems = agenda
+    .filter((item) => item.start.slice(0, 10) > today)
+    .slice(0, 5);
+  function createOnDate(
+    date: string,
+    entryKind: EventInput["entryKind"] = "appointment",
+  ) {
+    const initial = blankEvent(date, data.settings);
+    if (group) initial.groupId = group;
+    initial.entryKind = entryKind;
+    if (entryKind !== "appointment") {
+      initial.allDay = true;
+      initial.start = date;
+      initial.end = addDays(date, 1);
+      initial.reminderMinutes = null;
+    }
+    setDayActions(null);
+    setForm({ initial });
+    setActionError("");
+  }
+  function openOccurrence(occurrence: Occurrence) {
+    const event = data.events.find((item) => item.id === occurrence.eventId);
+    if (event && !pending) {
+      setDetail({ event, occurrence });
+      setActionError("");
+    }
+  }
   const calendarEvents = useMemo(
     () =>
       occurrences.map((occurrence) => {
@@ -250,7 +281,9 @@ export function CalendarScreen({
             ? occurrence.end
             : localTime(occurrence.end).toISO()!,
           allDay: occurrence.allDay,
-          backgroundColor: color,
+          display: "block",
+          backgroundColor: color + "16",
+          textColor: color,
           borderColor: "transparent",
           classNames: occurrence.completed ? ["schedule-completed"] : [],
           extendedProps: { occurrence },
@@ -269,25 +302,6 @@ export function CalendarScreen({
     setView(info.view.type);
     setChosenDate(wallTime(info.view.calendar.getDate()).slice(0, 10));
   }, []);
-  const select = useCallback(
-    (info: DateSelectArg) => {
-      const initial = blankEvent(info.startStr.slice(0, 10), data.settings);
-      setForm({
-        initial: {
-          ...initial,
-          ...(group ? { groupId: group } : {}),
-          allDay: info.allDay,
-          start: info.allDay
-            ? info.startStr.slice(0, 10)
-            : wallTime(info.start),
-          end: info.allDay ? info.endStr.slice(0, 10) : wallTime(info.end),
-        },
-      });
-      calendar.current?.getApi().unselect();
-      setActionError("");
-    },
-    [data.settings, group],
-  );
   useEffect(() => {
     const key = JSON.stringify(query);
     if (
@@ -302,8 +316,7 @@ export function CalendarScreen({
       return;
     seenQuery.current = key;
     if (query.eventId) {
-      setTab("work");
-      setYearView(false);
+      setTab("book");
       const event = data.events.find(
         (item) => item.id === query.eventId && !item.cancelledAt,
       );
@@ -325,8 +338,7 @@ export function CalendarScreen({
       return;
     }
     if (!query.projectId && !query.noteId) return;
-    setTab("work");
-    setYearView(false);
+    setTab("book");
     const initial = blankEvent(today, data.settings);
     let source: CalendarEvent["sourceMilestone"] = null;
     if (query.projectId) {
@@ -455,6 +467,7 @@ export function CalendarScreen({
         <div className="schedule-tabs" role="group" aria-label="Phân mục lịch">
           <button
             type="button"
+            disabled={attendanceBusy}
             aria-pressed={tab === "book"}
             onClick={() => chooseTab("book")}
           >
@@ -463,32 +476,14 @@ export function CalendarScreen({
           </button>
           <button
             type="button"
-            aria-pressed={tab === "work"}
-            onClick={() => chooseTab("work")}
+            disabled={attendanceBusy}
+            aria-pressed={tab === "attendance"}
+            onClick={() => chooseTab("attendance")}
           >
-            <ListTodo size={19} aria-hidden="true" />
-            Công việc
+            <ClipboardCheck size={19} aria-hidden="true" />
+            Chấm công
           </button>
         </div>
-        {tab === "work" && (
-          <button
-            className="button primary"
-            type="button"
-            disabled={!!data.error || pending}
-            onClick={() => {
-              setForm({
-                initial: {
-                  ...blankEvent(chosenDate, data.settings),
-                  ...(group ? { groupId: group } : {}),
-                },
-              });
-              setActionError("");
-            }}
-          >
-            <Plus size={18} />
-            Tạo lịch hẹn
-          </button>
-        )}
       </div>
       {data.error && (
         <p className="schedule-error" role="alert">
@@ -508,291 +503,354 @@ export function CalendarScreen({
           {message}
         </p>
       )}
-      <section className="panel schedule-panel" aria-label="Bộ lịch">
-        <div className="schedule-toolbar">
-          <div className="schedule-period">
-            <h2 aria-live="polite">
-              {yearView ? "Năm " + chosenDate.slice(0, 4) : title}
-            </h2>
-            <div className="calendar-controls">
+      {tab === "attendance" ? (
+        <Attendance
+          today={today}
+          firstDay={account?.profile.firstDay ?? 1}
+          onStateChange={(dirty, busy) => {
+            attendanceDirty.current = dirty;
+            setAttendanceBusy(busy);
+          }}
+        />
+      ) : (
+        <div className="schedule-workspace">
+          <section className="panel schedule-panel" aria-label="Bộ lịch">
+            <div className="schedule-toolbar">
+              <div className="schedule-period">
+                <div className="calendar-controls">
+                  <button
+                    className="icon-button"
+                    aria-label={
+                      view === "dayGridMonth" ? "Tháng trước" : "Tuần trước"
+                    }
+                    type="button"
+                    onClick={() => calendar.current?.getApi().prev()}
+                  >
+                    <ChevronLeft size={19} />
+                  </button>
+                  <button
+                    className="icon-button"
+                    aria-label={
+                      view === "dayGridMonth" ? "Tháng sau" : "Tuần sau"
+                    }
+                    type="button"
+                    onClick={() => calendar.current?.getApi().next()}
+                  >
+                    <ChevronRight size={19} />
+                  </button>
+                </div>
+                <h2 aria-live="polite">{title}</h2>
+              </div>
               <button
-                className="icon-button"
-                aria-label={
-                  yearView
-                    ? "Năm trước"
-                    : view === "dayGridMonth"
-                      ? "Tháng trước"
-                      : "Khoảng trước"
-                }
+                className="button secondary small"
                 type="button"
-                disabled={yearView && Number(chosenDate.slice(0, 4)) <= 2000}
-                onClick={() =>
-                  yearView
-                    ? calendar.current
-                        ?.getApi()
-                        .gotoDate(
-                          localTime(chosenDate)
-                            .minus({ years: 1 })
-                            .toISODate()!,
-                        )
-                    : calendar.current?.getApi().prev()
-                }
+                onClick={() => calendar.current?.getApi().gotoDate(today)}
               >
-                <ChevronLeft size={19} />
+                Hôm nay
               </button>
               <button
-                className="icon-button"
-                aria-label={
-                  yearView
-                    ? "Năm sau"
-                    : view === "dayGridMonth"
-                      ? "Tháng sau"
-                      : "Khoảng sau"
-                }
+                className="button primary"
                 type="button"
-                disabled={yearView && Number(chosenDate.slice(0, 4)) >= 2100}
-                onClick={() =>
-                  yearView
-                    ? calendar.current
-                        ?.getApi()
-                        .gotoDate(
-                          localTime(chosenDate).plus({ years: 1 }).toISODate()!,
-                        )
-                    : calendar.current?.getApi().next()
-                }
+                disabled={!!data.error || pending}
+                onClick={() => createOnDate(chosenDate)}
               >
-                <ChevronRight size={19} />
+                <Plus size={18} />
+                Tạo lịch hẹn
               </button>
+              <div className="schedule-calendar-filters">
+                <div
+                  className="schedule-view-buttons"
+                  role="group"
+                  aria-label="Chế độ xem lịch"
+                >
+                  {views.map((item) => (
+                    <button
+                      type="button"
+                      key={item.id}
+                      aria-pressed={view === item.id}
+                      onClick={() =>
+                        calendar.current?.getApi().changeView(item.id)
+                      }
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+                <label className="schedule-search">
+                  <Search size={17} aria-hidden="true" />
+                  <input
+                    aria-label="Tìm lịch hẹn, ghi chú"
+                    placeholder="Tìm lịch hẹn, ghi chú…"
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                  />
+                </label>
+                <input
+                  className="schedule-date-input"
+                  aria-label="Đến ngày"
+                  title="Đến ngày"
+                  type="date"
+                  min="2000-01-01"
+                  max="2100-12-31"
+                  value={chosenDate}
+                  onChange={(event) => {
+                    if (event.target.value)
+                      calendar.current?.getApi().gotoDate(event.target.value);
+                  }}
+                />
+                <select
+                  className="schedule-group-select"
+                  aria-label="Bộ thời khóa biểu"
+                  value={group}
+                  onChange={(event) => setGroup(event.target.value)}
+                >
+                  <option value="">Tất cả bộ lịch</option>
+                  {data.settings.groups.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+                <CalendarTools
+                  actions={[
+                    {
+                      label: "Tạo bộ lịch",
+                      icon: Plus,
+                      disabled:
+                        !!data.error ||
+                        pending ||
+                        data.settings.groups.length >= 20,
+                      onSelect: () => setTimetable("create"),
+                    },
+                    ...(group
+                      ? [
+                          {
+                            label: "Sửa bộ lịch",
+                            icon: Pencil,
+                            disabled: !!data.error || pending,
+                            onSelect: () => setTimetable("edit"),
+                          },
+                          {
+                            label: "Sao chép bộ lịch",
+                            icon: Copy,
+                            disabled:
+                              !!data.error ||
+                              pending ||
+                              data.settings.groups.length >= 20,
+                            onSelect: () => setTimetable("copy"),
+                          },
+                        ]
+                      : []),
+                    {
+                      label: "Xuất .ics",
+                      icon: Download,
+                      disabled: !!data.error,
+                      onSelect: () => setExporting(true),
+                    },
+                  ]}
+                />
+              </div>
             </div>
+            <div className="schedule-calendar-scroll" aria-busy={pending}>
+              <FullCalendar
+                ref={calendar}
+                plugins={plugins}
+                locale={viLocale}
+                timeZone={calendarZone}
+                initialDate={chosenDate}
+                initialView={view}
+                firstDay={account?.profile.firstDay ?? 1}
+                headerToolbar={false}
+                height="auto"
+                fixedWeekCount={false}
+                validRange={validRange}
+                selectable={false}
+                editable={!data.error && !pending}
+                eventResizableFromStart
+                dayMaxEvents={3}
+                moreLinkText={(count) => `+${count} mục`}
+                moreLinkClick="popover"
+                navLinks={false}
+                datesSet={datesSet}
+                events={calendarEvents}
+                dayCellContent={(info) => (
+                  <span className="schedule-day-heading">
+                    <span>{info.dayNumberText}</span>
+                    <button
+                      className="schedule-day-add"
+                      type="button"
+                      aria-label={
+                        "Thêm vào ngày " + wallTime(info.date).slice(0, 10)
+                      }
+                      title="Thêm nội dung"
+                      disabled={!!data.error || pending}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setDayActions(wallTime(info.date).slice(0, 10));
+                      }}
+                    >
+                      <Plus size={14} />
+                    </button>
+                  </span>
+                )}
+                dateClick={(info) => {
+                  if (!pending && !data.error)
+                    setDayActions(info.dateStr.slice(0, 10));
+                }}
+                eventClick={(info) =>
+                  openOccurrence(
+                    info.event.extendedProps.occurrence as Occurrence,
+                  )
+                }
+                eventDrop={(info) => void move(info)}
+                eventResize={(info) => void move(info)}
+                eventAllow={(drop, dragged) =>
+                  !dragged?.extendedProps.occurrence.recurring ||
+                  drop.allDay === dragged.extendedProps.occurrence.allDay
+                }
+                eventContent={(info) => {
+                  const occurrence = info.event.extendedProps
+                    .occurrence as Occurrence;
+                  return (
+                    <span className="schedule-event-content">
+                      <span className="schedule-event-icons">
+                        {occurrence.entryKind === "note" && (
+                          <FileText size={12} aria-label="Ghi chú" />
+                        )}
+                        {occurrence.entryKind === "task" && (
+                          <ListTodo size={12} aria-label="Công việc" />
+                        )}
+                        {occurrence.completed && (
+                          <Check size={12} aria-label="Đã hoàn thành" />
+                        )}
+                        {occurrence.important && (
+                          <Star size={12} aria-label="Quan trọng" />
+                        )}
+                        {occurrence.recurring && (
+                          <Repeat2 size={12} aria-label="Lặp tuần" />
+                        )}
+                      </span>
+                      {info.timeText && <b>{info.timeText}</b>}
+                      <span>{info.event.title}</span>
+                    </span>
+                  );
+                }}
+              />
+            </div>
+            <footer className="schedule-footer">
+              <div>
+                {data.settings.groups.map((item) => (
+                  <span key={item.id}>
+                    <i style={{ background: calendarColors[item.color] }} />
+                    {item.name}
+                  </span>
+                ))}
+              </div>
+              <span>{occurrences.length} mục</span>
+            </footer>
+          </section>
+          <aside className="schedule-side">
+            {[
+              {
+                title: "Hôm nay",
+                items: todayItems,
+                empty: "Chưa có nội dung cho hôm nay.",
+              },
+              {
+                title: "Sắp tới",
+                items: upcomingItems,
+                empty: "Chưa có lịch sắp tới trong 31 ngày.",
+              },
+            ].map((section) => (
+              <section className="panel" key={section.title}>
+                <h2>{section.title}</h2>
+                {section.title === "Hôm nay" && (
+                  <p className="schedule-help">
+                    {localTime(today)
+                      .setLocale("vi")
+                      .toFormat("cccc, dd/MM/yyyy")}
+                  </p>
+                )}
+                {!section.items.length && (
+                  <p className="schedule-help">{section.empty}</p>
+                )}
+                <ul className="schedule-agenda">
+                  {section.items.map((item) => (
+                    <li key={item.eventId + item.originalStart}>
+                      <button
+                        type="button"
+                        disabled={pending}
+                        onClick={() => openOccurrence(item)}
+                      >
+                        <span className="schedule-agenda-date">
+                          {section.title === "Hôm nay"
+                            ? item.allDay
+                              ? "Cả ngày"
+                              : item.start.slice(11)
+                            : localTime(item.start).toFormat("dd/MM")}
+                        </span>
+                        <span>
+                          <strong>{item.title}</strong>
+                          <small>
+                            {item.entryKind === "note"
+                              ? "Ghi chú"
+                              : item.entryKind === "task"
+                                ? "Công việc"
+                                : item.allDay
+                                  ? "Cả ngày"
+                                  : item.start.slice(11) +
+                                    " – " +
+                                    item.end.slice(11)}
+                          </small>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </aside>
+        </div>
+      )}
+      {dayActions && (
+        <CalendarDialog
+          title={localTime(dayActions)
+            .setLocale("vi")
+            .toFormat("cccc, dd/MM/yyyy")}
+          description="Thêm nội dung cho ngày được chọn."
+          onClose={() => setDayActions(null)}
+        >
+          <div className="schedule-day-actions">
+            <button type="button" onClick={() => createOnDate(dayActions)}>
+              <CalendarDays size={22} />
+              <span>
+                <strong>Tạo lịch hẹn</strong>
+                <small>Đặt thời gian, nội dung và nhắc lịch</small>
+              </span>
+            </button>
             <button
-              className="button secondary small"
               type="button"
-              onClick={() => calendar.current?.getApi().gotoDate(today)}
+              onClick={() => createOnDate(dayActions, "task")}
             >
-              Hôm nay
+              <ListTodo size={22} />
+              <span>
+                <strong>Thêm công việc</strong>
+                <small>Nội dung cần làm cho ngày này</small>
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => createOnDate(dayActions, "note")}
+            >
+              <FileText size={22} />
+              <span>
+                <strong>Thêm ghi chú</strong>
+                <small>Lưu nội dung ngay trên lịch</small>
+              </span>
             </button>
           </div>
-          <div
-            className="schedule-view-buttons"
-            role="group"
-            aria-label="Chế độ xem lịch"
-          >
-            {(tab === "work"
-              ? views
-              : views.filter(
-                  (item) => item.name === "Tháng" || item.name === "Ngày",
-                )
-            ).map((item) => (
-              <button
-                type="button"
-                key={item.id}
-                aria-pressed={!yearView && view === item.id}
-                onClick={() => {
-                  setYearView(false);
-                  calendar.current?.getApi().changeView(item.id);
-                }}
-              >
-                {item.name}
-              </button>
-            ))}
-            {tab === "book" && (
-              <button
-                type="button"
-                aria-pressed={yearView}
-                onClick={() => setYearView(true)}
-              >
-                Năm
-              </button>
-            )}
-          </div>
-          <div className="schedule-toolbar-actions">
-            <input
-              className="schedule-date-input"
-              aria-label="Đến ngày"
-              title="Đến ngày"
-              type="date"
-              min="2000-01-01"
-              max="2100-12-31"
-              value={chosenDate}
-              onChange={(e) => {
-                setChosenDate(e.target.value);
-                if (e.target.value)
-                  calendar.current?.getApi().gotoDate(e.target.value);
-              }}
-            />
-            {tab === "work" && (
-              <select
-                className="schedule-group-select"
-                aria-label="Bộ thời khóa biểu"
-                value={group}
-                onChange={(e) => setGroup(e.target.value)}
-              >
-                <option value="">Tất cả bộ lịch</option>
-                {data.settings.groups.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            )}
-            <CalendarTools
-              actions={[
-                ...(tab === "work"
-                  ? [
-                      {
-                        label: "Tạo bộ lịch",
-                        icon: Plus,
-                        disabled:
-                          !!data.error ||
-                          pending ||
-                          data.settings.groups.length >= 20,
-                        onSelect: () => setTimetable("create"),
-                      },
-                      ...(group
-                        ? [
-                            {
-                              label: "Sửa bộ lịch",
-                              icon: Pencil,
-                              disabled: !!data.error || pending,
-                              onSelect: () => setTimetable("edit"),
-                            },
-                            {
-                              label: "Sao chép bộ lịch",
-                              icon: Copy,
-                              disabled:
-                                !!data.error ||
-                                pending ||
-                                data.settings.groups.length >= 20,
-                              onSelect: () => setTimetable("copy"),
-                            },
-                          ]
-                        : []),
-                    ]
-                  : []),
-                {
-                  label: "Xuất .ics",
-                  icon: Download,
-                  disabled: !!data.error,
-                  onSelect: () => setExporting(true),
-                },
-              ]}
-            />
-          </div>
-        </div>
-        {yearView && (
-          <CalendarYear
-            year={Number(chosenDate.slice(0, 4))}
-            today={today}
-            onDate={(date) => {
-              setYearView(false);
-              calendar.current?.getApi().changeView("dayGridMonth", date);
-            }}
-          />
-        )}
-        <div
-          hidden={yearView}
-          className="schedule-calendar-scroll"
-          aria-busy={pending}
-        >
-          <FullCalendar
-            ref={calendar}
-            plugins={plugins}
-            locale={viLocale}
-            timeZone={calendarZone}
-            initialDate={today}
-            initialView="dayGridMonth"
-            firstDay={account?.profile.firstDay ?? 1}
-            headerToolbar={false}
-            height={view.startsWith("timeGrid") ? 680 : "auto"}
-            nowIndicator
-            validRange={validRange}
-            selectable={tab === "work" && !data.error && !pending}
-            editable={tab === "work" && !data.error && !pending}
-            eventResizableFromStart
-            slotMinTime={data.settings.slotMinTime}
-            slotMaxTime={data.settings.slotMaxTime}
-            slotDuration="00:30:00"
-            allDayText="Cả ngày"
-            dayMaxEvents={3}
-            noEventsText="Chưa có lịch hẹn trong khoảng này"
-            moreLinkText={(count) => `+${count} lịch`}
-            moreLinkClick="timeGridDay"
-            navLinks={false}
-            datesSet={datesSet}
-            events={calendarEvents}
-            select={select}
-            dateClick={(info) => {
-              if (tab === "book") {
-                calendar.current
-                  ?.getApi()
-                  .changeView("timeGridDay", info.dateStr.slice(0, 10));
-                return;
-              }
-              const initial = blankEvent(
-                info.dateStr.slice(0, 10),
-                data.settings,
-              );
-              if (!info.allDay) {
-                initial.start = wallTime(info.date);
-                initial.end = localTime(initial.start)
-                  .plus({ hours: 1 })
-                  .toFormat("yyyy-MM-dd'T'HH:mm");
-              }
-              if (group) initial.groupId = group;
-              if (!pending && !data.error) setForm({ initial });
-            }}
-            eventClick={(info) => {
-              const occurrence = info.event.extendedProps
-                .occurrence as Occurrence;
-              const event = data.events.find(
-                (item) => item.id === occurrence.eventId,
-              );
-              if (event && !pending) {
-                setDetail({ event, occurrence });
-                setActionError("");
-              }
-            }}
-            eventDrop={(info) => void move(info)}
-            eventResize={(info) => void move(info)}
-            eventAllow={(drop, dragged) =>
-              !dragged?.extendedProps.occurrence.recurring ||
-              drop.allDay === dragged.extendedProps.occurrence.allDay
-            }
-            eventContent={(info) => {
-              const occurrence = info.event.extendedProps
-                .occurrence as Occurrence;
-              return (
-                <span className="schedule-event-content">
-                  <span className="schedule-event-icons">
-                    {occurrence.completed && (
-                      <Check size={12} aria-label="Đã hoàn thành" />
-                    )}
-                    {occurrence.important && (
-                      <Star size={12} aria-label="Quan trọng" />
-                    )}
-                    {occurrence.recurring && (
-                      <Repeat2 size={12} aria-label="Lặp tuần" />
-                    )}
-                  </span>
-                  {info.timeText && <b>{info.timeText}</b>}
-                  <span>{info.event.title}</span>
-                </span>
-              );
-            }}
-          />
-        </div>
-        <footer className="schedule-footer">
-          <div>
-            {data.settings.groups.map((item) => (
-              <span key={item.id}>
-                <i style={{ background: calendarColors[item.color] }} />
-                {item.name}
-              </span>
-            ))}
-          </div>
-          <span>{occurrences.length} lịch</span>
-        </footer>
-      </section>
+        </CalendarDialog>
+      )}
       {timetable && (
         <TimetableDialog
           settings={data.settings}
@@ -818,7 +876,7 @@ export function CalendarScreen({
                 form.event
                   ? calendarService.save(form.event, input, originalStart)
                   : calendarService.create(input, form.source),
-              "Đã lưu lịch hẹn.",
+              "Đã lưu nội dung trên lịch.",
             );
           }}
         />

@@ -2,6 +2,8 @@
 
 ## Phạm vi hiện tại
 
+**08/10/2026:** Theo yêu cầu mới đã duyệt, Lịch chỉ còn Tháng/Tuần; ô ngày thêm lịch hẹn/công việc/ghi chú. Chấm công thay tab Công việc, nằm trong Lịch: hoạt động và bảng tháng riêng, Lưu chấm công nguyên tử/version check, cloud theo UID và local v5. Giữ groups/events/liên kết cũ. ADR 007 thay phần giao diện ngày/năm/Công việc dưới đây; không thêm phân hệ thứ sáu.
+
 **G2 bước 1–5 được người dùng cho phép:** tự đăng ký Email/Password, đăng nhập/quên mật khẩu/logout, session server/CSRF/UID, hồ sơ và dữ liệu Firestore. Không allowlist hoặc admin-users. Mặc định cloud; giữ IndexedDB cũ riêng, không migration. Host Vercel do người dùng deploy. Không upload ảnh/tệp cloud, không Zalo/worker/deploy. Xem ADR 006; các đoạn G2 hoãn bên dưới ghi lịch sử trước yêu cầu mới.
 
 Tối ưu dữ liệu: hooks đọc Projects/Notes/Calendar dùng SWR qua `src/lib/repository-cache.tsx`, cache riêng dưới layout theo UID, không persist/CDN. Giữ cập nhật canonical sau cloud commit, version checks, refresh và thông báo tab khác; không quay về mỗi component tự tải riêng hoặc broadcast cả ba module cho mọi lần ghi. Broadcast có mã nguồn tab để bỏ qua thông báo của chính tab. Logout/đổi phiên/401 xóa cache; không cache quyền server hoặc bỏ kiểm tra thu hồi/vô hiệu hóa.
