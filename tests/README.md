@@ -18,7 +18,9 @@ workspace.spec.ts: 8 cases desktop/mobile cho lịch tháng/tuần, bộ thời 
 
 Thanh công cụ Lịch: workspace kiểm tra menu Thao tác lịch mở bằng Enter, đóng bằng Escape/click ngoài, trả focus sau dialog, ẩn sửa/sao chép khi chưa chọn bộ và không tràn ở 320 px. Calendar/workspace mở menu trước khi xuất `.ics`; kiểm tra điều hướng tháng dùng heading trong region Bộ lịch thay vì phụ thuộc class bố cục cũ.
 
-attendance.spec.ts kiểm tra nội dung ngày tháng/tuần, toolbar, ghi chú tính đã chấm/tự lưu và reload, công việc/tháng độc lập, workspace gập/mở, xóa có xác nhận, giữ nháp khi lỗi và xung đột tab. Schema cũ/ngày nhuận vẫn giữ. Firebase suite thêm tuần tự hóa việc gõ trong lúc cloud write, tự lưu offline/retry, version/ownership và xóa công việc khóa tháng/không phục hồi. Tổng quan kiểm tra không còn nút tạo nhanh, vẫn sửa lịch hiện hữu.
+attendance.spec.ts kiểm tra nội dung ngày tháng/tuần, toolbar, ghi chú tính đã chấm/tự lưu và reload, công việc/tháng độc lập, bảng không có cột thông tin bên phải, xóa có xác nhận, giữ nháp khi lỗi và xung đột tab. Schema cũ/ngày nhuận vẫn giữ. Firebase suite thêm tuần tự hóa việc gõ trong lúc cloud write, tự lưu offline/retry, version/ownership và xóa công việc khóa tháng/không phục hồi. Tổng quan kiểm tra không còn nút tạo nhanh, vẫn sửa lịch hiện hữu.
+
+Kiểm chứng bỏ cột bên phải ngày 09/10/2026: Attendance desktop/mobile đạt 9 cases, 1 skip schema trên mobile; đã xem bố cục Lịch và Chấm công thực tế ở cả hai kích thước. Lint, typecheck, format và production build đạt.
 
 Kiểm chứng ngày 08/10/2026: lint, typecheck, format và production build đạt; Attendance desktop/mobile đạt 7 cases, 1 skip để không lặp schema test; Firebase Emulator đạt 14 cases. Suite local đầy đủ đã chạy 92 cases: 82 đạt, 8 skip và 2 lỗi locator của Attendance; sau khi sửa locator, các cases Attendance chạy lại đạt. Calendar/domain/workspace cũng chạy lại sau thay đổi giao diện. Không xác nhận tốc độ hoặc dữ liệu trên deployment thật từ các kết quả Emulator này.
 

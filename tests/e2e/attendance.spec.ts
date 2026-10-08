@@ -34,7 +34,10 @@ test("month/week cells create dated notes and tasks; search and persisted conten
 }, info) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
+  if (info.project.name === "desktop")
+    await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto("/calendar");
+  await expect(page.locator(".schedule-workspace aside")).toHaveCount(0);
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-08");
   await page
     .getByRole("button", { name: "Thêm vào ngày 2026-10-08", exact: true })
@@ -118,11 +121,12 @@ test("month/week cells create dated notes and tasks; search and persisted conten
   expect(errors).toEqual([]);
 });
 
-test("attendance notes autosave, count marked days, collapse workspace and persist independently", async ({
+test("attendance notes autosave in a full-width board and persist independently", async ({
   page,
 }, info) => {
   await openAttendance(page);
   await activity(page, "Đi dạy");
+  await expect(page.locator(".attendance-workspace aside")).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: "Lưu chấm công", exact: true }),
   ).toHaveCount(0);
@@ -139,24 +143,11 @@ test("attendance notes autosave, count marked days, collapse workspace and persi
   await expect(page.locator(".attendance-save-state")).toHaveText(
     "Đã lưu tự động.",
   );
-  await expect(
-    page.getByRole("region", { name: "Tổng kết chấm công" }),
-  ).toContainText("1 ngày");
   await editor.getByRole("button", { name: "Xong", exact: true }).click();
   const cell = page.locator('.attendance-cell[data-date="2026-10-05"]');
   await expect(cell).toContainText("Lí 12");
   await expect(cell).not.toContainText("Ghi chú");
   await expect(cell).toHaveClass(/has-content/);
-  await page.getByRole("button", { name: "Gần đây", exact: true }).click();
-  await expect(
-    page.getByRole("region", { name: "Ngày chấm công gần đây" }),
-  ).toContainText("Lí 12");
-  await page
-    .getByRole("button", { name: "Thu gọn tổng kết", exact: true })
-    .click();
-  await expect(page.locator(".attendance-side")).not.toBeVisible();
-  await page.getByRole("button", { name: "Mở tổng kết", exact: true }).click();
-  await expect(page.locator(".attendance-side")).toBeVisible();
   await markAttendance(page, "2026-10-08", "Anh 9");
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({

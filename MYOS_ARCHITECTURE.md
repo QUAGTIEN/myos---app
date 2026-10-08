@@ -2,7 +2,7 @@
 
 Ngày cập nhật: **09/10/2026** · Phiên bản: **1.16 — Chấm công theo nội dung và tự lưu**
 
-**Phạm vi hiện hành:** Lịch tháng/tuần; Chấm công là ghi chú theo ngày, có nội dung tính đã chấm, tự lưu tuần tự cả tháng với version check và giữ nháp khi lỗi. Xóa công việc bằng deletedAt nguyên tử, khóa đọc/ghi các tháng và không cho phục hồi; dữ liệu cũ đọc tương thích, không đổi IndexedDB v5. Workspace Tổng kết/Gần đây gập/mở; Tổng quan bỏ ba nút tạo nhanh. Groups/events/liên kết cũ giữ nguyên. [ADR 007](docs/decisions/007-calendar-attendance.md).
+**Phạm vi hiện hành:** Lịch tháng/tuần; Chấm công là ghi chú theo ngày, có nội dung tính đã chấm, tự lưu tuần tự cả tháng với version check và giữ nháp khi lỗi. Xóa công việc bằng deletedAt nguyên tử, khóa đọc/ghi các tháng và không cho phục hồi; dữ liệu cũ đọc tương thích, không đổi IndexedDB v5. Lịch và Chấm công dùng toàn bộ chiều rộng, không có cột thông tin bên phải; Tổng quan bỏ ba nút tạo nhanh. Groups/events/liên kết cũ giữ nguyên. [ADR 007](docs/decisions/007-calendar-attendance.md).
 
 **Lịch sử mở rộng local:** Lịch tách xem ngày/tháng/năm và Công việc theo nhiều bộ thời khóa biểu. Groups là bộ lịch đã lưu; sao chép settings/events nguyên tử, identity mới, không sao chép liên kết nguồn. Dự án có Kanban và workspace được validate với defaults để đọc bản cũ; Blob ở projectAttachments, ghi/xóa cùng metadata trong transaction kiểm tra version. IndexedDB v4 giữ stores cũ. Chi tiết tại [ADR 005](docs/decisions/005-timetables-project-dossiers.md).
 

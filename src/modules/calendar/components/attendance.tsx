@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 import {
   BriefcaseBusiness,
@@ -369,9 +369,6 @@ function MonthEditor({
   const lock = useRef(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const [sideOpen, setSideOpen] = useState(true);
-  const [sideTab, setSideTab] = useState<"summary" | "recent">("summary");
-  const sideId = useId();
   const dirty =
     JSON.stringify(entries) !== JSON.stringify(baseline?.entries ?? []);
   const externalChange = (saved?.version ?? 0) > (baseline?.version ?? 0);
@@ -510,13 +507,8 @@ function MonthEditor({
     setError("");
     setMessage("");
   }
-  const marked = entries.filter(isAttendanceMarked);
   return (
-    <div
-      className={
-        "attendance-workspace" + (!sideOpen ? " is-side-collapsed" : "")
-      }
-    >
+    <div className="attendance-workspace">
       <section className="panel attendance-panel" aria-label="Bảng chấm công">
         <div className="schedule-toolbar attendance-toolbar">
           <div className="attendance-board-heading">
@@ -586,15 +578,6 @@ function MonthEditor({
                 onMonth(event.target.value);
             }}
           />
-          <button
-            type="button"
-            className="button secondary"
-            aria-expanded={sideOpen}
-            aria-controls={sideId}
-            onClick={() => setSideOpen((current) => !current)}
-          >
-            {sideOpen ? "Thu gọn tổng kết" : "Mở tổng kết"}
-          </button>
         </div>
         <div className="attendance-save-state" aria-live="polite">
           {pending
@@ -765,71 +748,6 @@ function MonthEditor({
           </div>
         </div>
       </section>
-      <aside className="panel attendance-side" id={sideId} hidden={!sideOpen}>
-        <div
-          className="attendance-side-tabs"
-          role="group"
-          aria-label="Thông tin chấm công"
-        >
-          <button
-            type="button"
-            aria-pressed={sideTab === "summary"}
-            onClick={() => setSideTab("summary")}
-          >
-            Tổng kết
-          </button>
-          <button
-            type="button"
-            aria-pressed={sideTab === "recent"}
-            onClick={() => setSideTab("recent")}
-          >
-            Gần đây
-          </button>
-        </div>
-        {sideTab === "summary" ? (
-          <section aria-label="Tổng kết chấm công">
-            <h2>{activity.name}</h2>
-            <p className="schedule-help">
-              {localTime(month + "-01")
-                .setLocale("vi")
-                .toFormat("'Tháng' M, yyyy")}
-            </p>
-            <dl className="attendance-summary">
-              <div>
-                <dt>Đã chấm</dt>
-                <dd>{marked.length} ngày</dd>
-              </div>
-              <div>
-                <dt>Chưa chấm</dt>
-                <dd>
-                  {localTime(month + "-01").daysInMonth! - marked.length} ngày
-                </dd>
-              </div>
-            </dl>
-            {dirty && (
-              <p className="schedule-help">Có nội dung đang chờ lưu.</p>
-            )}
-          </section>
-        ) : (
-          <section aria-label="Ngày chấm công gần đây">
-            <h2>Ngày chấm công gần đây</h2>
-            {!marked.length && (
-              <p className="schedule-help">Chưa chấm ngày nào trong tháng.</p>
-            )}
-            <ul className="attendance-recent">
-              {marked
-                .slice(-5)
-                .reverse()
-                .map((entry) => (
-                  <li key={entry.date}>
-                    <span>{localTime(entry.date).toFormat("dd/MM")}</span>
-                    <strong>{attendanceText(entry)}</strong>
-                  </li>
-                ))}
-            </ul>
-          </section>
-        )}
-      </aside>
     </div>
   );
 }

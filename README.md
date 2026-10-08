@@ -6,7 +6,7 @@ Nền màn hình xác thực: [A Green Forest — Lauri Poldre / Pexels](https:/
 
 ## Trạng thái hiện tại
 
-**Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần; Chấm công nhập nội dung trực tiếp theo ngày, có nội dung là đã chấm và ô xanh nhạt. Tự lưu sau 700 ms ngừng gõ, version check, giữ nháp khi lỗi/xung đột. Có xóa công việc với xác nhận; workspace Tổng kết/Gần đây có thể gập/mở. Tổng quan không còn ba nút tạo nhanh. Firebase theo UID, IndexedDB v5 giữ dữ liệu cũ. Xóa công việc là xóa logic, các tháng bị khóa đọc/ghi; không có khôi phục từ UI. [ADR 007](docs/decisions/007-calendar-attendance.md).
+**Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần; Chấm công nhập nội dung trực tiếp theo ngày, có nội dung là đã chấm và ô xanh nhạt. Tự lưu sau 700 ms ngừng gõ, version check, giữ nháp khi lỗi/xung đột. Có xóa công việc với xác nhận; Lịch và Chấm công dùng toàn bộ chiều rộng, không có cột thông tin bên phải. Tổng quan không còn ba nút tạo nhanh. Firebase theo UID, IndexedDB v5 giữ dữ liệu cũ. Xóa công việc là xóa logic, các tháng bị khóa đọc/ghi; không có khôi phục từ UI. [ADR 007](docs/decisions/007-calendar-attendance.md).
 
 **G1 đã có implementation:** khung giao diện responsive, menu 5 mục, lịch tháng có điều hướng, trang đăng nhập (đã nối Auth ở G2), loading/error/404. Các module đọc dữ liệu local, không dùng dữ liệu cá nhân giả.
 

@@ -6,23 +6,12 @@
 }
 .schedule-workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   align-items: start;
 }
 .schedule-workspace > * {
   min-width: 0;
-}
-.schedule-side {
-  display: grid;
-  gap: 16px;
-}
-.schedule-side .panel {
-  padding: 20px;
-}
-.schedule-side h2 {
-  font-size: 17px;
-  overflow-wrap: anywhere;
 }
 .schedule-calendar-filters {
   display: contents;
@@ -108,53 +97,6 @@
 .schedule-day-actions small {
   color: var(--muted);
   font-size: 12px;
-}
-.schedule-agenda,
-.attendance-recent {
-  list-style: none;
-  padding: 0;
-  margin: 16px 0 0;
-}
-.schedule-agenda li + li,
-.attendance-recent li + li {
-  border-top: 1px solid var(--line);
-}
-.schedule-agenda button {
-  display: flex;
-  align-items: start;
-  gap: 12px;
-  width: 100%;
-  text-align: left;
-  padding: 14px 0;
-  background: transparent;
-  color: var(--ink);
-}
-.schedule-agenda button:hover strong {
-  color: var(--primary);
-}
-.schedule-agenda-date {
-  flex-shrink: 0;
-  min-width: 54px;
-  padding: 6px;
-  border-radius: 7px;
-  background: var(--surface-soft);
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-}
-.schedule-agenda button > span:last-child {
-  display: grid;
-  gap: 6px;
-  min-width: 0;
-}
-.schedule-agenda strong {
-  font-size: 13px;
-  overflow-wrap: anywhere;
-}
-.schedule-agenda small {
-  font-size: 12px;
-  color: var(--muted);
 }
 .attendance-heading {
   display: flex;
@@ -386,42 +328,6 @@
   margin: 4px 0;
   font-size: 11px;
 }
-.attendance-summary {
-  display: grid;
-  gap: 18px;
-  margin: 18px 0;
-}
-.attendance-summary > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 13px;
-}
-.attendance-summary dd {
-  font-weight: 600;
-  margin: 0;
-  white-space: nowrap;
-}
-.attendance-recent li {
-  display: grid;
-  grid-template-columns: 60px minmax(0, 1fr);
-  gap: 6px;
-  padding: 14px 0;
-  font-size: 13px;
-}
-.attendance-recent small {
-  grid-column: 2;
-  color: var(--muted);
-}
-.attendance-recent strong {
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-}
 .attendance-empty {
   padding: 40px 20px;
   text-align: center;
@@ -435,18 +341,7 @@
   color: var(--ink);
   margin-bottom: 8px;
 }
-@media (max-width: 1500px) {
-  .schedule-workspace {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .schedule-side {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 @media (max-width: 700px) {
-  .schedule-side {
-    grid-template-columns: minmax(0, 1fr);
-  }
   .schedule-heading {
     border-bottom: 1px solid var(--line);
   }
@@ -1245,46 +1140,13 @@
 
 .attendance-workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: 18px;
-}
-.attendance-workspace.is-side-collapsed {
-  grid-template-columns: minmax(0, 1fr);
-}
-.attendance-side {
-  min-width: 0;
-  padding: 18px;
-}
-.attendance-side[hidden] {
-  display: none;
-}
-.attendance-side-tabs {
-  display: flex;
-  gap: 6px;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 18px;
-}
-.attendance-side-tabs button {
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--muted);
-  padding: 10px 6px;
-  font-weight: 600;
-}
-.attendance-side-tabs button[aria-pressed="true"] {
-  border-bottom-color: var(--primary);
-  color: var(--primary);
 }
 @media (max-width: 1500px) {
   .attendance-panel .attendance-toolbar {
     flex-wrap: wrap;
-  }
-}
-@media (max-width: 1100px) {
-  .attendance-workspace {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 

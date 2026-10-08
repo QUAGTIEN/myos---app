@@ -225,19 +225,6 @@ export function CalendarScreen({
       ),
     [data.events, range, group, search],
   );
-  const agenda = useMemo(
-    () =>
-      expandEvents(data.events, today, addDays(today, 32))
-        .filter((item) => !item.completed && (!group || item.groupId === group))
-        .sort((a, b) => a.start.localeCompare(b.start)),
-    [data.events, today, group],
-  );
-  const todayItems = agenda
-    .filter((item) => item.start.slice(0, 10) <= today && item.end > today)
-    .slice(0, 8);
-  const upcomingItems = agenda
-    .filter((item) => item.start.slice(0, 10) > today)
-    .slice(0, 5);
   function createOnDate(
     date: string,
     entryKind: EventInput["entryKind"] = "appointment",
@@ -730,67 +717,6 @@ export function CalendarScreen({
               <span>{occurrences.length} mục</span>
             </footer>
           </section>
-          <aside className="schedule-side">
-            {[
-              {
-                title: "Hôm nay",
-                items: todayItems,
-                empty: "Chưa có nội dung cho hôm nay.",
-              },
-              {
-                title: "Sắp tới",
-                items: upcomingItems,
-                empty: "Chưa có lịch sắp tới trong 31 ngày.",
-              },
-            ].map((section) => (
-              <section className="panel" key={section.title}>
-                <h2>{section.title}</h2>
-                {section.title === "Hôm nay" && (
-                  <p className="schedule-help">
-                    {localTime(today)
-                      .setLocale("vi")
-                      .toFormat("cccc, dd/MM/yyyy")}
-                  </p>
-                )}
-                {!section.items.length && (
-                  <p className="schedule-help">{section.empty}</p>
-                )}
-                <ul className="schedule-agenda">
-                  {section.items.map((item) => (
-                    <li key={item.eventId + item.originalStart}>
-                      <button
-                        type="button"
-                        disabled={pending}
-                        onClick={() => openOccurrence(item)}
-                      >
-                        <span className="schedule-agenda-date">
-                          {section.title === "Hôm nay"
-                            ? item.allDay
-                              ? "Cả ngày"
-                              : item.start.slice(11)
-                            : localTime(item.start).toFormat("dd/MM")}
-                        </span>
-                        <span>
-                          <strong>{item.title}</strong>
-                          <small>
-                            {item.entryKind === "note"
-                              ? "Ghi chú"
-                              : item.entryKind === "task"
-                                ? "Công việc"
-                                : item.allDay
-                                  ? "Cả ngày"
-                                  : item.start.slice(11) +
-                                    " – " +
-                                    item.end.slice(11)}
-                          </small>
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            ))}
-          </aside>
         </div>
       )}
       {dayActions && (
