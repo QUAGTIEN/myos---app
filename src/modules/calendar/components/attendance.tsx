@@ -8,6 +8,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Minus,
+  FileText,
+  X,
   Pencil,
   Plus,
   Save,
@@ -62,7 +64,35 @@ export function Attendance({
   return (
     <div className="attendance-module">
       <div className="attendance-heading">
-        <h2>Loại công việc</h2>
+        <span className="attendance-activity-label">Công việc</span>
+        <div
+          className="attendance-activities"
+          role="group"
+          aria-label="Loại công việc"
+        >
+          {[...(activities.data ?? [])]
+            .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+            .map((item) => (
+              <button
+                type="button"
+                key={item.id}
+                disabled={busy}
+                aria-pressed={activity?.id === item.id}
+                onClick={() => navigate(() => setSelected(item.id))}
+              >
+                <BriefcaseBusiness
+                  size={21}
+                  style={{ color: calendarColors[item.color] }}
+                />
+                <span>
+                  <strong>{item.name}</strong>
+                </span>
+                {activity?.id === item.id && (
+                  <Check size={17} aria-hidden="true" />
+                )}
+              </button>
+            ))}
+        </div>
         <button
           type="button"
           className="button primary"
@@ -91,35 +121,6 @@ export function Attendance({
         </p>
       )}
       {activities.loading && <p role="status">Đang tải công việc…</p>}
-      <div
-        className="attendance-activities"
-        role="group"
-        aria-label="Loại công việc"
-      >
-        {[...(activities.data ?? [])]
-          .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
-          .map((item) => (
-            <button
-              type="button"
-              key={item.id}
-              disabled={busy}
-              aria-pressed={activity?.id === item.id}
-              onClick={() => navigate(() => setSelected(item.id))}
-            >
-              <BriefcaseBusiness
-                size={21}
-                style={{ color: calendarColors[item.color] }}
-              />
-              <span>
-                <strong>{item.name}</strong>
-                <small>Bảng chấm công riêng</small>
-              </span>
-              {activity?.id === item.id && (
-                <Check size={17} aria-hidden="true" />
-              )}
-            </button>
-          ))}
-      </div>
       {!activity && !activities.loading && !loadingError && (
         <div className="panel attendance-empty">
           <BriefcaseBusiness size={30} />
@@ -335,7 +336,10 @@ function MonthEditor({
 }) {
   const [baseline, setBaseline] = useState(saved);
   const [entries, setEntries] = useState(saved?.entries ?? []);
-  const [date, setDate] = useState<string | null>(null);
+  const [editingDay, setEditingDay] = useState<{
+    date: string;
+    original: AttendanceEntry | null;
+  } | null>(null);
   const [pending, setPending] = useState(false);
   const lock = useRef(false);
   const [error, setError] = useState("");
@@ -348,6 +352,19 @@ function MonthEditor({
   }, [dirty, pending, onStateChange]);
   useEffect(() => {
     if (!dirty && (saved?.version ?? 0) >= (baseline?.version ?? 0)) {
+      if ((saved?.version ?? 0) !== (baseline?.version ?? 0)) {
+        // Hủy editor sạch phải khôi phục dữ liệu mới từ tab khác, không dùng snapshot cũ.
+        setEditingDay((current) =>
+          current
+            ? {
+                ...current,
+                original:
+                  saved?.entries.find((entry) => entry.date === current.date) ??
+                  null,
+              }
+            : null,
+        );
+      }
       setBaseline(saved);
       setEntries(saved?.entries ?? []);
     }
@@ -406,6 +423,18 @@ function MonthEditor({
       ].sort((a, b) => a.date.localeCompare(b.date)),
     );
     setMessage("");
+    setError("");
+  }
+  function closeDayEditor() {
+    const day = editingDay?.date;
+    setEditingDay(null);
+    requestAnimationFrame(() => {
+      document
+        .querySelector<HTMLButtonElement>(
+          `.attendance-cell[data-date="${day}"] .attendance-cell-heading button`,
+        )
+        ?.focus();
+    });
   }
   async function save() {
     if (lock.current) return;
@@ -418,7 +447,9 @@ function MonthEditor({
         id: activity.id + "_" + month,
         activityId: activity.id,
         month,
-        entries,
+        entries: entries.filter(
+          (entry) => entry.status !== "note" || entry.note.trim(),
+        ),
         version: (baseline?.version ?? 0) + 1,
         updatedAt: new Date().toISOString(),
       });
@@ -431,6 +462,7 @@ function MonthEditor({
       );
       setBaseline(result);
       setEntries(result.entries);
+      setEditingDay(null);
       setMessage("Đã lưu chấm công.");
     } catch (cause) {
       setError(calendarError(cause));
@@ -448,6 +480,7 @@ function MonthEditor({
       const latest = await readLatest();
       setBaseline(latest);
       setEntries(latest?.entries ?? []);
+      setEditingDay(null);
       setMessage("");
     } catch (cause) {
       setError(calendarError(cause));
@@ -458,20 +491,20 @@ function MonthEditor({
   return (
     <div className="schedule-workspace">
       <section className="panel attendance-panel" aria-label="Bảng chấm công">
-        <div className="attendance-board-heading">
-          <h2>{activity.name}</h2>
-          <button
-            type="button"
-            className="icon-button"
-            aria-label="Sửa công việc"
-            title="Sửa công việc"
-            onClick={onEditActivity}
-            disabled={pending}
-          >
-            <Pencil size={17} />
-          </button>
-        </div>
         <div className="schedule-toolbar attendance-toolbar">
+          <div className="attendance-board-heading">
+            <h2>{activity.name}</h2>
+            <button
+              type="button"
+              className="icon-button"
+              aria-label="Sửa công việc"
+              title="Sửa công việc"
+              onClick={onEditActivity}
+              disabled={pending}
+            >
+              <Pencil size={17} />
+            </button>
+          </div>
           <div className="schedule-period">
             <div className="calendar-controls">
               <button
@@ -511,14 +544,6 @@ function MonthEditor({
                 .toFormat("'Tháng' M 'năm' yyyy")}
             </h3>
           </div>
-          <button
-            type="button"
-            className="button secondary small"
-            disabled={pending}
-            onClick={() => onMonth(today.slice(0, 7))}
-          >
-            Hôm nay
-          </button>
           <input
             type="month"
             aria-label="Tháng chấm công"
@@ -547,10 +572,7 @@ function MonthEditor({
         <div className="attendance-save-state" aria-live="polite">
           {dirty
             ? "Có thay đổi chưa lưu"
-            : message ||
-              (baseline
-                ? "Các thay đổi đã được lưu"
-                : "Chưa có ngày đã chấm trong tháng")}
+            : message || (baseline ? "Các thay đổi đã được lưu" : "")}
         </div>
         {(error || dataError || externalChange) && (
           <p className="schedule-error" role="alert">
@@ -588,78 +610,89 @@ function MonthEditor({
                   ? "Đã thực hiện"
                   : entry?.status === "rest"
                     ? "Nghỉ"
-                    : "Chưa chấm";
+                    : entry
+                      ? "Ghi chú"
+                      : "Chưa chấm";
+              const editing = editingDay?.date === day;
+              function open() {
+                setEditingDay({ date: day, original: entry ?? null });
+              }
               return (
                 <div
                   key={day}
                   className={
                     "attendance-cell" +
                     (!inMonth ? " outside-month" : "") +
-                    (day === today ? " is-today" : "")
+                    (day === today ? " is-today" : "") +
+                    (entry ? " has-content" : "")
                   }
+                  data-date={day}
                 >
                   <div className="attendance-cell-heading">
-                    <span>{Number(day.slice(8))}</span>
-                    {inMonth && (
+                    <span aria-label={day === today ? "Hôm nay" : undefined}>
+                      {Number(day.slice(8))}
+                    </span>
+                    {inMonth && !editing && (
                       <button
                         type="button"
                         className="icon-button"
-                        aria-label={"Sửa ngày " + day}
-                        title="Giờ và ghi chú"
+                        aria-label={"Chấm công " + day + ", " + status}
+                        title={
+                          entry
+                            ? "Sửa chấm công và ghi chú"
+                            : "Chấm công hoặc ghi chú"
+                        }
                         disabled={pending}
-                        onClick={() => setDate(day)}
+                        onClick={open}
                       >
-                        <Pencil size={13} />
+                        {entry ? <Pencil size={14} /> : <Plus size={16} />}
                       </button>
                     )}
                   </div>
-                  {inMonth && (
-                    <button
-                      type="button"
-                      className={
-                        "attendance-mark " + (entry?.status ?? "unmarked")
-                      }
-                      disabled={pending}
-                      aria-label={"Chấm công " + day + ", " + status}
-                      onClick={() => {
-                        if (
-                          entry &&
-                          (entry.note || entry.start) &&
-                          !window.confirm(
-                            "Bỏ giờ và ghi chú đã nhập của ngày này?",
-                          )
-                        )
-                          return;
-                        apply(
-                          day,
-                          entry
-                            ? null
-                            : {
-                                date: day,
-                                status: "done",
-                                start: "",
-                                end: "",
-                                note: "",
-                              },
-                        );
+                  {editing ? (
+                    <DayAttendanceEditor
+                      date={day}
+                      entry={entry ?? null}
+                      pending={pending}
+                      onChange={(value) => apply(day, value)}
+                      onDone={closeDayEditor}
+                      onCancel={() => {
+                        apply(day, editingDay.original);
+                        closeDayEditor();
                       }}
-                    >
-                      {entry?.status === "done" ? (
-                        <Check size={15} />
-                      ) : entry?.status === "rest" ? (
-                        <Minus size={15} />
-                      ) : (
-                        <Plus size={15} />
-                      )}
-                      <span>{status}</span>
-                    </button>
+                    />
+                  ) : (
+                    entry && (
+                      <button
+                        type="button"
+                        className="attendance-content"
+                        disabled={pending}
+                        onClick={open}
+                        aria-label={"Sửa nội dung ngày " + day}
+                      >
+                        <span className={"attendance-status " + entry.status}>
+                          {entry.status === "done" ? (
+                            <Check size={14} />
+                          ) : entry.status === "rest" ? (
+                            <Minus size={14} />
+                          ) : (
+                            <FileText size={14} />
+                          )}
+                          {status}
+                        </span>
+                        {entry.start && (
+                          <small>
+                            {entry.start} – {entry.end}
+                          </small>
+                        )}
+                        {entry.note && (
+                          <span className="attendance-note" title={entry.note}>
+                            {entry.note}
+                          </span>
+                        )}
+                      </button>
+                    )
                   )}
-                  {entry?.start && (
-                    <small>
-                      {entry.start} – {entry.end}
-                    </small>
-                  )}
-                  {entry?.note && <p title={entry.note}>{entry.note}</p>}
                 </div>
               );
             })}
@@ -686,7 +719,10 @@ function MonthEditor({
             <div>
               <dt>Chưa chấm</dt>
               <dd>
-                {localTime(month + "-01").daysInMonth! - entries.length} ngày
+                {localTime(month + "-01").daysInMonth! -
+                  done.length -
+                  rest.length}{" "}
+                ngày
               </dd>
             </div>
             <div>
@@ -714,8 +750,14 @@ function MonthEditor({
                 <li key={entry.date}>
                   <span>{localTime(entry.date).toFormat("dd/MM")}</span>
                   <strong>
-                    {entry.status === "done" ? "Đã thực hiện" : "Nghỉ"}
+                    {entry.note ||
+                      (entry.status === "done"
+                        ? "Đã thực hiện"
+                        : entry.status === "rest"
+                          ? "Nghỉ"
+                          : "Ghi chú")}
                   </strong>
+                  {entry.status === "note" && <small>Ghi chú</small>}
                   {entry.start && (
                     <small>
                       {entry.start} – {entry.end}
@@ -726,138 +768,150 @@ function MonthEditor({
           </ul>
         </section>
       </aside>
-      {date && (
-        <DayAttendanceForm
-          date={date}
-          entry={entries.find((entry) => entry.date === date) ?? null}
-          onClose={() => setDate(null)}
-          onApply={(entry) => {
-            apply(date, entry);
-            setDate(null);
-          }}
-        />
-      )}
     </div>
   );
 }
 
-function DayAttendanceForm({
+function DayAttendanceEditor({
   date,
   entry,
-  onClose,
-  onApply,
+  pending,
+  onChange,
+  onDone,
+  onCancel,
 }: {
   date: string;
   entry: AttendanceEntry | null;
-  onClose: () => void;
-  onApply: (entry: AttendanceEntry | null) => void;
+  pending: boolean;
+  onChange: (entry: AttendanceEntry | null) => void;
+  onDone: () => void;
+  onCancel: () => void;
 }) {
-  const statusId = useId();
-  const [status, setStatus] = useState(
-    entry?.status ?? ("done" as "done" | "rest" | "unmarked"),
-  );
-  const [start, setStart] = useState(entry?.start ?? "");
-  const [end, setEnd] = useState(entry?.end ?? "");
-  const [note, setNote] = useState(entry?.note ?? "");
+  const inputId = useId();
   const [error, setError] = useState("");
-  const draft = {
+  const value: AttendanceEntry = entry ?? {
     date,
-    status,
-    start: status === "done" ? start : "",
-    end: status === "done" ? end : "",
-    note,
+    status: "note",
+    start: "",
+    end: "",
+    note: "",
   };
-  const initial = {
-    date,
-    status: entry?.status ?? "done",
-    start: entry?.start ?? "",
-    end: entry?.end ?? "",
-    note: entry?.note ?? "",
-  };
-  function close() {
-    if (
-      JSON.stringify(draft) === JSON.stringify(initial) ||
-      window.confirm("Bỏ thay đổi của ngày này?")
-    )
-      onClose();
+  function change(next: Partial<AttendanceEntry>) {
+    setError("");
+    onChange({ ...value, ...next });
+  }
+  function finish() {
+    try {
+      if (value.status === "note" && !value.note.trim()) onChange(null);
+      else onChange(attendanceEntrySchema.parse(value));
+      onDone();
+    } catch (cause) {
+      setError(calendarError(cause));
+    }
   }
   return (
-    <CalendarDialog
-      title={"Chấm công · " + localTime(date).toFormat("dd/MM/yyyy")}
-      description="Áp dụng cho bảng nháp; bấm Lưu chấm công để lưu cả tháng."
-      onClose={close}
+    <form
+      className="attendance-day-editor"
+      aria-label={"Nội dung ngày " + date}
+      onSubmit={(event) => {
+        event.preventDefault();
+        finish();
+      }}
     >
-      <form
-        className="schedule-form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          try {
-            onApply(
-              status === "unmarked" ? null : attendanceEntrySchema.parse(draft),
-            );
-          } catch (cause) {
-            setError(calendarError(cause));
-          }
-        }}
-      >
-        <label htmlFor={statusId}>
+      <fieldset disabled={pending}>
+        <label htmlFor={inputId + "-note"}>Ghi chú</label>
+        <textarea
+          id={inputId + "-note"}
+          autoFocus
+          rows={3}
+          maxLength={2000}
+          value={value.note}
+          placeholder="Nhập ghi chú…"
+          onChange={(event) => change({ note: event.target.value })}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+              onCancel();
+            }
+            if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+              event.preventDefault();
+              finish();
+            }
+          }}
+        />
+        <label htmlFor={inputId + "-status"} className="sr-only">
           Trạng thái
-          <select
-            id={statusId}
-            value={status}
-            onChange={(event) => setStatus(event.target.value as typeof status)}
-          >
-            <option value="done">Đã thực hiện</option>
-            <option value="rest">Nghỉ</option>
-            <option value="unmarked">Chưa chấm</option>
-          </select>
         </label>
-        {status === "done" && (
-          <div className="schedule-form-grid">
+        <select
+          id={inputId + "-status"}
+          value={value.status}
+          onChange={(event) => {
+            const status = event.target.value as AttendanceEntry["status"];
+            change({
+              status,
+              ...(status !== "done" ? { start: "", end: "" } : {}),
+            });
+          }}
+        >
+          <option value="note">Chỉ ghi chú</option>
+          <option value="done">Đã thực hiện</option>
+          <option value="rest">Nghỉ</option>
+        </select>
+        {value.status === "done" && (
+          <div className="attendance-day-times">
             <label>
               Giờ bắt đầu
               <input
                 type="time"
-                value={start}
-                onChange={(event) => setStart(event.target.value)}
+                value={value.start}
+                onChange={(event) => change({ start: event.target.value })}
               />
             </label>
             <label>
               Giờ kết thúc
               <input
                 type="time"
-                value={end}
-                onChange={(event) => setEnd(event.target.value)}
+                value={value.end}
+                onChange={(event) => change({ end: event.target.value })}
               />
             </label>
           </div>
-        )}
-        {status !== "unmarked" && (
-          <label>
-            Ghi chú
-            <textarea
-              rows={3}
-              maxLength={2000}
-              value={note}
-              onChange={(event) => setNote(event.target.value)}
-            />
-          </label>
         )}
         {error && (
           <p className="schedule-error" role="alert">
             {error}
           </p>
         )}
-        <p className="schedule-help">Áp dụng vào bảng rồi bấm Lưu chấm công.</p>
-        <div className="schedule-dialog-actions">
-          <button type="button" className="button secondary" onClick={close}>
-            Đóng
+        <div className="attendance-day-actions">
+          <button
+            type="button"
+            className="icon-button"
+            aria-label="Hủy thay đổi ngày"
+            title="Hủy thay đổi ngày"
+            onClick={onCancel}
+          >
+            <X size={16} />
           </button>
-          <button type="submit" className="button primary">
-            Áp dụng
+          {entry && (
+            <button
+              type="button"
+              className="text-link"
+              onClick={() => {
+                if (window.confirm("Xóa nội dung ngày này khỏi bảng nháp?")) {
+                  onChange(null);
+                  onDone();
+                }
+              }}
+            >
+              Xóa
+            </button>
+          )}
+          <button type="submit" className="button primary small">
+            <Check size={15} />
+            Xong
           </button>
         </div>
-      </form>
-    </CalendarDialog>
+      </fieldset>
+    </form>
   );
 }

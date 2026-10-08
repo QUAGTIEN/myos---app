@@ -61,11 +61,16 @@ test("calendar controls change months and return to today", async ({
   await page.getByRole("button", { name: "Tháng trước", exact: true }).click();
   await expect(title).toHaveText(original!);
   await page.getByRole("button", { name: "Tháng trước", exact: true }).click();
-  await page.getByRole("button", { name: "Hôm nay", exact: true }).click();
+  const originalDate = await page.evaluate(() =>
+    new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Ho_Chi_Minh" }).format(
+      new Date(),
+    ),
+  );
+  await page.getByLabel("Đến ngày", { exact: true }).fill(originalDate);
   await expect(title).toHaveText(original!);
-  await expect(
-    page.getByRole("button", { name: "Tạo lịch hẹn" }),
-  ).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Tạo lịch hẹn" })).toHaveCount(
+    0,
+  );
 });
 
 test("unimplemented mutations and login are clearly unavailable", async ({

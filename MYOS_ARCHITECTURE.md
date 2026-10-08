@@ -1,8 +1,8 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
-Ngày cập nhật: **08/10/2026** · Phiên bản: **1.14 — Lịch tháng/tuần và chấm công**
+Ngày cập nhật: **09/10/2026** · Phiên bản: **1.15 — Lịch tháng/tuần và chấm công**
 
-**Phạm vi hiện hành:** Lịch chỉ còn tháng/tuần, nội dung ngày dùng CalendarEvent với entryKind tương thích dữ liệu cũ. Tab Chấm công thay Công việc; activities và bảng tháng độc lập lưu qua repository local v5 hoặc API Firestore xác thực theo UID. Lưu cả tháng nguyên tử, version check và giữ nháp khi lỗi. Groups/events/liên kết cũ vẫn giữ. Xem [ADR 007](docs/decisions/007-calendar-attendance.md).
+**Phạm vi hiện hành:** Lịch chỉ còn tháng/tuần, nội dung ngày dùng CalendarEvent với entryKind tương thích dữ liệu cũ. Tab Chấm công thay Công việc; activities và bảng tháng độc lập lưu qua repository local v5 hoặc API Firestore xác thực theo UID. Nhập trực tiếp trong ô, có trạng thái note chỉ ghi chú; note không tính ngày thực hiện/nghỉ. Lưu cả tháng nguyên tử, version check và giữ nháp khi lỗi. Groups/events/liên kết cũ vẫn giữ. Xem [ADR 007](docs/decisions/007-calendar-attendance.md).
 
 **Lịch sử mở rộng local:** Lịch tách xem ngày/tháng/năm và Công việc theo nhiều bộ thời khóa biểu. Groups là bộ lịch đã lưu; sao chép settings/events nguyên tử, identity mới, không sao chép liên kết nguồn. Dự án có Kanban và workspace được validate với defaults để đọc bản cũ; Blob ở projectAttachments, ghi/xóa cùng metadata trong transaction kiểm tra version. IndexedDB v4 giữ stores cũ. Chi tiết tại [ADR 005](docs/decisions/005-timetables-project-dossiers.md).
 

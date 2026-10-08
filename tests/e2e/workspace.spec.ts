@@ -1,3 +1,4 @@
+import { openAppointment } from "./calendar-helpers";
 import { expect, test, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { emptyProjectInput } from "../../src/modules/projects/model";
@@ -45,7 +46,7 @@ test("calendar month/week navigation; independent timetables persist and copy at
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
   const tools = page.getByLabel("Thao tác lịch", { exact: true });
   await expect(
-    page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }),
+    page.getByRole("button", { name: "Chấm công", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Tạo bộ lịch", exact: true }),
@@ -80,7 +81,7 @@ test("calendar month/week navigation; independent timetables persist and copy at
   await expect(tools).toBeFocused();
   const sourceId = await page.getByLabel("Bộ thời khóa biểu").inputValue();
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
-  await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
+  await openAppointment(page);
   dialog = page.getByRole("dialog");
   await dialog
     .getByLabel("Tên lịch hẹn", { exact: true })

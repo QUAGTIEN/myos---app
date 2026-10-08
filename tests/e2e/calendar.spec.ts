@@ -1,3 +1,4 @@
+import { openAppointment } from "./calendar-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 const appointment = (page: Page, title: string) =>
@@ -6,7 +7,7 @@ async function calendar(page: Page) {
   await page.goto("/calendar");
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }),
+    page.getByRole("button", { name: "Chấm công", exact: true }),
   ).toBeEnabled();
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
   await expect(
@@ -16,7 +17,7 @@ async function calendar(page: Page) {
   ).toContainText("2026");
 }
 async function create(page: Page, title: string, repeat = false) {
-  await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
+  await openAppointment(page);
   const form = page.getByRole("dialog");
   await form.getByLabel("Tên lịch hẹn", { exact: true }).fill(title);
   await form.getByLabel("Bắt đầu", { exact: true }).fill("2026-10-06T09:00");
@@ -157,7 +158,7 @@ test("overlap warning requires acknowledgement and browser download is valid ICS
 }) => {
   await calendar(page);
   await create(page, "Cuộc hẹn trước");
-  await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
+  await openAppointment(page);
   const form = page.getByRole("dialog");
   await form.getByLabel("Tên lịch hẹn").fill("Cuộc hẹn trùng");
   await form.getByLabel("Bắt đầu", { exact: true }).fill("2026-10-06T09:30");
@@ -355,7 +356,7 @@ test("calendar settings and custom group persist and apply to new appointments",
     fullPage: true,
   });
   await calendar(page);
-  await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
+  await openAppointment(page);
   const form = page.getByRole("dialog");
   await expect(form.getByLabel("Nhắc trước")).toHaveValue("30");
   await form.getByLabel("Tên lịch hẹn").fill("Tập thể dục");
@@ -575,7 +576,7 @@ test("version 2 upgrade retains notes, image blobs and projects; denied storage 
     "quyền lưu trữ",
   );
   await expect(
-    denied.getByRole("button", { name: "Tạo lịch hẹn", exact: true }),
+    denied.getByRole("button", { name: /^Thêm vào ngày/ }).first(),
   ).toBeDisabled();
   await denied.close();
 });

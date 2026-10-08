@@ -1,3 +1,4 @@
+import { openAppointment, markAttendance } from "./calendar-helpers";
 import {
   expect,
   test,
@@ -117,12 +118,20 @@ test("attendance cloud stores atomic months, rejects stale/foreign records and k
         exact: true,
       }),
     ).toBeVisible();
+    await markAttendance(page, "2026-10-08");
     await page
       .getByRole("button", {
-        name: "Chấm công 2026-10-08, Chưa chấm",
+        name: "Chấm công 2026-10-12, Chưa chấm",
         exact: true,
       })
       .click();
+    const inline = page.getByRole("form", {
+      name: "Nội dung ngày 2026-10-12",
+      exact: true,
+    });
+    await inline
+      .getByRole("textbox", { name: "Ghi chú", exact: true })
+      .fill("Ghi chú cloud độc lập");
     let fail = true;
     await page.route("**/api/data", (route) =>
       route.request().method() === "POST" && fail
@@ -157,10 +166,19 @@ test("attendance cloud stores atomic months, rejects stale/foreign records and k
     ).value;
     expect(stored.version).toBe(2);
     expect(stored.entries.map((entry: { date: string }) => entry.date)).toEqual(
-      ["2026-10-05", "2026-10-08"],
+      ["2026-10-05", "2026-10-08", "2026-10-12"],
     );
     expect(stored.entries[0].note).toBe("Lớp A");
+    expect(stored.entries[2]).toMatchObject({
+      status: "note",
+      start: "",
+      end: "",
+      note: "Ghi chú cloud độc lập",
+    });
     await page.reload();
+    await expect(
+      page.locator('.attendance-cell[data-date="2026-10-12"]'),
+    ).toContainText("Ghi chú cloud độc lập");
     await expect(
       page.getByRole("button", {
         name: "Chấm công 2026-10-08, Đã thực hiện",
@@ -250,7 +268,7 @@ test("shared data survives navigation, deduplicates dialogs and updates only aff
       page.getByRole("button", { name: ready, exact: true }),
     ).toBeEnabled();
   }
-  await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
+  await openAppointment(page);
   await expect(page.getByRole("dialog")).toBeVisible();
   expect(reads).toEqual(initial);
   await page
@@ -476,7 +494,7 @@ test("public signup, cloud CRUD, settings, logout and login on desktop/mobile", 
   await page.getByRole("button", { name: "Lưu ngay", exact: true }).click();
   await expect(page.locator(".note-save-bar")).toContainText("Đã lưu");
   await page.goto("/calendar");
-  await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
+  await openAppointment(page);
   const dialog = page.getByRole("dialog");
   await dialog.getByLabel("Tên lịch hẹn", { exact: true }).fill("Lịch cloud");
   await dialog.getByLabel("Bắt đầu", { exact: true }).fill("2026-10-08T09:00");

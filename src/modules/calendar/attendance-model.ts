@@ -36,17 +36,19 @@ const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
 export const attendanceEntrySchema = z
   .object({
     date: dateSchema,
-    status: z.enum(["done", "rest"]),
+    status: z.enum(["done", "rest", "note"]),
     start: time.or(z.literal("")),
     end: time.or(z.literal("")),
     note: z.string().max(2000),
   })
   .superRefine((entry, ctx) => {
-    if (entry.status === "rest" && (entry.start || entry.end))
+    if (entry.status !== "done" && (entry.start || entry.end))
       ctx.addIssue({
         code: "custom",
-        message: "Ngày nghỉ không có giờ chấm công.",
+        message: "Chỉ ngày đã thực hiện mới có giờ chấm công.",
       });
+    if (entry.status === "note" && !entry.note.trim())
+      ctx.addIssue({ code: "custom", message: "Nhập ghi chú cho ngày này." });
     if (
       entry.status === "done" &&
       (!!entry.start !== !!entry.end ||

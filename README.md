@@ -6,7 +6,7 @@ Nền màn hình xác thực: [A Green Forest — Lauri Poldre / Pexels](https:/
 
 ## Trạng thái hiện tại
 
-**Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần, mỗi ô ngày thêm lịch hẹn/công việc/ghi chú; cột Hôm nay/Sắp tới dùng dữ liệu thật. Tab Chấm công có loại công việc và bảng tháng riêng, nhập giờ/ghi chú, Lưu chấm công ghi nguyên tử cả tháng với version check; lỗi giữ nháp. Firebase lưu dưới UID; IndexedDB v5 giữ toàn bộ dữ liệu cũ. Tổng kết không suy ra định mức hoặc số buổi còn thiếu. [ADR 007](docs/decisions/007-calendar-attendance.md).
+**Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần, mỗi ô ngày thêm lịch hẹn/công việc/ghi chú; cột Hôm nay/Sắp tới dùng dữ liệu thật. Tab Chấm công có loại công việc và bảng tháng riêng, nhập ghi chú trực tiếp trong ô ngày (có thể chỉ ghi chú), giờ/trạng thái tùy chọn; ô có nội dung nền xanh nhạt, Lưu chấm công ghi nguyên tử cả tháng với version check; lỗi giữ nháp. Firebase lưu dưới UID; IndexedDB v5 giữ toàn bộ dữ liệu cũ. Tổng kết không suy ra định mức hoặc số buổi còn thiếu. [ADR 007](docs/decisions/007-calendar-attendance.md).
 
 **G1 đã có implementation:** khung giao diện responsive, menu 5 mục, lịch tháng có điều hướng, trang đăng nhập (đã nối Auth ở G2), loading/error/404. Các module đọc dữ liệu local, không dùng dữ liệu cá nhân giả.
 
@@ -26,7 +26,7 @@ Dữ liệu local thuộc từng browser profile và origin: localhost và 127.0
 
 **Tổng quan đã có dữ liệu local:** 4 số liệu, lịch ngày/qua đêm/lặp có ngoại lệ, checklist cần làm/quá hạn, tiến độ dự án, ghi chú mới/ghim và mốc gần hạn. Có tạo nhanh, mở/sửa/hoàn thành lịch và hoàn thành checklist; cập nhật theo tab nguồn và đổi ngày Việt Nam. Mỗi nguồn có loading/error/retry riêng. Tìm kiếm chung và vùng thông báo tích hợp vẫn chưa triển khai.
 
-Thanh công cụ Lịch có điều hướng, Tháng/Tuần, tìm kiếm, ngày và bộ lọc bộ lịch. Tạo lịch hẹn đặt bên phải; menu Thao tác lịch giữ tạo/sửa/sao chép bộ lịch, xuất `.ics` và cài đặt. Tab Công việc và lịch năm đã được thay theo phạm vi mới, dữ liệu groups/events cũ vẫn giữ.
+Tab Lịch/Chấm công sát dưới header; thanh công cụ Lịch gom điều hướng, Tháng/Tuần, tìm kiếm, ngày và bộ lọc bộ lịch thành một hàng trên desktop. Tạo lịch hẹn qua ô ngày/dấu cộng; menu Thao tác lịch giữ tạo/sửa/sao chép bộ lịch, xuất `.ics` và cài đặt. Tab Công việc và lịch năm đã được thay theo phạm vi mới, dữ liệu groups/events cũ vẫn giữ.
 
 ## Chạy local
 
@@ -74,6 +74,8 @@ Giao diện dùng sidebar navy, desktop rộng, panel trắng và điểm nhấn
 Trang Ghi chú có thanh thao tác thống nhất, thư viện tích hợp và thẻ pastel gọn; bố cục chuyển phù hợp desktop/mobile, giữ các chức năng G4.
 
 Trang Dự án dùng một khung nội dung thống nhất, số liệu gọn và thẻ nhỏ (4 cột desktop rộng); ghim/lưu trữ nằm trong menu ⋯, Thẻ/Kanban giữ chức năng hiện có. Đã kiểm chứng 32 E2E Dự án/hồ sơ/khung ứng dụng trên desktop/mobile; ảnh thực tế 1920 px dùng 4 cột, thẻ tối thiểu 212 px.
+
+Lượt compact Lịch/Chấm công 09/10/2026: lint/typecheck/format/build đạt, 48 hồi quy liên quan đạt (8 skip), Attendance cuối đạt 7 (1 skip), Firebase Emulator 14 đạt. Đã kiểm tra bảng/editor trên desktop và mobile; chưa xác nhận deployment Vercel thật.
 
 ## Công nghệ đã chọn
 

@@ -1,3 +1,6 @@
+.main-content.calendar-content {
+  padding-top: 8px;
+}
 .schedule-module {
   min-width: 0;
 }
@@ -22,18 +25,14 @@
   overflow-wrap: anywhere;
 }
 .schedule-calendar-filters {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: 100%;
+  display: contents;
 }
 .schedule-search {
   display: flex;
   align-items: center;
   gap: 8px;
   flex: 1;
-  min-width: 170px;
+  min-width: 0;
   color: var(--muted);
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -50,7 +49,7 @@
   color: var(--ink);
 }
 .schedule-toolbar > .schedule-period {
-  margin-right: auto;
+  margin-right: 0;
 }
 .schedule-day-heading {
   display: flex;
@@ -157,67 +156,87 @@
   font-size: 12px;
   color: var(--muted);
 }
-.attendance-heading,
-.attendance-board-heading {
+.attendance-heading {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 14px;
+  margin-bottom: 12px;
+  min-width: 0;
 }
-.attendance-heading h2,
-.attendance-board-heading h2 {
-  font-size: 18px;
-  overflow-wrap: anywhere;
+.attendance-activity-label {
+  color: var(--muted);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.attendance-heading > .button {
+  flex-shrink: 0;
 }
 .attendance-activities {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
+  gap: 8px;
+  overflow-x: auto;
+  min-width: 0;
+  flex: 1;
+  padding: 2px 0;
 }
 .attendance-activities > button {
-  display: flex;
-  gap: 12px;
+  display: inline-flex;
+  gap: 8px;
   align-items: center;
-  min-width: 180px;
-  max-width: 300px;
-  flex: 1 1 180px;
-  padding: 18px;
+  flex: 0 0 auto;
+  max-width: 220px;
+  min-height: 42px;
+  padding: 9px 14px;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: 8px;
   color: var(--ink);
   text-align: left;
+  font-size: 13px;
 }
 .attendance-activities > button[aria-pressed="true"] {
   background: var(--primary-soft);
-  box-shadow: inset 0 -3px var(--primary);
+  border-color: var(--primary);
 }
 .attendance-activities svg {
   flex-shrink: 0;
 }
 .attendance-activities span {
-  display: grid;
-  gap: 6px;
   min-width: 0;
 }
 .attendance-activities strong {
-  overflow-wrap: anywhere;
-}
-.attendance-activities small {
-  color: var(--muted);
-  font-size: 12px;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .attendance-panel {
-  padding: 20px;
+  padding: 16px;
 }
-.attendance-toolbar {
+.attendance-panel .attendance-toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
   border: 0;
   padding: 0;
+  margin-bottom: 12px;
+}
+.attendance-board-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+.attendance-board-heading h2 {
+  font-size: 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .attendance-toolbar h3 {
-  font-size: 15px;
+  font-size: 14px;
+  white-space: nowrap;
 }
 .attendance-toolbar input {
   padding: 9px;
@@ -226,12 +245,20 @@
   color: var(--ink);
   background: var(--surface);
   font: inherit;
-  min-width: 0;
+  font-size: 13px;
+  width: 166px;
+  min-width: 166px;
+}
+.attendance-toolbar > .button {
+  flex-shrink: 0;
 }
 .attendance-save-state {
   font-size: 12px;
   color: var(--muted);
-  margin: 12px 0;
+  margin: 8px 0;
+}
+.attendance-save-state:empty {
+  display: none;
 }
 .attendance-scroll {
   overflow-x: auto;
@@ -239,7 +266,7 @@
 .attendance-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  min-width: 665px;
+  min-width: 945px;
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
@@ -253,7 +280,7 @@
   border-right: 1px solid var(--line);
 }
 .attendance-cell {
-  min-height: 126px;
+  min-height: 112px;
   padding: 10px 8px;
   border-right: 1px solid var(--line);
   border-top: 1px solid var(--line);
@@ -266,8 +293,16 @@
   color: var(--muted);
   background: var(--surface-soft);
 }
-.attendance-cell.is-today {
-  background: var(--peach);
+.attendance-cell.is-today .attendance-cell-heading > span {
+  color: var(--primary);
+  font-weight: 700;
+  border-bottom: 2px solid var(--primary);
+}
+.attendance-cell.has-content {
+  background: var(--primary-soft);
+}
+.attendance-cell:focus-within {
+  box-shadow: inset 0 0 0 1px var(--primary);
 }
 .attendance-cell-heading {
   display: flex;
@@ -282,46 +317,103 @@
   height: 28px;
   min-height: 28px;
 }
-.attendance-mark {
+.attendance-content {
+  display: grid;
+  gap: 6px;
   width: 100%;
-  min-height: 34px;
+  padding: 0;
+  text-align: left;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+}
+.attendance-status {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 5px 3px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 500;
-}
-.attendance-mark svg {
-  flex-shrink: 0;
-}
-.attendance-mark.done {
-  background: var(--primary-soft);
+  gap: 5px;
   color: var(--primary);
+  font-size: 11px;
 }
-.attendance-mark.rest {
-  background: var(--rose);
+.attendance-status.rest {
   color: var(--danger);
 }
-.attendance-mark.unmarked {
-  background: var(--surface-soft);
-  color: var(--muted);
-}
-.attendance-cell small {
-  display: block;
-  color: var(--muted);
+.attendance-content small {
   font-size: 11px;
-  margin-top: 7px;
+  color: var(--muted);
 }
-.attendance-cell p {
-  margin: 6px 0 0;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.attendance-note {
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   overflow: hidden;
+  white-space: pre-wrap;
+}
+.attendance-day-editor fieldset {
+  display: grid;
+  gap: 6px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  min-width: 0;
+}
+.attendance-day-editor label {
   font-size: 11px;
   color: var(--muted);
+}
+.attendance-day-editor textarea,
+.attendance-day-editor input,
+.schedule-module .attendance-day-editor select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 6px;
+  font: inherit;
+  font-size: 12px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.attendance-day-editor textarea {
+  resize: vertical;
+  min-height: 64px;
+}
+.attendance-day-times {
+  display: grid;
+  gap: 6px;
+}
+.attendance-day-times label {
+  display: grid;
+  gap: 3px;
+}
+.attendance-day-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.attendance-day-actions .button {
+  padding: 6px 8px;
+  font-size: 11px;
+  gap: 4px;
+  margin-left: auto;
+}
+.attendance-day-actions .text-link {
+  font-size: 11px;
+  margin: 0;
+  background: transparent;
+}
+.attendance-day-actions .icon-button {
+  width: 28px;
+  height: 36px;
+}
+.attendance-day-editor .schedule-error {
+  padding: 6px;
+  margin: 4px 0;
+  font-size: 11px;
 }
 .attendance-summary {
   display: grid;
@@ -351,6 +443,14 @@
   grid-column: 2;
   color: var(--muted);
 }
+.attendance-recent strong {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
 .attendance-empty {
   padding: 40px 20px;
   text-align: center;
@@ -364,7 +464,7 @@
   color: var(--ink);
   margin-bottom: 8px;
 }
-@media (max-width: 1250px) {
+@media (max-width: 1500px) {
   .schedule-workspace {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -379,22 +479,6 @@
   .schedule-heading {
     border-bottom: 1px solid var(--line);
   }
-  .schedule-calendar-filters .schedule-view-buttons {
-    width: auto;
-  }
-  .schedule-calendar-filters .schedule-search {
-    flex-basis: 100%;
-    order: 3;
-  }
-  .schedule-calendar-filters .schedule-group-select {
-    flex: 1 1 140px;
-  }
-  .schedule-calendar-filters .schedule-date-input {
-    flex: 1 1 140px;
-  }
-  .schedule-calendar-filters .schedule-tools {
-    margin-left: auto;
-  }
   .schedule-day-add {
     width: 32px;
     height: 32px;
@@ -403,34 +487,43 @@
     padding: 14px;
   }
   .attendance-heading {
-    align-items: start;
     flex-wrap: wrap;
+    gap: 8px;
+  }
+  .attendance-activity-label {
+    display: none;
   }
   .attendance-activities {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 8px;
+    order: 2;
+    flex-basis: 100%;
   }
-  .attendance-activities > button {
-    flex: 0 0 200px;
+  .attendance-heading > .button {
+    margin-left: auto;
   }
-  .attendance-toolbar {
-    padding: 0;
+  .attendance-panel .attendance-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .attendance-board-heading {
+    flex-basis: 100%;
   }
   .attendance-toolbar input {
-    flex: 1 0 160px;
-    min-width: 160px;
     max-width: 100%;
   }
   .attendance-toolbar > .button.primary {
-    width: 100%;
+    flex: 1;
   }
   .attendance-cell-heading .icon-button {
-    height: 36px;
     width: 36px;
+    height: 36px;
   }
-  .attendance-mark {
-    min-height: 40px;
+  .attendance-day-editor select,
+  .attendance-day-editor input {
+    min-height: 36px;
+  }
+  .attendance-day-actions .button,
+  .attendance-day-actions .text-link {
+    min-height: 36px;
   }
 }
 .schedule-toolbar,
@@ -449,7 +542,7 @@
   overflow: visible;
 }
 .schedule-toolbar {
-  padding: 18px 24px;
+  padding: 12px 16px;
   background: var(--surface);
   border-radius: var(--radius) var(--radius) 0 0;
   border-bottom: 1px solid var(--line);
@@ -462,7 +555,6 @@
 }
 .schedule-period h2 {
   font-size: 16px;
-  text-transform: capitalize;
   white-space: nowrap;
 }
 .schedule-toolbar-actions {
@@ -487,7 +579,7 @@
   gap: 3px;
 }
 .schedule-view-buttons button {
-  padding: 7px 13px;
+  padding: 7px 10px;
   min-height: 32px;
   border: 0;
   border-radius: 5px;
@@ -821,6 +913,11 @@
   margin: 14px 0;
   overflow-wrap: anywhere;
 }
+.schedule-module > .schedule-message {
+  padding: 6px 10px;
+  margin: 8px 0;
+  font-size: 12px;
+}
 .schedule-warning {
   background: #fff5dc;
   color: #775200;
@@ -1043,7 +1140,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 13px 18px;
+  padding: 10px 16px;
   border: 0;
   border-bottom: 3px solid transparent;
   border-radius: 0;
@@ -1096,35 +1193,87 @@
     width: 100%;
   }
 }
-@media (max-width: 700px) {
-  .schedule-calendar-filters {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 40px;
+.schedule-panel > .schedule-toolbar {
+  display: grid;
+  grid-template-columns: auto auto minmax(100px, 1fr) 132px 138px 36px;
+  gap: 8px;
+  align-items: center;
+}
+.schedule-panel .schedule-period {
+  gap: 6px;
+  width: auto;
+}
+.schedule-panel .schedule-period h2 {
+  font-size: 14px;
+  white-space: nowrap;
+}
+.schedule-panel .calendar-controls .icon-button {
+  width: 30px;
+  height: 36px;
+}
+.schedule-panel .schedule-view-buttons {
+  width: auto;
+}
+.schedule-panel .schedule-date-input,
+.schedule-panel .schedule-group-select {
+  width: 100%;
+}
+@media (max-width: 1200px) {
+  .schedule-panel > .schedule-toolbar {
+    grid-template-columns: minmax(0, 1fr) auto 36px;
   }
-  .schedule-calendar-filters .schedule-view-buttons {
-    grid-column: 1 / -1;
+  .schedule-calendar-filters .schedule-tools {
+    grid-column: 3;
     grid-row: 1;
   }
   .schedule-calendar-filters .schedule-search {
     grid-column: 1 / -1;
     grid-row: 2;
-    min-width: 0;
   }
   .schedule-calendar-filters .schedule-date-input {
     grid-column: 1;
     grid-row: 3;
-    width: 100%;
-    padding: 8px 5px;
   }
   .schedule-calendar-filters .schedule-group-select {
-    grid-column: 2;
+    grid-column: 2 / -1;
     grid-row: 3;
-    width: 100%;
-    padding: 8px 5px;
+  }
+  .attendance-panel .attendance-toolbar {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 700px) {
+  .schedule-panel > .schedule-toolbar {
+    padding: 12px;
+    gap: 8px;
+  }
+  .schedule-panel .schedule-period {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .schedule-panel .schedule-view-buttons {
+    grid-column: 1 / 3;
+    grid-row: 2;
   }
   .schedule-calendar-filters .schedule-tools {
     grid-column: 3;
+    grid-row: 2;
+  }
+  .schedule-calendar-filters .schedule-search {
+    grid-column: 1 / -1;
     grid-row: 3;
-    margin: 0;
+  }
+  .schedule-calendar-filters .schedule-date-input {
+    grid-column: 1;
+    grid-row: 4;
+    padding: 8px 5px;
+  }
+  .schedule-calendar-filters .schedule-group-select {
+    grid-column: 2 / -1;
+    grid-row: 4;
+    padding: 8px 5px;
+  }
+  .schedule-panel .schedule-tools .icon-button {
+    width: 36px;
   }
 }

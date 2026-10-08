@@ -18,9 +18,11 @@ workspace.spec.ts: 8 cases desktop/mobile cho lịch tháng/tuần, bộ thời 
 
 Thanh công cụ Lịch: workspace kiểm tra menu Thao tác lịch mở bằng Enter, đóng bằng Escape/click ngoài, trả focus sau dialog, ẩn sửa/sao chép khi chưa chọn bộ và không tràn ở 320 px. Calendar/workspace mở menu trước khi xuất `.ics`; kiểm tra điều hướng tháng dùng heading trong region Bộ lịch thay vì phụ thuộc class bố cục cũ.
 
-attendance.spec.ts kiểm tra nội dung ngày tháng/tuần, chấm công chủ động theo tháng, giờ/ghi chú, hoạt động độc lập, nháp/conflict/rollback, ngày nhuận và mobile 320 px. Firebase suite thêm lưu bảng tháng nguyên tử, cách ly UID, schema/version và giữ nháp khi mạng lỗi; không tạo dữ liệu thật.
+attendance.spec.ts kiểm tra nội dung ngày tháng/tuần, toolbar desktop một hàng và tab sát header, chấm công theo tháng, editor trong ô ngày, ghi chú riêng không tăng số ngày đã chấm, lưu nội dung đang gõ, giờ sai giữ nháp, Escape khôi phục, xóa có xác nhận, màu ô, hoạt động độc lập, conflict/rollback, ngày nhuận và mobile 320 px. calendar-helpers.ts dùng chung luồng tạo lịch hẹn qua ô ngày và chấm trực tiếp. Firebase suite thêm lưu bảng tháng nguyên tử, cách ly UID, schema/version và giữ nháp khi mạng lỗi; không tạo dữ liệu thật.
 
 Kiểm chứng ngày 08/10/2026: lint, typecheck, format và production build đạt; Attendance desktop/mobile đạt 7 cases, 1 skip để không lặp schema test; Firebase Emulator đạt 14 cases. Suite local đầy đủ đã chạy 92 cases: 82 đạt, 8 skip và 2 lỗi locator của Attendance; sau khi sửa locator, các cases Attendance chạy lại đạt. Calendar/domain/workspace cũng chạy lại sau thay đổi giao diện. Không xác nhận tốc độ hoặc dữ liệu trên deployment thật từ các kết quả Emulator này.
+
+Kiểm chứng ngày 09/10/2026: lint/typecheck/format/build đạt; hồi quy Calendar/Attendance/domain/workspace/shell đạt 48 cases, 8 skip chủ đích. Sau chỉnh kích thước editor mobile và validation giờ, Attendance chạy lại đạt 7 cases, 1 skip; Firebase Emulator đạt toàn bộ 14 cases với ghi chú riêng/cloud reload, lỗi mạng giữ nội dung đang gõ, version/ownership và Auth. Đã xem ảnh desktop 1920 px và mobile 320 px của bảng/editor thực tế.
 
 ## Tổ chức và chạy
 

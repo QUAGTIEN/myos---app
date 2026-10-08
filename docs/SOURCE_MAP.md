@@ -1,6 +1,6 @@
 # Bản đồ source MyOS
 
-Cập nhật 07/10/2026. G2 bước 1–5 thêm tài khoản công khai và Firestore; local giữ riêng, không migration. Cây này mô tả source hiện có, không dựng thư mục giữ chỗ cho kế hoạch cloud.
+Cập nhật 09/10/2026. G2 bước 1–5 thêm tài khoản công khai và Firestore; local giữ riêng, không migration. Cây này mô tả source hiện có, không dựng thư mục giữ chỗ cho kế hoạch cloud.
 
 ## Cấu trúc hiện tại
 
@@ -48,7 +48,7 @@ MYOS/
 ├── public/images/sidebar-city.png  # Ảnh người dùng cung cấp, nền chìm sidebar
 ├── tests/
 │   ├── README.md                   # Cách chạy và phạm vi kiểm thử
-│   └── e2e/                       # các luồng local và Firebase Emulator
+│   └── e2e/                       # local/Firebase Emulator; calendar-helpers dùng chung thao tác ô ngày
 └── docs/
     ├── SOURCE_MAP.md
     ├── IMPLEMENTATION_PLAN.md

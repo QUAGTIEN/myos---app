@@ -541,22 +541,6 @@ export function CalendarScreen({
                 </div>
                 <h2 aria-live="polite">{title}</h2>
               </div>
-              <button
-                className="button secondary small"
-                type="button"
-                onClick={() => calendar.current?.getApi().gotoDate(today)}
-              >
-                Hôm nay
-              </button>
-              <button
-                className="button primary"
-                type="button"
-                disabled={!!data.error || pending}
-                onClick={() => createOnDate(chosenDate)}
-              >
-                <Plus size={18} />
-                Tạo lịch hẹn
-              </button>
               <div className="schedule-calendar-filters">
                 <div
                   className="schedule-view-buttons"

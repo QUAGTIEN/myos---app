@@ -153,7 +153,14 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
           </div>
         </header>
-        <main id="main-content" tabIndex={-1} className="main-content">
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className={
+            "main-content" +
+            (pathname === "/calendar" ? " calendar-content" : "")
+          }
+        >
           {children}
         </main>
       </div>
