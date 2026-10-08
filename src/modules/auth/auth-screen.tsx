@@ -29,7 +29,19 @@ function authMessage(cause: unknown) {
     case "auth/email-already-in-use":
       return "Email này đã có tài khoản. Hãy đăng nhập hoặc đặt lại mật khẩu.";
     case "auth/weak-password":
+    case "auth/password-does-not-meet-requirements":
       return "Mật khẩu chưa đáp ứng chính sách bảo mật của dự án Firebase.";
+    case "auth/invalid-email":
+      return "Địa chỉ email chưa hợp lệ. Kiểm tra lại email rồi thử lại.";
+    case "auth/configuration-not-found":
+      return "Project Firebase chưa thiết lập Authentication. Vào Authentication → Get started và bật Email/Password.";
+    case "auth/invalid-api-key":
+    case "auth/api-key-not-valid.-please-pass-a-valid-api-key.":
+      return "Firebase API key chưa hợp lệ. Kiểm tra biến môi trường trên Vercel và redeploy.";
+    case "auth/app-not-authorized":
+      return "Ứng dụng bị chặn bởi cấu hình API key Firebase. Kiểm tra giới hạn API key cho domain website.";
+    case "auth/admin-restricted-operation":
+      return "Firebase đang chặn người dùng tự tạo tài khoản. Kiểm tra quyền đăng ký trong cấu hình Authentication.";
     case "auth/too-many-requests":
       return "Có quá nhiều lần thử. Vui lòng chờ rồi thử lại.";
     case "auth/network-request-failed":
@@ -41,6 +53,8 @@ function authMessage(cause: unknown) {
     case "auth/unauthorized-domain":
       return "Tên miền này chưa được cho phép trong Firebase Authentication.";
     default:
+      if (/^auth\/[a-z0-9.-]+$/.test(code))
+        return `Chưa hoàn tất xác thực Firebase. Mã lỗi: ${code}.`;
       return !code && cause instanceof Error
         ? cause.message
         : "Chưa đăng nhập được. Kiểm tra cấu hình Firebase rồi thử lại.";
