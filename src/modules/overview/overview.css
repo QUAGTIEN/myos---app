@@ -67,9 +67,6 @@
   filter: brightness(0.96);
   box-shadow: var(--shadow-raised);
 }
-.dashboard-metric:focus-visible {
-  outline-color: var(--ink);
-}
 .dashboard-metric .dashboard-record-icon {
   background: #ffffff26;
   color: inherit;

@@ -13,7 +13,6 @@ import {
   ChevronRight,
   Copy,
   Download,
-  ClipboardCheck,
   FileText,
   ListTodo,
   Search,
@@ -471,7 +470,6 @@ export function CalendarScreen({
             aria-pressed={tab === "book"}
             onClick={() => chooseTab("book")}
           >
-            <CalendarDays size={19} aria-hidden="true" />
             Lịch
           </button>
           <button
@@ -480,7 +478,6 @@ export function CalendarScreen({
             aria-pressed={tab === "attendance"}
             onClick={() => chooseTab("attendance")}
           >
-            <ClipboardCheck size={19} aria-hidden="true" />
             Chấm công
           </button>
         </div>

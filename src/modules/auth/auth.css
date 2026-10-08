@@ -93,10 +93,8 @@
 .auth-card input::placeholder {
   color: #536779;
 }
-.auth-card input:focus-visible,
-.auth-password button:focus-visible {
-  outline: 2px solid #007f78;
-  outline-offset: 2px;
+.auth-card input:focus {
+  background: var(--primary-soft);
 }
 .auth-password {
   display: flex;

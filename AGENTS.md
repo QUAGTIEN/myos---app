@@ -101,6 +101,7 @@ Màn hình xác thực đã được người dùng duyệt ngoại lệ liquid 
 - Tránh giao diện “AI slop”: không mặc định gradient tím/xanh, glow, glassmorphism, khối trang trí lớn hoặc thẻ bo tròn lặp lại mà không có mục đích. Mỗi phần trang trí phải phục vụ nội dung và nhận diện.
 - Chọn font hỗ trợ đầy đủ dấu tiếng Việt, rõ ở cỡ chữ nội dung; giữ một hệ typography nhất quán. Không phối nhiều font hoặc dùng chữ quá nhỏ/mảnh để tạo vẻ hiện đại.
 - Quản lý màu, font, spacing, radius và shadow bằng tokens dùng chung; không mỗi trang tự chọn một hệ style riêng.
+- Không dùng viền focus nổi quanh ô nhập hoặc khung tương tác; dùng nền/chữ để nhận biết focus bàn phím. Tab và nhãn đã rõ nghĩa (Lịch, Chấm công, Công việc, Thư mục, Nhãn) không thêm icon trang trí. Giữ icon cho thao tác chỉ có biểu tượng, điều hướng và trạng thái cần phân biệt.
 - Nhãn nút rõ hành động; ưu tiên một hành động chính cho từng ngữ cảnh, giảm thao tác thừa. Icon-only button có tên truy cập và tooltip khi cần.
 - Có trạng thái hover, focus, active, disabled và pending rõ; hỗ trợ bàn phím, label cho form và focus hợp lý sau đóng dialog.
 - Thao tác xóa hoặc có nguy cơ mất nội dung cần xác nhận hoặc cơ chế hoàn tác phù hợp; không thêm xác nhận cho mọi thao tác thường ngày.

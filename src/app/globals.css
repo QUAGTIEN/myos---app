@@ -93,8 +93,16 @@ svg {
   flex-shrink: 0;
 }
 :focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 4px;
+  outline: none;
+}
+:is(button, a, [role="button"]):focus-visible {
+  filter: brightness(0.88);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+:is(input, textarea, select):focus {
+  outline: none;
+  background-color: var(--primary-soft);
 }
 button:disabled {
   cursor: not-allowed;
@@ -760,10 +768,6 @@ button:disabled {
 .workspace-footer .avatar {
   background: var(--sidebar-hover);
   color: #65dfd0;
-}
-.desktop-sidebar :focus-visible,
-.mobile-sidebar :focus-visible {
-  outline-color: #65dfd0;
 }
 .blue {
   background: var(--blue);

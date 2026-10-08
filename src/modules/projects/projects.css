@@ -116,8 +116,7 @@
   font-size: 13px;
 }
 .project-search:focus-within {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
+  background: var(--primary-soft);
 }
 .project-search input:focus-visible {
   outline: none;
@@ -213,9 +212,8 @@
 .project-card-main:focus-visible {
   outline: none;
 }
-.project-card-main:focus-visible::after {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
+.project-card:has(.project-card-main:focus-visible) {
+  background: var(--primary-soft);
 }
 .project-card:hover {
   box-shadow: var(--shadow-raised);
@@ -421,13 +419,6 @@
 }
 .project-form-fields textarea {
   resize: vertical;
-}
-.project-form-fields input:focus,
-.project-form-fields textarea:focus,
-.project-form-fields select:focus {
-  outline: 2px solid var(--focus);
-  outline-offset: 1px;
-  border-color: var(--primary);
 }
 .project-form-grid {
   display: grid;
@@ -972,8 +963,7 @@
   cursor: not-allowed;
 }
 .workspace-upload:focus-within {
-  outline: 3px solid var(--focus);
-  outline-offset: 3px;
+  background: var(--primary-soft);
 }
 .workspace-result {
   display: inline-block;

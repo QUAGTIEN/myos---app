@@ -114,8 +114,7 @@
   font-size: 13px;
 }
 .note-search:focus-within {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
+  background: var(--primary-soft);
 }
 .note-search input:focus-visible {
   outline: none;
@@ -332,9 +331,6 @@
 }
 .note-prose:focus-visible {
   outline: none;
-}
-.note-document:has(.note-prose:focus-visible) {
-  border-color: var(--primary);
 }
 .note-prose p {
   margin: 0 0 12px;

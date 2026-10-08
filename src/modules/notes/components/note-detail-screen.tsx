@@ -4,14 +4,12 @@ import {
   Check,
   Clock3,
   Copy,
-  Folder,
   History,
   Link2,
   Pin,
   PinOff,
   RotateCcw,
   Save,
-  Tag,
   Trash2,
   NotebookPen,
 } from "lucide-react";
@@ -304,10 +302,7 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
         </section>
         <aside className="note-properties">
           <section className="panel note-property-panel">
-            <h2>
-              <Folder size={17} />
-              Tổ chức ghi chú
-            </h2>
+            <h2>Tổ chức ghi chú</h2>
             <label htmlFor="note-folder">Thư mục</label>
             <input
               id="note-folder"
@@ -327,10 +322,7 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
                 <option value={folder} key={folder} />
               ))}
             </datalist>
-            <label htmlFor="note-tags">
-              <Tag size={14} />
-              Nhãn
-            </label>
+            <label htmlFor="note-tags">Nhãn</label>
             <input
               ref={tagInput}
               id="note-tags"

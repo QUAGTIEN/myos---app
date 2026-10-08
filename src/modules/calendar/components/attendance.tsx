@@ -12,7 +12,6 @@ import {
   X,
   Pencil,
   Plus,
-  Save,
 } from "lucide-react";
 import { calendarColors, calendarError, localTime } from "../model";
 import {
@@ -80,16 +79,9 @@ export function Attendance({
                 aria-pressed={activity?.id === item.id}
                 onClick={() => navigate(() => setSelected(item.id))}
               >
-                <BriefcaseBusiness
-                  size={21}
-                  style={{ color: calendarColors[item.color] }}
-                />
                 <span>
                   <strong>{item.name}</strong>
                 </span>
-                {activity?.id === item.id && (
-                  <Check size={17} aria-hidden="true" />
-                )}
               </button>
             ))}
         </div>
@@ -104,7 +96,6 @@ export function Attendance({
           }
           onClick={() => setEditing("new")}
         >
-          <Plus size={18} />
           Tạo công việc
         </button>
       </div>
@@ -565,7 +556,6 @@ function MonthEditor({
             disabled={pending || !dirty || !!dataError}
             onClick={() => void save()}
           >
-            <Save size={17} />
             {pending ? "Đang lưu…" : "Lưu chấm công"}
           </button>
         </div>
