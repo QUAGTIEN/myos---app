@@ -29,14 +29,6 @@ async function activity(page: Page, name: string) {
   ).toBeVisible();
   await page.getByLabel("Tháng chấm công").fill("2026-10");
 }
-const mark = (page: Page, date: string, state: string) =>
-  page.getByRole("button", {
-    name: `Chấm công ${date}, ${state}`,
-    exact: true,
-  });
-const save = (page: Page) =>
-  page.getByRole("button", { name: "Lưu chấm công", exact: true });
-
 test("month/week cells create dated notes and tasks; search and persisted content", async ({
   page,
 }, info) => {
@@ -126,282 +118,191 @@ test("month/week cells create dated notes and tasks; search and persisted conten
   expect(errors).toEqual([]);
 });
 
-test("attendance batches days, hours and notes; each activity and month remains independent", async ({
+test("attendance notes autosave, count marked days, collapse workspace and persist independently", async ({
   page,
-  isMobile,
 }, info) => {
-  const errors: string[] = [];
-  page.on("pageerror", (error) => errors.push(error.message));
   await openAttendance(page);
   await activity(page, "Đi dạy");
-  await markAttendance(page, "2026-10-05");
-  await markAttendance(page, "2026-10-08");
+  await expect(
+    page.getByRole("button", { name: "Lưu chấm công", exact: true }),
+  ).toHaveCount(0);
   await page
-    .getByRole("button", {
-      name: "Chấm công 2026-10-05, Đã thực hiện",
-      exact: true,
-    })
+    .getByRole("button", { name: "Mở ngày 2026-10-05", exact: true })
     .click();
-  let dialog = page.getByRole("form", {
+  const editor = page.getByRole("form", {
     name: "Nội dung ngày 2026-10-05",
     exact: true,
   });
-  await dialog.getByLabel("Giờ bắt đầu").fill("09:00");
-  await dialog.getByLabel("Giờ kết thúc").fill("11:00");
-  await dialog
-    .getByRole("textbox", { name: "Ghi chú", exact: true })
-    .fill("Dạy thực hành lớp A");
-  await dialog.getByLabel("Giờ kết thúc").fill("08:00");
-  await save(page).click();
-  await expect(page.locator(".attendance-panel > [role=alert]")).toContainText(
-    "giờ kết thúc",
-  );
-  await expect(dialog.getByLabel("Giờ kết thúc")).toHaveValue("08:00");
-  await dialog.getByLabel("Giờ kết thúc").fill("11:00");
-  await dialog.getByRole("button", { name: "Xong", exact: true }).click();
-  await page
-    .getByRole("button", {
-      name: "Chấm công 2026-10-09, Chưa chấm",
-      exact: true,
-    })
-    .click();
-  dialog = page.getByRole("form", {
-    name: "Nội dung ngày 2026-10-09",
-    exact: true,
-  });
-  await dialog
-    .getByRole("combobox", { name: "Trạng thái", exact: true })
-    .selectOption("rest");
-  await dialog.getByRole("button", { name: "Xong", exact: true }).click();
-  await mark(page, "2026-10-12", "Chưa chấm").click();
-  const noteEditor = page.getByRole("form", {
-    name: "Nội dung ngày 2026-10-12",
-    exact: true,
-  });
-  await noteEditor
-    .getByRole("textbox", { name: "Ghi chú", exact: true })
-    .fill("Mang giáo trình mới\nChuẩn bị bài thực hành");
-  await expect(
-    noteEditor.getByRole("combobox", { name: "Trạng thái", exact: true }),
-  ).toHaveValue("note");
-  await expect(
-    page.locator('.attendance-cell[data-date="2026-10-12"]'),
-  ).toContainText("Ghi chú");
-  // Notes alone do not count as attendance; empty cells contain no placeholder label.
-  await expect(
-    page.locator(".attendance-summary > div").filter({ hasText: "Chưa chấm" }),
-  ).toContainText("28 ngày");
-  await expect(
-    page.locator('.attendance-cell[data-date="2026-10-13"]'),
-  ).not.toContainText("Chưa chấm");
-  await expect(
-    page.locator('.attendance-cell[data-date="2026-10-13"] button'),
-  ).toHaveCount(1);
-  await expect(page.locator(".attendance-summary")).toContainText("2 giờ");
-  // Applying days is a draft until the month is explicitly saved.
-  expect(
-    await page.evaluate(async () => {
-      const db = await new Promise<IDBDatabase>((resolve) => {
-        const r = indexedDB.open("myos-local");
-        r.onsuccess = () => resolve(r.result);
-      });
-      const count = await new Promise<number>((resolve) => {
-        const r = db
-          .transaction("attendanceMonths")
-          .objectStore("attendanceMonths")
-          .count();
-        r.onsuccess = () => resolve(r.result);
-      });
-      db.close();
-      return count;
-    }),
-  ).toBe(0);
-  await save(page).click();
+  await expect(editor.getByRole("combobox")).toHaveCount(0);
+  await expect(editor).not.toContainText("Ghi chú");
+  await editor.getByRole("textbox").fill("Lí 12");
   await expect(page.locator(".attendance-save-state")).toHaveText(
-    "Đã lưu chấm công.",
+    "Đã lưu tự động.",
   );
-  await expect(noteEditor).not.toBeVisible();
-  const green = await page
-    .locator('.attendance-cell[data-date="2026-10-05"]')
-    .evaluate((node) => getComputedStyle(node).backgroundColor);
-  expect(
-    await page
-      .locator('.attendance-cell[data-date="2026-10-09"]')
-      .evaluate((node) => getComputedStyle(node).backgroundColor),
-  ).toBe(green);
-  expect(
-    await page
-      .locator('.attendance-cell[data-date="2026-10-12"]')
-      .evaluate((node) => getComputedStyle(node).backgroundColor),
-  ).toBe(green);
-  expect(
-    await page
-      .locator('.attendance-cell[data-date="2026-10-13"]')
-      .evaluate((node) => getComputedStyle(node).backgroundColor),
-  ).not.toBe(green);
-  // Cancelling an inline edit restores saved content instead of erasing the day.
-  await mark(page, "2026-10-12", "Ghi chú").click();
-  await noteEditor
-    .getByRole("textbox", { name: "Ghi chú", exact: true })
-    .fill("Bản nháp không giữ");
-  await noteEditor
-    .getByRole("textbox", { name: "Ghi chú", exact: true })
-    .press("Escape");
-  await expect(save(page)).toBeDisabled();
   await expect(
-    page.locator('.attendance-cell[data-date="2026-10-12"]'),
-  ).toContainText("Mang giáo trình mới");
-  if (!isMobile) await page.setViewportSize({ width: 1920, height: 1080 });
+    page.getByRole("region", { name: "Tổng kết chấm công" }),
+  ).toContainText("1 ngày");
+  await editor.getByRole("button", { name: "Xong", exact: true }).click();
+  const cell = page.locator('.attendance-cell[data-date="2026-10-05"]');
+  await expect(cell).toContainText("Lí 12");
+  await expect(cell).not.toContainText("Ghi chú");
+  await expect(cell).toHaveClass(/has-content/);
+  await page.getByRole("button", { name: "Gần đây", exact: true }).click();
+  await expect(
+    page.getByRole("region", { name: "Ngày chấm công gần đây" }),
+  ).toContainText("Lí 12");
+  await page
+    .getByRole("button", { name: "Thu gọn tổng kết", exact: true })
+    .click();
+  await expect(page.locator(".attendance-side")).not.toBeVisible();
+  await page.getByRole("button", { name: "Mở tổng kết", exact: true }).click();
+  await expect(page.locator(".attendance-side")).toBeVisible();
+  await markAttendance(page, "2026-10-08", "Anh 9");
+  await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
-    path: info.outputPath("attendance-redesign.png"),
+    path: info.outputPath("attendance-notes.png"),
     fullPage: true,
   });
-  if (isMobile) {
-    await page.setViewportSize({ width: 320, height: 900 });
-    await expect(save(page)).toBeVisible();
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth,
-      ),
-    ).toBe(true);
-    await page.screenshot({
-      path: info.outputPath("attendance-narrow.png"),
-      fullPage: true,
-    });
-  }
-  await activity(page, "Tập gym");
-  await expect(mark(page, "2026-10-05", "Chưa chấm")).toBeVisible();
-  await markAttendance(page, "2026-10-06");
-  page.once("dialog", (dialog) => dialog.dismiss());
-  await page.getByRole("button", { name: "Tháng sau", exact: true }).click();
-  await expect(page.getByLabel("Tháng chấm công")).toHaveValue("2026-10");
-  await save(page).click();
-  await expect(save(page)).toBeDisabled();
-  await page.getByRole("button", { name: "Tháng sau", exact: true }).click();
-  await expect(page.getByLabel("Tháng chấm công")).toHaveValue("2026-11");
-  await page.getByLabel("Tháng chấm công").fill("2026-10");
-  await page
-    .getByRole("group", { name: "Loại công việc", exact: true })
-    .getByRole("button", { name: /Đi dạy/ })
-    .click();
-  await expect(mark(page, "2026-10-05", "Đã thực hiện")).toBeVisible();
-  await expect(mark(page, "2026-10-09", "Nghỉ")).toBeVisible();
   await page.reload();
-  await page
-    .getByRole("group", { name: "Loại công việc", exact: true })
-    .getByRole("button", { name: /Đi dạy/ })
-    .click();
+  await expect(cell).toContainText("Lí 12");
+  await page.getByLabel("Tháng chấm công").fill("2026-11");
+  await expect(page.locator(".attendance-cell.has-content")).toHaveCount(0);
   await page.getByLabel("Tháng chấm công").fill("2026-10");
+  await expect(cell).toContainText("Lí 12");
+  await activity(page, "Tập gym");
+  await expect(page.locator(".attendance-cell.has-content")).toHaveCount(0);
+  await page.getByRole("button", { name: "Đi dạy", exact: true }).click();
+  await expect(cell).toContainText("Lí 12");
   await page
-    .getByRole("button", {
-      name: "Chấm công 2026-10-05, Đã thực hiện",
-      exact: true,
-    })
+    .getByRole("button", { name: "Chấm công 2026-10-05", exact: true })
     .click();
-  await expect(
-    page
-      .getByRole("form", { name: "Nội dung ngày 2026-10-05", exact: true })
-      .getByRole("textbox", { name: "Ghi chú", exact: true }),
-  ).toHaveValue("Dạy thực hành lớp A");
-  await page
-    .getByRole("form", { name: "Nội dung ngày 2026-10-05", exact: true })
-    .getByRole("button", { name: "Xong", exact: true })
-    .click();
-  await mark(page, "2026-10-12", "Ghi chú").click();
-  await expect(
-    noteEditor.getByRole("textbox", { name: "Ghi chú", exact: true }),
-  ).toHaveValue("Mang giáo trình mới\nChuẩn bị bài thực hành");
-  await expect(
-    noteEditor.getByRole("combobox", { name: "Trạng thái", exact: true }),
-  ).toHaveValue("note");
-  await noteEditor
-    .getByRole("textbox", { name: "Ghi chú", exact: true })
-    .fill("Đã sửa trực tiếp trong ô ngày");
-  await page.screenshot({
-    path: info.outputPath("attendance-inline-editor.png"),
-    fullPage: true,
-  });
-  await save(page).click();
-  await expect(noteEditor).not.toBeVisible();
-  await mark(page, "2026-10-12", "Ghi chú").click();
   page.once("dialog", (dialog) => dialog.dismiss());
-  await noteEditor.getByRole("button", { name: "Xóa", exact: true }).click();
-  await expect(noteEditor).toBeVisible();
+  await editor.getByRole("button", { name: "Xóa", exact: true }).click();
+  await expect(editor.getByRole("textbox")).toHaveValue("Lí 12");
   page.once("dialog", (dialog) => dialog.accept());
-  await noteEditor.getByRole("button", { name: "Xóa", exact: true }).click();
-  await expect(mark(page, "2026-10-12", "Chưa chấm")).toBeVisible();
-  await save(page).click();
-  await expect(save(page)).toBeDisabled();
-  expect(errors).toEqual([]);
+  await editor.getByRole("button", { name: "Xóa", exact: true }).click();
+  await expect(page.locator(".attendance-save-state")).toHaveText(
+    "Đã lưu tự động.",
+  );
+  await page.reload();
+  await expect(cell).not.toHaveClass(/has-content/);
 });
 
-test("attendance storage failure keeps batch; stale tab cannot overwrite saved days", async ({
+test("attendance autosave retries failed writes and retains offline drafts", async ({
+  page,
+}) => {
+  await openAttendance(page);
+  await activity(page, "Đi làm");
+  await page.evaluate(() => {
+    const original = IDBDatabase.prototype.transaction;
+    IDBDatabase.prototype.transaction = function (...args) {
+      if (
+        Reflect.get(window, "blockAttendance") &&
+        args[1] === "readwrite" &&
+        Array.from(typeof args[0] === "string" ? [args[0]] : args[0]).includes(
+          "attendanceMonths",
+        )
+      )
+        throw new DOMException("Storage denied", "SecurityError");
+      return original.apply(this, args);
+    };
+    Reflect.set(window, "blockAttendance", true);
+  });
+  await page
+    .getByRole("button", { name: "Chấm công 2026-10-05", exact: true })
+    .click();
+  const input = page.getByRole("textbox", {
+    name: "Nội dung chấm công ngày 2026-10-05",
+    exact: true,
+  });
+  await input.fill("Nháp chưa lưu");
+  await expect(page.locator(".attendance-module [role=alert]")).toBeVisible();
+  await expect(input).toHaveValue("Nháp chưa lưu");
+  await page.evaluate(() => Reflect.set(window, "blockAttendance", false));
+  await page.getByRole("button", { name: "Thử lưu lại", exact: true }).click();
+  await expect(page.locator(".attendance-save-state")).toHaveText(
+    "Đã lưu tự động.",
+  );
+  await input.fill("Nội dung mới");
+  await expect(page.locator(".attendance-save-state")).toHaveText(
+    "Đã lưu tự động.",
+  );
+  await page.reload();
+  await expect(
+    page.locator('.attendance-cell[data-date="2026-10-05"]'),
+  ).toContainText("Nội dung mới");
+});
+
+test("attendance refuses stale drafts and deleted activities cannot be resurrected", async ({
   page,
   context,
 }) => {
   await openAttendance(page);
-  await activity(page, "Đi làm");
+  await activity(page, "Đi dạy");
+  await markAttendance(page, "2026-10-05", "Bản đầu");
   const other = await context.newPage();
-  await openAttendance(other);
+  await other.goto("/calendar");
+  await other.getByRole("button", { name: "Chấm công", exact: true }).click();
   await other.getByLabel("Tháng chấm công").fill("2026-10");
-  await markAttendance(other, "2026-10-07");
-  await markAttendance(page, "2026-10-05");
-  await page.evaluate(() => {
+  await other.evaluate(() => {
     const original = IDBDatabase.prototype.transaction;
-    IDBDatabase.prototype.transaction = function (
-      ...args: Parameters<IDBDatabase["transaction"]>
-    ) {
-      const tx = original.apply(this, args);
+    IDBDatabase.prototype.transaction = function (...args) {
       if (
+        Reflect.get(window, "blockAttendance") &&
         args[1] === "readwrite" &&
-        Array.from(tx.objectStoreNames).includes("attendanceMonths")
-      ) {
-        IDBDatabase.prototype.transaction = original;
-        tx.abort();
-      }
-      return tx;
+        Array.from(typeof args[0] === "string" ? [args[0]] : args[0]).includes(
+          "attendanceMonths",
+        )
+      )
+        throw new DOMException("Storage denied", "SecurityError");
+      return original.apply(this, args);
     };
+    Reflect.set(window, "blockAttendance", true);
   });
-  await save(page).click();
-  await expect(page.locator(".attendance-module [role=alert]")).toBeVisible();
-  await expect(mark(page, "2026-10-05", "Đã thực hiện")).toBeVisible();
-  await save(page).click();
-  await expect(page.locator(".attendance-save-state")).toHaveText(
-    "Đã lưu chấm công.",
-  );
-  await expect(other.locator(".attendance-module [role=alert]")).toContainText(
-    "Dữ liệu đã thay đổi",
-  );
-  await save(other).click();
-  await expect(other.locator(".attendance-module [role=alert]")).toContainText(
-    "Bản nháp vẫn được giữ",
-  );
-  await expect(mark(other, "2026-10-07", "Đã thực hiện")).toBeVisible();
-  other.once("dialog", (dialog) => dialog.accept());
-  await other.getByRole("button", { name: "Tải bản mới", exact: true }).click();
-  await expect(mark(other, "2026-10-05", "Đã thực hiện")).toBeVisible();
-  await expect(mark(other, "2026-10-07", "Chưa chấm")).toBeVisible();
-  await mark(other, "2026-10-05", "Đã thực hiện").click();
-  const cleanEditor = other.getByRole("form", {
-    name: "Nội dung ngày 2026-10-05",
+  await other
+    .getByRole("button", { name: "Chấm công 2026-10-05", exact: true })
+    .click();
+  const draft = other.getByRole("textbox", {
+    name: "Nội dung chấm công ngày 2026-10-05",
     exact: true,
   });
-  await mark(page, "2026-10-05", "Đã thực hiện").click();
-  await page
-    .getByRole("form", { name: "Nội dung ngày 2026-10-05", exact: true })
-    .getByRole("textbox", { name: "Ghi chú", exact: true })
-    .fill("Nội dung mới từ tab thứ nhất");
-  await save(page).click();
-  await expect(
-    cleanEditor.getByRole("textbox", { name: "Ghi chú", exact: true }),
-  ).toHaveValue("Nội dung mới từ tab thứ nhất");
-  await cleanEditor
-    .getByRole("textbox", { name: "Ghi chú", exact: true })
-    .press("Escape");
-  await expect(save(other)).toBeDisabled();
+  await draft.fill("Nháp cũ");
+  await expect(other.locator(".attendance-module [role=alert]")).toBeVisible();
+  await markAttendance(page, "2026-10-05", "Bản mới");
+  await other.evaluate(() => Reflect.set(window, "blockAttendance", false));
+  const retry = other.getByRole("button", { name: "Thử lưu lại", exact: true });
+  if (await retry.isVisible()) await retry.click();
+  await expect(other.locator(".attendance-module [role=alert]")).toContainText(
+    /thay đổi/,
+  );
+  await expect(draft).toHaveValue("Nháp cũ");
+  other.once("dialog", (d) => d.accept());
+  await other.getByRole("button", { name: "Tải bản mới", exact: true }).click();
   await expect(
     other.locator('.attendance-cell[data-date="2026-10-05"]'),
-  ).toContainText("Nội dung mới từ tab thứ nhất");
+  ).toContainText("Bản mới");
+  await page
+    .getByRole("button", { name: "Sửa công việc", exact: true })
+    .click();
+  page.once("dialog", (d) => d.dismiss());
+  await page
+    .getByRole("button", { name: "Xóa công việc", exact: true })
+    .click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  page.once("dialog", (d) => d.accept());
+  await page
+    .getByRole("button", { name: "Xóa công việc", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Chưa có công việc", exact: true }),
+  ).toBeVisible();
+  await expect(
+    other.getByRole("heading", { name: "Chưa có công việc", exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page.getByRole("button", { name: "Đi dạy", exact: true }),
+  ).toHaveCount(0);
   await other.close();
 });
 

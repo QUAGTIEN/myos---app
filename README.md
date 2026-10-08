@@ -6,7 +6,7 @@ Nền màn hình xác thực: [A Green Forest — Lauri Poldre / Pexels](https:/
 
 ## Trạng thái hiện tại
 
-**Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần, mỗi ô ngày thêm lịch hẹn/công việc/ghi chú; cột Hôm nay/Sắp tới dùng dữ liệu thật. Tab Chấm công có loại công việc và bảng tháng riêng, nhập ghi chú trực tiếp trong ô ngày (có thể chỉ ghi chú), giờ/trạng thái tùy chọn; ô có nội dung nền xanh nhạt, Lưu chấm công ghi nguyên tử cả tháng với version check; lỗi giữ nháp. Firebase lưu dưới UID; IndexedDB v5 giữ toàn bộ dữ liệu cũ. Tổng kết không suy ra định mức hoặc số buổi còn thiếu. [ADR 007](docs/decisions/007-calendar-attendance.md).
+**Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần; Chấm công nhập nội dung trực tiếp theo ngày, có nội dung là đã chấm và ô xanh nhạt. Tự lưu sau 700 ms ngừng gõ, version check, giữ nháp khi lỗi/xung đột. Có xóa công việc với xác nhận; workspace Tổng kết/Gần đây có thể gập/mở. Tổng quan không còn ba nút tạo nhanh. Firebase theo UID, IndexedDB v5 giữ dữ liệu cũ. Xóa công việc là xóa logic, các tháng bị khóa đọc/ghi; không có khôi phục từ UI. [ADR 007](docs/decisions/007-calendar-attendance.md).
 
 **G1 đã có implementation:** khung giao diện responsive, menu 5 mục, lịch tháng có điều hướng, trang đăng nhập (đã nối Auth ở G2), loading/error/404. Các module đọc dữ liệu local, không dùng dữ liệu cá nhân giả.
 
@@ -118,3 +118,5 @@ Chỉ giữ **4 README**: root, modules, tests và mục lục decisions. Không
 Tổng quan đã hoàn thành phạm vi tổng hợp local được yêu cầu. Các hạng mục còn lại thực hiện khi người dùng yêu cầu. G2 (xác thực và chuyển dữ liệu sang Firebase) thực hiện cuối, trước khi sử dụng cloud với dữ liệu riêng tư. Các phụ thuộc cloud trong kế hoạch vẫn cần đáp ứng trước khi triển khai production.
 
 **G2 kiểm chứng:** lint/typecheck/format/build đạt; 77 hồi quy local đạt, 7 skip chủ đích; 6 E2E Auth/Firestore Emulator desktop/mobile đạt. Kiểm tra cách ly hai UID, CSRF, cookie/thu hồi riêng từng phiên, CRUD/reload, profile/đầu tuần, lỗi cloud giữ nháp, liên kết nguyên tử, version conflict, sao chép bộ lịch, revisions và Rules deny-all. Đã xem màn hình đăng nhập/cài đặt desktop/mobile. Production dependency audit không có lỗ hổng đã biết sau khi khóa bản vá transitive SDK. Project thật chưa smoke-test do chưa có Firebase Admin credentials; không deploy hoặc gửi email/tin nhắn thật khi kiểm thử.
+
+Chấm công theo nội dung/tự lưu 09/10/2026: lint/typecheck/format/build đạt; Attendance + Tổng quan đạt 17 kiểm tra (1 skip), Attendance cuối đạt 9 (1 skip). Firebase Emulator đạt 16 kiểm tra, gồm ghi trong lúc request đang chạy, offline giữ nháp, ownership/version và xóa công việc khóa bảng tháng. Đã xem giao diện thật desktop/mobile; chưa xác nhận deployment Vercel thật.

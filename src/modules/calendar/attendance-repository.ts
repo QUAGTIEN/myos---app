@@ -22,7 +22,8 @@ export const attendanceRepository = {
     if (cloud)
       return activitySchema
         .array()
-        .parse(await cloudRead("attendanceActivities"));
+        .parse(await cloudRead("attendanceActivities"))
+        .filter((activity) => !activity.deletedAt);
     const db = await openLocalDatabase();
     return new Promise((resolve, reject) => {
       const request = db
@@ -31,7 +32,12 @@ export const attendanceRepository = {
         .getAll();
       request.onsuccess = () => {
         try {
-          resolve(activitySchema.array().parse(request.result));
+          resolve(
+            activitySchema
+              .array()
+              .parse(request.result)
+              .filter((activity) => !activity.deletedAt),
+          );
         } catch (cause) {
           reject(cause);
         }
@@ -47,12 +53,15 @@ export const attendanceRepository = {
         .parse(await cloudRead("attendanceMonths", id));
     const db = await openLocalDatabase();
     return new Promise((resolve, reject) => {
-      const request = db
-        .transaction("attendanceMonths")
-        .objectStore("attendanceMonths")
-        .get(id);
+      const tx = db.transaction(["attendanceActivities", "attendanceMonths"]);
+      const activity = tx
+        .objectStore("attendanceActivities")
+        .get(id.slice(0, 36));
+      const request = tx.objectStore("attendanceMonths").get(id);
       request.onsuccess = () => {
         try {
+          if (!activity.result || activity.result.deletedAt)
+            throw new Error("Công việc đã bị xóa hoặc không tồn tại.");
           resolve(
             attendanceMonthSchema.nullable().parse(request.result ?? null),
           );
@@ -100,26 +109,40 @@ export const attendanceRepository = {
           tx.abort();
           return;
         }
+        if (kind === "attendanceActivities" && request.result?.deletedAt) {
+          failure = new Error("Công việc đã bị xóa.");
+          tx.abort();
+          return;
+        }
         const verify =
           kind === "attendanceMonths"
             ? tx
                 .objectStore("attendanceActivities")
                 .get((input as AttendanceMonth).activityId)
-            : store.count();
+            : store.getAll();
         verify.onsuccess = () => {
-          if (
-            (kind === "attendanceMonths" && !verify.result) ||
-            (kind === "attendanceActivities" &&
-              !expectedVersion &&
-              verify.result >= 50)
-          ) {
-            failure = new Error(
-              kind === "attendanceMonths"
-                ? "Công việc không còn khả dụng."
-                : "Tối đa 50 loại công việc.",
-            );
+          try {
+            if (
+              (kind === "attendanceMonths" &&
+                (!verify.result || verify.result.deletedAt)) ||
+              (kind === "attendanceActivities" &&
+                !expectedVersion &&
+                activitySchema
+                  .array()
+                  .parse(verify.result)
+                  .filter((activity) => !activity.deletedAt).length >= 50)
+            ) {
+              failure = new Error(
+                kind === "attendanceMonths"
+                  ? "Công việc không còn khả dụng."
+                  : "Tối đa 50 loại công việc.",
+              );
+              tx.abort();
+            } else store.put(input);
+          } catch (cause) {
+            failure = cause;
             tx.abort();
-          } else store.put(input);
+          }
         };
       };
       tx.oncomplete = () => resolve();
@@ -130,17 +153,40 @@ export const attendanceRepository = {
             new Error("Không lưu được chấm công. Bản nháp vẫn được giữ."),
         );
     });
-    announceRepositorySave({ kind, id: input.id, value: input });
+    announceRepositorySave({
+      kind,
+      id: input.id,
+      value:
+        kind === "attendanceActivities" && activitySchema.parse(input).deletedAt
+          ? null
+          : input,
+    });
     return input;
+  },
+  async remove(activity: AttendanceActivity) {
+    await this.save(
+      "attendanceActivities",
+      {
+        ...activity,
+        deletedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        version: activity.version + 1,
+      },
+      activity.version,
+    );
   },
 };
 
 export function useAttendanceActivities() {
-  return useRepositoryData(
+  const result = useRepositoryData(
     "attendanceActivities",
     undefined,
     attendanceRepository.activities,
   );
+  return {
+    ...result,
+    data: result.data?.filter((activity) => !activity.deletedAt),
+  };
 }
 export function useAttendanceMonth(id: string) {
   z.string().min(1).parse(id);

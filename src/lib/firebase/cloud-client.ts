@@ -162,7 +162,15 @@ export async function cloudWrite(
             : command.kind === "calendarEvents"
               ? eventSchema.parse(value)
               : settingsSchema.parse(value);
-  announceRepositorySave({ kind: command.kind, id: command.id, value: saved });
+  announceRepositorySave({
+    kind: command.kind,
+    id: command.id,
+    value:
+      command.kind === "attendanceActivities" &&
+      activitySchema.parse(saved).deletedAt
+        ? null
+        : saved,
+  });
   if (relatedProjectsChanged) announceLocalChange(repositoryEvents.projects);
   return saved;
 }

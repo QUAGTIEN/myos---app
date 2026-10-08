@@ -2,7 +2,7 @@
 
 ## Phạm vi hiện tại
 
-**Cập nhật 09/10/2026:** toolbar Lịch desktop một hàng, tạo nội dung qua ô ngày; Chấm công nhập trực tiếp trong ô, note riêng không tính attendance. Ô có nội dung xanh nhạt, ô trống chỉ dấu cộng. Lưu cả tháng với version check, giữ dữ liệu cũ done/rest.
+**Cập nhật 09/10/2026:** Chấm công chỉ nhập nội dung theo ngày; có nội dung là đã chấm, ô xanh và chỉ hiện nội dung. Tự lưu tuần tự sau 700 ms, version check, lỗi giữ nháp; không nút Lưu chấm công hoặc lựa chọn trạng thái/giờ. Công việc xóa logic deletedAt có xác nhận, khóa đọc/ghi mọi tháng và không phục hồi từ UI. Workspace Tổng kết/Gần đây gập/mở. Tổng quan bỏ ba nút tạo nhanh. Giữ dữ liệu cũ/schema done/rest/note; ADR 007 hiện hành.
 
 
 **08/10/2026:** Theo yêu cầu mới đã duyệt, Lịch chỉ còn Tháng/Tuần; ô ngày thêm lịch hẹn/công việc/ghi chú. Chấm công thay tab Công việc, nằm trong Lịch: hoạt động và bảng tháng riêng, Lưu chấm công nguyên tử/version check, cloud theo UID và local v5. Giữ groups/events/liên kết cũ. ADR 007 thay phần giao diện ngày/năm/Công việc dưới đây; không thêm phân hệ thứ sáu.

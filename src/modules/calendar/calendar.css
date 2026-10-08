@@ -266,7 +266,7 @@
 .attendance-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  min-width: 945px;
+  min-width: 840px;
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
@@ -293,7 +293,7 @@
   color: var(--muted);
   background: var(--surface-soft);
 }
-.attendance-cell.is-today .attendance-cell-heading > span {
+.attendance-cell.is-today .attendance-date {
   color: var(--primary);
   font-weight: 700;
   border-bottom: 2px solid var(--primary);
@@ -324,20 +324,6 @@
   color: var(--ink);
   font: inherit;
 }
-.attendance-status {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--primary);
-  font-size: 11px;
-}
-.attendance-status.rest {
-  color: var(--danger);
-}
-.attendance-content small {
-  font-size: 11px;
-  color: var(--muted);
-}
 .attendance-note {
   color: var(--ink);
   font-size: 12px;
@@ -357,10 +343,6 @@
   border: 0;
   min-width: 0;
 }
-.attendance-day-editor label {
-  font-size: 11px;
-  color: var(--muted);
-}
 .attendance-day-editor textarea,
 .attendance-day-editor input,
 .schedule-module .attendance-day-editor select {
@@ -377,14 +359,6 @@
 .attendance-day-editor textarea {
   resize: vertical;
   min-height: 64px;
-}
-.attendance-day-times {
-  display: grid;
-  gap: 6px;
-}
-.attendance-day-times label {
-  display: grid;
-  gap: 3px;
 }
 .attendance-day-actions {
   display: flex;
@@ -1267,4 +1241,59 @@
   .schedule-panel .schedule-tools .icon-button {
     width: 36px;
   }
+}
+
+.attendance-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  align-items: start;
+  gap: 18px;
+}
+.attendance-workspace.is-side-collapsed {
+  grid-template-columns: minmax(0, 1fr);
+}
+.attendance-side {
+  min-width: 0;
+  padding: 18px;
+}
+.attendance-side[hidden] {
+  display: none;
+}
+.attendance-side-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+.attendance-side-tabs button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  padding: 10px 6px;
+  font-weight: 600;
+}
+.attendance-side-tabs button[aria-pressed="true"] {
+  border-bottom-color: var(--primary);
+  color: var(--primary);
+}
+@media (max-width: 1500px) {
+  .attendance-panel .attendance-toolbar {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 1100px) {
+  .attendance-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.attendance-date {
+  padding: 0;
+  min-height: 28px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
 }

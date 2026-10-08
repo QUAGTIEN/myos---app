@@ -344,50 +344,25 @@ test("overview checklist commits progress, preserves failed changes and refreshe
   await other.close();
 });
 
-test("quick creation and calendar details use the existing save flows", async ({
+test("overview omits quick creation and existing calendar details remain editable", async ({
   page,
 }) => {
-  await page.clock.install({ time: new Date(at) });
+  await seed(page);
   await page.goto("/dashboard");
-  await expect(metric(page, "Dự án đang làm", 0)).toBeVisible();
-  await page.getByRole("button", { name: "Tạo dự án", exact: true }).click();
-  const project = page.getByRole("dialog");
-  await project.getByLabel("Tên dự án").fill("Dự án từ Tổng quan");
-  await project.getByRole("button", { name: "Tạo dự án", exact: true }).click();
-  await expect(project).not.toBeVisible();
-  await expect(metric(page, "Dự án đang làm", 1)).toBeVisible();
-  await page.getByRole("button", { name: "Tạo lịch hẹn", exact: true }).click();
-  let form = page.getByRole("dialog");
-  await form
-    .getByLabel("Tên lịch hẹn", { exact: true })
-    .fill("Lịch từ Tổng quan");
-  await form.getByRole("button", { name: "Lưu lịch hẹn", exact: true }).click();
-  await expect(form).not.toBeVisible();
-  await expect(metric(page, "Lịch hôm nay", 1)).toBeVisible();
+  for (const name of ["Tạo dự án", "Tạo lịch hẹn", "Tạo ghi chú"])
+    await expect(page.getByRole("button", { name, exact: true })).toHaveCount(
+      0,
+    );
+  await expect(
+    page.getByRole("region", { name: "Lịch trong ngày" }),
+  ).toBeVisible();
   await page
     .getByRole("region", { name: "Lịch trong ngày" })
-    .getByRole("button", { name: /Lịch từ Tổng quan/ })
+    .getByRole("button", { name: /Buổi học đổi giờ/ })
     .click();
-  await page
-    .getByRole("button", { name: "Hoàn thành buổi này", exact: true })
-    .click();
-  await expect(page.getByRole("dialog")).not.toBeVisible();
-  await page
-    .getByRole("region", { name: "Lịch trong ngày" })
-    .getByRole("button", { name: /Lịch từ Tổng quan/ })
-    .click();
-  await expect(page.getByRole("dialog")).toContainText("Đã hoàn thành");
+  await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByRole("button", { name: "Sửa lịch hẹn", exact: true }).click();
-  form = page.getByRole("dialog");
-  await form.getByLabel("Bắt đầu", { exact: true }).fill("2026-10-08T09:00");
-  await form.getByLabel("Kết thúc", { exact: true }).fill("2026-10-08T10:00");
-  await form.getByRole("button", { name: "Lưu lịch hẹn", exact: true }).click();
-  await expect(metric(page, "Lịch hôm nay", 0)).toBeVisible();
-  await page.getByRole("button", { name: "Tạo ghi chú", exact: true }).click();
-  await expect(page).toHaveURL(/\/notes\/[0-9a-f-]+$/);
-  await expect(page.getByLabel("Tiêu đề ghi chú")).toBeVisible();
-  await page.goto("/dashboard");
-  await expect(metric(page, "Ghi chú", 1)).toBeVisible();
+  await expect(page.getByLabel("Tên lịch hẹn", { exact: true })).toBeVisible();
 });
 
 test("a failed source has its own retry and does not hide healthy overview panels", async ({

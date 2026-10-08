@@ -114,14 +114,14 @@ test("attendance cloud stores atomic months, rejects stale/foreign records and k
     await page.getByLabel("Tháng chấm công").fill("2026-10");
     await expect(
       page.getByRole("button", {
-        name: "Chấm công 2026-10-05, Đã thực hiện",
+        name: "Chấm công 2026-10-05",
         exact: true,
       }),
     ).toBeVisible();
     await markAttendance(page, "2026-10-08");
     await page
       .getByRole("button", {
-        name: "Chấm công 2026-10-12, Chưa chấm",
+        name: "Chấm công 2026-10-12",
         exact: true,
       })
       .click();
@@ -129,33 +129,23 @@ test("attendance cloud stores atomic months, rejects stale/foreign records and k
       name: "Nội dung ngày 2026-10-12",
       exact: true,
     });
-    await inline
-      .getByRole("textbox", { name: "Ghi chú", exact: true })
-      .fill("Ghi chú cloud độc lập");
     let fail = true;
     await page.route("**/api/data", (route) =>
       route.request().method() === "POST" && fail
         ? route.abort()
         : route.continue(),
     );
-    const save = page.getByRole("button", {
-      name: "Lưu chấm công",
-      exact: true,
-    });
-    await save.click();
+    await inline.getByRole("textbox").fill("Lí 12 cloud");
     await expect(page.locator(".attendance-module [role=alert]")).toContainText(
       "Bản nháp vẫn được giữ",
     );
-    await expect(
-      page.getByRole("button", {
-        name: "Chấm công 2026-10-08, Đã thực hiện",
-        exact: true,
-      }),
-    ).toBeVisible();
+    await expect(inline.getByRole("textbox")).toHaveValue("Lí 12 cloud");
     fail = false;
-    await save.click();
+    await page
+      .getByRole("button", { name: "Thử lưu lại", exact: true })
+      .click();
     await expect(page.locator(".attendance-save-state")).toHaveText(
-      "Đã lưu chấm công.",
+      "Đã lưu tự động.",
     );
     const stored = (
       await (
@@ -164,31 +154,128 @@ test("attendance cloud stores atomic months, rejects stale/foreign records and k
         )
       ).json()
     ).value;
-    expect(stored.version).toBe(2);
+    expect(stored.version).toBe(3);
     expect(stored.entries.map((entry: { date: string }) => entry.date)).toEqual(
       ["2026-10-05", "2026-10-08", "2026-10-12"],
     );
     expect(stored.entries[0].note).toBe("Lớp A");
     expect(stored.entries[2]).toMatchObject({
-      status: "note",
+      status: "done",
       start: "",
       end: "",
-      note: "Ghi chú cloud độc lập",
+      note: "Lí 12 cloud",
     });
     await page.reload();
     await expect(
       page.locator('.attendance-cell[data-date="2026-10-12"]'),
-    ).toContainText("Ghi chú cloud độc lập");
+    ).toContainText("Lí 12 cloud");
     await expect(
       page.getByRole("button", {
-        name: "Chấm công 2026-10-08, Đã thực hiện",
+        name: "Chấm công 2026-10-08",
         exact: true,
       }),
     ).toBeVisible();
+    // Deletion is version checked, hides all months, and cannot resurrect an activity.
+    expect(
+      (
+        await write(other, {
+          kind: "attendanceActivities",
+          operation: "save",
+          id,
+          expectedVersion: 1,
+          value: { ...activity, version: 2, deletedAt: now },
+        })
+      ).status(),
+    ).toBe(409);
+    await page
+      .getByRole("button", { name: "Sửa công việc", exact: true })
+      .click();
+    page.once("dialog", (dialog) => dialog.accept());
+    await page
+      .getByRole("button", { name: "Xóa công việc", exact: true })
+      .click();
+    await expect(
+      page.getByRole("heading", { name: "Chưa có công việc", exact: true }),
+    ).toBeVisible();
+    expect(
+      (
+        await context.request.get(
+          `/api/data?kind=attendanceMonths&id=${month.id}`,
+        )
+      ).status(),
+    ).toBe(404);
+    expect(
+      (
+        await write(context.request, {
+          ...command,
+          expectedVersion: 3,
+          value: { ...stored, version: 4 },
+        })
+      ).status(),
+    ).toBe(400);
+    expect(
+      (
+        await write(context.request, {
+          kind: "attendanceActivities",
+          operation: "save",
+          id,
+          expectedVersion: 2,
+          value: { ...activity, version: 3, deletedAt: null },
+        })
+      ).status(),
+    ).toBe(404);
   } finally {
     await other.dispose();
   }
 });
+test("attendance autosave keeps edits typed during a pending cloud write", async ({
+  page,
+  context,
+}) => {
+  await account(context.request);
+  await page.goto("/calendar");
+  await page.getByRole("button", { name: "Chấm công", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Tạo công việc", exact: true })
+    .click();
+  await page.getByLabel("Tên công việc", { exact: true }).fill("Đi làm");
+  await page
+    .getByRole("button", { name: "Lưu công việc", exact: true })
+    .click();
+  await page.getByLabel("Tháng chấm công").fill("2026-10");
+  let writes = 0;
+  await page.route("**/api/data", async (route) => {
+    if (
+      route.request().method() === "POST" &&
+      route.request().postDataJSON().kind === "attendanceMonths"
+    ) {
+      writes++;
+      if (writes === 1)
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+    }
+    await route.continue();
+  });
+  await page
+    .getByRole("button", { name: "Chấm công 2026-10-05", exact: true })
+    .click();
+  const input = page.getByRole("textbox", {
+    name: "Nội dung chấm công ngày 2026-10-05",
+    exact: true,
+  });
+  await input.fill("Nội dung đầu");
+  await expect(page.locator(".attendance-save-state")).toHaveText("Đang lưu…");
+  await input.fill("Nội dung mới nhất");
+  await expect.poll(() => writes).toBe(2);
+  await expect(page.locator(".attendance-save-state")).toHaveText(
+    "Đã lưu tự động.",
+  );
+  await expect(input).toHaveValue("Nội dung mới nhất");
+  await page.reload();
+  await expect(
+    page.locator('.attendance-cell[data-date="2026-10-05"]'),
+  ).toContainText("Nội dung mới nhất");
+});
+
 async function write(request: APIRequestContext, body: unknown) {
   const { csrfToken } = await (await request.get("/api/auth")).json();
   return request.post("/api/data", {

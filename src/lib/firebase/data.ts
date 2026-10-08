@@ -177,7 +177,20 @@ export async function readData(user: UserRecord, kind: Kind, id?: string) {
     const ref = reference(user.uid, kind, id);
     if (kind === "notes")
       return database().runTransaction((tx) => noteInTransaction(tx, ref));
+    if (kind === "attendanceMonths") {
+      const activity = unpack(
+        await reference(
+          user.uid,
+          "attendanceActivities",
+          id.slice(0, 36),
+        ).get(),
+      );
+      if (!activity) return null;
+      if (activity.deletedAt)
+        throw new HttpError(404, "Công việc đã bị xóa hoặc không tồn tại.");
+    }
     const value = unpack(await ref.get());
+    if (kind === "attendanceActivities" && value?.deletedAt) return null;
     return value
       ? (kind === "attendanceActivities"
           ? activitySchema
@@ -230,7 +243,9 @@ export async function readData(user: UserRecord, kind: Kind, id?: string) {
     if (page.size < 250) break;
     cursor = page.docs.at(-1)!.id;
   }
-  return result;
+  return kind === "attendanceActivities"
+    ? result.filter((value) => !activitySchema.parse(value).deletedAt)
+    : result;
 }
 export async function writeData(user: UserRecord, raw: unknown) {
   const command = commandSchema.parse(raw);
@@ -263,14 +278,31 @@ export async function writeData(user: UserRecord, raw: unknown) {
         kind === "attendanceActivities"
           ? activitySchema
           : attendanceMonthSchema;
+      if (
+        kind === "attendanceActivities" &&
+        previous &&
+        activitySchema.parse(previous).deletedAt
+      )
+        throw new HttpError(404, "Công việc đã bị xóa.");
       const input = schema.parse(command.value);
       if (input.id !== id || input.version !== expectedVersion + 1)
         throw new HttpError(400, "Sai phiên bản chấm công.");
       if (kind === "attendanceActivities" && !previous) {
         const activities = await tx.get(
-          database().collection(`users/${uid}/attendanceActivities`).limit(50),
+          database()
+            .collection(`users/${uid}/attendanceActivities`)
+            .limit(5001),
         );
-        if (activities.size >= 50)
+        if (activities.size > 5000)
+          throw new HttpError(
+            400,
+            "Danh sách công việc vượt giới hạn dữ liệu.",
+          );
+        if (
+          activities.docs.filter(
+            (doc) => !activitySchema.parse(unpack(doc)).deletedAt,
+          ).length >= 50
+        )
           throw new HttpError(400, "Tối đa 50 loại công việc.");
       }
       if (kind === "attendanceMonths") {
@@ -280,7 +312,7 @@ export async function writeData(user: UserRecord, raw: unknown) {
             reference(uid, "attendanceActivities", month.activityId),
           ),
         );
-        if (!activity)
+        if (!activity || activity.deletedAt)
           throw new HttpError(
             400,
             "Công việc không tồn tại hoặc không thuộc tài khoản.",

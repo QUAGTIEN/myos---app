@@ -31,6 +31,7 @@ export const activitySchema = activityInputSchema.extend({
   version: z.number().int().positive(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
+  deletedAt: z.string().datetime().nullable().default(null),
 });
 const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
 export const attendanceEntrySchema = z
@@ -93,4 +94,12 @@ export function monthDays(month: string, firstDay: number) {
   return Array.from({ length: size }, (_, index) =>
     start.plus({ days: index - leading }).toISODate()!,
   );
+}
+
+// Bản cũ giữ trạng thái/giờ; nội dung mới chỉ dùng ghi chú để chấm công.
+export function attendanceText(entry: AttendanceEntry) {
+  return entry.note || (entry.status === "done" ? "Đã chấm" : "");
+}
+export function isAttendanceMarked(entry: AttendanceEntry) {
+  return !!entry.note.trim() || entry.status === "done";
 }

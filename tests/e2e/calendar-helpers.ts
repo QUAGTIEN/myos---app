@@ -11,16 +11,19 @@ export async function openAppointment(page: Page) {
     .click();
 }
 
-export async function markAttendance(page: Page, date: string) {
+export async function markAttendance(
+  page: Page,
+  date: string,
+  note = "Đã chấm",
+) {
   await page
-    .getByRole("button", { name: `Chấm công ${date}, Chưa chấm`, exact: true })
+    .getByRole("button", { name: `Chấm công ${date}`, exact: true })
     .click();
   const editor = page.getByRole("form", {
     name: "Nội dung ngày " + date,
     exact: true,
   });
-  await editor
-    .getByRole("combobox", { name: "Trạng thái", exact: true })
-    .selectOption("done");
+  await editor.getByRole("textbox").fill(note);
   await editor.getByRole("button", { name: "Xong", exact: true }).click();
+  await editor.waitFor({ state: "hidden" });
 }

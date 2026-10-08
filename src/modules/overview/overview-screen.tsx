@@ -11,19 +11,16 @@ import {
   FolderKanban,
   NotebookPen,
   Pin,
-  Plus,
   Repeat2,
   Star,
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { DateTime } from "luxon";
 import { PageSkeleton } from "@/components/page-ui";
 import {
   addDays,
-  blankEvent,
   calendarColors,
   calendarError,
   calendarZone,
@@ -38,8 +35,7 @@ import { useCalendar } from "@/modules/calendar/use-calendar";
 import { EventForm } from "@/modules/calendar/components/event-form";
 import { EventDetails } from "@/modules/calendar/components/event-details";
 import { useNotes } from "@/modules/notes/hooks";
-import { noteError, noteTime, plainText } from "@/modules/notes/model";
-import { noteService } from "@/modules/notes/service";
+import { noteTime, plainText } from "@/modules/notes/model";
 import {
   getProjectProgress,
   projectErrorMessage,
@@ -48,7 +44,6 @@ import {
 } from "@/modules/projects/model";
 import { projectService } from "@/modules/projects/service";
 import { useProjects } from "@/modules/projects/use-projects";
-import { ProjectDialog } from "@/modules/projects/components/project-dialog";
 import { selectOverview } from "./model";
 import "@/modules/calendar/calendar.css";
 import "@/modules/projects/projects.css";
@@ -58,11 +53,9 @@ export function OverviewScreen() {
   const calendar = useCalendar();
   const projects = useProjects();
   const notes = useNotes();
-  const router = useRouter();
   const [today, setToday] = useState("");
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [noteTab, setNoteTab] = useState<"recent" | "pinned">("recent");
-  const [creatingProject, setCreatingProject] = useState(false);
   const [form, setForm] = useState<{
     initial: EventInput;
     event?: CalendarEvent;
@@ -76,8 +69,6 @@ export function OverviewScreen() {
   const [eventError, setEventError] = useState("");
   const [taskPending, setTaskPending] = useState("");
   const [taskError, setTaskError] = useState("");
-  const [notePending, setNotePending] = useState(false);
-  const [createError, setCreateError] = useState("");
   useEffect(() => {
     const update = () =>
       setToday(DateTime.now().setZone(calendarZone).toISODate()!);
@@ -125,19 +116,6 @@ export function OverviewScreen() {
       setTaskPending("");
     }
   }
-  async function createNote() {
-    if (notePending) return;
-    setNotePending(true);
-    setCreateError("");
-    try {
-      const note = await noteService.create();
-      router.push("/notes/" + note.id);
-    } catch (cause) {
-      setCreateError(noteError(cause));
-    } finally {
-      setNotePending(false);
-    }
-  }
   async function changeEvent(operation: () => Promise<unknown>) {
     if (eventPending) return;
     setEventPending(true);
@@ -167,43 +145,7 @@ export function OverviewScreen() {
             {localTime(today).setLocale("vi").toFormat("cccc, dd/MM/yyyy")}
           </time>
         </div>
-        <div className="dashboard-actions" aria-label="Tạo nhanh">
-          <button
-            className="button secondary"
-            type="button"
-            disabled={calendar.loading || !!calendar.error}
-            onClick={() =>
-              setForm({ initial: blankEvent(day, calendar.settings) })
-            }
-          >
-            <CalendarDays size={17} />
-            Tạo lịch hẹn
-          </button>
-          <button
-            className="button secondary"
-            type="button"
-            disabled={projects.loading || !!projects.error}
-            onClick={() => setCreatingProject(true)}
-          >
-            <FolderKanban size={17} />
-            Tạo dự án
-          </button>
-          <button
-            className="button primary"
-            type="button"
-            disabled={notes.loading || !!notes.error || notePending}
-            onClick={() => void createNote()}
-          >
-            <Plus size={17} />
-            {notePending ? "Đang tạo…" : "Tạo ghi chú"}
-          </button>
-        </div>
       </div>
-      {createError && (
-        <p className="dashboard-error" role="alert">
-          {createError}
-        </p>
-      )}
       <div className="dashboard-metrics" aria-label="Thống kê tổng quan">
         <Metric
           icon={CalendarDays}
@@ -572,12 +514,6 @@ export function OverviewScreen() {
           </BlockState>
         </section>
       </div>
-      {creatingProject && (
-        <ProjectDialog
-          onClose={() => setCreatingProject(false)}
-          onSave={(input) => projectService.create(input)}
-        />
-      )}
       {form && (
         <EventForm
           {...form}

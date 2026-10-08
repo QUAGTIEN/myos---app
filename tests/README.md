@@ -18,7 +18,7 @@ workspace.spec.ts: 8 cases desktop/mobile cho lịch tháng/tuần, bộ thời 
 
 Thanh công cụ Lịch: workspace kiểm tra menu Thao tác lịch mở bằng Enter, đóng bằng Escape/click ngoài, trả focus sau dialog, ẩn sửa/sao chép khi chưa chọn bộ và không tràn ở 320 px. Calendar/workspace mở menu trước khi xuất `.ics`; kiểm tra điều hướng tháng dùng heading trong region Bộ lịch thay vì phụ thuộc class bố cục cũ.
 
-attendance.spec.ts kiểm tra nội dung ngày tháng/tuần, toolbar desktop một hàng và tab sát header, chấm công theo tháng, editor trong ô ngày, ghi chú riêng không tăng số ngày đã chấm, lưu nội dung đang gõ, giờ sai giữ nháp, Escape khôi phục, xóa có xác nhận, màu ô, hoạt động độc lập, conflict/rollback, ngày nhuận và mobile 320 px. calendar-helpers.ts dùng chung luồng tạo lịch hẹn qua ô ngày và chấm trực tiếp. Firebase suite thêm lưu bảng tháng nguyên tử, cách ly UID, schema/version và giữ nháp khi mạng lỗi; không tạo dữ liệu thật.
+attendance.spec.ts kiểm tra nội dung ngày tháng/tuần, toolbar, ghi chú tính đã chấm/tự lưu và reload, công việc/tháng độc lập, workspace gập/mở, xóa có xác nhận, giữ nháp khi lỗi và xung đột tab. Schema cũ/ngày nhuận vẫn giữ. Firebase suite thêm tuần tự hóa việc gõ trong lúc cloud write, tự lưu offline/retry, version/ownership và xóa công việc khóa tháng/không phục hồi. Tổng quan kiểm tra không còn nút tạo nhanh, vẫn sửa lịch hiện hữu.
 
 Kiểm chứng ngày 08/10/2026: lint, typecheck, format và production build đạt; Attendance desktop/mobile đạt 7 cases, 1 skip để không lặp schema test; Firebase Emulator đạt 14 cases. Suite local đầy đủ đã chạy 92 cases: 82 đạt, 8 skip và 2 lỗi locator của Attendance; sau khi sửa locator, các cases Attendance chạy lại đạt. Calendar/domain/workspace cũng chạy lại sau thay đổi giao diện. Không xác nhận tốc độ hoặc dữ liệu trên deployment thật từ các kết quả Emulator này.
 
@@ -43,3 +43,5 @@ Khi triển khai Auth/cloud, bổ sung kiểm thử quyền Firestore/Storage b�
 ## G2 Firebase
 
 `pnpm test:firebase` build với env demo-myos, chạy Auth/Firestore Emulator (Java 21+) và firebase.spec.ts qua port 3101, desktop/mobile. Kiểm tra đăng ký/đăng nhập/quên mật khẩu/logout, hồ sơ, CRUD cloud, hai UID, từ chối liên kết chéo, transaction, version conflict, 20 revisions, Rules và cookie đã thu hồi. `pnpm test:local` tự build local trước suite cũ. Sau đó `pnpm build` để khôi phục cấu hình thực tế. Emulator chỉ demo project, không dùng key Admin hoặc dữ liệu thật.
+
+Chấm công theo nội dung/tự lưu 09/10/2026: lint/typecheck/format/build đạt; Attendance + Tổng quan đạt 17 kiểm tra (1 skip), Attendance cuối đạt 9 (1 skip). Firebase Emulator đạt 16 kiểm tra, gồm ghi trong lúc request đang chạy, offline giữ nháp, ownership/version và xóa công việc khóa bảng tháng. Đã xem giao diện thật desktop/mobile; chưa xác nhận deployment Vercel thật.
