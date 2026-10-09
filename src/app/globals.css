@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 :root {
   --background: #f2f4f8;
@@ -42,6 +44,46 @@
   --color-background: var(--background);
   --color-foreground: var(--ink);
   --font-sans: "Be Vietnam Pro", Arial, sans-serif;
+  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  /* Map shadcn semantics without changing MyOS brand/text tokens. */
+  --color-card: var(--surface);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--primary);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--surface-soft);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--surface-soft);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--primary-soft);
+  --color-accent-foreground: var(--primary);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--line);
+  --color-input: var(--line);
+  /* MyOS uses background/text for keyboard focus, without a focus ring. */
+  --color-ring: transparent;
+  --color-chart-1: var(--blue-solid);
+  --color-chart-2: var(--turquoise-solid);
+  --color-chart-3: var(--orange-solid);
+  --color-chart-4: var(--violet-solid);
+  --color-chart-5: var(--danger);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-text);
+  --color-sidebar-primary: var(--primary);
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: var(--sidebar-hover);
+  --color-sidebar-accent-foreground: var(--sidebar-text);
+  --color-sidebar-border: var(--sidebar-line);
+  --color-sidebar-ring: transparent;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 * {
   box-sizing: border-box;

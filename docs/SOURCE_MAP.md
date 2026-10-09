@@ -11,6 +11,7 @@ MYOS/
 ├── MYOS_ARCHITECTURE.md             # Kiến trúc sản phẩm và cloud mục tiêu
 ├── package.json, pnpm-lock.yaml, pnpm-workspace.yaml
 ├── tsconfig.json, next.config.ts, postcss.config.mjs
+├── components.json                 # shadcn/ui Radix/Nova, registry và alias
 ├── eslint.config.mjs, playwright.config.ts
 ├── .env.example, .gitignore, .github/workflows/ci.yml
 ├── src/
@@ -38,6 +39,7 @@ MYOS/
 │   │   ├── notes/                  # Như Projects, thêm autosave và rich editor
 │   │   └── calendar/               # Thêm recurrence, ics và bộ lịch
 │   └── lib/
+│       ├── utils.ts                # cn cho component shadcn; không có nghiệp vụ/I/O
 │       ├── local-database.ts       # IndexedDB local, version 5
 │       ├── repository-cache.tsx    # SWR provider/hook, cache theo UID, cập nhật sau commit
 │       └── firebase/               # client, server, session, data, profile, cloud-client

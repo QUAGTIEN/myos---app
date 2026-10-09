@@ -6,6 +6,8 @@ Nền màn hình xác thực: [A Green Forest — Lauri Poldre / Pexels](https:/
 
 ## Trạng thái hiện tại
 
+**Nền UI (10/10/2026):** shadcn/ui đã khởi tạo với Radix/Nova, Tailwind v4 và Lucide. `components.json` cấu hình registry/alias; `src/lib/utils.ts` cung cấp `cn`. Các màu utility trong `globals.css` dùng lại tokens MyOS và font Be Vietnam Pro, không thay bảng màu bằng preset mặc định. Chưa chuyển các màn hình sang component shadcn. Thêm từng component khi cần bằng `pnpm exec shadcn add <tên>`; xem diff sau khi thêm để giữ quy tắc focus bằng nền/chữ, không viền nổi. Không chạy lại `init`/`apply` mặc định vì chúng có thể ghi đè màu và font. [CLI chính thức](https://ui.shadcn.com/docs/cli).
+
 Lịch hiển thị thanh ngang xếp một cột, nền pastel đậm theo bộ lịch và chữ navy; tiêu đề dài xuống dòng. Ô ngày tự giãn để hiện toàn bộ mục, không giới hạn ba mục; lịch nhiều ngày giữ cách trải qua các ngày để bảo toàn kéo thả.
 
 **Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần; Chấm công nhập nội dung trực tiếp theo ngày, có nội dung là đã chấm và ô xanh nhạt. Tự lưu sau 700 ms ngừng gõ, version check, giữ nháp khi lỗi/xung đột. Có xóa công việc với xác nhận; Lịch và Chấm công dùng toàn bộ chiều rộng, không có cột thông tin bên phải. Tổng quan không còn ba nút tạo nhanh. Firebase theo UID, IndexedDB v5 giữ dữ liệu cũ. Xóa công việc là xóa logic, các tháng bị khóa đọc/ghi; không có khôi phục từ UI. [ADR 007](docs/decisions/007-calendar-attendance.md).

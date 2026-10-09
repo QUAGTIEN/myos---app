@@ -72,6 +72,8 @@ Giả định:
 | Source/CI | GitHub private repo + GitHub Actions | Kiểm tra trước triển khai |
 | Giám sát | Cloud Logging + Cloud Monitoring | Lỗi và tình trạng worker |
 
+Khởi tạo shadcn/ui ngày 10/10/2026: Radix/Nova, TypeScript/RSC, alias `@/components/ui` và `@/lib/utils` trong `components.json`. Component được thêm theo nhu cầu, không clone toàn repo hoặc thay đồng loạt UI. `globals.css` ánh xạ semantic utilities vào tokens MyOS: `muted` dùng surface-soft, muted-foreground dùng màu chữ muted; accent dùng primary-soft. Giữ Be Vietnam Pro, màu navy/turquoise, radius và focus nền/chữ hiện có. CLI `init`/`apply` mặc định có thể thay màu/font nên mọi lần thêm component phải review diff.
+
 Chọn phiên bản stable tương thích, commit lockfile; kiểm tra matrix Next.js/App Hosting trước khi chốt version. Không dùng latest tự động trong production. Functions hiện có Node.js 22 trong runtime hỗ trợ. [Quản lý Functions](https://firebase.google.com/docs/functions/manage-functions)
 
 Dùng Zod schema và Firestore converters cho kiểu dữ liệu; không giả định TypeScript đảm bảo document cũ đúng schema. Không thêm ORM SQL.
