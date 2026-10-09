@@ -20,7 +20,14 @@
   --warm-ink: #95541c;
   --blue: #e9f0ff;
   --blue-ink: #315d9b;
-  --radius: 14px;
+  --radius: 8px;
+  --radius-control: 6px;
+  --radius-dialog: 10px;
+  --text-body: 14px;
+  --text-label: 14px;
+  --text-meta: 12px;
+  --space-panel: 24px;
+  --space-group: 16px;
   --layer-header: 10;
   --layer-overlay: 40;
   --layer-drawer: 50;
@@ -51,6 +58,7 @@
   --color-popover: var(--surface);
   --color-popover-foreground: var(--ink);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: #ffffff;
   --color-secondary: var(--surface-soft);
   --color-secondary-foreground: var(--ink);
@@ -78,9 +86,9 @@
   --color-sidebar-border: var(--sidebar-line);
   --color-sidebar-ring: transparent;
   --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --radius-md: var(--radius-control);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-xl: var(--radius-dialog);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
@@ -93,7 +101,7 @@ body {
   background: var(--background);
   color: var(--ink);
   font-family: "Be Vietnam Pro", Arial, sans-serif;
-  font-size: 15px;
+  font-size: var(--text-body);
   line-height: 1.65;
 }
 button,
@@ -370,9 +378,9 @@ button:disabled {
   align-items: center;
   justify-content: center;
   gap: 9px;
-  min-height: 44px;
-  padding: 10px 17px;
-  border-radius: 8px;
+  min-height: 40px;
+  padding: 8px 16px;
+  border-radius: var(--radius-control);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
@@ -395,8 +403,8 @@ button:disabled {
   background: var(--primary-soft);
 }
 .button.small {
-  min-height: 38px;
-  padding: 7px 13px;
+  min-height: 32px;
+  padding: 6px 12px;
 }
 .icon-button {
   display: inline-flex;
@@ -424,7 +432,7 @@ button:disabled {
 .empty-icon {
   width: 74px;
   height: 74px;
-  border-radius: 19px;
+  border-radius: var(--radius);
   background: var(--blue);
   color: var(--blue-ink);
   display: grid;
@@ -449,7 +457,7 @@ button:disabled {
   box-shadow: var(--shadow);
 }
 .large-empty .empty-state {
-  min-height: 310px;
+  min-height: 240px;
 }
 .calendar-month {
   display: flex;
@@ -856,4 +864,56 @@ button:disabled {
 
 .account-session-actions {
   margin-top: 14px;
+}
+
+/* Component defaults share the same scale as existing module styles. */
+[data-slot="button"] {
+  font-size: var(--text-label);
+  line-height: 1.5;
+  font-weight: 500;
+}
+[data-slot="button"][data-variant="outline"] {
+  border: 1px solid var(--line);
+}
+[data-slot="button"][data-variant="link"] {
+  height: auto;
+  padding: 0;
+}
+.project-card-menu-actions [data-slot="button"],
+.schedule-tools-actions [data-slot="button"],
+.note-library-sidebar > [data-slot="button"] {
+  justify-content: flex-start;
+}
+[data-slot="input"],
+[data-slot="textarea"],
+[data-slot="native-select"] {
+  border-radius: var(--radius-control);
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
+:is(
+  [data-slot="input"],
+  [data-slot="textarea"],
+  [data-slot="native-select"]
+):focus-visible {
+  outline: none;
+  box-shadow: none;
+  background: var(--primary-soft);
+  border-color: var(--line);
+}
+[data-slot="tabs-trigger"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+@media (max-width: 600px) {
+  [data-slot="input"],
+  [data-slot="textarea"],
+  [data-slot="native-select"] {
+    font-size: 16px;
+  }
+  .button:not(.small) {
+    min-height: 44px;
+  }
 }

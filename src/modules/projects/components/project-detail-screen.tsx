@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { useNotes } from "@/modules/notes/hooks";
 import { emptyNoteInput, noteError } from "@/modules/notes/model";
 import { noteService } from "@/modules/notes/service";
@@ -69,13 +70,15 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
               Về Dự án
             </Link>
             {error && (
-              <button
+              <Button
+                variant="outline"
+                size="default"
                 className="button secondary"
                 type="button"
                 onClick={refresh}
               >
                 Thử lại
-              </button>
+              </Button>
             )}
           </EmptyState>
         </section>
@@ -126,7 +129,9 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
           </div>
         </div>
         <div className="project-detail-actions">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             type="button"
             className="button secondary small"
             disabled={pending}
@@ -139,8 +144,10 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
           >
             {project.pinned ? <PinOff size={16} /> : <Pin size={16} />}
             {project.pinned ? "Bỏ ghim" : "Ghim"}
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             type="button"
             className="button secondary small"
             onClick={archive}
@@ -148,8 +155,10 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
           >
             <Archive size={16} />
             {archived ? "Khôi phục" : "Lưu trữ"}
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="default"
+            size="sm"
             type="button"
             className="button primary small"
             disabled={pending || archived}
@@ -157,16 +166,22 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
           >
             <Pencil size={16} aria-hidden="true" />
             Sửa dự án
-          </button>
+          </Button>
         </div>
       </div>
 
       {error && (
         <div className="project-alert error" role="alert">
           <span>{error}</span>
-          <button type="button" className="text-link" onClick={refresh}>
+          <Button
+            variant="link"
+            size="default"
+            type="button"
+            className="text-link"
+            onClick={refresh}
+          >
             Tải bản mới
-          </button>
+          </Button>
         </div>
       )}
       {message && (
@@ -190,7 +205,9 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
             <div className="project-section-heading">
               <h2>Checklist & cột mốc</h2>
               <div>
-                <button
+                <Button
+                  variant="outline"
+                  size="sm"
                   type="button"
                   className="button secondary small"
                   disabled={pending || archived || project.items.length >= 200}
@@ -198,8 +215,10 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
                 >
                   <Flag size={15} />
                   Thêm cột mốc
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="default"
+                  size="sm"
                   type="button"
                   className="button primary small"
                   disabled={pending || archived || project.items.length >= 200}
@@ -207,7 +226,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
                 >
                   <Plus size={15} />
                   Thêm mục
-                </button>
+                </Button>
               </div>
             </div>
             {!project.items.length ? (
@@ -267,7 +286,9 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
                           <CalendarDays size={15} />
                         </Link>
                       )}
-                      <button
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         type="button"
                         className="icon-button"
                         disabled={pending || archived || index === 0}
@@ -280,8 +301,10 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
                         }
                       >
                         <ArrowUp size={15} />
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         type="button"
                         className="icon-button"
                         disabled={
@@ -298,8 +321,10 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
                         }
                       >
                         <ArrowDown size={15} />
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         type="button"
                         className="icon-button"
                         disabled={pending || archived}
@@ -309,8 +334,10 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
                         }
                       >
                         <Pencil size={15} />
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         type="button"
                         className="icon-button"
                         disabled={pending || archived}
@@ -318,7 +345,7 @@ export function ProjectDetailScreen({ projectId }: { projectId: string }) {
                         onClick={() => removeItem(item)}
                       >
                         <Trash2 size={15} />
-                      </button>
+                      </Button>
                     </div>
                   </li>
                 ))}
@@ -429,7 +456,9 @@ function ProjectNotes({
           <Link2 size={17} />
           Ghi chú liên quan
         </h2>
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           type="button"
           className="button secondary small"
           disabled={loading || pending || archived || !!error}
@@ -439,14 +468,20 @@ function ProjectNotes({
         >
           <Plus size={16} />
           Tạo ghi chú
-        </button>
+        </Button>
       </div>
       {(error || actionError) && (
         <p role="alert">
           {error || actionError}{" "}
-          <button className="text-link" type="button" onClick={refresh}>
+          <Button
+            variant="link"
+            size="default"
+            className="text-link"
+            type="button"
+            onClick={refresh}
+          >
             Thử lại
-          </button>
+          </Button>
         </p>
       )}
       {loading ? (

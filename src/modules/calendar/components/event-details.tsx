@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { Check, Pencil, Repeat2, Star, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -163,7 +164,9 @@ export function EventDetails({
           </p>
         )}
         <div className="schedule-detail-actions">
-          <button
+          <Button
+            variant="outline"
+            size="default"
             type="button"
             className="button secondary"
             disabled={pending}
@@ -171,8 +174,10 @@ export function EventDetails({
           >
             <Pencil size={16} />
             {"Sửa " + label}
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="default"
             type="button"
             className="button secondary"
             disabled={pending}
@@ -180,8 +185,10 @@ export function EventDetails({
           >
             <Check size={16} />
             {occurrence.completed ? "Bỏ hoàn thành" : "Hoàn thành buổi này"}
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="default"
             type="button"
             className="button secondary schedule-danger"
             disabled={pending}
@@ -198,7 +205,7 @@ export function EventDetails({
           >
             <Trash2 size={16} />
             {whole ? "Hủy toàn chuỗi" : "Hủy " + label}
-          </button>
+          </Button>
         </div>
       </div>
     </CalendarDialog>

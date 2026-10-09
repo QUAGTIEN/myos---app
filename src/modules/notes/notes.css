@@ -41,7 +41,7 @@
   background: transparent;
   color: var(--muted);
   text-align: left;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 13px;
 }
 .note-library-sidebar > button > span:last-child:not(.note-folder-name) {
@@ -95,7 +95,7 @@
   padding: 0 14px;
   background: var(--surface-soft);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius);
   flex: 1;
   min-width: 0;
   color: var(--muted);
@@ -145,7 +145,7 @@
   min-width: 0;
   padding: 20px;
   min-height: 220px;
-  border-radius: 10px;
+  border-radius: var(--radius);
   transition: box-shadow 0.15s;
   background: var(--lavender);
 }
@@ -367,7 +367,7 @@
   white-space: pre-wrap;
   background: var(--surface-soft);
   padding: 15px;
-  border-radius: 8px;
+  border-radius: var(--radius);
 }
 .note-prose hr {
   border: 0;
@@ -405,7 +405,7 @@
   position: relative;
   margin: 20px 0;
   border: 1px solid var(--line);
-  border-radius: 9px;
+  border-radius: var(--radius);
   padding: 10px;
   background: var(--surface-soft);
 }
@@ -509,7 +509,7 @@
   border: 1px solid #efcec9;
   background: #fff3f0;
   color: #953e35;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 13px;
 }
 .note-error-actions {
@@ -564,7 +564,7 @@
 }
 .note-history-preview {
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius);
   margin: 20px 0;
   overflow: hidden;
 }

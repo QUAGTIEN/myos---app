@@ -1,4 +1,7 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { LoaderCircle, X } from "lucide-react";
@@ -97,7 +100,9 @@ export function ProjectDialog({
                 Một mục tiêu rõ ràng, từng bước tiến cụ thể.
               </Dialog.Description>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               type="button"
               className="icon-button"
               onClick={close}
@@ -105,14 +110,14 @@ export function ProjectDialog({
               aria-label="Đóng form dự án"
             >
               <X size={20} />
-            </button>
+            </Button>
           </div>
           <form onSubmit={submit}>
             <fieldset disabled={pending} className="project-form-fields">
               <label htmlFor="project-title">
                 Tên dự án <span>*</span>
               </label>
-              <input
+              <Input
                 id="project-title"
                 required
                 maxLength={120}
@@ -122,7 +127,7 @@ export function ProjectDialog({
                 autoFocus
               />
               <label htmlFor="project-description">Nội dung</label>
-              <textarea
+              <Textarea
                 id="project-description"
                 rows={4}
                 maxLength={20000}
@@ -171,7 +176,7 @@ export function ProjectDialog({
                 </div>
                 <div>
                   <label htmlFor="project-start">Ngày bắt đầu</label>
-                  <input
+                  <Input
                     id="project-start"
                     type="date"
                     value={input.startDate}
@@ -180,7 +185,7 @@ export function ProjectDialog({
                 </div>
                 <div>
                   <label htmlFor="project-due">Hạn dự kiến</label>
-                  <input
+                  <Input
                     id="project-due"
                     type="date"
                     min={input.startDate || undefined}
@@ -206,7 +211,7 @@ export function ProjectDialog({
               {input.progressMode === "manual" && (
                 <>
                   <label htmlFor="project-progress">Tiến độ (%)</label>
-                  <input
+                  <Input
                     id="project-progress"
                     type="number"
                     min={0}
@@ -236,15 +241,19 @@ export function ProjectDialog({
               </p>
             )}
             <div className="project-modal-actions">
-              <button
+              <Button
+                variant="outline"
+                size="default"
                 type="button"
                 className="button secondary"
                 onClick={close}
                 disabled={pending}
               >
                 Hủy
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="default"
+                size="default"
                 type="submit"
                 className="button primary"
                 disabled={pending}
@@ -257,7 +266,7 @@ export function ProjectDialog({
                   />
                 )}
                 {pending ? "Đang lưu…" : project ? "Lưu thay đổi" : "Tạo dự án"}
-              </button>
+              </Button>
             </div>
           </form>
         </Dialog.Content>

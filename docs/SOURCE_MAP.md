@@ -29,12 +29,13 @@ MYOS/
 │   │       └── settings/page.tsx
 │   ├── components/
 │   │   ├── app-shell.tsx           # Sidebar/header/menu desktop và mobile
-│   │   └── page-ui.tsx             # Heading, empty và skeleton
+│   │   ├── page-ui.tsx             # Heading, empty và skeleton
+│   │   └── ui/                     # shadcn Button/Input/Textarea/Card/Badge/Tabs/NativeSelect
 │   ├── modules/
 │   │   ├── README.md               # Hướng dẫn chung của cả 5 phân hệ
 │   │   ├── overview/               # overview-screen.tsx, model.ts, overview.css
 │   │   ├── auth/                   # auth-screen.tsx, account-context.tsx, auth.css
-│   │   ├── settings/settings-screen.tsx
+│   │   ├── settings/               # settings-screen.tsx, settings.css
 │   │   ├── projects/               # model, service, repository, hook, CSS, components
 │   │   ├── notes/                  # Như Projects, thêm autosave và rich editor
 │   │   └── calendar/               # Thêm recurrence, ics và bộ lịch

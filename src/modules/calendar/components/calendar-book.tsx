@@ -1,4 +1,6 @@
 "use client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useRef, useState, type FormEvent } from "react";
 import { calendarError, type CalendarSettings } from "../model";
 import { copyCalendarGroup, calendarRepository } from "../repository";
@@ -75,7 +77,7 @@ export function TimetableDialog({
         <fieldset disabled={pending}>
           <label>
             Tên bộ lịch
-            <input
+            <Input
               required
               autoFocus
               maxLength={40}
@@ -113,17 +115,25 @@ export function TimetableDialog({
           </p>
         )}
         <div className="schedule-form-actions">
-          <button
+          <Button
+            variant="outline"
+            size="default"
             className="button secondary"
             type="button"
             disabled={pending}
             onClick={onClose}
           >
             Hủy
-          </button>
-          <button className="button primary" type="submit" disabled={pending}>
+          </Button>
+          <Button
+            variant="default"
+            size="default"
+            className="button primary"
+            type="submit"
+            disabled={pending}
+          >
             {pending ? "Đang lưu…" : "Lưu bộ lịch"}
-          </button>
+          </Button>
         </div>
       </form>
     </CalendarDialog>

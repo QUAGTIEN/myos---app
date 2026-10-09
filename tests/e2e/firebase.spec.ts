@@ -110,7 +110,7 @@ test("attendance cloud stores atomic months, rejects stale/foreign records and k
       (await context.request.get("/api/data?kind=attendanceMonths")).status(),
     ).toBe(400);
     await page.goto("/calendar");
-    await page.getByRole("button", { name: "Chấm công", exact: true }).click();
+    await page.getByRole("tab", { name: "Chấm công", exact: true }).click();
     await page.getByLabel("Tháng chấm công").fill("2026-10");
     await expect(
       page.getByRole("button", {
@@ -234,7 +234,7 @@ test("attendance autosave keeps edits typed during a pending cloud write", async
 }) => {
   await account(context.request);
   await page.goto("/calendar");
-  await page.getByRole("button", { name: "Chấm công", exact: true }).click();
+  await page.getByRole("tab", { name: "Chấm công", exact: true }).click();
   await page
     .getByRole("button", { name: "Tạo công việc", exact: true })
     .click();
@@ -352,7 +352,10 @@ test("shared data survives navigation, deduplicates dialogs and updates only aff
     await expect(page).toHaveURL(new RegExp(path + "$"));
     await expect(page.locator(".page-skeleton")).toHaveCount(0);
     await expect(
-      page.getByRole("button", { name: ready, exact: true }),
+      page.getByRole(ready === "Chấm công" ? "tab" : "button", {
+        name: ready,
+        exact: true,
+      }),
     ).toBeEnabled();
   }
   await openAppointment(page);

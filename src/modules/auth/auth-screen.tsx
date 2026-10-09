@@ -1,4 +1,6 @@
 "use client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import forestBackground from "../../../public/images/login-forest.jpg";
@@ -159,7 +161,7 @@ export function AuthScreen({ mode }: { mode: Mode }) {
             {mode === "register" && (
               <label>
                 Tên hiển thị
-                <input
+                <Input
                   autoComplete="name"
                   required
                   maxLength={80}
@@ -170,7 +172,7 @@ export function AuthScreen({ mode }: { mode: Mode }) {
             )}
             <label>
               Email
-              <input
+              <Input
                 type="email"
                 autoComplete="username"
                 required
@@ -198,13 +200,15 @@ export function AuthScreen({ mode }: { mode: Mode }) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="default"
                     type="button"
                     aria-label={visible ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                     onClick={() => setVisible(!visible)}
                   >
                     {visible ? <EyeOff size={19} /> : <Eye size={19} />}
-                  </button>
+                  </Button>
                 </div>
               </label>
             )}
@@ -244,7 +248,12 @@ export function AuthScreen({ mode }: { mode: Mode }) {
                 {message}
               </p>
             )}
-            <button className="button primary auth-submit" type="submit">
+            <Button
+              variant="default"
+              size="default"
+              className="button primary auth-submit"
+              type="submit"
+            >
               {pending
                 ? "Đang xử lý…"
                 : mode === "forgot"
@@ -252,7 +261,7 @@ export function AuthScreen({ mode }: { mode: Mode }) {
                   : created
                     ? "Thử đăng nhập lại"
                     : title}
-            </button>
+            </Button>
           </fieldset>
         </form>
         <p className="auth-footer">

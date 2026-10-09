@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { firebaseEnabled } from "@/lib/firebase/client";
 /* eslint-disable @next/next/no-img-element -- IndexedDB images use local Blob URLs with their natural dimensions. */
 import { Node, mergeAttributes, type JSONContent } from "@tiptap/core";
@@ -82,7 +83,9 @@ function LocalImageView({ node, editor, deleteNode }: NodeViewProps) {
       )}
       <figcaption>{String(node.attrs.name || "Ảnh ghi chú")}</figcaption>
       {editor.isEditable && (
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
           type="button"
           className="icon-button"
           aria-label={"Gỡ ảnh " + node.attrs.name}
@@ -90,7 +93,7 @@ function LocalImageView({ node, editor, deleteNode }: NodeViewProps) {
           onClick={deleteNode}
         >
           <Trash2 size={16} />
-        </button>
+        </Button>
       )}
     </NodeViewWrapper>
   );
@@ -296,7 +299,9 @@ export function RichEditor({
           aria-label="Định dạng ghi chú"
         >
           {buttons.map(({ label, icon: Icon, selected, run }) => (
-            <button
+            <Button
+              variant="ghost"
+              size="default"
               key={label}
               type="button"
               className={selected ? "selected" : ""}
@@ -307,10 +312,12 @@ export function RichEditor({
               onClick={run}
             >
               <Icon size={18} />
-            </button>
+            </Button>
           ))}
           <span className="note-toolbar-divider" />
-          <button
+          <Button
+            variant="ghost"
+            size="default"
             type="button"
             aria-label="Hoàn tác"
             title="Hoàn tác"
@@ -318,8 +325,10 @@ export function RichEditor({
             onClick={() => editor.chain().focus().undo().run()}
           >
             <Undo2 size={18} />
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="ghost"
+            size="default"
             type="button"
             aria-label="Làm lại"
             title="Làm lại"
@@ -327,8 +336,10 @@ export function RichEditor({
             onClick={() => editor.chain().focus().redo().run()}
           >
             <Redo2 size={18} />
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="ghost"
+            size="default"
             type="button"
             aria-label="Thêm ảnh"
             title="PNG, JPEG, WebP, GIF · tối đa 5 MB/ảnh"
@@ -336,7 +347,7 @@ export function RichEditor({
             onClick={() => fileInput.current?.click()}
           >
             <ImagePlus size={18} />
-          </button>
+          </Button>
           <input
             ref={fileInput}
             className="sr-only"

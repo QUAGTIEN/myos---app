@@ -72,7 +72,7 @@ Giả định:
 | Source/CI | GitHub private repo + GitHub Actions | Kiểm tra trước triển khai |
 | Giám sát | Cloud Logging + Cloud Monitoring | Lỗi và tình trạng worker |
 
-Khởi tạo shadcn/ui ngày 10/10/2026: Radix/Nova, TypeScript/RSC, alias `@/components/ui` và `@/lib/utils` trong `components.json`. Component được thêm theo nhu cầu, không clone toàn repo hoặc thay đồng loạt UI. `globals.css` ánh xạ semantic utilities vào tokens MyOS: `muted` dùng surface-soft, muted-foreground dùng màu chữ muted; accent dùng primary-soft. Giữ Be Vietnam Pro, màu navy/turquoise, radius và focus nền/chữ hiện có. CLI `init`/`apply` mặc định có thể thay màu/font nên mọi lần thêm component phải review diff.
+shadcn/ui ngày 10/10/2026: Radix/Nova, TypeScript/RSC, alias `@/components/ui` và `@/lib/utils`. Button/Input/Textarea dùng chung ở màn hình/form; Cài đặt và Dự án dùng Card/Badge, thiết lập dùng NativeSelect. Tabs có role/tablist/tabpanel và điều hướng bàn phím; Lịch giữ guard nháp/pending khi chuyển tab. FullCalendar, Tiptap, file/checkbox và Radix dialog hiện hữu tiếp tục giữ hành vi nghiệp vụ. `globals.css` ánh xạ semantic utilities vào tokens MyOS, dùng muted cho chữ và surface-soft cho nền muted, primary-soft cho accent. Hệ bo góc 6/8/10 px, Be Vietnam Pro và focus nền/chữ dùng chung; không thêm viền focus nổi. CLI `init`/`apply` mặc định có thể thay màu/font nên mọi lần thêm component phải review diff. Các thay đổi UI không thay repository/schema hay quy tắc lưu.
 
 Chọn phiên bản stable tương thích, commit lockfile; kiểm tra matrix Next.js/App Hosting trước khi chốt version. Không dùng latest tự động trong production. Functions hiện có Node.js 22 trong runtime hỗ trợ. [Quản lý Functions](https://firebase.google.com/docs/functions/manage-functions)
 

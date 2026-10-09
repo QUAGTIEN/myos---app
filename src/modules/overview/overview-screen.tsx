@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 
 import {
   ArrowRight,
@@ -197,29 +198,35 @@ export function OverviewScreen() {
           <div className="dashboard-date-controls">
             <time dateTime={day}>{dateTitle}</time>
             <div>
-              <button
+              <Button
+                variant="outline"
+                size="sm"
                 className="button secondary small"
                 type="button"
                 onClick={() => setSelectedDay(null)}
               >
                 Hôm nay
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
                 className="icon-button"
                 aria-label="Ngày trước"
                 type="button"
                 onClick={() => setSelectedDay(addDays(day, -1))}
               >
                 <ChevronLeft size={17} />
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
                 className="icon-button"
                 aria-label="Ngày sau"
                 type="button"
                 onClick={() => setSelectedDay(addDays(day, 1))}
               >
                 <ChevronRight size={17} />
-              </button>
+              </Button>
             </div>
           </div>
           <BlockState
@@ -263,7 +270,9 @@ export function OverviewScreen() {
                         </>
                       )}
                     </div>
-                    <button
+                    <Button
+                      variant="ghost"
+                      size="default"
                       type="button"
                       className="dashboard-agenda-entry"
                       onClick={() => {
@@ -287,7 +296,7 @@ export function OverviewScreen() {
                           <Check size={14} aria-label="Đã hoàn thành" />
                         )}
                       </span>
-                    </button>
+                    </Button>
                   </li>
                 );
               })}
@@ -427,21 +436,25 @@ export function OverviewScreen() {
             role="group"
             aria-label="Lọc ghi chú tổng quan"
           >
-            <button
+            <Button
+              variant="ghost"
+              size="default"
               type="button"
               aria-pressed={noteTab === "recent"}
               onClick={() => setNoteTab("recent")}
             >
               Mới nhất
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="default"
               type="button"
               aria-pressed={noteTab === "pinned"}
               onClick={() => setNoteTab("pinned")}
             >
               <Pin size={13} />
               Đã ghim
-            </button>
+            </Button>
           </div>
           <BlockState
             state={notes}
@@ -659,13 +672,15 @@ function BlockState({
     return (
       <div className="dashboard-block-state dashboard-error" role="alert">
         <p>{state.error}</p>
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           type="button"
           className="button secondary small"
           onClick={state.refresh}
         >
           Thử lại
-        </button>
+        </Button>
       </div>
     );
   if (empty) return <p className="dashboard-block-state">{emptyText}</p>;

@@ -1,6 +1,9 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { firebaseEnabled } from "@/lib/firebase/client";
-import { CalendarDays, Plus } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { NativeSelect } from "@/components/ui/native-select";
 import { useState, type FormEvent } from "react";
 import { calendarColors, calendarError, type CalendarSettings } from "../model";
 import { calendarRepository } from "../repository";
@@ -10,24 +13,33 @@ import "../calendar.css";
 export function CalendarSettingsPanel() {
   const data = useCalendar();
   return (
-    <section className="panel settings-panel schedule-settings">
-      <h2>
-        <CalendarDays size={20} />
-        Lịch & thời gian
-      </h2>
-      {data.loading ? (
-        <p>Đang tải cài đặt lịch…</p>
-      ) : data.error ? (
-        <p role="alert">
-          {data.error}{" "}
-          <button type="button" className="text-link" onClick={data.refresh}>
-            Thử lại
-          </button>
-        </p>
-      ) : (
-        <SettingsForm settings={data.settings} />
-      )}
-    </section>
+    <Card asChild className="settings-section schedule-settings">
+      <section>
+        <CardHeader>
+          <h2>Lịch & thời gian</h2>
+        </CardHeader>
+        <CardContent>
+          {data.loading ? (
+            <p>Đang tải cài đặt lịch…</p>
+          ) : data.error ? (
+            <p role="alert">
+              {data.error}{" "}
+              <Button
+                variant="link"
+                size="default"
+                type="button"
+                className="text-link"
+                onClick={data.refresh}
+              >
+                Thử lại
+              </Button>
+            </p>
+          ) : (
+            <SettingsForm settings={data.settings} />
+          )}
+        </CardContent>
+      </section>
+    </Card>
   );
 }
 function SettingsForm({ settings }: { settings: CalendarSettings }) {
@@ -67,7 +79,7 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
         <div className="schedule-form-grid">
           <label>
             Giờ bắt đầu hiển thị
-            <input
+            <Input
               type="time"
               required
               value={draft.slotMinTime}
@@ -78,7 +90,7 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
           </label>
           <label>
             Giờ kết thúc hiển thị
-            <select
+            <NativeSelect
               value={draft.slotMaxTime}
               onChange={(e) =>
                 setDraft({ ...draft, slotMaxTime: e.target.value })
@@ -96,12 +108,12 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
                     {time}
                   </option>
                 ))}
-            </select>
+            </NativeSelect>
           </label>
         </div>
         <label>
           Nhắc mặc định (chưa bật)
-          <select
+          <NativeSelect
             value={draft.defaultReminderMinutes ?? "off"}
             onChange={(e) =>
               setDraft({
@@ -120,7 +132,7 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
                     : `${value} phút`}
               </option>
             ))}
-          </select>
+          </NativeSelect>
         </label>
         <h3>Nhóm lịch</h3>
         <div className="schedule-group-editors">
@@ -129,7 +141,7 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
               <i style={{ background: calendarColors[group.color] }} />
               <label>
                 Tên nhóm {index + 1}
-                <input
+                <Input
                   required
                   maxLength={40}
                   value={group.name}
@@ -147,7 +159,7 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
               </label>
               <label>
                 Màu nhóm {index + 1}
-                <select
+                <NativeSelect
                   value={group.color}
                   onChange={(e) =>
                     setDraft({
@@ -174,12 +186,14 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
                       {name}
                     </option>
                   ))}
-                </select>
+                </NativeSelect>
               </label>
             </div>
           ))}
         </div>
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           type="button"
           className="button secondary small"
           disabled={draft.groups.length >= 20}
@@ -197,9 +211,8 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
             })
           }
         >
-          <Plus size={15} />
           Thêm nhóm lịch
-        </button>
+        </Button>
       </fieldset>
       {error && (
         <p className="schedule-error" role="alert">
@@ -207,13 +220,15 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
         </p>
       )}
       {message && <p role="status">{message}</p>}
-      <button
+      <Button
+        variant="default"
+        size="default"
         className="button primary"
         type="submit"
         disabled={pending || settings.version > draft.version}
       >
         {pending ? "Đang lưu…" : "Lưu cài đặt lịch"}
-      </button>
+      </Button>
     </form>
   );
 }

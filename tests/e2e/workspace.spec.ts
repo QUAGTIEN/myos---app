@@ -46,7 +46,7 @@ test("calendar month/week navigation; independent timetables persist and copy at
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
   const tools = page.getByLabel("Thao tác lịch", { exact: true });
   await expect(
-    page.getByRole("button", { name: "Chấm công", exact: true }),
+    page.getByRole("tab", { name: "Chấm công", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Tạo bộ lịch", exact: true }),
@@ -227,8 +227,8 @@ test("calendar month/week navigation; independent timetables persist and copy at
   expect(new Set(state.map((event) => event.id)).size).toBe(2);
   expect(new Set(state.map((event) => event.groupId)).size).toBe(2);
   await page
-    .getByRole("group", { name: "Phân mục lịch" })
-    .getByRole("button", { name: "Lịch", exact: true })
+    .getByRole("tablist", { name: "Phân mục lịch" })
+    .getByRole("tab", { name: "Lịch", exact: true })
     .click();
   await page.getByLabel("Bộ thời khóa biểu").selectOption("");
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
@@ -331,7 +331,7 @@ test("project dossier saves documents, safe links, IoT hardware, journal and fil
     ),
   ).toBe(true);
   await page.goto("/projects");
-  await page.getByRole("button", { name: "Kanban", exact: true }).click();
+  await page.getByRole("tab", { name: "Kanban", exact: true }).click();
   if (isMobile)
     await page
       .getByLabel("Trạng thái IoT giám sát môi trường")

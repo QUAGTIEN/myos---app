@@ -1,4 +1,7 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 import { useEffect, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
@@ -68,7 +71,9 @@ export function Attendance({
           {[...(activities.data ?? [])]
             .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
             .map((item) => (
-              <button
+              <Button
+                variant="ghost"
+                size="default"
                 type="button"
                 key={item.id}
                 disabled={busy}
@@ -78,10 +83,12 @@ export function Attendance({
                 <span>
                   <strong>{item.name}</strong>
                 </span>
-              </button>
+              </Button>
             ))}
         </div>
-        <button
+        <Button
+          variant="default"
+          size="default"
           type="button"
           className="button primary"
           disabled={
@@ -93,18 +100,20 @@ export function Attendance({
           onClick={() => setEditing("new")}
         >
           Tạo công việc
-        </button>
+        </Button>
       </div>
       {loadingError && (
         <p className="schedule-error" role="alert">
           {loadingError}{" "}
-          <button
+          <Button
+            variant="link"
+            size="default"
             type="button"
             className="text-link"
             onClick={activities.refresh}
           >
             Thử lại
-          </button>
+          </Button>
         </p>
       )}
       {activities.loading && <p role="status">Đang tải công việc…</p>}
@@ -218,7 +227,7 @@ function ActivityForm({
         <fieldset disabled={pending}>
           <label>
             Tên công việc
-            <input
+            <Input
               autoFocus
               required
               maxLength={80}
@@ -250,7 +259,9 @@ function ActivityForm({
         )}
         <div className="schedule-dialog-actions">
           {activity && (
-            <button
+            <Button
+              variant="ghost"
+              size="default"
               type="button"
               className="button danger"
               disabled={pending}
@@ -279,19 +290,27 @@ function ActivityForm({
               }}
             >
               Xóa công việc
-            </button>
+            </Button>
           )}
-          <button
+          <Button
+            variant="outline"
+            size="default"
             type="button"
             className="button secondary"
             disabled={pending}
             onClick={close}
           >
             Đóng
-          </button>
-          <button type="submit" className="button primary" disabled={pending}>
+          </Button>
+          <Button
+            variant="default"
+            size="default"
+            type="submit"
+            className="button primary"
+            disabled={pending}
+          >
             {pending ? "Đang lưu…" : "Lưu công việc"}
-          </button>
+          </Button>
         </div>
       </form>
     </CalendarDialog>
@@ -320,9 +339,15 @@ function AttendanceMonthView(props: {
     return (
       <p role="alert" className="schedule-error">
         {calendarError(data.error)}{" "}
-        <button type="button" className="text-link" onClick={data.refresh}>
+        <Button
+          variant="link"
+          size="default"
+          type="button"
+          className="text-link"
+          onClick={data.refresh}
+        >
           Thử lại
-        </button>
+        </Button>
       </p>
     );
   return (
@@ -513,7 +538,9 @@ function MonthEditor({
         <div className="schedule-toolbar attendance-toolbar">
           <div className="attendance-board-heading">
             <h2>{activity.name}</h2>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               type="button"
               className="icon-button"
               aria-label="Sửa công việc"
@@ -522,11 +549,13 @@ function MonthEditor({
               disabled={pending}
             >
               <Pencil size={17} />
-            </button>
+            </Button>
           </div>
           <div className="schedule-period">
             <div className="calendar-controls">
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 type="button"
                 className="icon-button"
                 aria-label="Tháng trước"
@@ -540,8 +569,10 @@ function MonthEditor({
                 }
               >
                 <ChevronLeft size={18} />
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
                 type="button"
                 className="icon-button"
                 aria-label="Tháng sau"
@@ -555,7 +586,7 @@ function MonthEditor({
                 }
               >
                 <ChevronRight size={18} />
-              </button>
+              </Button>
             </div>
             <h3>
               {localTime(month + "-01")
@@ -563,7 +594,7 @@ function MonthEditor({
                 .toFormat("'Tháng' M 'năm' yyyy")}
             </h3>
           </div>
-          <input
+          <Input
             type="month"
             aria-label="Tháng chấm công"
             min="2000-01"
@@ -594,23 +625,27 @@ function MonthEditor({
               ? "Dữ liệu đã thay đổi ở tab hoặc thiết bị khác. Bản nháp đang được giữ."
               : error || dataError}{" "}
             {error && !externalChange && !dataError && (
-              <button
+              <Button
+                variant="link"
+                size="default"
                 type="button"
                 className="text-link"
                 disabled={pending}
                 onClick={() => void save()}
               >
                 Thử lưu lại
-              </button>
+              </Button>
             )}{" "}
-            <button
+            <Button
+              variant="link"
+              size="default"
               type="button"
               className="text-link"
               disabled={pending}
               onClick={() => void reload()}
             >
               Tải bản mới
-            </button>
+            </Button>
           </p>
         )}
         <div className="attendance-scroll">
@@ -644,7 +679,9 @@ function MonthEditor({
                 >
                   <div className="attendance-cell-heading">
                     {inMonth ? (
-                      <button
+                      <Button
+                        variant="ghost"
+                        size="default"
                         type="button"
                         className="attendance-date"
                         aria-label={"Mở ngày " + day}
@@ -652,12 +689,14 @@ function MonthEditor({
                         onClick={() => setEditingDay(day)}
                       >
                         {Number(day.slice(8))}
-                      </button>
+                      </Button>
                     ) : (
                       <span>{Number(day.slice(8))}</span>
                     )}
                     {inMonth && !editing && (
-                      <button
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         type="button"
                         className="icon-button"
                         aria-label={"Chấm công " + day}
@@ -665,7 +704,7 @@ function MonthEditor({
                         onClick={() => setEditingDay(day)}
                       >
                         {text ? <Pencil size={14} /> : <Plus size={16} />}
-                      </button>
+                      </Button>
                     )}
                   </div>
                   {editing ? (
@@ -677,7 +716,7 @@ function MonthEditor({
                         void save(true);
                       }}
                     >
-                      <textarea
+                      <Textarea
                         autoFocus
                         rows={3}
                         maxLength={2000}
@@ -701,7 +740,9 @@ function MonthEditor({
                       />
                       <div className="attendance-day-actions">
                         {entry && (
-                          <button
+                          <Button
+                            variant="link"
+                            size="default"
                             type="button"
                             className="text-link"
                             disabled={pending}
@@ -717,20 +758,24 @@ function MonthEditor({
                             }}
                           >
                             Xóa
-                          </button>
+                          </Button>
                         )}
-                        <button
+                        <Button
+                          variant="outline"
+                          size="sm"
                           type="submit"
                           className="button secondary small"
                           disabled={pending || externalChange || !!dataError}
                         >
                           Xong
-                        </button>
+                        </Button>
                       </div>
                     </form>
                   ) : (
                     text && (
-                      <button
+                      <Button
+                        variant="ghost"
+                        size="default"
                         type="button"
                         className="attendance-content"
                         aria-label={"Sửa nội dung ngày " + day}
@@ -739,7 +784,7 @@ function MonthEditor({
                         <span className="attendance-note" title={text}>
                           {text}
                         </span>
-                      </button>
+                      </Button>
                     )
                   )}
                 </div>

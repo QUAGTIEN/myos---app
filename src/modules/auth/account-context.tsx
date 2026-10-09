@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { signOut } from "firebase/auth";
 import { browserAuth } from "@/lib/firebase/client";
@@ -45,14 +46,16 @@ export function LogoutButton() {
   }
   return (
     <div className="account-session-actions">
-      <button
+      <Button
+        variant="outline"
+        size="default"
         className="button secondary"
         type="button"
         disabled={pending}
         onClick={() => void logout()}
       >
         {pending ? "Đang đăng xuất…" : "Đăng xuất"}
-      </button>
+      </Button>
       {error && <p role="alert">{error}</p>}
     </div>
   );

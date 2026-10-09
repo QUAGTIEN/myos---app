@@ -1,4 +1,6 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { firebaseEnabled } from "@/lib/firebase/client";
 import {
   ImagePlus,
@@ -109,7 +111,9 @@ export function NotesScreen() {
       {(error || actionError) && (
         <div className="note-error" role="alert">
           <p>{error || actionError}</p>
-          <button
+          <Button
+            variant="link"
+            size="default"
             type="button"
             className="text-link"
             disabled={pending}
@@ -122,14 +126,14 @@ export function NotesScreen() {
             }}
           >
             Thử lại
-          </button>
+          </Button>
         </div>
       )}
       <div className="note-library-workspace">
         <div className="note-list-toolbar">
           <label className="note-search">
             <Search size={18} />
-            <input
+            <Input
               type="search"
               aria-label="Tìm ghi chú theo tiêu đề"
               placeholder="Tìm theo tiêu đề…"
@@ -140,7 +144,9 @@ export function NotesScreen() {
               }}
             />
           </label>
-          <button
+          <Button
+            variant="outline"
+            size="default"
             className="button secondary"
             type="button"
             disabled={firebaseEnabled || loading || pending || !!error}
@@ -149,8 +155,10 @@ export function NotesScreen() {
           >
             <ImagePlus size={17} />
             Từ ảnh
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="default"
+            size="default"
             className="button primary"
             type="button"
             disabled={loading || !!error || pending}
@@ -160,7 +168,7 @@ export function NotesScreen() {
           >
             <Plus size={18} />
             {pending ? "Đang tạo…" : "Tạo ghi chú"}
-          </button>
+          </Button>
           <input
             className="sr-only"
             ref={imageInput}
@@ -182,7 +190,9 @@ export function NotesScreen() {
               aria-label="Thư viện ghi chú"
             >
               <h2>Thư viện</h2>
-              <button
+              <Button
+                variant="ghost"
+                size="default"
                 type="button"
                 className={collection === "all" && !folder ? "selected" : ""}
                 aria-pressed={collection === "all" && !folder}
@@ -190,8 +200,10 @@ export function NotesScreen() {
               >
                 <NotebookPen size={17} />
                 Tất cả ghi chú<span>{live.length}</span>
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="ghost"
+                size="default"
                 type="button"
                 className={collection === "pinned" ? "selected" : ""}
                 aria-pressed={collection === "pinned"}
@@ -199,8 +211,10 @@ export function NotesScreen() {
               >
                 <Pin size={17} />
                 Đã ghim<span>{live.filter((note) => note.pinned).length}</span>
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="ghost"
+                size="default"
                 type="button"
                 className={collection === "trash" ? "selected" : ""}
                 aria-pressed={collection === "trash"}
@@ -208,11 +222,13 @@ export function NotesScreen() {
               >
                 <Trash2 size={17} />
                 Thùng rác<span>{notes.length - live.length}</span>
-              </button>
+              </Button>
               {!!folders.length && <h3>Thư mục</h3>}
               {folders.length
                 ? folders.map((name) => (
-                    <button
+                    <Button
+                      variant="ghost"
+                      size="default"
                       key={name}
                       type="button"
                       className={folder === name ? "selected" : ""}
@@ -225,13 +241,15 @@ export function NotesScreen() {
                     >
                       <Folder size={16} />
                       <span className="note-folder-name">{name}</span>
-                    </button>
+                    </Button>
                   ))
                 : null}
               {!!tags.length && <h3>Nhãn</h3>}
               <div className="note-tag-filter">
                 {tags.map((name) => (
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="default"
                     type="button"
                     key={name}
                     className={tag === name ? "selected" : ""}
@@ -242,7 +260,7 @@ export function NotesScreen() {
                     }}
                   >
                     #{name}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </aside>
@@ -320,22 +338,26 @@ export function NotesScreen() {
                   <span>
                     Trang {currentPage}/{pageCount}
                   </span>
-                  <button
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="button secondary small"
                     type="button"
                     disabled={currentPage === 1}
                     onClick={() => setPage(currentPage - 1)}
                   >
                     Trước
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="button secondary small"
                     type="button"
                     disabled={currentPage === pageCount}
                     onClick={() => setPage(currentPage + 1)}
                   >
                     Sau
-                  </button>
+                  </Button>
                 </div>
               )}
             </section>

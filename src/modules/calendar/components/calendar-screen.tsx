@@ -1,4 +1,6 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useAccount } from "@/modules/auth/account-context";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -25,6 +27,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PageHeading, PageSkeleton } from "@/components/page-ui";
 
 import { useProjects } from "@/modules/projects/use-projects";
@@ -125,7 +128,9 @@ function CalendarTools({
       </summary>
       <div className="schedule-tools-actions">
         {actions.map(({ label, icon: Icon, disabled, onSelect }) => (
-          <button
+          <Button
+            variant="ghost"
+            size="default"
             key={label}
             type="button"
             disabled={disabled}
@@ -136,7 +141,7 @@ function CalendarTools({
           >
             <Icon size={17} aria-hidden="true" />
             {label}
-          </button>
+          </Button>
         ))}
         <Link href="/settings" onClick={close}>
           <Settings2 size={17} aria-hidden="true" />
@@ -446,34 +451,38 @@ export function CalendarScreen({
   }
   if (data.loading) return <PageSkeleton />;
   return (
-    <div className="schedule-module">
+    <Tabs
+      className="schedule-module"
+      value={tab}
+      onValueChange={(value) => chooseTab(value as "book" | "attendance")}
+    >
       <PageHeading title="Lịch" />
       <div className="schedule-heading">
-        <div className="schedule-tabs" role="group" aria-label="Phân mục lịch">
-          <button
-            type="button"
-            disabled={attendanceBusy}
-            aria-pressed={tab === "book"}
-            onClick={() => chooseTab("book")}
-          >
+        <TabsList
+          variant="line"
+          className="schedule-tabs"
+          aria-label="Phân mục lịch"
+        >
+          <TabsTrigger value="book" disabled={attendanceBusy}>
             Lịch
-          </button>
-          <button
-            type="button"
-            disabled={attendanceBusy}
-            aria-pressed={tab === "attendance"}
-            onClick={() => chooseTab("attendance")}
-          >
+          </TabsTrigger>
+          <TabsTrigger value="attendance" disabled={attendanceBusy}>
             Chấm công
-          </button>
-        </div>
+          </TabsTrigger>
+        </TabsList>
       </div>
       {data.error && (
         <p className="schedule-error" role="alert">
           {data.error}{" "}
-          <button className="text-link" type="button" onClick={data.refresh}>
+          <Button
+            variant="link"
+            size="default"
+            className="text-link"
+            type="button"
+            onClick={data.refresh}
+          >
             Thử lại
-          </button>
+          </Button>
         </p>
       )}
       {actionError && !detail && (
@@ -486,279 +495,298 @@ export function CalendarScreen({
           {message}
         </p>
       )}
-      {tab === "attendance" ? (
-        <Attendance
-          today={today}
-          firstDay={account?.profile.firstDay ?? 1}
-          onStateChange={(dirty, busy) => {
-            attendanceDirty.current = dirty;
-            setAttendanceBusy(busy);
-          }}
-        />
-      ) : (
-        <div className="schedule-workspace">
-          <section className="panel schedule-panel" aria-label="Bộ lịch">
-            <div className="schedule-toolbar">
-              <div className="schedule-period">
-                <div className="calendar-controls">
-                  <button
-                    className="icon-button"
-                    aria-label={
-                      view === "dayGridMonth" ? "Tháng trước" : "Tuần trước"
-                    }
-                    type="button"
-                    onClick={() => calendar.current?.getApi().prev()}
-                  >
-                    <ChevronLeft size={19} />
-                  </button>
-                  <button
-                    className="icon-button"
-                    aria-label={
-                      view === "dayGridMonth" ? "Tháng sau" : "Tuần sau"
-                    }
-                    type="button"
-                    onClick={() => calendar.current?.getApi().next()}
-                  >
-                    <ChevronRight size={19} />
-                  </button>
-                </div>
-                <h2 aria-live="polite">{title}</h2>
-              </div>
-              <div className="schedule-calendar-filters">
-                <div
-                  className="schedule-view-buttons"
-                  role="group"
-                  aria-label="Chế độ xem lịch"
-                >
-                  {views.map((item) => (
-                    <button
-                      type="button"
-                      key={item.id}
-                      aria-pressed={view === item.id}
-                      onClick={() =>
-                        calendar.current?.getApi().changeView(item.id)
+      <TabsContent value={tab}>
+        {tab === "attendance" ? (
+          <Attendance
+            today={today}
+            firstDay={account?.profile.firstDay ?? 1}
+            onStateChange={(dirty, busy) => {
+              attendanceDirty.current = dirty;
+              setAttendanceBusy(busy);
+            }}
+          />
+        ) : (
+          <div className="schedule-workspace">
+            <section className="panel schedule-panel" aria-label="Bộ lịch">
+              <div className="schedule-toolbar">
+                <div className="schedule-period">
+                  <div className="calendar-controls">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="icon-button"
+                      aria-label={
+                        view === "dayGridMonth" ? "Tháng trước" : "Tuần trước"
                       }
+                      type="button"
+                      onClick={() => calendar.current?.getApi().prev()}
                     >
-                      {item.name}
-                    </button>
-                  ))}
+                      <ChevronLeft size={19} />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="icon-button"
+                      aria-label={
+                        view === "dayGridMonth" ? "Tháng sau" : "Tuần sau"
+                      }
+                      type="button"
+                      onClick={() => calendar.current?.getApi().next()}
+                    >
+                      <ChevronRight size={19} />
+                    </Button>
+                  </div>
+                  <h2 aria-live="polite">{title}</h2>
                 </div>
-                <label className="schedule-search">
-                  <Search size={17} aria-hidden="true" />
-                  <input
-                    aria-label="Tìm lịch hẹn, ghi chú"
-                    placeholder="Tìm lịch hẹn, ghi chú…"
-                    value={search}
-                    onChange={(event) => setSearch(event.target.value)}
+                <div className="schedule-calendar-filters">
+                  <div
+                    className="schedule-view-buttons"
+                    role="group"
+                    aria-label="Chế độ xem lịch"
+                  >
+                    {views.map((item) => (
+                      <Button
+                        variant="ghost"
+                        size="default"
+                        type="button"
+                        key={item.id}
+                        aria-pressed={view === item.id}
+                        onClick={() =>
+                          calendar.current?.getApi().changeView(item.id)
+                        }
+                      >
+                        {item.name}
+                      </Button>
+                    ))}
+                  </div>
+                  <label className="schedule-search">
+                    <Search size={17} aria-hidden="true" />
+                    <Input
+                      aria-label="Tìm lịch hẹn, ghi chú"
+                      placeholder="Tìm lịch hẹn, ghi chú…"
+                      value={search}
+                      onChange={(event) => setSearch(event.target.value)}
+                    />
+                  </label>
+                  <Input
+                    className="schedule-date-input"
+                    aria-label="Đến ngày"
+                    title="Đến ngày"
+                    type="date"
+                    min="2000-01-01"
+                    max="2100-12-31"
+                    value={chosenDate}
+                    onChange={(event) => {
+                      if (event.target.value)
+                        calendar.current?.getApi().gotoDate(event.target.value);
+                    }}
                   />
-                </label>
-                <input
-                  className="schedule-date-input"
-                  aria-label="Đến ngày"
-                  title="Đến ngày"
-                  type="date"
-                  min="2000-01-01"
-                  max="2100-12-31"
-                  value={chosenDate}
-                  onChange={(event) => {
-                    if (event.target.value)
-                      calendar.current?.getApi().gotoDate(event.target.value);
+                  <select
+                    className="schedule-group-select"
+                    aria-label="Bộ thời khóa biểu"
+                    value={group}
+                    onChange={(event) => setGroup(event.target.value)}
+                  >
+                    <option value="">Tất cả bộ lịch</option>
+                    {data.settings.groups.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                  <CalendarTools
+                    actions={[
+                      {
+                        label: "Tạo bộ lịch",
+                        icon: Plus,
+                        disabled:
+                          !!data.error ||
+                          pending ||
+                          data.settings.groups.length >= 20,
+                        onSelect: () => setTimetable("create"),
+                      },
+                      ...(group
+                        ? [
+                            {
+                              label: "Sửa bộ lịch",
+                              icon: Pencil,
+                              disabled: !!data.error || pending,
+                              onSelect: () => setTimetable("edit"),
+                            },
+                            {
+                              label: "Sao chép bộ lịch",
+                              icon: Copy,
+                              disabled:
+                                !!data.error ||
+                                pending ||
+                                data.settings.groups.length >= 20,
+                              onSelect: () => setTimetable("copy"),
+                            },
+                          ]
+                        : []),
+                      {
+                        label: "Xuất .ics",
+                        icon: Download,
+                        disabled: !!data.error,
+                        onSelect: () => setExporting(true),
+                      },
+                    ]}
+                  />
+                </div>
+              </div>
+              <div className="schedule-calendar-scroll" aria-busy={pending}>
+                <FullCalendar
+                  ref={calendar}
+                  plugins={plugins}
+                  locale={viLocale}
+                  timeZone={calendarZone}
+                  initialDate={chosenDate}
+                  initialView={view}
+                  firstDay={account?.profile.firstDay ?? 1}
+                  headerToolbar={false}
+                  height="auto"
+                  fixedWeekCount={false}
+                  validRange={validRange}
+                  selectable={false}
+                  editable={!data.error && !pending}
+                  eventResizableFromStart
+                  dayMaxEvents={false}
+                  navLinks={false}
+                  datesSet={datesSet}
+                  events={calendarEvents}
+                  dayCellContent={(info) => (
+                    <span className="schedule-day-heading">
+                      <span>{info.dayNumberText}</span>
+                      <Button
+                        variant="ghost"
+                        size="default"
+                        className="schedule-day-add"
+                        type="button"
+                        aria-label={
+                          "Thêm vào ngày " + wallTime(info.date).slice(0, 10)
+                        }
+                        title="Thêm nội dung"
+                        disabled={!!data.error || pending}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setDayActions(wallTime(info.date).slice(0, 10));
+                        }}
+                      >
+                        <Plus size={14} />
+                      </Button>
+                    </span>
+                  )}
+                  dateClick={(info) => {
+                    if (!pending && !data.error)
+                      setDayActions(info.dateStr.slice(0, 10));
+                  }}
+                  eventClick={(info) =>
+                    openOccurrence(
+                      info.event.extendedProps.occurrence as Occurrence,
+                    )
+                  }
+                  eventDrop={(info) => void move(info)}
+                  eventResize={(info) => void move(info)}
+                  eventAllow={(drop, dragged) =>
+                    !dragged?.extendedProps.occurrence.recurring ||
+                    drop.allDay === dragged.extendedProps.occurrence.allDay
+                  }
+                  eventContent={(info) => {
+                    const occurrence = info.event.extendedProps
+                      .occurrence as Occurrence;
+                    return (
+                      <span className="schedule-event-content">
+                        <span className="schedule-event-icons">
+                          {occurrence.completed && (
+                            <Check size={12} aria-label="Đã hoàn thành" />
+                          )}
+                          {occurrence.important && (
+                            <Star size={12} aria-label="Quan trọng" />
+                          )}
+                        </span>
+                        {info.timeText && <b>{info.timeText}</b>}
+                        <span>{info.event.title}</span>
+                      </span>
+                    );
                   }}
                 />
-                <select
-                  className="schedule-group-select"
-                  aria-label="Bộ thời khóa biểu"
-                  value={group}
-                  onChange={(event) => setGroup(event.target.value)}
-                >
-                  <option value="">Tất cả bộ lịch</option>
+              </div>
+              <footer className="schedule-footer">
+                <div>
                   {data.settings.groups.map((item) => (
-                    <option key={item.id} value={item.id}>
+                    <span key={item.id}>
+                      <i style={{ background: calendarColors[item.color] }} />
                       {item.name}
-                    </option>
-                  ))}
-                </select>
-                <CalendarTools
-                  actions={[
-                    {
-                      label: "Tạo bộ lịch",
-                      icon: Plus,
-                      disabled:
-                        !!data.error ||
-                        pending ||
-                        data.settings.groups.length >= 20,
-                      onSelect: () => setTimetable("create"),
-                    },
-                    ...(group
-                      ? [
-                          {
-                            label: "Sửa bộ lịch",
-                            icon: Pencil,
-                            disabled: !!data.error || pending,
-                            onSelect: () => setTimetable("edit"),
-                          },
-                          {
-                            label: "Sao chép bộ lịch",
-                            icon: Copy,
-                            disabled:
-                              !!data.error ||
-                              pending ||
-                              data.settings.groups.length >= 20,
-                            onSelect: () => setTimetable("copy"),
-                          },
-                        ]
-                      : []),
-                    {
-                      label: "Xuất .ics",
-                      icon: Download,
-                      disabled: !!data.error,
-                      onSelect: () => setExporting(true),
-                    },
-                  ]}
-                />
-              </div>
-            </div>
-            <div className="schedule-calendar-scroll" aria-busy={pending}>
-              <FullCalendar
-                ref={calendar}
-                plugins={plugins}
-                locale={viLocale}
-                timeZone={calendarZone}
-                initialDate={chosenDate}
-                initialView={view}
-                firstDay={account?.profile.firstDay ?? 1}
-                headerToolbar={false}
-                height="auto"
-                fixedWeekCount={false}
-                validRange={validRange}
-                selectable={false}
-                editable={!data.error && !pending}
-                eventResizableFromStart
-                dayMaxEvents={false}
-                navLinks={false}
-                datesSet={datesSet}
-                events={calendarEvents}
-                dayCellContent={(info) => (
-                  <span className="schedule-day-heading">
-                    <span>{info.dayNumberText}</span>
-                    <button
-                      className="schedule-day-add"
-                      type="button"
-                      aria-label={
-                        "Thêm vào ngày " + wallTime(info.date).slice(0, 10)
-                      }
-                      title="Thêm nội dung"
-                      disabled={!!data.error || pending}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        setDayActions(wallTime(info.date).slice(0, 10));
-                      }}
-                    >
-                      <Plus size={14} />
-                    </button>
-                  </span>
-                )}
-                dateClick={(info) => {
-                  if (!pending && !data.error)
-                    setDayActions(info.dateStr.slice(0, 10));
-                }}
-                eventClick={(info) =>
-                  openOccurrence(
-                    info.event.extendedProps.occurrence as Occurrence,
-                  )
-                }
-                eventDrop={(info) => void move(info)}
-                eventResize={(info) => void move(info)}
-                eventAllow={(drop, dragged) =>
-                  !dragged?.extendedProps.occurrence.recurring ||
-                  drop.allDay === dragged.extendedProps.occurrence.allDay
-                }
-                eventContent={(info) => {
-                  const occurrence = info.event.extendedProps
-                    .occurrence as Occurrence;
-                  return (
-                    <span className="schedule-event-content">
-                      <span className="schedule-event-icons">
-                        {occurrence.completed && (
-                          <Check size={12} aria-label="Đã hoàn thành" />
-                        )}
-                        {occurrence.important && (
-                          <Star size={12} aria-label="Quan trọng" />
-                        )}
-                      </span>
-                      {info.timeText && <b>{info.timeText}</b>}
-                      <span>{info.event.title}</span>
                     </span>
-                  );
-                }}
-              />
-            </div>
-            <footer className="schedule-footer">
-              <div>
-                {data.settings.groups.map((item) => (
-                  <span key={item.id}>
-                    <i style={{ background: calendarColors[item.color] }} />
-                    {item.name}
-                  </span>
-                ))}
-              </div>
-              <span>{occurrences.length} mục</span>
-            </footer>
-          </section>
-        </div>
-      )}
-      {dayActions && (
-        <CalendarDialog
-          title={localTime(dayActions)
-            .setLocale("vi")
-            .toFormat("cccc, dd/MM/yyyy")}
-          description="Thêm nội dung cho ngày được chọn."
-          onClose={() => setDayActions(null)}
-        >
-          <div className="schedule-day-actions">
-            <button type="button" onClick={() => createOnDate(dayActions)}>
-              <CalendarDays size={22} />
-              <span>
-                <strong>Tạo lịch hẹn</strong>
-                <small>Đặt thời gian, nội dung và nhắc lịch</small>
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => createOnDate(dayActions, "task")}
-            >
-              <ListTodo size={22} />
-              <span>
-                <strong>Thêm công việc</strong>
-                <small>Nội dung cần làm cho ngày này</small>
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => createOnDate(dayActions, "note")}
-            >
-              <FileText size={22} />
-              <span>
-                <strong>Thêm ghi chú</strong>
-                <small>Lưu nội dung ngay trên lịch</small>
-              </span>
-            </button>
+                  ))}
+                </div>
+                <span>{occurrences.length} mục</span>
+              </footer>
+            </section>
           </div>
-        </CalendarDialog>
-      )}
-      {timetable && (
-        <TimetableDialog
-          settings={data.settings}
-          groupId={group}
-          mode={timetable}
-          onClose={() => setTimetable(null)}
-          onSaved={(id) => {
-            setGroup(id);
-            setTimetable(null);
-            setMessage("Đã lưu bộ thời khóa biểu.");
-          }}
-        />
-      )}
+        )}
+        {dayActions && (
+          <CalendarDialog
+            title={localTime(dayActions)
+              .setLocale("vi")
+              .toFormat("cccc, dd/MM/yyyy")}
+            description="Thêm nội dung cho ngày được chọn."
+            onClose={() => setDayActions(null)}
+          >
+            <div className="schedule-day-actions">
+              <Button
+                variant="ghost"
+                size="default"
+                type="button"
+                onClick={() => createOnDate(dayActions)}
+              >
+                <CalendarDays size={22} />
+                <span>
+                  <strong>Tạo lịch hẹn</strong>
+                  <small>Đặt thời gian, nội dung và nhắc lịch</small>
+                </span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="default"
+                type="button"
+                onClick={() => createOnDate(dayActions, "task")}
+              >
+                <ListTodo size={22} />
+                <span>
+                  <strong>Thêm công việc</strong>
+                  <small>Nội dung cần làm cho ngày này</small>
+                </span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="default"
+                type="button"
+                onClick={() => createOnDate(dayActions, "note")}
+              >
+                <FileText size={22} />
+                <span>
+                  <strong>Thêm ghi chú</strong>
+                  <small>Lưu nội dung ngay trên lịch</small>
+                </span>
+              </Button>
+            </div>
+          </CalendarDialog>
+        )}
+        {timetable && (
+          <TimetableDialog
+            settings={data.settings}
+            groupId={group}
+            mode={timetable}
+            onClose={() => setTimetable(null)}
+            onSaved={(id) => {
+              setGroup(id);
+              setTimetable(null);
+              setMessage("Đã lưu bộ thời khóa biểu.");
+            }}
+          />
+        )}
+      </TabsContent>
       {form && (
         <EventForm
           {...form}
@@ -819,6 +847,6 @@ export function CalendarScreen({
           onClose={() => setExporting(false)}
         />
       )}
-    </div>
+    </Tabs>
   );
 }

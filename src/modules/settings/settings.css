@@ -1,0 +1,83 @@
+.settings-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-group);
+}
+.settings-section {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: var(--space-panel);
+  padding: var(--space-panel);
+  box-shadow: var(--shadow);
+}
+.settings-section > [data-slot="card-header"],
+.settings-section > [data-slot="card-content"] {
+  padding: 0;
+  min-width: 0;
+}
+.settings-section h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+  margin: 0;
+}
+.settings-section h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+.settings-section .account-email {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.settings-section .account-settings-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 16px;
+}
+.settings-section .account-settings-fields .setting-row {
+  grid-column: 1 / -1;
+}
+.settings-section .settings-save {
+  justify-self: start;
+}
+.settings-section [data-slot="native-select-wrapper"] {
+  width: 100%;
+}
+.settings-section .setting-row {
+  padding: 12px 0;
+}
+.settings-section .setting-row:first-child {
+  padding-top: 0;
+}
+.settings-section .setting-row strong {
+  font-size: 14px;
+}
+.settings-section .schedule-form > .button {
+  justify-self: start;
+}
+.settings-section fieldset > .button {
+  justify-self: start;
+}
+.settings-section .account-session-actions {
+  margin-top: 12px;
+}
+@media (max-width: 900px) {
+  .settings-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .settings-section > [data-slot="card-header"] {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+}
+@media (max-width: 600px) {
+  .settings-section {
+    padding: 16px;
+  }
+  .settings-section .account-settings-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

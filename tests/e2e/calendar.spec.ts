@@ -7,7 +7,7 @@ async function calendar(page: Page) {
   await page.goto("/calendar");
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "Chấm công", exact: true }),
+    page.getByRole("tab", { name: "Chấm công", exact: true }),
   ).toBeEnabled();
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
   await expect(

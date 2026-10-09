@@ -1,4 +1,7 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { firebaseEnabled } from "@/lib/firebase/client";
 import { Download, FilePlus, Pencil, Plus, Trash2 } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
@@ -121,7 +124,9 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
       <div className="project-section-heading">
         <h2>Hồ sơ dự án</h2>
         {!snapshot && tab !== "attachments" && (
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             className="button secondary small"
             type="button"
             disabled={pending || !!project.archivedAt}
@@ -134,19 +139,21 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
           >
             <Pencil size={15} />
             Chỉnh sửa hồ sơ
-          </button>
+          </Button>
         )}
       </div>
       <div className="workspace-tabs" role="group" aria-label="Các phần hồ sơ">
         {Object.entries(tabs).map(([value, label]) => (
-          <button
+          <Button
+            variant="ghost"
+            size="default"
             type="button"
             key={value}
             aria-pressed={tab === value}
             onClick={() => setTab(value as Tab)}
           >
             {label}
-          </button>
+          </Button>
         ))}
       </div>
       {error && (
@@ -171,7 +178,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
             (snapshot ? (
               <label>
                 Mục tiêu và kết quả mong muốn
-                <textarea
+                <Textarea
                   value={draft.goal}
                   maxLength={20000}
                   rows={7}
@@ -191,7 +198,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                     <>
                       <label>
                         Tên tài liệu
-                        <input
+                        <Input
                           required
                           maxLength={120}
                           value={document.title}
@@ -209,7 +216,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                       </label>
                       <label>
                         Nội dung tài liệu
-                        <textarea
+                        <Textarea
                           rows={6}
                           maxLength={40000}
                           value={document.content}
@@ -225,13 +232,15 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                           }
                         />
                       </label>
-                      <button
+                      <Button
+                        variant="link"
+                        size="default"
                         type="button"
                         className="text-link"
                         onClick={() => remove("documents", document.id)}
                       >
                         Xóa tài liệu
-                      </button>
+                      </Button>
                     </>
                   ) : (
                     <>
@@ -247,7 +256,9 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                 <p className="workspace-empty">Chưa có tài liệu</p>
               )}
               {snapshot && (
-                <button
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="button secondary small"
                   type="button"
                   disabled={draft.documents.length >= 50}
@@ -260,7 +271,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                 >
                   <Plus size={15} />
                   Thêm tài liệu
-                </button>
+                </Button>
               )}
             </>
           )}
@@ -272,7 +283,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                     <>
                       <label>
                         Tên liên kết
-                        <input
+                        <Input
                           required
                           maxLength={120}
                           value={resource.title}
@@ -290,7 +301,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                       </label>
                       <label>
                         Địa chỉ liên kết
-                        <input
+                        <Input
                           required
                           type="url"
                           maxLength={2000}
@@ -308,13 +319,15 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                           }
                         />
                       </label>
-                      <button
+                      <Button
+                        variant="link"
+                        size="default"
                         type="button"
                         className="text-link"
                         onClick={() => remove("resources", resource.id)}
                       >
                         Xóa liên kết
-                      </button>
+                      </Button>
                     </>
                   ) : (
                     <a
@@ -333,7 +346,9 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                 <p className="workspace-empty">Chưa có liên kết</p>
               )}
               {snapshot && (
-                <button
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="button secondary small"
                   type="button"
                   disabled={draft.resources.length >= 100}
@@ -346,7 +361,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                 >
                   <Plus size={15} />
                   Thêm liên kết
-                </button>
+                </Button>
               )}
             </>
           )}
@@ -374,7 +389,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                         <>
                           <label>
                             Tên linh kiện
-                            <input
+                            <Input
                               required
                               maxLength={120}
                               value={part.name}
@@ -392,7 +407,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                           </label>
                           <label>
                             Thông số
-                            <textarea
+                            <Textarea
                               rows={2}
                               maxLength={2000}
                               value={part.specification}
@@ -414,7 +429,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                           <div className="workspace-field-row">
                             <label>
                               Số lượng
-                              <input
+                              <Input
                                 type="number"
                                 required
                                 min={1}
@@ -439,7 +454,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                             </label>
                             <label>
                               Đơn giá (VND)
-                              <input
+                              <Input
                                 type="number"
                                 required
                                 min={0}
@@ -464,13 +479,15 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                               />
                             </label>
                           </div>
-                          <button
+                          <Button
+                            variant="link"
+                            size="default"
                             type="button"
                             className="text-link"
                             onClick={() => remove("hardware", part.id)}
                           >
                             Xóa linh kiện
-                          </button>
+                          </Button>
                         </>
                       ) : (
                         <>
@@ -490,7 +507,9 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                     <p className="workspace-empty">Chưa có linh kiện</p>
                   )}
                   {snapshot && (
-                    <button
+                    <Button
+                      variant="outline"
+                      size="sm"
                       className="button secondary small"
                       type="button"
                       disabled={draft.hardware.length >= 100}
@@ -509,7 +528,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                     >
                       <Plus size={15} />
                       Thêm linh kiện
-                    </button>
+                    </Button>
                   )}
                   <p className="workspace-total">
                     Tổng chi phí phần cứng:{" "}
@@ -534,7 +553,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                     <>
                       <label>
                         Tên bản ghi
-                        <input
+                        <Input
                           required
                           maxLength={120}
                           value={entry.title}
@@ -578,7 +597,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                       </label>
                       <label>
                         Nội dung nhật ký
-                        <textarea
+                        <Textarea
                           rows={4}
                           maxLength={20000}
                           value={entry.content}
@@ -594,13 +613,15 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                           }
                         />
                       </label>
-                      <button
+                      <Button
+                        variant="link"
+                        size="default"
                         type="button"
                         className="text-link"
                         onClick={() => remove("journal", entry.id)}
                       >
                         Xóa bản ghi
-                      </button>
+                      </Button>
                     </>
                   ) : (
                     <>
@@ -626,7 +647,9 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                 <p className="workspace-empty">Chưa có bản ghi</p>
               )}
               {snapshot && (
-                <button
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="button secondary small"
                   type="button"
                   disabled={draft.journal.length >= 200}
@@ -645,7 +668,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                 >
                   <Plus size={15} />
                   Thêm bản ghi
-                </button>
+                </Button>
               )}
             </>
           )}
@@ -657,15 +680,19 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                     <strong>{file.name}</strong>
                     <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
                   </div>
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     type="button"
                     className="icon-button"
                     aria-label={"Tải " + file.name}
                     onClick={() => void download(file.id, file.name)}
                   >
                     <Download size={17} />
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     type="button"
                     className="icon-button"
                     aria-label={"Xóa " + file.name}
@@ -680,7 +707,7 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
                     }}
                   >
                     <Trash2 size={17} />
-                  </button>
+                  </Button>
                 </div>
               ))}
               {!workspace.attachments.length && (
@@ -719,21 +746,25 @@ export function ProjectWorkspacePanel({ project }: { project: Project }) {
         </fieldset>
         {snapshot && (
           <div className="workspace-save">
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               type="button"
               className="button secondary small"
               disabled={pending}
               onClick={cancel}
             >
               Hủy chỉnh sửa
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="default"
+              size="sm"
               type="submit"
               className="button primary small"
               disabled={pending}
             >
               {pending ? "Đang lưu…" : "Lưu hồ sơ"}
-            </button>
+            </Button>
           </div>
         )}
       </form>

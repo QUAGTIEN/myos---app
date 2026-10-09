@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { CalendarDays, Plus } from "lucide-react";
 import Link from "next/link";
 import { localTime } from "../model";
@@ -50,9 +51,15 @@ export function RelatedCalendar({
       ) : error ? (
         <p role="alert">
           {error}{" "}
-          <button type="button" className="text-link" onClick={refresh}>
+          <Button
+            variant="link"
+            size="default"
+            type="button"
+            className="text-link"
+            onClick={refresh}
+          >
             Thử lại
-          </button>
+          </Button>
         </p>
       ) : linked.length ? (
         <ul>

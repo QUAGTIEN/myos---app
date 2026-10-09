@@ -1,4 +1,7 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
@@ -94,7 +97,9 @@ export function ItemDialog({
                 Mốc không tính vào tiến độ trừ khi bạn chọn rõ.
               </Dialog.Description>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               type="button"
               className="icon-button"
               onClick={close}
@@ -102,14 +107,14 @@ export function ItemDialog({
               aria-label="Đóng form mục"
             >
               <X size={20} />
-            </button>
+            </Button>
           </div>
           <form onSubmit={submit}>
             <fieldset disabled={pending} className="project-form-fields">
               <label htmlFor="item-title">
                 Tên mục <span>*</span>
               </label>
-              <input
+              <Input
                 id="item-title"
                 required
                 maxLength={160}
@@ -120,7 +125,7 @@ export function ItemDialog({
                 }
               />
               <label htmlFor="item-description">Nội dung mục</label>
-              <textarea
+              <Textarea
                 id="item-description"
                 rows={3}
                 maxLength={2000}
@@ -130,7 +135,7 @@ export function ItemDialog({
                 }
               />
               <label htmlFor="item-due">Hạn của mục</label>
-              <input
+              <Input
                 id="item-due"
                 type="date"
                 value={input.dueDate}
@@ -158,21 +163,25 @@ export function ItemDialog({
               </p>
             )}
             <div className="project-modal-actions">
-              <button
+              <Button
+                variant="outline"
+                size="default"
                 type="button"
                 className="button secondary"
                 onClick={close}
                 disabled={pending}
               >
                 Hủy
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="default"
+                size="default"
                 type="submit"
                 className="button primary"
                 disabled={pending}
               >
                 {pending ? "Đang lưu…" : "Lưu mục"}
-              </button>
+              </Button>
             </div>
           </form>
         </Dialog.Content>

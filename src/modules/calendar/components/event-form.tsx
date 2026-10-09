@@ -1,4 +1,7 @@
 "use client";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import { useMemo, useState, type FormEvent } from "react";
 import { useProjects } from "@/modules/projects/use-projects";
 import { useNotes } from "@/modules/notes/hooks";
@@ -170,7 +173,7 @@ export function EventForm({
           )}
           <label>
             {"Tên " + label}
-            <input
+            <Input
               required
               autoFocus
               maxLength={120}
@@ -180,7 +183,7 @@ export function EventForm({
           </label>
           <label>
             Nội dung
-            <textarea
+            <Textarea
               rows={3}
               maxLength={10000}
               value={input.description}
@@ -352,7 +355,7 @@ export function EventForm({
                   </div>
                   <label>
                     Lặp đến hết ngày
-                    <input
+                    <Input
                       type="date"
                       required
                       min={input.start.slice(0, 10)}
@@ -466,17 +469,25 @@ export function EventForm({
           </p>
         )}
         <div className="schedule-dialog-actions">
-          <button
+          <Button
+            variant="outline"
+            size="default"
             type="button"
             className="button secondary"
             disabled={pending}
             onClick={close}
           >
             Đóng
-          </button>
-          <button className="button primary" type="submit" disabled={pending}>
+          </Button>
+          <Button
+            variant="default"
+            size="default"
+            className="button primary"
+            type="submit"
+            disabled={pending}
+          >
             {pending ? "Đang lưu…" : "Lưu " + label}
-          </button>
+          </Button>
         </div>
       </form>
     </CalendarDialog>

@@ -1,4 +1,6 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 import {
   Archive,
@@ -13,6 +15,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EmptyState, PageSkeleton } from "@/components/page-ui";
 
 import { formatProjectDate, projectStatuses, type Project } from "../model";
@@ -85,7 +90,9 @@ function ProjectCardActions({
         <MoreHorizontal size={18} aria-hidden="true" />
       </summary>
       <div className="project-card-menu-actions">
-        <button
+        <Button
+          variant="ghost"
+          size="default"
           type="button"
           disabled={pending}
           aria-label={(project.pinned ? "Bỏ ghim " : "Ghim ") + project.title}
@@ -97,8 +104,10 @@ function ProjectCardActions({
         >
           {project.pinned ? <PinOff size={16} /> : <Pin size={16} />}
           {project.pinned ? "Bỏ ghim" : "Ghim dự án"}
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="ghost"
+          size="default"
           type="button"
           disabled={pending}
           aria-label={
@@ -112,7 +121,7 @@ function ProjectCardActions({
         >
           <Archive size={16} />
           {project.archivedAt ? "Khôi phục" : "Lưu trữ"}
-        </button>
+        </Button>
       </div>
     </details>
   );
@@ -172,92 +181,106 @@ export function ProjectsScreen() {
 
   function renderCard(project: Project) {
     return (
-      <article
-        key={project.id}
-        draggable={layout === "kanban" && !pending && !project.archivedAt}
-        onDragStart={(event) =>
-          event.dataTransfer.setData("text/myos-project", project.id)
-        }
-        className={"panel project-card project-color-" + project.color}
-      >
-        <div className="project-card-top">
-          {layout === "kanban" && !project.archivedAt && (
-            <span
-              className="kanban-handle"
-              draggable={!pending}
-              aria-label={"Kéo " + project.title}
-              title="Kéo để đổi trạng thái"
-            >
-              <GripVertical size={18} />
-            </span>
-          )}
-          {project.pinned && <Pin size={15} aria-label="Đã ghim" />}
-          <ProjectCardActions
-            project={project}
-            pending={pending}
-            onPin={() =>
-              void run(
-                () => projectService.togglePin(project),
-                project.pinned ? "Đã bỏ ghim." : "Đã ghim dự án.",
-              )
-            }
-            onArchive={() => archive(project)}
-          />
-        </div>
-        <Link className="project-card-main" href={"/projects/" + project.id}>
-          <h2>{project.title}</h2>
-          <span className={"project-status status-" + project.status}>
-            {project.archivedAt ? "Lưu trữ" : projectStatuses[project.status]}
-          </span>
-          <p>{project.description || "Chưa có nội dung"}</p>
-        </Link>
-        {layout === "kanban" && (
-          <label className="kanban-status-label">
-            Trạng thái
-            <select
-              aria-label={"Trạng thái " + project.title}
-              value={project.status}
-              disabled={pending || !!project.archivedAt}
-              onChange={(event) =>
+      <Card asChild key={project.id}>
+        <article
+          draggable={layout === "kanban" && !pending && !project.archivedAt}
+          onDragStart={(event) =>
+            event.dataTransfer.setData("text/myos-project", project.id)
+          }
+          className={"panel project-card project-color-" + project.color}
+        >
+          <div className="project-card-top">
+            {layout === "kanban" && !project.archivedAt && (
+              <span
+                className="kanban-handle"
+                draggable={!pending}
+                aria-label={"Kéo " + project.title}
+                title="Kéo để đổi trạng thái"
+              >
+                <GripVertical size={18} />
+              </span>
+            )}
+            {project.pinned && <Pin size={15} aria-label="Đã ghim" />}
+            <ProjectCardActions
+              project={project}
+              pending={pending}
+              onPin={() =>
                 void run(
-                  () =>
-                    projectService.setStatus(
-                      project,
-                      event.target.value as Project["status"],
-                    ),
-                  "Đã chuyển dự án.",
+                  () => projectService.togglePin(project),
+                  project.pinned ? "Đã bỏ ghim." : "Đã ghim dự án.",
                 )
               }
+              onArchive={() => archive(project)}
+            />
+          </div>
+          <Link className="project-card-main" href={"/projects/" + project.id}>
+            <h2>{project.title}</h2>
+            <Badge
+              variant="secondary"
+              className={"project-status status-" + project.status}
             >
-              {Object.entries(projectStatuses).map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </label>
-        )}
-        <ProgressIndicator project={project} compact />
-        <div className="project-card-footer">
-          <span>
-            <CalendarDays size={15} aria-hidden="true" />
-            {project.dueDate
-              ? formatProjectDate(project.dueDate)
-              : "Chưa đặt hạn"}
-          </span>
-        </div>
-      </article>
+              {project.archivedAt ? "Lưu trữ" : projectStatuses[project.status]}
+            </Badge>
+            <p>{project.description || "Chưa có nội dung"}</p>
+          </Link>
+          {layout === "kanban" && (
+            <label className="kanban-status-label">
+              Trạng thái
+              <select
+                aria-label={"Trạng thái " + project.title}
+                value={project.status}
+                disabled={pending || !!project.archivedAt}
+                onChange={(event) =>
+                  void run(
+                    () =>
+                      projectService.setStatus(
+                        project,
+                        event.target.value as Project["status"],
+                      ),
+                    "Đã chuyển dự án.",
+                  )
+                }
+              >
+                {Object.entries(projectStatuses).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          <ProgressIndicator project={project} compact />
+          <div className="project-card-footer">
+            <span>
+              <CalendarDays size={15} aria-hidden="true" />
+              {project.dueDate
+                ? formatProjectDate(project.dueDate)
+                : "Chưa đặt hạn"}
+            </span>
+          </div>
+        </article>
+      </Card>
     );
   }
   return (
-    <div className="projects-module">
+    <Tabs
+      className="projects-module"
+      value={layout}
+      onValueChange={(value) => setLayout(value as "cards" | "kanban")}
+    >
       <h1 className="sr-only">Dự án</h1>
       {error && (
         <div className="project-alert error" role="alert">
           <span>{error}</span>
-          <button type="button" className="text-link" onClick={refresh}>
+          <Button
+            variant="link"
+            size="default"
+            type="button"
+            className="text-link"
+            onClick={refresh}
+          >
             Thử tải lại
-          </button>
+          </Button>
         </div>
       )}
       {message && (
@@ -265,11 +288,11 @@ export function ProjectsScreen() {
           {message}
         </p>
       )}
-      <div className="project-library-workspace">
+      <Card className="project-library-workspace">
         <div className="project-search-row">
           <label className="project-search">
             <Search size={17} aria-hidden="true" />
-            <input
+            <Input
               aria-label="Tìm dự án"
               placeholder="Tìm dự án…"
               value={query}
@@ -279,7 +302,9 @@ export function ProjectsScreen() {
               }}
             />
           </label>
-          <button
+          <Button
+            variant="default"
+            size="default"
             className="button primary"
             type="button"
             onClick={() => setCreating(true)}
@@ -287,38 +312,12 @@ export function ProjectsScreen() {
           >
             <Plus size={18} aria-hidden="true" />
             Tạo dự án
-          </button>
+          </Button>
         </div>
         {loading ? (
           <PageSkeleton />
         ) : (
           <>
-            <div className="project-summary" aria-label="Thống kê dự án">
-              {[
-                {
-                  label: "Đang làm",
-                  count: activeProjects.filter(
-                    (project) => project.status === "active",
-                  ).length,
-                },
-                {
-                  label: "Hoàn thành",
-                  count: activeProjects.filter(
-                    (project) => project.status === "completed",
-                  ).length,
-                },
-                {
-                  label: "Đã ghim",
-                  count: activeProjects.filter((project) => project.pinned)
-                    .length,
-                },
-              ].map(({ label, count }) => (
-                <div key={label}>
-                  <span>{label}</span>
-                  <strong>{count}</strong>
-                </div>
-              ))}
-            </div>
             <div className="project-toolbar">
               <div
                 className="project-filters"
@@ -326,7 +325,9 @@ export function ProjectsScreen() {
                 aria-label="Lọc trạng thái"
               >
                 {Object.entries(filters).map(([value, label]) => (
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="default"
                     key={value}
                     className={
                       filter === value
@@ -341,34 +342,21 @@ export function ProjectsScreen() {
                     }}
                   >
                     {label}
-                  </button>
+                  </Button>
                 ))}
               </div>
               <div className="project-view-controls">
-                <div
-                  className="project-layout-buttons"
-                  role="group"
+                <TabsList
                   aria-label="Hiển thị dự án"
+                  className="project-layout-buttons"
                 >
-                  <button
-                    type="button"
-                    className="button secondary small"
-                    aria-pressed={layout === "cards"}
-                    onClick={() => setLayout("cards")}
-                  >
-                    Thẻ
-                  </button>
-                  <button
-                    type="button"
-                    className="button secondary small"
-                    aria-pressed={layout === "kanban"}
-                    onClick={() => setLayout("kanban")}
-                  >
-                    Kanban
-                  </button>
-                </div>
+                  <TabsTrigger value="cards">Thẻ</TabsTrigger>
+                  <TabsTrigger value="kanban">Kanban</TabsTrigger>
+                </TabsList>
 
-                <button
+                <Button
+                  variant="ghost"
+                  size="default"
                   type="button"
                   className={
                     pinnedOnly
@@ -383,123 +371,166 @@ export function ProjectsScreen() {
                 >
                   <Pin size={15} aria-hidden="true" />
                   Đã ghim
-                </button>
+                </Button>
               </div>
             </div>
-            <p className="project-list-caption">{visible.length} dự án</p>
-            {layout === "kanban" ? (
-              <div className="project-kanban">
-                {Object.entries(projectStatuses).map(([status, label]) => {
-                  const column = visible.filter(
-                    (project) => project.status === status,
-                  );
-                  return (
-                    <section
-                      className="kanban-column"
-                      key={status}
-                      aria-label={"Kanban " + label}
-                      onDragOver={(event) => {
-                        if (
-                          event.dataTransfer.types.includes("text/myos-project")
-                        )
-                          event.preventDefault();
-                      }}
-                      onDrop={(event) => {
-                        event.preventDefault();
-                        const project = visible.find(
-                          (item) =>
-                            item.id ===
-                            event.dataTransfer.getData("text/myos-project"),
-                        );
-                        if (
-                          project &&
-                          !pending &&
-                          !project.archivedAt &&
-                          project.status !== status
-                        )
-                          void run(
-                            () =>
-                              projectService.setStatus(
-                                project,
-                                status as Project["status"],
-                              ),
-                            "Đã chuyển dự án.",
-                          );
-                      }}
-                    >
-                      <h2>
-                        {label}
-                        <span>{column.length}</span>
-                      </h2>
-                      {column.map(renderCard)}
-                      {!column.length && (
-                        <p className="kanban-empty">Chưa có dự án</p>
-                      )}
-                    </section>
-                  );
-                })}
+            <div className="project-list-meta">
+              {" "}
+              <p className="project-list-caption">
+                {visible.length} dự án
+              </p>{" "}
+              <div className="project-summary" aria-label="Thống kê dự án">
+                {[
+                  {
+                    label: "Đang làm",
+                    count: activeProjects.filter(
+                      (project) => project.status === "active",
+                    ).length,
+                  },
+                  {
+                    label: "Hoàn thành",
+                    count: activeProjects.filter(
+                      (project) => project.status === "completed",
+                    ).length,
+                  },
+                  {
+                    label: "Đã ghim",
+                    count: activeProjects.filter((project) => project.pinned)
+                      .length,
+                  },
+                ].map(({ label, count }) => (
+                  <div key={label}>
+                    <span>{label}</span>
+                    <strong>{count}</strong>
+                  </div>
+                ))}
               </div>
-            ) : listed.length ? (
-              <div className="project-card-grid">{listed.map(renderCard)}</div>
-            ) : (
-              !error && (
-                <section className="large-empty">
-                  <EmptyState
-                    icon={FolderKanban}
-                    title={
-                      projects.length
-                        ? "Không có dự án phù hợp"
-                        : "Chưa có dự án"
-                    }
-                  >
-                    {!projects.length && (
-                      <button
-                        type="button"
-                        className="button primary"
-                        onClick={() => setCreating(true)}
+            </div>
+            <TabsContent value={layout}>
+              {layout === "kanban" ? (
+                <div className="project-kanban">
+                  {Object.entries(projectStatuses).map(([status, label]) => {
+                    const column = visible.filter(
+                      (project) => project.status === status,
+                    );
+                    return (
+                      <section
+                        className="kanban-column"
+                        key={status}
+                        aria-label={"Kanban " + label}
+                        onDragOver={(event) => {
+                          if (
+                            event.dataTransfer.types.includes(
+                              "text/myos-project",
+                            )
+                          )
+                            event.preventDefault();
+                        }}
+                        onDrop={(event) => {
+                          event.preventDefault();
+                          const project = visible.find(
+                            (item) =>
+                              item.id ===
+                              event.dataTransfer.getData("text/myos-project"),
+                          );
+                          if (
+                            project &&
+                            !pending &&
+                            !project.archivedAt &&
+                            project.status !== status
+                          )
+                            void run(
+                              () =>
+                                projectService.setStatus(
+                                  project,
+                                  status as Project["status"],
+                                ),
+                              "Đã chuyển dự án.",
+                            );
+                        }}
                       >
-                        <Plus size={17} aria-hidden="true" />
-                        Tạo dự án đầu tiên
-                      </button>
-                    )}
-                  </EmptyState>
-                </section>
-              )
-            )}
+                        <h2>
+                          {label}
+                          <span>{column.length}</span>
+                        </h2>
+                        {column.map(renderCard)}
+                        {!column.length && (
+                          <p className="kanban-empty">Chưa có dự án</p>
+                        )}
+                      </section>
+                    );
+                  })}
+                </div>
+              ) : listed.length ? (
+                <div className="project-card-grid">
+                  {listed.map(renderCard)}
+                </div>
+              ) : (
+                !error && (
+                  <section className="large-empty">
+                    <EmptyState
+                      icon={FolderKanban}
+                      title={
+                        projects.length
+                          ? "Không có dự án phù hợp"
+                          : "Chưa có dự án"
+                      }
+                    >
+                      {!projects.length && (
+                        <Button
+                          variant="default"
+                          size="default"
+                          type="button"
+                          className="button primary"
+                          onClick={() => setCreating(true)}
+                        >
+                          <Plus size={17} aria-hidden="true" />
+                          Tạo dự án đầu tiên
+                        </Button>
+                      )}
+                    </EmptyState>
+                  </section>
+                )
+              )}
+            </TabsContent>
             {layout === "cards" && pageCount > 1 && (
               <div className="project-pagination">
                 <span>
                   {visible.length} dự án · Trang {currentPage}/{pageCount}
                 </span>
                 <div>
-                  <button
+                  <Button
+                    variant="outline"
+                    size="sm"
                     type="button"
                     className="button secondary small"
                     disabled={currentPage === 1}
                     onClick={() => setPage(currentPage - 1)}
                   >
                     Trước
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
                     type="button"
                     className="button secondary small"
                     disabled={currentPage === pageCount}
                     onClick={() => setPage(currentPage + 1)}
                   >
                     Sau
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
           </>
         )}
-      </div>
+      </Card>
       {creating && (
         <ProjectDialog
           onClose={() => setCreating(false)}
           onSave={projectService.create}
         />
       )}
-    </div>
+    </Tabs>
   );
 }

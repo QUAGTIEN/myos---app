@@ -12,6 +12,33 @@ const screens = [
   { path: "/settings", label: "Cài đặt", heading: "Cài đặt" },
 ];
 
+test("calendar and project tabs support keyboard selection and named panels", async ({
+  page,
+}) => {
+  await page.goto("/calendar");
+  const calendarTabs = page.getByRole("tablist", { name: "Phân mục lịch" });
+  await calendarTabs.getByRole("tab", { name: "Lịch", exact: true }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(
+    calendarTabs.getByRole("tab", { name: "Chấm công" }),
+  ).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("tabpanel")).toContainText("Tạo công việc");
+  await page.keyboard.press("ArrowLeft");
+  await expect(page.getByRole("tabpanel")).toContainText("Tháng");
+  await page.goto("/projects");
+  const projectTabs = page.getByRole("tablist", { name: "Hiển thị dự án" });
+  await projectTabs.getByRole("tab", { name: "Thẻ", exact: true }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(
+    projectTabs.getByRole("tab", { name: "Kanban" }),
+  ).toHaveAttribute("aria-selected", "true");
+  await expect(
+    page
+      .getByRole("tabpanel")
+      .getByRole("region", { name: "Kanban Đang làm", exact: true }),
+  ).toBeVisible();
+});
+
 test("navigate all five modules without overflow or browser errors", async ({
   page,
   isMobile,

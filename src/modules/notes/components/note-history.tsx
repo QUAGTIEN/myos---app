@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { useState } from "react";
@@ -43,14 +44,16 @@ export function NoteHistory({
                 Giữ 20 phiên bản trước gần nhất, gồm nội dung và ảnh.
               </Dialog.Description>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               className="icon-button"
               type="button"
               aria-label="Đóng lịch sử"
               onClick={onClose}
             >
               <X size={20} />
-            </button>
+            </Button>
           </div>
           {!selected ? (
             <p>
@@ -86,7 +89,9 @@ export function NoteHistory({
                   readOnly
                 />
               </section>
-              <button
+              <Button
+                variant="default"
+                size="default"
                 className="button primary"
                 type="button"
                 disabled={!!note.trashedAt}
@@ -100,7 +105,7 @@ export function NoteHistory({
                 }}
               >
                 Khôi phục phiên bản
-              </button>
+              </Button>
             </>
           )}
         </Dialog.Content>

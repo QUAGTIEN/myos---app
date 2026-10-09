@@ -1,9 +1,14 @@
 "use client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useState, type FormEvent } from "react";
 import { useAccount, LogoutButton } from "@/modules/auth/account-context";
 import { cloudWrite } from "@/lib/firebase/cloud-client";
 import { profileSchema } from "@/lib/firebase/profile";
-import { Bell, Check, Cloud, Palette, UserRound } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { NativeSelect } from "@/components/ui/native-select";
+import "./settings.css";
 import Link from "next/link";
 import { PageHeading } from "@/components/page-ui";
 
@@ -54,11 +59,14 @@ function AccountSettings() {
   return (
     <>
       <p className="account-email">{account.profile.email}</p>
-      <form className="schedule-form" onSubmit={(event) => void save(event)}>
-        <fieldset disabled={pending}>
+      <form
+        className="schedule-form account-settings-form"
+        onSubmit={(event) => void save(event)}
+      >
+        <fieldset disabled={pending} className="account-settings-fields">
           <label>
             Tên hiển thị
-            <input
+            <Input
               required
               maxLength={80}
               value={name}
@@ -67,21 +75,26 @@ function AccountSettings() {
           </label>
           <label>
             Ngày đầu tuần
-            <select
+            <NativeSelect
               value={firstDay}
               onChange={(e) => setFirstDay(Number(e.target.value) as 0 | 1)}
             >
               <option value={1}>Thứ Hai</option>
               <option value={0}>Chủ Nhật</option>
-            </select>
+            </NativeSelect>
           </label>
           <div className="setting-row">
             <span>Múi giờ</span>
             <strong>Việt Nam (UTC+7)</strong>
           </div>
-          <button className="button primary" type="submit">
+          <Button
+            variant="default"
+            size="default"
+            className="button primary"
+            type="submit"
+          >
             {pending ? "Đang lưu…" : "Lưu tài khoản"}
-          </button>
+          </Button>
         </fieldset>
         {error && <p role="alert">{error}</p>}
         {message && <p role="status">{message}</p>}
@@ -96,57 +109,47 @@ export function SettingsScreen() {
     <>
       <PageHeading title="Cài đặt" />
       <div className="settings-grid">
-        <section className="panel settings-panel blue">
-          <h2>
-            <UserRound size={20} aria-hidden="true" />
-            Tài khoản
-          </h2>
-          <AccountSettings />
-        </section>
-        <section className="panel settings-panel lavender">
-          <h2>
-            <Palette size={20} aria-hidden="true" />
-            Giao diện
-          </h2>
-          <div className="theme-preview">
-            <div className="theme-sample">
-              <span />
-              <div>
-                <i />
-                <i />
-                <i />
-              </div>
-            </div>
-            <div>
+        <Card className="settings-section">
+          <CardHeader>
+            <h2>Tài khoản</h2>
+          </CardHeader>
+          <CardContent>
+            <AccountSettings />
+          </CardContent>
+        </Card>
+        <CalendarSettingsPanel />
+        <Card className="settings-section">
+          <CardHeader>
+            <h2>Giao diện</h2>
+          </CardHeader>
+          <CardContent>
+            <div className="setting-row">
+              <span>Chế độ hiển thị</span>
               <strong>Giao diện sáng</strong>
             </div>
-            <Check size={19} aria-label="Đang áp dụng" />
-          </div>
-          <div className="setting-row">
-            <span>Phông chữ</span>
-            <strong>Be Vietnam Pro</strong>
-          </div>
-        </section>
-        <CalendarSettingsPanel />
-        <section className="panel settings-panel peach">
-          <h2>
-            <Bell size={20} aria-hidden="true" />
-            Thông báo & dữ liệu
-          </h2>
-          <div className="setting-row">
-            <span>Nhắc qua Zalo</span>
-            <span className="status-pill">Chưa kết nối</span>
-          </div>
-          <div className="setting-row">
-            <span>
-              <Cloud size={16} aria-hidden="true" />
-              Đồng bộ dữ liệu
-            </span>
-            <span className="status-pill">
-              {account ? "Firestore" : "Local"}
-            </span>
-          </div>
-        </section>
+            <div className="setting-row">
+              <span>Phông chữ</span>
+              <strong>Be Vietnam Pro</strong>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="settings-section">
+          <CardHeader>
+            <h2>Thông báo & dữ liệu</h2>
+          </CardHeader>
+          <CardContent>
+            <div className="setting-row">
+              <span>Nhắc qua Zalo</span>
+              <Badge variant="secondary">Chưa kết nối</Badge>
+            </div>
+            <div className="setting-row">
+              <span>Đồng bộ dữ liệu</span>
+              <Badge variant="secondary">
+                {account ? "Firestore" : "Local"}
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

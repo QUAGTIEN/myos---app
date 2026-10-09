@@ -1,4 +1,6 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
@@ -65,7 +67,9 @@ export function CalendarDialog({
                 {description}
               </Dialog.Description>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               className="icon-button"
               type="button"
               aria-label="Đóng hộp thoại lịch"
@@ -73,7 +77,7 @@ export function CalendarDialog({
               onClick={onClose}
             >
               <X size={20} />
-            </button>
+            </Button>
           </div>
           {children}
         </Dialog.Content>
@@ -132,7 +136,7 @@ export function ExportDialog({
           <div className="schedule-form-grid">
             <label>
               Từ ngày
-              <input
+              <Input
                 type="date"
                 required
                 value={start}
@@ -141,7 +145,7 @@ export function ExportDialog({
             </label>
             <label>
               Đến hết ngày
-              <input
+              <Input
                 type="date"
                 required
                 min={start}
@@ -170,12 +174,23 @@ export function ExportDialog({
         )}
         {message && <p role="status">{message}</p>}
         <div className="schedule-dialog-actions">
-          <button type="button" className="button secondary" onClick={onClose}>
+          <Button
+            variant="outline"
+            size="default"
+            type="button"
+            className="button secondary"
+            onClick={onClose}
+          >
             Đóng
-          </button>
-          <button type="submit" className="button primary">
+          </Button>
+          <Button
+            variant="default"
+            size="default"
+            type="submit"
+            className="button primary"
+          >
             Tải file .ics
-          </button>
+          </Button>
         </div>
       </form>
     </CalendarDialog>

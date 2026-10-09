@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 
 import * as Dialog from "@radix-ui/react-dialog";
 import {
@@ -107,13 +108,15 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="header-location">
             <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
               <Dialog.Trigger asChild>
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon"
                   className="icon-button mobile-menu"
                   type="button"
                   aria-label="Mở menu"
                 >
                   <Menu size={21} />
-                </button>
+                </Button>
               </Dialog.Trigger>
               <Dialog.Portal>
                 <Dialog.Overlay className="drawer-overlay" />
@@ -125,13 +128,15 @@ export function AppShell({ children }: { children: ReactNode }) {
                     Điều hướng MyOS
                   </Dialog.Title>
                   <Dialog.Close asChild>
-                    <button
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       className="icon-button drawer-close"
                       type="button"
                       aria-label="Đóng menu"
                     >
                       <X size={20} />
-                    </button>
+                    </Button>
                   </Dialog.Close>
                   <SidebarContent
                     pathname={pathname}

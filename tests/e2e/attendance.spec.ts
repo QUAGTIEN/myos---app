@@ -7,7 +7,7 @@ import {
 
 async function openAttendance(page: Page) {
   await page.goto("/calendar");
-  await page.getByRole("button", { name: "Chấm công", exact: true }).click();
+  await page.getByRole("tab", { name: "Chấm công", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "Tạo công việc", exact: true }),
   ).toBeEnabled();
@@ -233,7 +233,7 @@ test("attendance refuses stale drafts and deleted activities cannot be resurrect
   await markAttendance(page, "2026-10-05", "Bản đầu");
   const other = await context.newPage();
   await other.goto("/calendar");
-  await other.getByRole("button", { name: "Chấm công", exact: true }).click();
+  await other.getByRole("tab", { name: "Chấm công", exact: true }).click();
   await other.getByLabel("Tháng chấm công").fill("2026-10");
   await other.evaluate(() => {
     const original = IDBDatabase.prototype.transaction;

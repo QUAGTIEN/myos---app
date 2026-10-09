@@ -1,4 +1,6 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   ArrowLeft,
   Check,
@@ -68,13 +70,15 @@ export function NoteDetailScreen({ noteId }: { noteId: string }) {
             Về Ghi chú
           </Link>
           {error && (
-            <button
+            <Button
+              variant="outline"
+              size="default"
               type="button"
               className="button secondary"
               onClick={refresh}
             >
               Thử lại
-            </button>
+            </Button>
           )}
         </EmptyState>
       </section>
@@ -167,7 +171,9 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
           {readonly && <p className="note-local-caption">Trong thùng rác</p>}
         </div>
         <div className="note-document-actions">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             className="button secondary small"
             type="button"
             disabled={locked || readonly}
@@ -177,8 +183,10 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
           >
             {base.pinned ? <PinOff size={16} /> : <Pin size={16} />}
             {base.pinned ? "Bỏ ghim" : "Ghim"}
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             className="button secondary small"
             type="button"
             disabled={locked}
@@ -186,8 +194,10 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
           >
             <History size={16} />
             Lịch sử
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             className="button secondary small"
             type="button"
             disabled={locked}
@@ -197,9 +207,11 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
           >
             {readonly ? <RotateCcw size={16} /> : <Trash2 size={16} />}
             {readonly ? "Khôi phục" : "Thùng rác"}
-          </button>
+          </Button>
           {readonly && (
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               className="button secondary small note-danger"
               type="button"
               disabled={locked}
@@ -208,7 +220,7 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
               }}
             >
               Xóa vĩnh viễn
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -216,7 +228,9 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
         <div className="note-error" role="alert">
           <p>{errors}</p>
           <div className="note-error-actions">
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               type="button"
               className="button secondary small"
               disabled={locked}
@@ -226,8 +240,10 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
               }}
             >
               Tải bản mới
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               type="button"
               className="button secondary small"
               onClick={() => {
@@ -244,7 +260,7 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
             >
               <Copy size={15} />
               Sao chép bản nháp
-            </button>
+            </Button>
           </div>
           {copyMessage && <p role="status">{copyMessage}</p>}
         </div>
@@ -260,7 +276,9 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
               {readonly ? "Chỉ đọc" : status}
             </span>
             {!readonly && (
-              <button
+              <Button
+                variant="outline"
+                size="sm"
                 className="button secondary small"
                 type="button"
                 disabled={locked}
@@ -270,13 +288,13 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
               >
                 <Save size={15} />
                 Lưu ngay
-              </button>
+              </Button>
             )}
           </div>
           <label htmlFor="note-title" className="sr-only">
             Tiêu đề ghi chú
           </label>
-          <input
+          <Input
             id="note-title"
             className="note-title-input"
             maxLength={120}
@@ -304,7 +322,7 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
           <section className="panel note-property-panel">
             <h2>Tổ chức ghi chú</h2>
             <label htmlFor="note-folder">Thư mục</label>
-            <input
+            <Input
               id="note-folder"
               maxLength={60}
               list="note-folders"
@@ -323,7 +341,7 @@ function NoteWorkspace({ note, readError }: { note: Note; readError: string }) {
               ))}
             </datalist>
             <label htmlFor="note-tags">Nhãn</label>
-            <input
+            <Input
               ref={tagInput}
               id="note-tags"
               disabled={readonly || actionPending}
