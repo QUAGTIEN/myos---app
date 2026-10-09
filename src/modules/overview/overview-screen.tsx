@@ -22,7 +22,7 @@ import { DateTime } from "luxon";
 import { PageSkeleton } from "@/components/page-ui";
 import {
   addDays,
-  calendarColors,
+  resolveCalendarColor,
   calendarError,
   calendarZone,
   localTime,
@@ -244,8 +244,9 @@ export function OverviewScreen() {
                     key={occurrence.eventId + occurrence.originalStart}
                     style={
                       {
-                        "--item-color":
-                          calendarColors[group?.color ?? "turquoise"],
+                        "--item-color": resolveCalendarColor(
+                          occurrence.color ?? group?.color ?? "turquoise",
+                        ),
                       } as React.CSSProperties
                     }
                   >

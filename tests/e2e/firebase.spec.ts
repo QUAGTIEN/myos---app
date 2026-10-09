@@ -22,8 +22,107 @@ import {
   defaultCalendarSettings,
   eventSchema,
 } from "../../src/modules/calendar/model";
+import {
+  newCalendarEvent,
+  editCalendarEvent,
+  occurrenceToInput,
+} from "../../src/modules/calendar/service";
+import { effectiveOccurrence } from "../../src/modules/calendar/recurrence";
 
 const password = "MyOS-test-2026!";
+test("calendar custom colors persist through cloud validation and recurring overrides", async ({
+  page,
+  context,
+}) => {
+  await account(context.request);
+  const settings = {
+    ...defaultCalendarSettings,
+    groups: defaultCalendarSettings.groups.map((group) => ({
+      ...group,
+      color: "#188038",
+    })),
+  };
+  const settingsCommand = {
+    kind: "calendarSettings",
+    operation: "save",
+    id: "calendar",
+    expectedVersion: 0,
+    value: settings,
+  };
+  expect((await write(context.request, settingsCommand)).status()).toBe(200);
+  expect(
+    (
+      await write(context.request, {
+        ...settingsCommand,
+        expectedVersion: 1,
+        value: {
+          ...settings,
+          groups: [{ ...settings.groups[0], color: "red" }],
+        },
+      })
+    ).status(),
+  ).toBe(400);
+  let event = newCalendarEvent({
+    ...blankEvent("2026-10-06", defaultCalendarSettings),
+    title: "Lịch màu cloud",
+    repeat: { weekdays: [2, 4], until: "2026-10-15" },
+  });
+  const command = {
+    kind: "calendarEvents",
+    operation: "save",
+    id: event.id,
+    expectedVersion: 0,
+    value: event,
+  };
+  expect((await write(context.request, command)).status()).toBe(200);
+  const first = effectiveOccurrence(event, event.start)!;
+  event = editCalendarEvent(
+    event,
+    { ...occurrenceToInput(first, event), color: "#c5221f" },
+    first.originalStart,
+  );
+  expect(
+    (
+      await write(context.request, {
+        ...command,
+        expectedVersion: 1,
+        value: event,
+      })
+    ).status(),
+  ).toBe(200);
+  expect(
+    (
+      await write(context.request, {
+        ...command,
+        expectedVersion: 2,
+        value: { ...event, version: 3, color: "#fff" },
+      })
+    ).status(),
+  ).toBe(400);
+  const saved = eventSchema
+    .array()
+    .parse(
+      (
+        await (
+          await context.request.get("/api/data?kind=calendarEvents")
+        ).json()
+      ).value,
+    )[0];
+  expect(effectiveOccurrence(saved, saved.start)?.color).toBe("#c5221f");
+  expect(effectiveOccurrence(saved, "2026-10-08T09:00")?.color).toBeNull();
+  await page.goto("/calendar");
+  await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
+  const firstCell = page.locator(
+    '.fc-daygrid-day[data-date="2026-10-06"] .fc-event',
+  );
+  const nextCell = page.locator(
+    '.fc-daygrid-day[data-date="2026-10-08"] .fc-event',
+  );
+  await expect(firstCell).toHaveCSS("background-color", "rgb(197, 34, 31)");
+  await expect(nextCell).toHaveCSS("background-color", "rgb(24, 128, 56)");
+  await page.reload();
+  await expect(firstCell).toHaveCSS("background-color", "rgb(197, 34, 31)");
+});
 test("attendance cloud stores atomic months, rejects stale/foreign records and keeps offline drafts", async ({
   page,
   context,

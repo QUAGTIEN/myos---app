@@ -73,7 +73,10 @@ test("calendar month/week navigation; independent timetables persist and copy at
   await page.getByRole("button", { name: "Tạo bộ lịch", exact: true }).click();
   let dialog = page.getByRole("dialog");
   await dialog.getByLabel("Tên bộ lịch").fill("Học kỳ IoT");
-  await dialog.getByLabel("Màu bộ lịch").selectOption("violet");
+  await dialog
+    .getByRole("group", { name: "Màu bộ lịch", exact: true })
+    .getByTitle("Tím", { exact: true })
+    .click();
   await dialog
     .getByRole("button", { name: "Lưu bộ lịch", exact: true })
     .click();

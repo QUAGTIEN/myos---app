@@ -24,6 +24,7 @@ import {
   occurrenceToInput,
 } from "../service";
 import { CalendarDialog } from "./dialogs";
+import { CalendarColorPicker } from "./color-picker";
 
 export function EventForm({
   initial,
@@ -284,6 +285,15 @@ export function EventForm({
               </select>
             </label>
           </div>
+          <CalendarColorPicker
+            label="Màu lịch hẹn"
+            value={input.color ?? null}
+            inheritedColor={
+              settings.groups.find((group) => group.id === input.groupId)
+                ?.color ?? "turquoise"
+            }
+            onChange={(color) => change({ color })}
+          />
           <div className="schedule-flags">
             <label className="schedule-check">
               <input

@@ -5,6 +5,11 @@ import {
   blankEvent,
   defaultCalendarSettings,
   eventInputSchema,
+  calendarColorSchema,
+  calendarPalette,
+  calendarTextColor,
+  resolveCalendarColor,
+  settingsSchema,
   localTime,
   type CalendarEvent,
 } from "../../src/modules/calendar/model";
@@ -71,6 +76,77 @@ function importedOccurrences(content: string) {
   }
   return dates.sort((a, b) => a.start.localeCompare(b.start));
 }
+test("calendar colors validate custom HEX, inherit legacy groups and preserve occurrence overrides", () => {
+  const legacy = series();
+  delete legacy.color;
+  expect(eventInputSchema.parse(legacy).color).toBeUndefined();
+  expect(calendarColorSchema.safeParse("#42A5F5").success).toBe(true);
+  for (const invalid of ["red", "#abc", "#ffffff00", "url(example)", "#zzzzzz"])
+    expect(calendarColorSchema.safeParse(invalid).success).toBe(false);
+  const settings = settingsSchema.parse({
+    ...defaultCalendarSettings,
+    groups: [{ id: "personal", name: "Cá nhân", color: "#188038" }],
+  });
+  expect(resolveCalendarColor(settings.groups[0].color)).toBe("#188038");
+  let event = editCalendarEvent(legacy, {
+    ...eventInputSchema.parse(legacy),
+    color: "blue",
+  });
+  const first = effectiveOccurrence(event, event.start)!;
+  event = editCalendarEvent(
+    event,
+    { ...occurrenceToInput(first, event), color: "#c5221f" },
+    first.originalStart,
+  );
+  event = editCalendarEvent(event, {
+    ...eventInputSchema.parse(event),
+    color: "violet",
+  });
+  expect(effectiveOccurrence(event, event.start)?.color).toBe("#c5221f");
+  expect(effectiveOccurrence(event, "2026-10-08T23:30")?.color).toBe("violet");
+  event = editCalendarEvent(
+    event,
+    {
+      ...occurrenceToInput(effectiveOccurrence(event, event.start)!, event),
+      color: null,
+    },
+    event.start,
+  );
+  expect(effectiveOccurrence(event, event.start)?.color).toBeNull();
+  // Old events with no color and explicit inheritance must compare equally.
+  const unchanged = editCalendarEvent(
+    legacy,
+    {
+      ...occurrenceToInput(effectiveOccurrence(legacy, legacy.start)!, legacy),
+      color: null,
+    },
+    legacy.start,
+  );
+  expect(unchanged.exceptions[0].fields).not.toContain("color");
+});
+test("calendar foregrounds meet text contrast for presets and custom light, dark and midtone colors", () => {
+  const luminance = (hex: string) => {
+    const rgb = [1, 3, 5].map((offset) => {
+      const c = parseInt(hex.slice(offset, offset + 2), 16) / 255;
+      return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    });
+    return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+  };
+  for (const color of [
+    ...calendarPalette.map((item) => resolveCalendarColor(item.value)),
+    "#ffffff",
+    "#000000",
+    "#808080",
+    "#ffff00",
+    "#42a5f5",
+  ]) {
+    const a = luminance(color),
+      b = luminance(calendarTextColor(color));
+    expect(
+      (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05),
+    ).toBeGreaterThanOrEqual(4.5);
+  }
+});
 test("Vietnam weekly overnight sessions include starts before the window and exclusive ends", () => {
   const event = series();
   expect(originalStarts(event)).toEqual([

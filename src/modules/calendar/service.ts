@@ -47,7 +47,8 @@ export function editCalendarEvent(
       input: parsed,
       fields: occurrenceFields.filter(
         (field) =>
-          JSON.stringify(parsed[field]) !== JSON.stringify(base[field]),
+          JSON.stringify(parsed[field] ?? null) !==
+          JSON.stringify(base[field] ?? null),
       ),
     };
     return eventSchema.parse({

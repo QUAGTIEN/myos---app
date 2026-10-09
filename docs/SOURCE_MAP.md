@@ -71,7 +71,7 @@ Rà soát bổ sung: 55 file TypeScript/React đều có vai trò route hoặc i
 | Lịch hẹn/thời khóa biểu | src/modules/calendar |
 | Ngoại lệ chuỗi tuần | calendar/model.ts, recurrence.ts, service.ts |
 | Xuất iCalendar | calendar/ics.ts |
-| Bộ lịch hiện hữu | calendar/components/calendar-book.tsx; groups trong calendarSettings |
+| Bộ lịch và màu lịch | calendar/components/calendar-book.tsx, color-picker.tsx; groups.color và event.color trong calendar/model.ts |
 | Chấm công nội dung/tự lưu/xóa logic, bảng toàn chiều rộng | calendar/attendance-model.ts, attendance-repository.ts, components/attendance.tsx; API trong lib/firebase/data.ts |
 | Hồ sơ, linh kiện và tệp dự án | projects/components/project-workspace.tsx; model/service/repository Projects; store projectAttachments |
 | Cài đặt lịch và lịch liên quan | calendar/components/calendar-settings.tsx, related-calendar.tsx |

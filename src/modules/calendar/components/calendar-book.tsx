@@ -5,6 +5,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { calendarError, type CalendarSettings } from "../model";
 import { copyCalendarGroup, calendarRepository } from "../repository";
 import { CalendarDialog } from "./dialogs";
+import { CalendarColorPicker } from "./color-picker";
 
 export function TimetableDialog({
   settings,
@@ -86,27 +87,11 @@ export function TimetableDialog({
             />
           </label>
           {mode !== "copy" && (
-            <label>
-              Màu bộ lịch
-              <select
-                value={color}
-                onChange={(event) =>
-                  setColor(event.target.value as typeof color)
-                }
-              >
-                {Object.entries({
-                  turquoise: "Xanh ngọc",
-                  blue: "Xanh dương",
-                  amber: "Hổ phách",
-                  rose: "Hồng",
-                  violet: "Tím",
-                }).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <CalendarColorPicker
+              label="Màu bộ lịch"
+              value={color}
+              onChange={(next) => next !== null && setColor(next)}
+            />
           )}
         </fieldset>
         {error && (
@@ -114,7 +99,7 @@ export function TimetableDialog({
             {error}
           </p>
         )}
-        <div className="schedule-form-actions">
+        <div className="schedule-dialog-actions">
           <Button
             variant="outline"
             size="default"

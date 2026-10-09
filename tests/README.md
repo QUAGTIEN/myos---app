@@ -1,5 +1,7 @@
 # Kiểm thử MyOS
 
+Màu lịch 10/10/2026: lint/typecheck, build local/cloud đạt; 16 kiểm tra liên quan đạt trên desktop/mobile (6 domain không lặp trên mobile). Bao gồm HEX hợp lệ/không hợp lệ, tương phản chữ 4.5:1, dữ liệu cũ, kế thừa/override màu từng buổi, reload tháng/tuần, bộ lịch/cài đặt/copy và 6 mục hiển thị đầy đủ. Firebase Emulator: 2 kiểm tra màu cloud đạt, xác nhận lưu nhóm/ngoại lệ và từ chối màu sai. Đã xem bảng lịch, bộ chọn màu và Cài đặt ở desktop/mobile.
+
 Kiểm chứng UI shadcn/ui ngày 10/10/2026: lint/typecheck/format và build đạt. Suite local chạy 96 cases: 86 đạt, 8 skip chủ đích, 2 lỗi locator cũ khi nút chuyển thành tab. Đã sửa locator và chạy lại 8 cases desktop/mobile, tất cả đạt, gồm sao chép bộ lịch, lưu cài đặt, CRUD Dự án và kiểm tra mới cho điều hướng tab bằng bàn phím/tabpanel. Đã xem ảnh Cài đặt, Dự án và các màn hình từ suite trên desktop/mobile.
 
 Suite Firebase Emulator chạy 16 cases desktop/mobile: 14 đạt, 2 lỗi locator cũ của tab Chấm công. Đã sửa locator và chạy lại cả 2 cases, tất cả đạt. Các kiểm tra bao gồm xác thực, hồ sơ, CRUD cloud, nháp chấm công, quyền truy cập, version và thu hồi phiên; dùng project demo riêng, không ghi dữ liệu production. Emulator chạy bằng Java 21 portable trong thư mục tạm.

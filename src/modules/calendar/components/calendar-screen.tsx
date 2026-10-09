@@ -35,7 +35,8 @@ import { useNotes } from "@/modules/notes/hooks";
 import {
   addDays,
   blankEvent,
-  calendarColors,
+  calendarTextColor,
+  resolveCalendarColor,
   calendarError,
   calendarZone,
   localTime,
@@ -256,11 +257,12 @@ export function CalendarScreen({
   const calendarEvents = useMemo(
     () =>
       occurrences.map((occurrence) => {
-        const color =
-          calendarColors[
+        const color = resolveCalendarColor(
+          occurrence.color ??
             data.settings.groups.find((item) => item.id === occurrence.groupId)
-              ?.color ?? "turquoise"
-          ];
+              ?.color ??
+            "turquoise",
+        );
         return {
           id: occurrence.eventId + ":" + occurrence.originalStart,
           title: occurrence.title,
@@ -272,8 +274,8 @@ export function CalendarScreen({
             : localTime(occurrence.end).toISO()!,
           allDay: occurrence.allDay,
           display: "block",
-          backgroundColor: color + "4d",
-          textColor: "#07334a",
+          backgroundColor: color,
+          textColor: calendarTextColor(color),
           borderColor: "transparent",
           classNames: occurrence.completed ? ["schedule-completed"] : [],
           extendedProps: { occurrence },
@@ -715,7 +717,9 @@ export function CalendarScreen({
                 <div>
                   {data.settings.groups.map((item) => (
                     <span key={item.id}>
-                      <i style={{ background: calendarColors[item.color] }} />
+                      <i
+                        style={{ background: resolveCalendarColor(item.color) }}
+                      />
                       {item.name}
                     </span>
                   ))}

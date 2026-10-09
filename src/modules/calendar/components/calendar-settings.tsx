@@ -5,7 +5,12 @@ import { firebaseEnabled } from "@/lib/firebase/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { NativeSelect } from "@/components/ui/native-select";
 import { useState, type FormEvent } from "react";
-import { calendarColors, calendarError, type CalendarSettings } from "../model";
+import {
+  resolveCalendarColor,
+  calendarError,
+  type CalendarSettings,
+} from "../model";
+import { CalendarColorPicker } from "./color-picker";
 import { calendarRepository } from "../repository";
 import { useCalendar } from "../use-calendar";
 import "../calendar.css";
@@ -138,7 +143,7 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
         <div className="schedule-group-editors">
           {draft.groups.map((group, index) => (
             <div className="schedule-group-editor" key={group.id}>
-              <i style={{ background: calendarColors[group.color] }} />
+              <i style={{ background: resolveCalendarColor(group.color) }} />
               <label>
                 Tên nhóm {index + 1}
                 <Input
@@ -157,37 +162,24 @@ function SettingsForm({ settings }: { settings: CalendarSettings }) {
                   }
                 />
               </label>
-              <label>
-                Màu nhóm {index + 1}
-                <NativeSelect
-                  value={group.color}
-                  onChange={(e) =>
-                    setDraft({
-                      ...draft,
-                      groups: draft.groups.map((item) =>
-                        item.id === group.id
-                          ? {
-                              ...item,
-                              color: e.target.value as typeof group.color,
-                            }
-                          : item,
-                      ),
-                    })
-                  }
-                >
-                  {Object.entries({
-                    turquoise: "Xanh ngọc",
-                    blue: "Xanh dương",
-                    amber: "Hổ phách",
-                    rose: "Hồng",
-                    violet: "Tím",
-                  }).map(([value, name]) => (
-                    <option key={value} value={value}>
-                      {name}
-                    </option>
-                  ))}
-                </NativeSelect>
-              </label>
+              <CalendarColorPicker
+                label={`Màu nhóm ${index + 1}`}
+                value={group.color}
+                onChange={(color) =>
+                  color !== null &&
+                  setDraft({
+                    ...draft,
+                    groups: draft.groups.map((item) =>
+                      item.id === group.id
+                        ? {
+                            ...item,
+                            color,
+                          }
+                        : item,
+                    ),
+                  })
+                }
+              />
             </div>
           ))}
         </div>

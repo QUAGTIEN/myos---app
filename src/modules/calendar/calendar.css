@@ -870,12 +870,94 @@
 }
 .schedule-group-editor {
   display: grid;
-  grid-template-columns: 8px minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: 8px minmax(0, 1fr);
   align-items: end;
   gap: 10px;
 }
 .schedule-group-editor > i {
   margin-bottom: 20px;
+}
+.schedule-group-editor > .schedule-color-picker {
+  grid-column: 2;
+}
+.schedule-form .schedule-color-picker {
+  display: block;
+}
+.schedule-color-picker legend {
+  margin-bottom: 8px;
+  font-size: var(--text-label);
+  font-weight: 500;
+}
+.schedule-color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.schedule-color-picker .schedule-color-swatch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+}
+.schedule-color-swatch > span:not(.sr-only) {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+.schedule-color-picker .schedule-color-swatch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+.schedule-color-swatch:has(input:checked),
+.schedule-color-swatch:has(input:focus-visible) {
+  background: var(--primary-soft);
+}
+.schedule-color-swatch:has(input:checked) > span:not(.sr-only)::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 9px;
+  background: #fff;
+  border: 1px solid #07334a;
+  border-radius: 50%;
+}
+.schedule-color-swatch:hover {
+  background: var(--surface-soft);
+}
+.schedule-color-swatch:has(input:disabled) {
+  cursor: default;
+  opacity: 0.6;
+}
+.schedule-color-custom {
+  display: grid;
+  grid-template-columns: 40px minmax(90px, 130px) minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.schedule-color-picker .schedule-color-custom input {
+  height: 40px;
+  padding: 6px 8px;
+}
+.schedule-color-picker .schedule-color-custom input[type="color"] {
+  padding: 3px;
+  cursor: pointer;
+}
+.schedule-color-preview {
+  border-radius: var(--radius-control);
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.5;
 }
 .schedule-related {
   padding: 22px;
@@ -983,9 +1065,6 @@
   }
   .schedule-group-editor {
     grid-template-columns: 8px minmax(0, 1fr);
-  }
-  .schedule-group-editor label:last-child {
-    grid-column: 2;
   }
   .schedule-related {
     padding: 18px;

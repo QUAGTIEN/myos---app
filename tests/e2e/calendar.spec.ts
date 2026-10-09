@@ -103,6 +103,92 @@ test("six horizontal entries expand the day and persist in month and week views"
   await expect(page.getByRole("dialog")).toContainText("Lí 12");
 });
 
+test("calendar palette and custom colors persist with group inheritance and individual overrides", async ({
+  page,
+  isMobile,
+}, info) => {
+  if (!isMobile) await page.setViewportSize({ width: 1920, height: 1080 });
+  await calendar(page);
+  const tools = page.getByLabel("Thao tác lịch", { exact: true });
+  await tools.click();
+  await page.getByRole("button", { name: "Tạo bộ lịch", exact: true }).click();
+  let form = page.getByRole("dialog");
+  await form.getByLabel("Tên bộ lịch").fill("Lịch màu riêng");
+  const violet = form.getByRole("radio", { name: "Tím", exact: true });
+  await violet.focus();
+  await violet.press("Space");
+  await expect(violet).toBeChecked();
+  await form.screenshot({ path: info.outputPath("calendar-color-picker.png") });
+  await form.getByRole("button", { name: "Lưu bộ lịch", exact: true }).click();
+  await expect(form).not.toBeVisible();
+  await create(page, "Theo màu bộ lịch");
+  await expect(appointment(page, "Theo màu bộ lịch")).toHaveCSS(
+    "background-color",
+    "rgb(117, 86, 164)",
+  );
+  await openAppointment(page);
+  form = page.getByRole("dialog");
+  await form
+    .getByLabel("Tên lịch hẹn", { exact: true })
+    .fill("Màu riêng từng lịch");
+  await form.getByLabel("Bắt đầu", { exact: true }).fill("2026-10-06T11:00");
+  await form.getByLabel("Kết thúc", { exact: true }).fill("2026-10-06T12:00");
+  await form.getByLabel("Màu lịch hẹn — mã HEX", { exact: true }).fill("#12");
+  await form.getByRole("button", { name: "Lưu lịch hẹn", exact: true }).click();
+  await expect(form).toBeVisible();
+  await expect(
+    form.getByLabel("Màu lịch hẹn — mã HEX", { exact: true }),
+  ).toHaveValue("#12");
+  await form
+    .getByLabel("Màu lịch hẹn — mã HEX", { exact: true })
+    .fill("#c5221f");
+  await form.getByRole("button", { name: "Lưu lịch hẹn", exact: true }).click();
+  await expect(form).not.toBeVisible();
+  await expect(appointment(page, "Màu riêng từng lịch")).toHaveCSS(
+    "background-color",
+    "rgb(197, 34, 31)",
+  );
+  await tools.click();
+  await page.getByRole("button", { name: "Sửa bộ lịch", exact: true }).click();
+  form = page.getByRole("dialog");
+  await form
+    .getByLabel("Màu bộ lịch — mã HEX", { exact: true })
+    .fill("#188038");
+  await form.getByRole("button", { name: "Lưu bộ lịch", exact: true }).click();
+  await expect(form).not.toBeVisible();
+  await page.reload();
+  await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
+  for (const view of ["Tháng", "Tuần"]) {
+    await page.getByRole("button", { name: view, exact: true }).click();
+    await expect(appointment(page, "Theo màu bộ lịch")).toHaveCSS(
+      "background-color",
+      "rgb(24, 128, 56)",
+    );
+    await expect(appointment(page, "Màu riêng từng lịch")).toHaveCSS(
+      "background-color",
+      "rgb(197, 34, 31)",
+    );
+    await expect(
+      appointment(page, "Màu riêng từng lịch").locator(".fc-event-main"),
+    ).toHaveCSS("color", "rgb(255, 255, 255)");
+  }
+  form = await edit(page, "Màu riêng từng lịch");
+  await form
+    .getByRole("group", { name: "Màu lịch hẹn", exact: true })
+    .getByTitle("Theo bộ lịch", { exact: true })
+    .click();
+  await form.getByRole("button", { name: "Lưu lịch hẹn", exact: true }).click();
+  await expect(form).not.toBeVisible();
+  await expect(appointment(page, "Màu riêng từng lịch")).toHaveCSS(
+    "background-color",
+    "rgb(24, 128, 56)",
+  );
+  await page.screenshot({
+    path: info.outputPath("calendar-custom-colors.png"),
+    fullPage: true,
+  });
+});
+
 test("appointment CRUD, marks, month/week views and all-day overnight times persist", async ({
   page,
 }, info) => {
@@ -405,7 +491,10 @@ test("calendar settings and custom group persist and apply to new appointments",
   await panel.getByLabel("Giờ bắt đầu hiển thị").fill("07:00");
   await panel.getByRole("button", { name: "Thêm nhóm lịch" }).click();
   await panel.getByLabel("Tên nhóm 4").fill("Sức khỏe");
-  await panel.getByLabel("Màu nhóm 4").selectOption("rose");
+  await panel
+    .getByRole("group", { name: "Màu nhóm 4", exact: true })
+    .getByTitle("Hồng", { exact: true })
+    .click();
   await panel.getByRole("button", { name: "Lưu cài đặt lịch" }).click();
   await expect(panel).toContainText("Đã lưu cài đặt lịch");
   await page.reload();

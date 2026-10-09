@@ -10,6 +10,7 @@ export const occurrenceFields = [
   "end",
   "allDay",
   "groupId",
+  "color",
   "important",
   "completed",
   "reminderMinutes",
@@ -24,6 +25,53 @@ export const calendarColors = {
   rose: "#b14366",
   violet: "#7556a4",
 };
+export const calendarColorSchema = z.union([
+  z.enum(["turquoise", "blue", "amber", "rose", "violet"]),
+  z
+    .string()
+    .regex(
+      /^#[0-9a-fA-F]{6}$/,
+      "Màu phải là mã HEX gồm 6 ký tự, ví dụ #007F78.",
+    ),
+]);
+export type CalendarColor = z.infer<typeof calendarColorSchema>;
+export const calendarPalette: { value: CalendarColor; name: string }[] = [
+  { value: "turquoise", name: "Xanh ngọc" },
+  { value: "blue", name: "Xanh dương" },
+  { value: "amber", name: "Hổ phách" },
+  { value: "rose", name: "Hồng" },
+  { value: "violet", name: "Tím" },
+  { value: "#188038", name: "Xanh lá" },
+  { value: "#c5221f", name: "Đỏ" },
+  { value: "#c26401", name: "Cam" },
+  { value: "#039be5", name: "Xanh trời" },
+  { value: "#3f51b5", name: "Chàm" },
+  { value: "#616161", name: "Xám" },
+];
+export function resolveCalendarColor(color: CalendarColor = "turquoise") {
+  return color.startsWith("#")
+    ? color.toLowerCase()
+    : calendarColors[color as keyof typeof calendarColors];
+}
+// Pick the higher-contrast foreground for both preset and custom backgrounds.
+export function calendarTextColor(color: string) {
+  function luminance(hex: string) {
+    const channels = [1, 3, 5].map((offset) => {
+      const value = parseInt(hex.slice(offset, offset + 2), 16) / 255;
+      return value <= 0.04045
+        ? value / 12.92
+        : ((value + 0.055) / 1.055) ** 2.4;
+    });
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  }
+  const background = luminance(color);
+  const navy = luminance("#07334a");
+  const whiteContrast = 1.05 / (background + 0.05);
+  const navyContrast =
+    (Math.max(background, navy) + 0.05) / (Math.min(background, navy) + 0.05);
+  if (Math.max(whiteContrast, navyContrast) < 4.5) return "#000000";
+  return whiteContrast >= navyContrast ? "#ffffff" : "#07334a";
+}
 export const dateSchema = z
   .string()
   .refine(
@@ -42,6 +90,7 @@ const inputShape = {
   end: z.string(),
   allDay: z.boolean(),
   groupId: z.string().min(1).max(60),
+  color: calendarColorSchema.nullable().optional(),
   important: z.boolean(),
   completed: z.boolean(),
   reminderMinutes: z.number().int().min(0).max(10080).nullable(),
@@ -108,7 +157,9 @@ export const eventSchema = z
           originalStart: z.string(),
           cancelled: z.boolean(),
           input: occurrenceInputSchema.nullable(),
-          fields: z.array(z.enum(occurrenceFields)).max(12),
+          fields: z
+            .array(z.enum(occurrenceFields))
+            .max(occurrenceFields.length),
         }),
       )
       .max(2000),
@@ -136,7 +187,7 @@ export const settingsSchema = z
         z.object({
           id: z.string().min(1).max(60),
           name: z.string().trim().min(1).max(40),
-          color: z.enum(["turquoise", "blue", "amber", "rose", "violet"]),
+          color: calendarColorSchema,
         }),
       )
       .min(1)
@@ -234,6 +285,7 @@ export function blankEvent(
     end: date + "T10:00",
     allDay: false,
     groupId: settings.groups[0].id,
+    color: null,
     important: false,
     completed: false,
     reminderMinutes: settings.defaultReminderMinutes,
