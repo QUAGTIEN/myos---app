@@ -6,7 +6,7 @@ Nền màn hình xác thực: [A Green Forest — Lauri Poldre / Pexels](https:/
 
 ## Trạng thái hiện tại
 
-Lịch hiển thị card màu đậm theo bộ lịch, chữ trắng và tiêu đề xuống dòng. Ô ngày đủ rộng xếp hai cột; ô hẹp xếp một cột. Hiển thị toàn bộ mục, không giới hạn ba mục; lịch nhiều ngày giữ cách trải qua các ngày để bảo toàn kéo thả.
+Lịch hiển thị thanh ngang xếp một cột, nền pastel đậm theo bộ lịch và chữ navy; tiêu đề dài xuống dòng. Ô ngày tự giãn để hiện toàn bộ mục, không giới hạn ba mục; lịch nhiều ngày giữ cách trải qua các ngày để bảo toàn kéo thả.
 
 **Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần; Chấm công nhập nội dung trực tiếp theo ngày, có nội dung là đã chấm và ô xanh nhạt. Tự lưu sau 700 ms ngừng gõ, version check, giữ nháp khi lỗi/xung đột. Có xóa công việc với xác nhận; Lịch và Chấm công dùng toàn bộ chiều rộng, không có cột thông tin bên phải. Tổng quan không còn ba nút tạo nhanh. Firebase theo UID, IndexedDB v5 giữ dữ liệu cũ. Xóa công việc là xóa logic, các tháng bị khóa đọc/ghi; không có khôi phục từ UI. [ADR 007](docs/decisions/007-calendar-attendance.md).
 

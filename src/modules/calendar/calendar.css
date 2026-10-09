@@ -567,37 +567,8 @@
   border-radius: 5px;
   white-space: normal;
 }
-.schedule-calendar-scroll .fc-daygrid-day-events {
-  container-type: inline-size;
-}
-/* Multi-day spans retain FullCalendar's positioning and drag hit areas. */
-.schedule-calendar-scroll
-  .fc-daygrid-day-events:not(:has(.fc-daygrid-event-harness-abs)) {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-  padding: 0 6px 6px;
-}
-.schedule-calendar-scroll
-  .fc-daygrid-day-events:not(:has(.fc-daygrid-event-harness-abs))
-  > .fc-daygrid-event-harness {
-  min-width: 0;
-  margin-top: 0 !important;
-}
-.schedule-calendar-scroll
-  .fc-daygrid-day-events:not(:has(.fc-daygrid-event-harness-abs))::before,
-.schedule-calendar-scroll
-  .fc-daygrid-day-events:not(:has(.fc-daygrid-event-harness-abs))::after,
-.schedule-calendar-scroll .fc-daygrid-day-bottom {
-  display: none;
-}
-.schedule-calendar-scroll .fc-daygrid-event-harness .fc-event {
-  margin: 0;
-}
-@container (max-width: 145px) {
-  .schedule-calendar-scroll .fc-daygrid-event-harness {
-    grid-column: 1 / -1;
-  }
+.schedule-calendar-scroll .fc-daygrid-event {
+  margin-top: 4px;
 }
 .schedule-calendar-scroll .fc-daygrid-dot-event {
   padding: 4px 2px;
@@ -605,17 +576,22 @@
 .schedule-event-content {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 3px 5px;
+  align-items: baseline;
+  gap: 5px;
   min-width: 0;
-  min-height: 44px;
+  min-height: 28px;
   font-size: 12px;
   line-height: 1.4;
 }
 .schedule-event-content > span:last-child {
-  flex-basis: 100%;
+  flex: 1 1 70px;
+  min-width: 0;
   overflow-wrap: anywhere;
-  font-weight: 600;
+  font-weight: 500;
+}
+.schedule-event-content > b {
+  flex-shrink: 0;
+  font-weight: 500;
 }
 .schedule-event-icons {
   display: inline-flex;
@@ -626,7 +602,7 @@
   display: none;
 }
 .schedule-calendar-scroll .fc-h-event .schedule-event-content {
-  padding: 7px;
+  padding: 5px 7px;
 }
 .schedule-calendar-scroll .fc-v-event .schedule-event-content {
   flex-wrap: wrap;

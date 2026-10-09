@@ -43,12 +43,14 @@ async function edit(page: Page, title: string, index = 0) {
   return page.getByRole("dialog");
 }
 
-test("six daily cards remain visible, editable and persist in month and week views", async ({
+test("six horizontal entries expand the day and persist in month and week views", async ({
   page,
   isMobile,
 }, info) => {
   if (!isMobile) await page.setViewportSize({ width: 1920, height: 1080 });
   await calendar(page);
+  const day = page.locator('.fc-daygrid-day[data-date="2026-10-06"]');
+  const emptyHeight = (await day.boundingBox())!.height;
   page.on("dialog", (dialog) => dialog.accept());
   const titles = [
     "IELTS",
@@ -59,7 +61,6 @@ test("six daily cards remain visible, editable and persist in month and week vie
     "Chuẩn bị bài thực hành cảm biến",
   ];
   for (const title of titles) await create(page, title);
-  const day = page.locator('.fc-daygrid-day[data-date="2026-10-06"]');
   for (const view of ["Tháng", "Tuần"]) {
     await page.getByRole("button", { name: view, exact: true }).click();
     await expect(day.locator(".fc-event")).toHaveCount(6);
@@ -81,15 +82,18 @@ test("six daily cards remain visible, editable and persist in month and week vie
             b.y + b.height <= a.y + 1,
         ).toBeTruthy();
       }
-    if (!isMobile) {
-      expect(Math.abs(boxes[0].y - boxes[1].y)).toBeLessThan(2);
-      expect(Math.abs(boxes[0].x - boxes[1].x)).toBeGreaterThan(50);
+    const dayBox = (await day.boundingBox())!;
+    expect(dayBox.height).toBeGreaterThan(emptyHeight);
+    for (const box of boxes) {
+      expect(Math.abs(box.x - boxes[0].x)).toBeLessThan(2);
+      expect(box.width).toBeGreaterThan(dayBox.width * 0.85);
+      expect(box.y + box.height).toBeLessThanOrEqual(dayBox.y + dayBox.height);
     }
   }
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
-    path: info.outputPath("calendar-cards.png"),
+    path: info.outputPath("calendar-horizontal-entries.png"),
     fullPage: true,
   });
   await page.reload();
