@@ -19,7 +19,6 @@ import {
   MoreHorizontal,
   Pencil,
   Plus,
-  Repeat2,
   Settings2,
   Star,
   type LucideIcon,
@@ -268,8 +267,8 @@ export function CalendarScreen({
             : localTime(occurrence.end).toISO()!,
           allDay: occurrence.allDay,
           display: "block",
-          backgroundColor: color + "16",
-          textColor: color,
+          backgroundColor: color,
+          textColor: "#ffffff",
           borderColor: "transparent",
           classNames: occurrence.completed ? ["schedule-completed"] : [],
           extendedProps: { occurrence },
@@ -635,9 +634,7 @@ export function CalendarScreen({
                 selectable={false}
                 editable={!data.error && !pending}
                 eventResizableFromStart
-                dayMaxEvents={3}
-                moreLinkText={(count) => `+${count} mục`}
-                moreLinkClick="popover"
+                dayMaxEvents={false}
                 navLinks={false}
                 datesSet={datesSet}
                 events={calendarEvents}
@@ -682,20 +679,11 @@ export function CalendarScreen({
                   return (
                     <span className="schedule-event-content">
                       <span className="schedule-event-icons">
-                        {occurrence.entryKind === "note" && (
-                          <FileText size={12} aria-label="Ghi chú" />
-                        )}
-                        {occurrence.entryKind === "task" && (
-                          <ListTodo size={12} aria-label="Công việc" />
-                        )}
                         {occurrence.completed && (
                           <Check size={12} aria-label="Đã hoàn thành" />
                         )}
                         {occurrence.important && (
                           <Star size={12} aria-label="Quan trọng" />
-                        )}
-                        {occurrence.recurring && (
-                          <Repeat2 size={12} aria-label="Lặp tuần" />
                         )}
                       </span>
                       {info.timeText && <b>{info.timeText}</b>}

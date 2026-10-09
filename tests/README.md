@@ -22,6 +22,8 @@ attendance.spec.ts kiểm tra nội dung ngày tháng/tuần, toolbar, ghi chú 
 
 Kiểm chứng bỏ cột bên phải ngày 09/10/2026: Attendance desktop/mobile đạt 9 cases, 1 skip schema trên mobile; đã xem bố cục Lịch và Chấm công thực tế ở cả hai kích thước. Lint, typecheck, format và production build đạt.
 
+Card lịch ngày 09/10/2026: Calendar/Attendance đạt 26 cases, 2 skip chủ đích. Trường hợp sáu mục cùng ngày kiểm tra tất cả card hiện đủ, không chồng, mở chi tiết và reload ở tháng/tuần trên desktop/mobile; đã xem ảnh thực tế. CRUD, chuỗi tuần, qua đêm/nhiều ngày, kéo thả/rollback và xuất ICS vẫn đạt.
+
 Kiểm chứng ngày 08/10/2026: lint, typecheck, format và production build đạt; Attendance desktop/mobile đạt 7 cases, 1 skip để không lặp schema test; Firebase Emulator đạt 14 cases. Suite local đầy đủ đã chạy 92 cases: 82 đạt, 8 skip và 2 lỗi locator của Attendance; sau khi sửa locator, các cases Attendance chạy lại đạt. Calendar/domain/workspace cũng chạy lại sau thay đổi giao diện. Không xác nhận tốc độ hoặc dữ liệu trên deployment thật từ các kết quả Emulator này.
 
 Kiểm chứng ngày 09/10/2026: lint/typecheck/format/build đạt; hồi quy Calendar/Attendance/domain/workspace/shell đạt 48 cases, 8 skip chủ đích. Sau chỉnh kích thước editor mobile và validation giờ, Attendance chạy lại đạt 7 cases, 1 skip; Firebase Emulator đạt toàn bộ 14 cases với ghi chú riêng/cloud reload, lỗi mạng giữ nội dung đang gõ, version/ownership và Auth. Đã xem ảnh desktop 1920 px và mobile 320 px của bảng/editor thực tế.

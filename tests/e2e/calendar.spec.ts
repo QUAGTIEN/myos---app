@@ -43,6 +43,62 @@ async function edit(page: Page, title: string, index = 0) {
   return page.getByRole("dialog");
 }
 
+test("six daily cards remain visible, editable and persist in month and week views", async ({
+  page,
+  isMobile,
+}, info) => {
+  if (!isMobile) await page.setViewportSize({ width: 1920, height: 1080 });
+  await calendar(page);
+  page.on("dialog", (dialog) => dialog.accept());
+  const titles = [
+    "IELTS",
+    "KHTN",
+    "School",
+    "Anh 9",
+    "Lí 12",
+    "Chuẩn bị bài thực hành cảm biến",
+  ];
+  for (const title of titles) await create(page, title);
+  const day = page.locator('.fc-daygrid-day[data-date="2026-10-06"]');
+  for (const view of ["Tháng", "Tuần"]) {
+    await page.getByRole("button", { name: view, exact: true }).click();
+    await expect(day.locator(".fc-event")).toHaveCount(6);
+    await expect(day.locator(".fc-daygrid-more-link")).toHaveCount(0);
+    const boxes = [];
+    for (const title of titles) {
+      const card = day.locator(".fc-event").filter({ hasText: title });
+      await expect(card).toBeVisible();
+      boxes.push((await card.boundingBox())!);
+    }
+    for (let i = 0; i < boxes.length; i++)
+      for (let j = i + 1; j < boxes.length; j++) {
+        const a = boxes[i],
+          b = boxes[j];
+        expect(
+          a.x + a.width <= b.x + 1 ||
+            b.x + b.width <= a.x + 1 ||
+            a.y + a.height <= b.y + 1 ||
+            b.y + b.height <= a.y + 1,
+        ).toBeTruthy();
+      }
+    if (!isMobile) {
+      expect(Math.abs(boxes[0].y - boxes[1].y)).toBeLessThan(2);
+      expect(Math.abs(boxes[0].x - boxes[1].x)).toBeGreaterThan(50);
+    }
+  }
+  await page.getByRole("button", { name: "Tháng", exact: true }).click();
+  await page.evaluate(() => document.fonts.ready);
+  await page.screenshot({
+    path: info.outputPath("calendar-cards.png"),
+    fullPage: true,
+  });
+  await page.reload();
+  await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
+  await expect(day.locator(".fc-event")).toHaveCount(6);
+  await day.locator(".fc-event").filter({ hasText: "Lí 12" }).click();
+  await expect(page.getByRole("dialog")).toContainText("Lí 12");
+});
+
 test("appointment CRUD, marks, month/week views and all-day overnight times persist", async ({
   page,
 }, info) => {
