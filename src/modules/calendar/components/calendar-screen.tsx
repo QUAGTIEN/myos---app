@@ -29,6 +29,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PageHeading, PageSkeleton } from "@/components/page-ui";
+import { useMobile } from "@/components/use-mobile";
 
 import { useProjects } from "@/modules/projects/use-projects";
 import { useNotes } from "@/modules/notes/hooks";
@@ -57,6 +58,7 @@ import { EventDetails } from "./event-details";
 import { TimetableDialog } from "./calendar-book";
 import { CalendarDialog, ExportDialog } from "./dialogs";
 import { Attendance } from "./attendance";
+import { MobileCalendar } from "./mobile-calendar";
 
 const plugins = [dayGridPlugin, interactionPlugin, luxonPlugin];
 const validRange = { start: "2000-01-01", end: "2100-12-31" };
@@ -161,6 +163,7 @@ export function CalendarScreen({
   query?: CalendarQuery;
 }) {
   const account = useAccount();
+  const mobile = useMobile();
   const calendar = useRef<FullCalendar>(null);
   const data = useCalendar();
   const {
@@ -325,6 +328,7 @@ export function CalendarScreen({
         sessions[0];
       if (occurrence) {
         calendar.current?.getApi().gotoDate(occurrence.start.slice(0, 10));
+        setChosenDate(occurrence.start.slice(0, 10));
         setDetail({ event, occurrence });
       }
       return;
@@ -452,6 +456,42 @@ export function CalendarScreen({
     }
   }
   if (data.loading) return <PageSkeleton />;
+  const tools = (
+    <CalendarTools
+      actions={[
+        {
+          label: "Tạo bộ lịch",
+          icon: Plus,
+          disabled:
+            !!data.error || pending || data.settings.groups.length >= 20,
+          onSelect: () => setTimetable("create"),
+        },
+        ...(group
+          ? [
+              {
+                label: "Sửa bộ lịch",
+                icon: Pencil,
+                disabled: !!data.error || pending,
+                onSelect: () => setTimetable("edit"),
+              },
+              {
+                label: "Sao chép bộ lịch",
+                icon: Copy,
+                disabled:
+                  !!data.error || pending || data.settings.groups.length >= 20,
+                onSelect: () => setTimetable("copy"),
+              },
+            ]
+          : []),
+        {
+          label: "Xuất .ics",
+          icon: Download,
+          disabled: !!data.error,
+          onSelect: () => setExporting(true),
+        },
+      ]}
+    />
+  );
   return (
     <Tabs
       className="schedule-module"
@@ -506,6 +546,25 @@ export function CalendarScreen({
               attendanceDirty.current = dirty;
               setAttendanceBusy(busy);
             }}
+          />
+        ) : mobile ? (
+          <MobileCalendar
+            date={chosenDate}
+            view={view}
+            firstDay={account?.profile.firstDay ?? 1}
+            today={today}
+            events={data.events}
+            settings={data.settings}
+            group={group}
+            search={search}
+            disabled={!!data.error || pending}
+            onDate={setChosenDate}
+            onView={setView}
+            onGroup={setGroup}
+            onSearch={setSearch}
+            onOpen={openOccurrence}
+            onCreate={setDayActions}
+            tools={tools}
           />
         ) : (
           <div className="schedule-workspace">
@@ -596,44 +655,7 @@ export function CalendarScreen({
                       </option>
                     ))}
                   </select>
-                  <CalendarTools
-                    actions={[
-                      {
-                        label: "Tạo bộ lịch",
-                        icon: Plus,
-                        disabled:
-                          !!data.error ||
-                          pending ||
-                          data.settings.groups.length >= 20,
-                        onSelect: () => setTimetable("create"),
-                      },
-                      ...(group
-                        ? [
-                            {
-                              label: "Sửa bộ lịch",
-                              icon: Pencil,
-                              disabled: !!data.error || pending,
-                              onSelect: () => setTimetable("edit"),
-                            },
-                            {
-                              label: "Sao chép bộ lịch",
-                              icon: Copy,
-                              disabled:
-                                !!data.error ||
-                                pending ||
-                                data.settings.groups.length >= 20,
-                              onSelect: () => setTimetable("copy"),
-                            },
-                          ]
-                        : []),
-                      {
-                        label: "Xuất .ics",
-                        icon: Download,
-                        disabled: !!data.error,
-                        onSelect: () => setExporting(true),
-                      },
-                    ]}
-                  />
+                  {tools}
                 </div>
               </div>
               <div className="schedule-calendar-scroll" aria-busy={pending}>
@@ -846,8 +868,38 @@ export function CalendarScreen({
         <ExportDialog
           events={data.events}
           settings={data.settings}
-          from={visibleRange.from.slice(0, 10)}
-          until={visibleRange.until.slice(0, 10)}
+          from={
+            mobile
+              ? view === "dayGridMonth"
+                ? chosenDate.slice(0, 7) + "-01"
+                : addDays(
+                    chosenDate,
+                    -(
+                      ((localTime(chosenDate).weekday % 7) -
+                        (account?.profile.firstDay ?? 1) +
+                        7) %
+                      7
+                    ),
+                  )
+              : visibleRange.from.slice(0, 10)
+          }
+          until={
+            mobile
+              ? view === "dayGridMonth"
+                ? localTime(chosenDate)
+                    .startOf("month")
+                    .plus({ months: 1 })
+                    .toISODate()!
+                : addDays(
+                    chosenDate,
+                    7 -
+                      (((localTime(chosenDate).weekday % 7) -
+                        (account?.profile.firstDay ?? 1) +
+                        7) %
+                        7),
+                  )
+              : visibleRange.until.slice(0, 10)
+          }
           onClose={() => setExporting(false)}
         />
       )}

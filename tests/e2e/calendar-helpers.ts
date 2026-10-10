@@ -1,6 +1,20 @@
 import type { Page } from "@playwright/test";
 
+export async function setCalendarDate(page: Page, date: string) {
+  if (
+    (page.viewportSize()?.width ?? 1440) <= 700 &&
+    !(await page.getByLabel("Đến ngày", { exact: true }).isVisible())
+  )
+    await page.getByRole("button", { name: "Tìm kiếm và lọc lịch" }).click();
+  await page.getByLabel("Đến ngày", { exact: true }).fill(date);
+}
+
 export async function openAppointment(page: Page) {
+  if (
+    (page.viewportSize()?.width ?? 1440) <= 700 &&
+    !(await page.getByLabel("Đến ngày", { exact: true }).isVisible())
+  )
+    await page.getByRole("button", { name: "Tìm kiếm và lọc lịch" }).click();
   const date = await page.getByLabel("Đến ngày", { exact: true }).inputValue();
   await page
     .getByRole("button", { name: "Thêm vào ngày " + date, exact: true })

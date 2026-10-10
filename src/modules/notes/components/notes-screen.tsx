@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { useMobile } from "@/components/use-mobile";
 import { EmptyState, PageSkeleton } from "@/components/page-ui";
 
 import {
@@ -36,6 +37,8 @@ function searchText(text: string) {
     .toLocaleLowerCase("vi");
 }
 export function NotesScreen() {
+  const mobile = useMobile();
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const { notes, loading, error, refresh } = useNotes();
   const [query, setQuery] = useState("");
   const [collection, setCollection] = useState("all");
@@ -223,45 +226,62 @@ export function NotesScreen() {
                 <Trash2 size={17} />
                 Thùng rác<span>{notes.length - live.length}</span>
               </Button>
-              {!!folders.length && <h3>Thư mục</h3>}
-              {folders.length
-                ? folders.map((name) => (
+              {(folders.length > 0 || tags.length > 0) && mobile && (
+                <Button
+                  variant="ghost"
+                  className="note-organize-toggle"
+                  aria-expanded={filtersOpen}
+                  aria-controls="note-organize-filters"
+                  onClick={() => setFiltersOpen(!filtersOpen)}
+                >
+                  Thư mục & nhãn{folder || tag ? " · Đang lọc" : ""}
+                </Button>
+              )}
+              <div
+                id="note-organize-filters"
+                className="note-organize-filters"
+                hidden={mobile && !filtersOpen}
+              >
+                {!!folders.length && <h3>Thư mục</h3>}
+                {folders.length
+                  ? folders.map((name) => (
+                      <Button
+                        variant="ghost"
+                        size="default"
+                        key={name}
+                        type="button"
+                        className={folder === name ? "selected" : ""}
+                        aria-pressed={folder === name}
+                        onClick={() => {
+                          setCollection("all");
+                          setFolder(name);
+                          setPage(1);
+                        }}
+                      >
+                        <Folder size={16} />
+                        <span className="note-folder-name">{name}</span>
+                      </Button>
+                    ))
+                  : null}
+                {!!tags.length && <h3>Nhãn</h3>}
+                <div className="note-tag-filter">
+                  {tags.map((name) => (
                     <Button
                       variant="ghost"
                       size="default"
-                      key={name}
                       type="button"
-                      className={folder === name ? "selected" : ""}
-                      aria-pressed={folder === name}
+                      key={name}
+                      className={tag === name ? "selected" : ""}
+                      aria-pressed={tag === name}
                       onClick={() => {
-                        setCollection("all");
-                        setFolder(name);
+                        setTag(tag === name ? "" : name);
                         setPage(1);
                       }}
                     >
-                      <Folder size={16} />
-                      <span className="note-folder-name">{name}</span>
+                      #{name}
                     </Button>
-                  ))
-                : null}
-              {!!tags.length && <h3>Nhãn</h3>}
-              <div className="note-tag-filter">
-                {tags.map((name) => (
-                  <Button
-                    variant="ghost"
-                    size="default"
-                    type="button"
-                    key={name}
-                    className={tag === name ? "selected" : ""}
-                    aria-pressed={tag === name}
-                    onClick={() => {
-                      setTag(tag === name ? "" : name);
-                      setPage(1);
-                    }}
-                  >
-                    #{name}
-                  </Button>
-                ))}
+                  ))}
+                </div>
               </div>
             </aside>
             <section

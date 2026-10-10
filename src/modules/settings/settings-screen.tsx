@@ -5,7 +5,7 @@ import { useState, type FormEvent } from "react";
 import { useAccount, LogoutButton } from "@/modules/auth/account-context";
 import { cloudWrite } from "@/lib/firebase/cloud-client";
 import { profileSchema } from "@/lib/firebase/profile";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { SettingsSection } from "@/components/settings-section";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect } from "@/components/ui/native-select";
 import "./settings.css";
@@ -109,47 +109,30 @@ export function SettingsScreen() {
     <>
       <PageHeading title="Cài đặt" />
       <div className="settings-grid">
-        <Card className="settings-section">
-          <CardHeader>
-            <h2>Tài khoản</h2>
-          </CardHeader>
-          <CardContent>
-            <AccountSettings />
-          </CardContent>
-        </Card>
+        <SettingsSection title="Tài khoản">
+          <AccountSettings />
+        </SettingsSection>
         <CalendarSettingsPanel />
-        <Card className="settings-section">
-          <CardHeader>
-            <h2>Giao diện</h2>
-          </CardHeader>
-          <CardContent>
-            <div className="setting-row">
-              <span>Chế độ hiển thị</span>
-              <strong>Giao diện sáng</strong>
-            </div>
-            <div className="setting-row">
-              <span>Phông chữ</span>
-              <strong>Be Vietnam Pro</strong>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="settings-section">
-          <CardHeader>
-            <h2>Thông báo & dữ liệu</h2>
-          </CardHeader>
-          <CardContent>
-            <div className="setting-row">
-              <span>Nhắc qua Zalo</span>
-              <Badge variant="secondary">Chưa kết nối</Badge>
-            </div>
-            <div className="setting-row">
-              <span>Đồng bộ dữ liệu</span>
-              <Badge variant="secondary">
-                {account ? "Firestore" : "Local"}
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
+        <SettingsSection title="Giao diện">
+          <div className="setting-row">
+            <span>Chế độ hiển thị</span>
+            <strong>Giao diện sáng</strong>
+          </div>
+          <div className="setting-row">
+            <span>Phông chữ</span>
+            <strong>Be Vietnam Pro</strong>
+          </div>
+        </SettingsSection>
+        <SettingsSection title="Thông báo & dữ liệu">
+          <div className="setting-row">
+            <span>Nhắc qua Zalo</span>
+            <Badge variant="secondary">Chưa kết nối</Badge>
+          </div>
+          <div className="setting-row">
+            <span>Đồng bộ dữ liệu</span>
+            <Badge variant="secondary">{account ? "Firestore" : "Local"}</Badge>
+          </div>
+        </SettingsSection>
       </div>
     </>
   );

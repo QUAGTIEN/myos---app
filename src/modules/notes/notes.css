@@ -32,7 +32,8 @@
   color: var(--muted);
   margin: 25px 10px 10px;
 }
-.note-library-sidebar > button {
+.note-library-sidebar > button,
+.note-organize-filters > button {
   display: flex;
   align-items: center;
   width: 100%;
@@ -48,6 +49,7 @@
   margin-left: auto;
 }
 .note-library-sidebar > button.selected,
+.note-organize-filters > button.selected,
 .note-tag-filter .selected {
   color: var(--primary);
   background: var(--primary-soft);
@@ -695,5 +697,82 @@
 @media (min-width: 1600px) {
   .note-card-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.note-organize-filters {
+  display: contents;
+}
+@media (max-width: 700px) {
+  .note-library-workspace {
+    min-height: 0;
+  }
+  .note-library {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .note-library-sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 8px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .note-library-sidebar h2 {
+    display: none;
+  }
+  .note-library-sidebar > button {
+    width: auto;
+    padding: 8px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  .note-library-sidebar > button > svg {
+    display: none;
+  }
+  .note-library-sidebar > .note-organize-toggle {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .note-organize-filters {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .note-organize-filters > button {
+    width: auto;
+  }
+  .note-organize-filters h3 {
+    width: 100%;
+    margin: 8px 0;
+  }
+  .note-library-main {
+    padding: 14px;
+  }
+  .note-list-toolbar {
+    padding: 12px;
+    gap: 8px;
+  }
+  .note-card-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .note-card {
+    padding: 14px;
+  }
+  .note-list-caption {
+    margin-bottom: 12px;
+  }
+  .note-history-modal {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    max-height: 90dvh;
+    padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+    border-radius: 16px 16px 0 0;
   }
 }

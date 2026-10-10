@@ -90,13 +90,18 @@ function SidebarContent({
 export function AppShell({ children }: { children: ReactNode }) {
   const account = useAccount();
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const current = navigation.find(
     ({ href }) => pathname === href || pathname.startsWith(href + "/"),
   );
 
   return (
-    <div className="app-shell">
+    <div
+      className={
+        "app-shell" + (pathname === "/dashboard" ? " overview-shell" : "")
+      }
+    >
       <a className="skip-link" href="#main-content">
         Đến nội dung chính
       </a>
@@ -146,6 +151,13 @@ export function AppShell({ children }: { children: ReactNode }) {
               </Dialog.Portal>
             </Dialog.Root>
             <span className="header-current">{current?.label ?? "MyOS"}</span>
+            <Link
+              href="/dashboard"
+              className="mobile-brand"
+              aria-label="MyOS — Tổng quan"
+            >
+              myos.
+            </Link>
           </div>
           <div className="header-right">
             <Link
@@ -169,6 +181,28 @@ export function AppShell({ children }: { children: ReactNode }) {
           {children}
         </main>
       </div>
+      <nav className="mobile-bottom-nav" aria-label="Điều hướng mobile">
+        {navigation.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href || pathname.startsWith(href + "/");
+          return (
+            <Link
+              key={href}
+              href={href}
+              aria-current={active ? "page" : undefined}
+              className={
+                active ? "mobile-bottom-link active" : "mobile-bottom-link"
+              }
+              onFocus={() => router.prefetch(href)}
+              onPointerEnter={() => router.prefetch(href)}
+            >
+              <span className="mobile-bottom-icon">
+                <Icon size={20} aria-hidden="true" />
+              </span>
+              <span>{label}</span>
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }

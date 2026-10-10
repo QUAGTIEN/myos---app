@@ -1,6 +1,11 @@
 import { openAppointment } from "./calendar-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
+test.skip(
+  ({ isMobile }) => isMobile,
+  "FullCalendar desktop layout; mobile flow is covered in mobile.spec.ts.",
+);
+
 const appointment = (page: Page, title: string) =>
   page.locator(".fc-event").filter({ hasText: title });
 async function calendar(page: Page) {

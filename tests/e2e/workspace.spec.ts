@@ -36,12 +36,18 @@ test("calendar month/week navigation; independent timetables persist and copy at
   isMobile,
 }, info) => {
   await page.goto("/calendar");
+  if (isMobile)
+    await page.getByRole("button", { name: "Tìm kiếm và lọc lịch" }).click();
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
   await expect(
     page.getByRole("button", { name: "Năm", exact: true }),
   ).toHaveCount(0);
   await page.getByRole("button", { name: "Tuần", exact: true }).click();
-  await expect(page.locator(".fc-dayGridWeek-view")).toBeVisible();
+  await expect(
+    isMobile
+      ? page.getByRole("group", { name: "Lịch tuần", exact: true })
+      : page.locator(".fc-dayGridWeek-view"),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Tuần sau", exact: true }).click();
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
   const tools = page.getByLabel("Thao tác lịch", { exact: true });
@@ -65,7 +71,10 @@ test("calendar month/week navigation; independent timetables persist and copy at
     page.getByRole("button", { name: "Tạo bộ lịch", exact: true }),
   ).not.toBeVisible();
   await tools.click();
-  await page.locator(".schedule-period h2").click();
+  await page
+    .getByRole("region", { name: "Bộ lịch", exact: true })
+    .getByRole("heading", { level: 2 })
+    .click();
   await expect(
     page.getByRole("button", { name: "Tạo bộ lịch", exact: true }),
   ).not.toBeVisible();
@@ -161,7 +170,9 @@ test("calendar month/week navigation; independent timetables persist and copy at
   expect(copyId).not.toBe(sourceId);
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
   await expect(
-    page.locator(".fc-event").filter({ hasText: "Thực hành cảm biến" }),
+    isMobile
+      ? page.getByRole("button", { name: /^Xem ngày 2026-10-\d\d, 1 mục$/ })
+      : page.locator(".fc-event").filter({ hasText: "Thực hành cảm biến" }),
   ).toHaveCount(4);
   await tools.click();
   await page.getByRole("button", { name: "Sửa bộ lịch", exact: true }).click();
@@ -171,6 +182,8 @@ test("calendar month/week navigation; independent timetables persist and copy at
     .getByRole("button", { name: "Lưu bộ lịch", exact: true })
     .click();
   await page.reload();
+  if (isMobile)
+    await page.getByRole("button", { name: "Tìm kiếm và lọc lịch" }).click();
   await page.getByLabel("Bộ thời khóa biểu").selectOption(copyId);
   await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
@@ -178,7 +191,9 @@ test("calendar month/week navigation; independent timetables persist and copy at
     page.getByLabel("Bộ thời khóa biểu").locator("option:checked"),
   ).toHaveText("Bộ học tại nhà");
   await expect(
-    page.locator(".fc-event").filter({ hasText: "Thực hành cảm biến" }),
+    isMobile
+      ? page.getByRole("button", { name: /^Xem ngày 2026-10-\d\d, 1 mục$/ })
+      : page.locator(".fc-event").filter({ hasText: "Thực hành cảm biến" }),
   ).toHaveCount(4);
   if (!isMobile) await page.setViewportSize({ width: 1920, height: 1080 });
   await page.screenshot({
@@ -235,15 +250,19 @@ test("calendar month/week navigation; independent timetables persist and copy at
     .click();
   await page.getByLabel("Bộ thời khóa biểu").selectOption("");
   await page.getByRole("button", { name: "Tháng", exact: true }).click();
-  await expect(page.locator(".schedule-footer")).toContainText("8 mục");
+  if (isMobile)
+    await expect(
+      page.getByRole("button", { name: /^Xem ngày 2026-10-\d\d, 2 mục$/ }),
+    ).toHaveCount(4);
+  else await expect(page.locator(".schedule-footer")).toContainText("8 mục");
   await tools.click();
   await page.getByRole("button", { name: "Xuất .ics", exact: true }).click();
   await expect(
     page.getByRole("dialog").getByLabel("Từ ngày", { exact: true }),
-  ).toHaveValue("2026-09-28");
+  ).toHaveValue(isMobile ? "2026-10-01" : "2026-09-28");
   await expect(
     page.getByRole("dialog").getByLabel("Đến hết ngày", { exact: true }),
-  ).toHaveValue("2026-11-01");
+  ).toHaveValue(isMobile ? "2026-10-31" : "2026-11-01");
 });
 
 test("project dossier saves documents, safe links, IoT hardware, journal and files; kanban changes status", async ({

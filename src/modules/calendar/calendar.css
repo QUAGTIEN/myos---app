@@ -1261,3 +1261,368 @@
   font: inherit;
   text-align: left;
 }
+
+/* Compact mobile views keep detail in a sheet instead of growing the page. */
+@media (max-width: 700px) {
+  .schedule-module .schedule-heading {
+    margin-bottom: 10px;
+  }
+  .schedule-module .schedule-tabs {
+    min-height: 44px;
+  }
+  .mobile-calendar {
+    min-width: 0;
+  }
+  .mobile-calendar-toolbar {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) 36px auto;
+    align-items: center;
+    gap: 2px;
+  }
+  .mobile-calendar-toolbar h2 {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .mobile-calendar-toolbar > button {
+    width: 36px;
+    height: 44px;
+  }
+  .mobile-calendar .schedule-view-buttons {
+    padding: 2px;
+    gap: 0;
+  }
+  .mobile-calendar .schedule-view-buttons button {
+    padding: 7px;
+    font-size: 12px;
+    min-height: 40px;
+  }
+  .mobile-calendar-options {
+    display: flex;
+    align-items: center;
+    margin: 2px 0 8px;
+    gap: 4px;
+  }
+  .mobile-calendar-options > span {
+    flex: 1;
+    min-width: 0;
+    color: var(--muted);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+  }
+  .mobile-calendar-options > button {
+    width: 40px;
+    min-height: 44px;
+  }
+  .mobile-calendar-filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .mobile-calendar-filters > input:first-child {
+    grid-column: 1 / -1;
+  }
+  .mobile-calendar-filters select {
+    width: 100%;
+    min-width: 0;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-control);
+    background: var(--surface);
+  }
+  .mobile-month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .mobile-month-weekday {
+    font-size: 12px;
+    text-align: center;
+    color: var(--muted);
+    padding: 12px 0;
+    background: var(--surface-soft);
+  }
+  .mobile-month-grid .mobile-month-day {
+    min-height: 44px;
+    height: auto;
+    padding: 6px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 0;
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .mobile-month-day:nth-child(7n) {
+    border-right: 0;
+  }
+  .mobile-month-grid .mobile-month-day.selected {
+    background: var(--primary-soft);
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .mobile-month-day.selected > span:first-child {
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+  }
+  .mobile-month-grid .mobile-month-day.outside-month {
+    color: var(--muted);
+    opacity: 0.65;
+  }
+  .mobile-month-day[aria-current="date"] > span:first-child {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .mobile-month-dots {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    height: 5px;
+  }
+  .mobile-month-dots i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+  .mobile-day-preview {
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-top: 12px;
+  }
+  .mobile-day-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .mobile-day-heading h3 {
+    font-size: 14px;
+    text-transform: capitalize;
+  }
+  .mobile-day-heading h3 span {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .mobile-day-heading > button {
+    width: 40px;
+    height: 44px;
+    border-radius: var(--radius-control);
+  }
+  .mobile-day-preview > p {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 10px 0;
+  }
+  .mobile-calendar-event {
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: 44px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 11px;
+    border-radius: var(--radius-control);
+    margin-bottom: 8px;
+    white-space: normal;
+    text-align: left;
+  }
+  .mobile-calendar-event > span {
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .mobile-calendar-event > strong {
+    font-size: 13px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  .mobile-calendar-event.schedule-completed > strong {
+    text-decoration: line-through;
+  }
+  .mobile-day-preview .mobile-day-open {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 0;
+    min-height: 44px;
+    color: var(--primary);
+  }
+  .mobile-day-list {
+    display: grid;
+    gap: 2px;
+    margin-bottom: 14px;
+  }
+  .schedule-dialog {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-height: calc(90dvh - env(safe-area-inset-top));
+    padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+    border-radius: 16px 16px 0 0;
+    overscroll-behavior: contain;
+  }
+  .schedule-dialog-heading {
+    margin-bottom: 14px;
+  }
+  .schedule-dialog-heading h2 {
+    font-size: 18px;
+  }
+  .schedule-dialog input:not([type="checkbox"]),
+  .schedule-dialog textarea,
+  .schedule-dialog select {
+    font-size: 16px;
+  }
+  .schedule-day-actions button {
+    min-height: 64px;
+    padding: 12px;
+  }
+  .schedule-day-actions small {
+    display: none;
+  }
+  .schedule-day-actions svg {
+    display: none;
+  }
+  .attendance-module .attendance-heading {
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: nowrap;
+  }
+  .attendance-activity-label {
+    display: none;
+  }
+  .attendance-module .attendance-activities {
+    gap: 6px;
+    order: 0;
+    flex-basis: 0;
+  }
+  .attendance-activities > button {
+    min-height: 44px;
+    padding: 8px 12px;
+  }
+  .attendance-heading > .button {
+    padding: 8px;
+    font-size: 11px;
+    max-width: 96px;
+    white-space: normal;
+    background: var(--surface);
+    color: var(--primary);
+    border: 1px solid var(--line);
+    box-shadow: none;
+  }
+  .attendance-activities > button[aria-pressed="true"] {
+    color: white;
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+  .attendance-module .attendance-panel {
+    padding: 10px;
+  }
+  .attendance-panel .attendance-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0 0 8px;
+  }
+  .attendance-toolbar .attendance-board-heading {
+    flex: 1;
+    flex-basis: 0;
+  }
+  .attendance-board-heading h2 {
+    font-size: 13px;
+  }
+  .attendance-toolbar .schedule-period {
+    width: 100%;
+    order: 2;
+    justify-content: space-between;
+  }
+  .attendance-toolbar .schedule-period h3 {
+    font-size: 14px;
+  }
+  .attendance-toolbar > input {
+    width: 150px;
+    min-width: 0;
+    font-size: 14px;
+    min-height: 40px;
+  }
+  .attendance-module .attendance-grid {
+    min-width: 0;
+  }
+  .attendance-module .attendance-scroll {
+    overflow: visible;
+  }
+  .attendance-grid .attendance-weekday {
+    font-size: 11px;
+    padding: 10px 0;
+  }
+  .attendance-grid .attendance-cell {
+    min-height: 66px;
+    padding: 0;
+  }
+  .attendance-cell .mobile-attendance-day {
+    width: 100%;
+    height: 100%;
+    min-height: 66px;
+    padding: 5px 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4px;
+    border-radius: 0;
+    color: inherit;
+    font-size: 13px;
+  }
+  .attendance-cell .mobile-attendance-day > span:first-child {
+    padding: 2px 0;
+  }
+  .attendance-cell .mobile-attendance-day > svg {
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .attendance-cell .attendance-note {
+    font-size: 11px;
+    line-height: 1.4;
+    -webkit-line-clamp: 2;
+  }
+  .mobile-attendance-outside {
+    display: block;
+    padding: 9px 0;
+    text-align: center;
+    font-size: 13px;
+  }
+  .attendance-grid
+    .attendance-cell.is-today
+    .mobile-attendance-day
+    > span:first-child {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .attendance-grid .attendance-cell.has-content {
+    background: #d9f1e9;
+    color: #006650;
+  }
+  .schedule-dialog .attendance-day-editor textarea {
+    min-height: 130px;
+  }
+  .attendance-day-actions .button {
+    min-height: 44px;
+  }
+}

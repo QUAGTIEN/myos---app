@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { DateTime } from "luxon";
 import { PageSkeleton } from "@/components/page-ui";
+import { useMobile } from "@/components/use-mobile";
 import {
   addDays,
   resolveCalendarColor,
@@ -51,6 +52,10 @@ import "@/modules/projects/projects.css";
 import "./overview.css";
 
 export function OverviewScreen() {
+  const mobile = useMobile();
+  const [mobileTab, setMobileTab] = useState<"calendar" | "tasks" | "projects">(
+    "calendar",
+  );
   const calendar = useCalendar();
   const projects = useProjects();
   const notes = useNotes();
@@ -139,55 +144,81 @@ export function OverviewScreen() {
   const dateTitle = localTime(day).setLocale("vi").toFormat("cccc, dd/MM/yyyy");
   return (
     <div className="dashboard">
-      <div className="dashboard-heading">
-        <div>
-          <h1 className="sr-only">Tổng quan</h1>
-          <time dateTime={today}>
-            {localTime(today).setLocale("vi").toFormat("cccc, dd/MM/yyyy")}
-          </time>
+      <div className="dashboard-summary">
+        <div className="dashboard-heading">
+          <div>
+            <h1 className="sr-only">Tổng quan</h1>
+            <time dateTime={today}>
+              {localTime(today).setLocale("vi").toFormat("cccc, dd/MM/yyyy")}
+            </time>
+            <h2 className="dashboard-mobile-title">Tổng quan</h2>
+          </div>
+        </div>
+        <div className="dashboard-metrics" aria-label="Thống kê tổng quan">
+          <Metric
+            icon={CalendarDays}
+            label="Lịch hôm nay"
+            value={data.todayEvents.length}
+            state={calendar}
+            tone="blue"
+            href="/calendar"
+          />
+          <Metric
+            icon={CircleCheck}
+            label="Checklist cần làm"
+            value={data.tasks.length}
+            state={projects}
+            tone="mint"
+            href="/projects"
+            detail={
+              data.overdueTasks ? data.overdueTasks + " quá hạn" : undefined
+            }
+          />
+          <Metric
+            icon={FolderKanban}
+            label="Dự án đang làm"
+            value={data.activeProjects.length}
+            state={projects}
+            tone="orange"
+            href="/projects"
+          />
+          <Metric
+            icon={NotebookPen}
+            label="Ghi chú"
+            value={data.liveNotes.length}
+            state={notes}
+            tone="violet"
+            href="/notes"
+          />
         </div>
       </div>
-      <div className="dashboard-metrics" aria-label="Thống kê tổng quan">
-        <Metric
-          icon={CalendarDays}
-          label="Lịch hôm nay"
-          value={data.todayEvents.length}
-          state={calendar}
-          tone="blue"
-          href="/calendar"
-        />
-        <Metric
-          icon={CircleCheck}
-          label="Checklist cần làm"
-          value={data.tasks.length}
-          state={projects}
-          tone="mint"
-          href="/projects"
-          detail={
-            data.overdueTasks ? data.overdueTasks + " quá hạn" : undefined
-          }
-        />
-        <Metric
-          icon={FolderKanban}
-          label="Dự án đang làm"
-          value={data.activeProjects.length}
-          state={projects}
-          tone="orange"
-          href="/projects"
-        />
-        <Metric
-          icon={NotebookPen}
-          label="Ghi chú"
-          value={data.liveNotes.length}
-          state={notes}
-          tone="violet"
-          href="/notes"
-        />
+      <div
+        className="dashboard-mobile-tabs"
+        role="group"
+        aria-label="Nội dung tổng quan"
+      >
+        {(
+          [
+            ["calendar", "Lịch hôm nay"],
+            ["tasks", "Checklist"],
+            ["projects", "Dự án"],
+          ] as const
+        ).map(([id, label]) => (
+          <Button
+            key={id}
+            variant="ghost"
+            aria-pressed={mobileTab === id}
+            onClick={() => setMobileTab(id)}
+          >
+            {label}
+          </Button>
+        ))}
       </div>
       <div className="dashboard-grid">
         <section
           className="panel dashboard-panel"
           aria-labelledby="overview-calendar"
+          hidden={mobile && mobileTab !== "calendar"}
         >
           <PanelHeading
             id="overview-calendar"
@@ -235,7 +266,7 @@ export function OverviewScreen() {
             emptyText="Chưa có lịch trong ngày"
           >
             <ol className="dashboard-agenda">
-              {data.dayEvents.slice(0, 5).map((occurrence) => {
+              {data.dayEvents.slice(0, mobile ? 3 : 5).map((occurrence) => {
                 const group = calendar.settings.groups.find(
                   (group) => group.id === occurrence.groupId,
                 );
@@ -302,7 +333,7 @@ export function OverviewScreen() {
                 );
               })}
             </ol>
-            {data.dayEvents.length > 5 && (
+            {data.dayEvents.length > (mobile ? 3 : 5) && (
               <Link className="dashboard-more" href="/calendar">
                 Xem đủ {data.dayEvents.length} lịch
                 <ArrowRight size={14} />
@@ -313,6 +344,7 @@ export function OverviewScreen() {
         <section
           className="panel dashboard-panel"
           aria-labelledby="overview-tasks"
+          hidden={mobile && mobileTab !== "tasks"}
         >
           <PanelHeading
             id="overview-tasks"
@@ -331,7 +363,7 @@ export function OverviewScreen() {
             emptyText="Không có checklist cần làm"
           >
             <ul className="dashboard-list">
-              {data.tasks.slice(0, 5).map(({ project, item }) => (
+              {data.tasks.slice(0, mobile ? 3 : 5).map(({ project, item }) => (
                 <li key={item.id} className="dashboard-task">
                   <input
                     type="checkbox"
@@ -353,6 +385,15 @@ export function OverviewScreen() {
         <section
           className="panel dashboard-panel"
           aria-labelledby="overview-projects"
+          hidden={
+            mobile &&
+            (mobileTab === "tasks" ||
+              (mobileTab === "calendar" &&
+                !projects.loading &&
+                !projects.error &&
+                !data.activeProjects.length))
+          }
+          data-mobile-featured={mobile && mobileTab === "calendar"}
         >
           <PanelHeading
             id="overview-projects"
@@ -366,64 +407,69 @@ export function OverviewScreen() {
             emptyText="Chưa có dự án đang làm"
           >
             <ul className="dashboard-list">
-              {data.activeProjects.slice(0, 4).map((project) => {
-                const progress = getProjectProgress(project);
-                const completed = project.items.filter(
-                  (item) => item.countsTowardProgress && item.completed,
-                ).length;
-                const total = project.items.filter(
-                  (item) => item.countsTowardProgress,
-                ).length;
-                return (
-                  <li key={project.id}>
-                    <Link
-                      className={
-                        "dashboard-project dashboard-color-" + project.color
-                      }
-                      href={"/projects/" + project.id}
-                    >
-                      <span className="dashboard-record-icon">
-                        <FolderKanban size={20} />
-                      </span>
-                      <div>
-                        <strong>
-                          {project.title}
-                          {project.pinned && (
-                            <Pin size={13} aria-label="Đã ghim" />
-                          )}
-                        </strong>
-                        <span>
-                          {project.progressMode === "checklist"
-                            ? completed + "/" + total + " mục"
-                            : "Tiến độ thủ công"}
-                          <b>
-                            {progress === null
-                              ? "Chưa có dữ liệu"
-                              : progress + "%"}
-                          </b>
+              {data.activeProjects
+                .slice(0, mobile ? (mobileTab === "calendar" ? 1 : 3) : 4)
+                .map((project) => {
+                  const progress = getProjectProgress(project);
+                  const completed = project.items.filter(
+                    (item) => item.countsTowardProgress && item.completed,
+                  ).length;
+                  const total = project.items.filter(
+                    (item) => item.countsTowardProgress,
+                  ).length;
+                  return (
+                    <li key={project.id}>
+                      <Link
+                        className={
+                          "dashboard-project dashboard-color-" + project.color
+                        }
+                        href={"/projects/" + project.id}
+                      >
+                        <span className="dashboard-record-icon">
+                          <FolderKanban size={20} />
                         </span>
-                        {progress !== null && (
-                          <div
-                            className="dashboard-progress"
-                            role="progressbar"
-                            aria-label={"Tiến độ " + project.title}
-                            aria-valuemin={0}
-                            aria-valuemax={100}
-                            aria-valuenow={progress}
-                          >
-                            <i style={{ width: progress + "%" }} />
-                          </div>
-                        )}
-                      </div>
-                    </Link>
-                  </li>
-                );
-              })}
+                        <div>
+                          <strong>
+                            {project.title}
+                            {project.pinned && (
+                              <Pin size={13} aria-label="Đã ghim" />
+                            )}
+                          </strong>
+                          <span>
+                            {project.progressMode === "checklist"
+                              ? completed + "/" + total + " mục"
+                              : "Tiến độ thủ công"}
+                            <b>
+                              {progress === null
+                                ? "Chưa có dữ liệu"
+                                : progress + "%"}
+                            </b>
+                          </span>
+                          {progress !== null && (
+                            <div
+                              className="dashboard-progress"
+                              role="progressbar"
+                              aria-label={"Tiến độ " + project.title}
+                              aria-valuemin={0}
+                              aria-valuemax={100}
+                              aria-valuenow={progress}
+                            >
+                              <i style={{ width: progress + "%" }} />
+                            </div>
+                          )}
+                        </div>
+                      </Link>
+                    </li>
+                  );
+                })}
             </ul>
           </BlockState>
         </section>
         <section
           className="panel dashboard-panel dashboard-notes"
+          hidden={
+            mobile && !notes.loading && !notes.error && !visibleNotes.length
+          }
           aria-labelledby="overview-notes"
         >
           <PanelHeading
@@ -467,7 +513,7 @@ export function OverviewScreen() {
             }
           >
             <div className="dashboard-note-grid">
-              {visibleNotes.slice(0, 6).map((note) => (
+              {visibleNotes.slice(0, mobile ? 1 : 6).map((note) => (
                 <Link
                   className="dashboard-note"
                   href={"/notes/" + note.id}
@@ -501,6 +547,7 @@ export function OverviewScreen() {
         <section
           className="panel dashboard-panel"
           aria-labelledby="overview-milestones"
+          hidden={mobile}
         >
           <PanelHeading
             id="overview-milestones"

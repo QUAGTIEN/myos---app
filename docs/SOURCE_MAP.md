@@ -28,7 +28,9 @@ MYOS/
 │   │       ├── notes/              # page.tsx, layout.tsx, [noteId]/page.tsx
 │   │       └── settings/page.tsx
 │   ├── components/
-│   │   ├── app-shell.tsx           # Sidebar/header/menu desktop và mobile
+│   │   ├── app-shell.tsx           # Sidebar/header, drawer tablet, bottom navigation mobile
+│   │   ├── use-mobile.ts           # Media query 700 px với server snapshot ổn định
+│   │   ├── settings-section.tsx    # Nhóm cài đặt gập mở mobile, giữ form đang nhập
 │   │   ├── page-ui.tsx             # Heading, empty và skeleton
 │   │   └── ui/                     # shadcn Button/Input/Textarea/Card/Badge/Tabs/NativeSelect
 │   ├── modules/
@@ -78,6 +80,7 @@ Rà soát bổ sung: 55 file TypeScript/React đều có vai trò route hoặc i
 | Dự án, checklist/mốc, tiến độ | src/modules/projects |
 | Ghi chú, ảnh, lịch sử, autosave | src/modules/notes |
 | Khung Tổng quan và Cài đặt | overview/overview-screen.tsx, settings/settings-screen.tsx |
+| Lịch mobile và bảng nhập theo ngày | calendar/components/mobile-calendar.tsx, attendance.tsx, dialogs.tsx; dùng service/repository lịch hiện hữu |
 | Kết nối/kho/version dữ liệu local | src/lib/local-database.ts |
 | Luồng người dùng và quy tắc thời gian | tests/e2e |
 

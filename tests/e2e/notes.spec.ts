@@ -96,6 +96,8 @@ test("rich text, checklist, autosave and organization persist", async ({
   await expect(page.getByRole("button", { name: "Bỏ ghim" })).toBeVisible();
   await page.getByRole("link", { name: "Tất cả ghi chú", exact: true }).click();
   await page.getByRole("button", { name: "Đã ghim" }).click();
+  if (await page.getByRole("button", { name: /^Thư mục & nhãn/ }).isVisible())
+    await page.getByRole("button", { name: /^Thư mục & nhãn/ }).click();
   await page.getByRole("button", { name: "Cá nhân", exact: true }).click();
   await page.getByRole("button", { name: "#ý tưởng", exact: true }).click();
   await page

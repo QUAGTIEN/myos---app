@@ -32,6 +32,10 @@ async function activity(page: Page, name: string) {
 test("month/week cells create dated notes and tasks; search and persisted content", async ({
   page,
 }, info) => {
+  test.skip(
+    info.project.name === "mobile",
+    "Desktop grid flow; mobile day sheets are covered separately.",
+  );
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   if (info.project.name === "desktop")
@@ -131,7 +135,13 @@ test("attendance notes autosave in a full-width board and persist independently"
     page.getByRole("button", { name: "Lưu chấm công", exact: true }),
   ).toHaveCount(0);
   await page
-    .getByRole("button", { name: "Mở ngày 2026-10-05", exact: true })
+    .getByRole("button", {
+      name:
+        info.project.name === "mobile"
+          ? "Chấm công 2026-10-05"
+          : "Mở ngày 2026-10-05",
+      exact: true,
+    })
     .click();
   const editor = page.getByRole("form", {
     name: "Nội dung ngày 2026-10-05",
@@ -140,7 +150,7 @@ test("attendance notes autosave in a full-width board and persist independently"
   await expect(editor.getByRole("combobox")).toHaveCount(0);
   await expect(editor).not.toContainText("Ghi chú");
   await editor.getByRole("textbox").fill("Lí 12");
-  await expect(page.locator(".attendance-save-state")).toHaveText(
+  await expect(page.locator(".attendance-save-state:visible")).toHaveText(
     "Đã lưu tự động.",
   );
   await editor.getByRole("button", { name: "Xong", exact: true }).click();
@@ -172,7 +182,7 @@ test("attendance notes autosave in a full-width board and persist independently"
   await expect(editor.getByRole("textbox")).toHaveValue("Lí 12");
   page.once("dialog", (dialog) => dialog.accept());
   await editor.getByRole("button", { name: "Xóa", exact: true }).click();
-  await expect(page.locator(".attendance-save-state")).toHaveText(
+  await expect(page.locator(".attendance-save-state:visible")).toHaveText(
     "Đã lưu tự động.",
   );
   await page.reload();
@@ -207,15 +217,17 @@ test("attendance autosave retries failed writes and retains offline drafts", asy
     exact: true,
   });
   await input.fill("Nháp chưa lưu");
-  await expect(page.locator(".attendance-module [role=alert]")).toBeVisible();
+  await expect(
+    page.locator(".schedule-error[role=alert]:visible"),
+  ).toBeVisible();
   await expect(input).toHaveValue("Nháp chưa lưu");
   await page.evaluate(() => Reflect.set(window, "blockAttendance", false));
   await page.getByRole("button", { name: "Thử lưu lại", exact: true }).click();
-  await expect(page.locator(".attendance-save-state")).toHaveText(
+  await expect(page.locator(".attendance-save-state:visible")).toHaveText(
     "Đã lưu tự động.",
   );
   await input.fill("Nội dung mới");
-  await expect(page.locator(".attendance-save-state")).toHaveText(
+  await expect(page.locator(".attendance-save-state:visible")).toHaveText(
     "Đã lưu tự động.",
   );
   await page.reload();
@@ -258,14 +270,16 @@ test("attendance refuses stale drafts and deleted activities cannot be resurrect
     exact: true,
   });
   await draft.fill("Nháp cũ");
-  await expect(other.locator(".attendance-module [role=alert]")).toBeVisible();
+  await expect(
+    other.locator(".schedule-error[role=alert]:visible"),
+  ).toBeVisible();
   await markAttendance(page, "2026-10-05", "Bản mới");
   await other.evaluate(() => Reflect.set(window, "blockAttendance", false));
   const retry = other.getByRole("button", { name: "Thử lưu lại", exact: true });
   if (await retry.isVisible()) await retry.click();
-  await expect(other.locator(".attendance-module [role=alert]")).toContainText(
-    /thay đổi/,
-  );
+  await expect(
+    other.locator(".schedule-error[role=alert]:visible"),
+  ).toContainText(/thay đổi/);
   await expect(draft).toHaveValue("Nháp cũ");
   other.once("dialog", (d) => d.accept());
   await other.getByRole("button", { name: "Tải bản mới", exact: true }).click();

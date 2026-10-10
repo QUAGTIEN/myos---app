@@ -214,15 +214,23 @@ test("overview summarizes live data using Vietnam days, recurring exceptions and
   ).toBeVisible();
   await expect(agenda).not.toContainText("Lịch đã hủy");
   await expect(agenda).not.toContainText("Kết thúc lúc nửa đêm");
+  if (isMobile)
+    await page.getByRole("button", { name: "Checklist", exact: true }).click();
   const tasks = page.getByRole("region", { name: "Checklist cần làm" });
   await expect(tasks.getByRole("listitem").first()).toContainText(
     "Rà soát bản thiết kế",
   );
   await expect(tasks).not.toContainText("Mục trong lưu trữ");
   await expect(tasks).not.toContainText("Mục trong dự án hoàn thành");
+  if (isMobile)
+    await page.getByRole("button", { name: "Dự án", exact: true }).click();
   await expect(
     page.getByRole("progressbar", { name: "Tiến độ MyOS Platform" }),
   ).toHaveAttribute("aria-valuenow", "33");
+  if (isMobile)
+    await page
+      .getByRole("button", { name: "Lịch hôm nay", exact: true })
+      .click();
   const notes = page.getByRole("region", { name: "Ghi chú", exact: true });
   await notes.getByRole("button", { name: "Đã ghim", exact: true }).click();
   await expect(
@@ -250,6 +258,8 @@ test("overview summarizes live data using Vietnam days, recurring exceptions and
   await page.clock.fastForward(24 * 60 * 60 * 1000);
   await expect(metric(page, "Lịch hôm nay", 1)).toBeVisible();
   await expect(agenda).toContainText("Lịch ngày mai");
+  if (isMobile)
+    await notes.getByRole("button", { name: "Đã ghim", exact: true }).click();
   await notes.getByRole("link", { name: /Ý tưởng tính năng mới/ }).click();
   await expect(page).toHaveURL(new RegExp("/notes/" + data.notes[0].id + "$"));
 });
@@ -257,10 +267,13 @@ test("overview summarizes live data using Vietnam days, recurring exceptions and
 test("overview checklist commits progress, preserves failed changes and refreshes across tabs", async ({
   page,
   context,
+  isMobile,
 }) => {
   const data = await seed(page);
   await page.goto("/dashboard");
   await expect(metric(page, "Checklist cần làm", 3)).toBeVisible();
+  if (isMobile)
+    await page.getByRole("button", { name: "Checklist", exact: true }).click();
   await page.evaluate(() => {
     const original = IDBDatabase.prototype.transaction;
     IDBDatabase.prototype.transaction = function (...args) {
@@ -301,9 +314,23 @@ test("overview checklist commits progress, preserves failed changes and refreshe
     })
     .click();
   await expect(metric(page, "Checklist cần làm", 2)).toBeVisible();
+  if (isMobile)
+    await page.getByRole("button", { name: "Dự án", exact: true }).click();
   await expect(
     page.getByRole("progressbar", { name: "Tiến độ MyOS Platform" }),
   ).toHaveAttribute("aria-valuenow", "67");
+  if (isMobile)
+    await page
+      .getByRole("button", { name: "Lịch hôm nay", exact: true })
+      .click();
+  if (isMobile)
+    await page
+      .getByRole("region", { name: "Ghi chú", exact: true })
+      .getByRole("button", { name: "Đã ghim", exact: true })
+      .click();
+  await expect(
+    page.getByRole("link", { name: /Ý tưởng tính năng mới/ }),
+  ).toBeVisible();
   const other = await context.newPage();
   await other.goto("/login");
   await other.evaluate(async (note) => {
@@ -331,6 +358,8 @@ test("overview checklist commits progress, preserves failed changes and refreshe
   ).toBeVisible();
   await page.reload();
   await expect(metric(page, "Checklist cần làm", 2)).toBeVisible();
+  if (isMobile)
+    await page.getByRole("button", { name: "Dự án", exact: true }).click();
   await page
     .getByRole("region", { name: "Tiến độ dự án" })
     .getByRole("link", { name: /MyOS Platform/ })

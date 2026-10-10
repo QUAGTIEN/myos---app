@@ -49,18 +49,17 @@ test("navigate all five modules without overflow or browser errors", async ({
   await expect(page).toHaveURL(/\/dashboard$/);
 
   for (const screen of screens) {
-    if (isMobile)
-      await page.getByRole("button", { name: "Mở menu", exact: true }).click();
     const link = page
-      .getByRole("navigation", { name: "Điều hướng chính" })
+      .getByRole("navigation", {
+        name: isMobile ? "Điều hướng mobile" : "Điều hướng chính",
+      })
       .getByRole("link", { name: screen.label, exact: true });
     await link.click();
     await expect(page).toHaveURL(new RegExp(screen.path + "$"));
     await expect(
       page.getByRole("heading", { name: screen.heading, level: 1 }),
     ).toBeVisible();
-    if (isMobile) await expect(page.getByRole("dialog")).not.toBeVisible();
-    else await expect(link).toHaveAttribute("aria-current", "page");
+    await expect(link).toHaveAttribute("aria-current", "page");
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= window.innerWidth,
@@ -77,6 +76,7 @@ test("navigate all five modules without overflow or browser errors", async ({
 
 test("calendar controls change months and return to today", async ({
   page,
+  isMobile,
 }) => {
   await page.goto("/calendar");
   const title = page
@@ -93,6 +93,8 @@ test("calendar controls change months and return to today", async ({
       new Date(),
     ),
   );
+  if (isMobile)
+    await page.getByRole("button", { name: "Tìm kiếm và lọc lịch" }).click();
   await page.getByLabel("Đến ngày", { exact: true }).fill(originalDate);
   await expect(title).toHaveText(original!);
   await expect(page.getByRole("button", { name: "Tạo lịch hẹn" })).toHaveCount(
@@ -102,8 +104,11 @@ test("calendar controls change months and return to today", async ({
 
 test("unimplemented mutations and login are clearly unavailable", async ({
   page,
+  isMobile,
 }) => {
   await page.goto("/settings");
+  if (isMobile)
+    await page.getByRole("button", { name: "Tài khoản", exact: true }).click();
   await page.getByRole("link", { name: "Xem trang đăng nhập" }).click();
   await expect(page.getByLabel("Email", { exact: true })).toBeDisabled();
   await expect(
@@ -157,12 +162,12 @@ test("keyboard navigation and narrow viewport stay usable", async ({
   await page.keyboard.press("Enter");
   await expect(page.locator("#main-content")).toBeFocused();
   if (isMobile) {
-    const trigger = page.getByRole("button", { name: "Mở menu", exact: true });
-    await trigger.click();
-    await expect(page.getByRole("dialog")).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(page.getByRole("dialog")).not.toBeVisible();
-    await expect(trigger).toBeFocused();
+    const navigation = page.getByRole("navigation", {
+      name: "Điều hướng mobile",
+    });
+    await navigation.getByRole("link", { name: "Lịch", exact: true }).focus();
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/\/calendar$/);
   }
   await page.setViewportSize({ width: 320, height: 740 });
   for (const screen of screens) {

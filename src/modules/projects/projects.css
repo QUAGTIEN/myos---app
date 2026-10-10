@@ -1029,3 +1029,60 @@
 .kanban-handle:active {
   cursor: grabbing;
 }
+@media (max-width: 700px) {
+  .project-library-workspace {
+    min-height: 0;
+    padding: 12px;
+  }
+  .project-summary {
+    padding: 12px 0;
+    gap: 8px;
+  }
+  .project-summary > div {
+    gap: 4px;
+    padding-right: 8px;
+  }
+  .project-summary span {
+    font-size: 11px;
+  }
+  .project-toolbar {
+    padding: 8px 0;
+    gap: 8px;
+  }
+  .project-filters {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .project-filter {
+    flex-shrink: 0;
+    padding: 8px;
+  }
+  .project-view-controls {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .project-card-grid {
+    gap: 10px;
+  }
+  .project-card {
+    padding: 14px;
+  }
+  .project-modal {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    max-height: 90dvh;
+    padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+    border-radius: 16px 16px 0 0;
+  }
+  .project-modal-actions {
+    bottom: 0;
+    margin-bottom: 0;
+    padding: 12px 0;
+  }
+}

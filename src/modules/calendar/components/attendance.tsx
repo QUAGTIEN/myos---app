@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useMobile } from "@/components/use-mobile";
 
 import { useEffect, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
@@ -387,6 +388,7 @@ function MonthEditor({
   dataError: string;
   readLatest: () => Promise<AttendanceMonth | null>;
 }) {
+  const mobile = useMobile();
   const [baseline, setBaseline] = useState(saved);
   const [entries, setEntries] = useState(saved?.entries ?? []);
   const [editingDay, setEditingDay] = useState<string | null>(null);
@@ -532,6 +534,66 @@ function MonthEditor({
     setError("");
     setMessage("");
   }
+  function dayEditor(day: string) {
+    const entry = entries.find((item) => item.date === day);
+    return (
+      <form
+        className="attendance-day-editor"
+        aria-label={"Nội dung ngày " + day}
+        onSubmit={(event) => {
+          event.preventDefault();
+          void save(true);
+        }}
+      >
+        <Textarea
+          autoFocus
+          rows={4}
+          maxLength={2000}
+          aria-label={"Nội dung chấm công ngày " + day}
+          value={entry?.note ?? ""}
+          placeholder="Nhập nội dung…"
+          onChange={(event) => apply(day, event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+              setEditingDay(null);
+            }
+            if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+              event.preventDefault();
+              void save(true);
+            }
+          }}
+        />
+        <div className="attendance-day-actions">
+          {entry && (
+            <Button
+              variant="link"
+              type="button"
+              className="text-link"
+              disabled={pending}
+              onClick={() => {
+                if (window.confirm("Xóa nội dung chấm công ngày này?")) {
+                  apply(day, "");
+                  setEditingDay(null);
+                }
+              }}
+            >
+              Xóa
+            </Button>
+          )}
+          <Button
+            variant="outline"
+            size="sm"
+            type="submit"
+            className="button secondary small"
+            disabled={pending || externalChange || !!dataError}
+          >
+            Xong
+          </Button>
+        </div>
+      </form>
+    );
+  }
   return (
     <div className="attendance-workspace">
       <section className="panel attendance-panel" aria-label="Bảng chấm công">
@@ -610,7 +672,11 @@ function MonthEditor({
             }}
           />
         </div>
-        <div className="attendance-save-state" aria-live="polite">
+        <div
+          className="attendance-save-state"
+          aria-live="polite"
+          hidden={mobile && !!editingDay}
+        >
           {pending
             ? "Đang lưu…"
             : error
@@ -620,7 +686,11 @@ function MonthEditor({
                 : message}
         </div>
         {(error || dataError || externalChange) && (
-          <p className="schedule-error" role="alert">
+          <p
+            className="schedule-error"
+            role="alert"
+            hidden={mobile && !!editingDay}
+          >
             {externalChange
               ? "Dữ liệu đã thay đổi ở tab hoặc thiết bị khác. Bản nháp đang được giữ."
               : error || dataError}{" "}
@@ -657,7 +727,7 @@ function MonthEditor({
             {Array.from({ length: 7 }, (_, i) => (firstDay + i) % 7).map(
               (day) => (
                 <div className="attendance-weekday" key={day}>
-                  {day === 0 ? "CN" : "Thứ " + (day + 1)}
+                  {day === 0 ? "CN" : (mobile ? "T" : "Thứ ") + (day + 1)}
                 </div>
               ),
             )}
@@ -677,121 +747,128 @@ function MonthEditor({
                     (entry && isAttendanceMarked(entry) ? " has-content" : "")
                   }
                 >
-                  <div className="attendance-cell-heading">
-                    {inMonth ? (
+                  {mobile ? (
+                    inMonth ? (
                       <Button
                         variant="ghost"
-                        size="default"
                         type="button"
-                        className="attendance-date"
-                        aria-label={"Mở ngày " + day}
+                        className="mobile-attendance-day"
+                        aria-label={"Chấm công " + day}
                         aria-current={day === today ? "date" : undefined}
                         onClick={() => setEditingDay(day)}
                       >
-                        {Number(day.slice(8))}
+                        <span>{Number(day.slice(8))}</span>
+                        {text ? (
+                          <span className="attendance-note">{text}</span>
+                        ) : (
+                          <Plus size={13} aria-hidden="true" />
+                        )}
                       </Button>
                     ) : (
-                      <span>{Number(day.slice(8))}</span>
-                    )}
-                    {inMonth && !editing && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        type="button"
-                        className="icon-button"
-                        aria-label={"Chấm công " + day}
-                        title={entry ? "Sửa nội dung" : "Thêm nội dung"}
-                        onClick={() => setEditingDay(day)}
-                      >
-                        {text ? <Pencil size={14} /> : <Plus size={16} />}
-                      </Button>
-                    )}
-                  </div>
-                  {editing ? (
-                    <form
-                      className="attendance-day-editor"
-                      aria-label={"Nội dung ngày " + day}
-                      onSubmit={(event) => {
-                        event.preventDefault();
-                        void save(true);
-                      }}
-                    >
-                      <Textarea
-                        autoFocus
-                        rows={3}
-                        maxLength={2000}
-                        aria-label={"Nội dung chấm công ngày " + day}
-                        value={entry?.note ?? ""}
-                        placeholder="Nhập nội dung…"
-                        onChange={(event) => apply(day, event.target.value)}
-                        onKeyDown={(event) => {
-                          if (event.key === "Escape") {
-                            event.preventDefault();
-                            setEditingDay(null);
-                          }
-                          if (
-                            event.key === "Enter" &&
-                            (event.ctrlKey || event.metaKey)
-                          ) {
-                            event.preventDefault();
-                            void save(true);
-                          }
-                        }}
-                      />
-                      <div className="attendance-day-actions">
-                        {entry && (
+                      <span className="mobile-attendance-outside">
+                        {Number(day.slice(8))}
+                      </span>
+                    )
+                  ) : (
+                    <>
+                      <div className="attendance-cell-heading">
+                        {inMonth ? (
                           <Button
-                            variant="link"
+                            variant="ghost"
                             size="default"
                             type="button"
-                            className="text-link"
-                            disabled={pending}
-                            onClick={() => {
-                              if (
-                                window.confirm(
-                                  "Xóa nội dung chấm công ngày này?",
-                                )
-                              ) {
-                                apply(day, "");
-                                setEditingDay(null);
-                              }
-                            }}
+                            className="attendance-date"
+                            aria-label={"Mở ngày " + day}
+                            aria-current={day === today ? "date" : undefined}
+                            onClick={() => setEditingDay(day)}
                           >
-                            Xóa
+                            {Number(day.slice(8))}
+                          </Button>
+                        ) : (
+                          <span>{Number(day.slice(8))}</span>
+                        )}
+                        {inMonth && !editing && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            type="button"
+                            className="icon-button"
+                            aria-label={"Chấm công " + day}
+                            title={entry ? "Sửa nội dung" : "Thêm nội dung"}
+                            onClick={() => setEditingDay(day)}
+                          >
+                            {text ? <Pencil size={14} /> : <Plus size={16} />}
                           </Button>
                         )}
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          type="submit"
-                          className="button secondary small"
-                          disabled={pending || externalChange || !!dataError}
-                        >
-                          Xong
-                        </Button>
                       </div>
-                    </form>
-                  ) : (
-                    text && (
-                      <Button
-                        variant="ghost"
-                        size="default"
-                        type="button"
-                        className="attendance-content"
-                        aria-label={"Sửa nội dung ngày " + day}
-                        onClick={() => setEditingDay(day)}
-                      >
-                        <span className="attendance-note" title={text}>
-                          {text}
-                        </span>
-                      </Button>
-                    )
+                      {editing && !mobile
+                        ? dayEditor(day)
+                        : text && (
+                            <Button
+                              variant="ghost"
+                              size="default"
+                              type="button"
+                              className="attendance-content"
+                              aria-label={"Sửa nội dung ngày " + day}
+                              onClick={() => setEditingDay(day)}
+                            >
+                              <span className="attendance-note" title={text}>
+                                {text}
+                              </span>
+                            </Button>
+                          )}
+                    </>
                   )}
                 </div>
               );
             })}
           </div>
         </div>
+        {mobile && editingDay && (
+          <CalendarDialog
+            title={
+              activity.name +
+              " · " +
+              localTime(editingDay).toFormat("dd/MM/yyyy")
+            }
+            description="Nhập nội dung để chấm công. Thay đổi được tự lưu."
+            onClose={() => setEditingDay(null)}
+          >
+            {dayEditor(editingDay)}
+            <p className="attendance-save-state" role="status">
+              {pending
+                ? "Đang lưu…"
+                : error || dataError || externalChange
+                  ? "Chưa lưu được"
+                  : dirty
+                    ? "Chờ lưu…"
+                    : message}
+            </p>
+            {(error || dataError || externalChange) && (
+              <p className="schedule-error" role="alert">
+                {externalChange
+                  ? "Dữ liệu đã thay đổi. Bản nháp đang được giữ."
+                  : error || dataError}
+                {error && !externalChange && !dataError && (
+                  <Button
+                    variant="link"
+                    disabled={pending}
+                    onClick={() => void save()}
+                  >
+                    Thử lưu lại
+                  </Button>
+                )}
+                <Button
+                  variant="link"
+                  disabled={pending}
+                  onClick={() => void reload()}
+                >
+                  Tải bản mới
+                </Button>
+              </p>
+            )}
+          </CalendarDialog>
+        )}
       </section>
     </div>
   );

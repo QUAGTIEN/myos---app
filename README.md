@@ -6,9 +6,11 @@ Nền màn hình xác thực: [A Green Forest — Lauri Poldre / Pexels](https:/
 
 ## Trạng thái hiện tại
 
+**Mobile (11/10/2026):** giao diện responsive đến 700 px dùng header navy–turquoise và thanh điều hướng navy nổi cho 5 phân hệ, có safe area. Tổng quan chuyển nội dung qua các tab để giảm chiều dài. Lịch Tháng/Tuần vừa màn hình, dấu màu biểu thị nội dung; chạm ngày mở toàn bộ danh sách và tạo/sửa trong bottom sheet. Chấm công dùng bảng tháng gọn và bottom sheet nhập văn bản, giữ tự lưu 700 ms/version check/nháp khi lỗi. Cài đặt và bộ lọc thư mục/nhãn có thể gập mở; form vẫn giữ nội dung khi gập. Desktop tiếp tục dùng FullCalendar và sidebar. Chưa thêm ảnh mới hoặc chuyển sang ứng dụng native.
+
 **UI shadcn/ui (10/10/2026):** đã áp dụng Button, Input, Textarea trên các màn hình và form; Card/Badge cho Cài đặt và Dự án, NativeSelect cho thiết lập, Tabs cho Lịch/Chấm công và Thẻ/Kanban (hỗ trợ bàn phím). Cài đặt dùng nhóm thiết lập nhãn–nội dung; Dự án thu gọn thanh công cụ và số liệu, không kéo dài khung trống bằng chiều cao màn hình. Tokens chung giữ navy/turquoise và Be Vietnam Pro, góc bo 6/8/10 px, focus bằng nền/chữ. Checkbox, file input, editor Tiptap và FullCalendar giữ hành vi chuyên biệt. `components.json` cấu hình registry/alias, `src/lib/utils.ts` cung cấp `cn`; thêm theo nhu cầu bằng `pnpm exec shadcn add <tên>` và review diff. Không chạy lại `init`/`apply` mặc định vì có thể ghi đè màu/font. [CLI chính thức](https://ui.shadcn.com/docs/cli).
 
-Lịch hiển thị thanh ngang xếp một cột, nền màu đặc và chữ tự chọn theo độ tương phản; tiêu đề dài xuống dòng. Có 11 màu mẫu và màu tùy chỉnh HEX cho bộ lịch hoặc từng lịch hẹn. Lịch hẹn mặc định theo màu bộ lịch; đổi màu riêng được lưu theo lịch hoặc từng buổi trong chuỗi, có thể chọn lại “Theo bộ lịch”. Ô ngày tự giãn để hiện toàn bộ mục, không giới hạn ba mục; lịch nhiều ngày giữ cách trải qua các ngày để bảo toàn kéo thả.
+Lịch desktop hiển thị thanh ngang xếp một cột, nền màu đặc và chữ tự chọn theo độ tương phản; tiêu đề dài xuống dòng. Có 11 màu mẫu và màu tùy chỉnh HEX cho bộ lịch hoặc từng lịch hẹn. Lịch hẹn mặc định theo màu bộ lịch; đổi màu riêng được lưu theo lịch hoặc từng buổi trong chuỗi, có thể chọn lại “Theo bộ lịch”. Ô ngày desktop tự giãn để hiện toàn bộ mục, không giới hạn ba mục; lịch nhiều ngày giữ cách trải qua các ngày để bảo toàn kéo thả. Mobile dùng bảng gọn và mở toàn bộ nội dung ngày trong bottom sheet.
 
 **Lịch/Chấm công cập nhật:** Lịch chỉ có Tháng/Tuần; Chấm công nhập nội dung trực tiếp theo ngày, có nội dung là đã chấm và ô xanh nhạt. Tự lưu sau 700 ms ngừng gõ, version check, giữ nháp khi lỗi/xung đột. Có xóa công việc với xác nhận; Lịch và Chấm công dùng toàn bộ chiều rộng, không có cột thông tin bên phải. Tổng quan không còn ba nút tạo nhanh. Firebase theo UID, IndexedDB v5 giữ dữ liệu cũ. Xóa công việc là xóa logic, các tháng bị khóa đọc/ghi; không có khôi phục từ UI. [ADR 007](docs/decisions/007-calendar-attendance.md).
 
@@ -46,6 +48,8 @@ Mở http://localhost:3000/login. Tạo `.env.local` theo `.env.example`: điề
 Để xem dữ liệu local cũ, đặt `NEXT_PUBLIC_MYOS_MODE=local` rồi khởi động/build lại. Không tự chuyển dữ liệu giữa hai chế độ, không tự nhập dữ liệu cũ vào tài khoản; dùng đúng browser/origin cũ. Biến NEXT_PUBLIC được chốt tại build nên đổi chế độ phải build lại.
 
 ## Kiểm tra
+
+Mobile 11/10/2026: lint/typecheck/format và build đạt; 87 kiểm tra local được xác nhận qua suite và lượt chạy lại, 23 skip chủ đích. Firebase Emulator xác nhận 18 kiểm tra qua suite và lượt chạy lại đăng xuất mobile. Đã kiểm tra ảnh desktop/mobile, màn hình 320 px, lịch nhiều mục, tự lưu chấm công và gập mở Cài đặt; chi tiết ở [tests/README.md](tests/README.md).
 
 ~~~powershell
 pnpm lint

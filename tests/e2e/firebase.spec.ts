@@ -1,4 +1,8 @@
-import { openAppointment, markAttendance } from "./calendar-helpers";
+import {
+  openAppointment,
+  markAttendance,
+  setCalendarDate,
+} from "./calendar-helpers";
 import {
   expect,
   test,
@@ -33,6 +37,7 @@ const password = "MyOS-test-2026!";
 test("calendar custom colors persist through cloud validation and recurring overrides", async ({
   page,
   context,
+  isMobile,
 }) => {
   await account(context.request);
   const settings = {
@@ -111,16 +116,22 @@ test("calendar custom colors persist through cloud validation and recurring over
   expect(effectiveOccurrence(saved, saved.start)?.color).toBe("#c5221f");
   expect(effectiveOccurrence(saved, "2026-10-08T09:00")?.color).toBeNull();
   await page.goto("/calendar");
-  await page.getByLabel("Đến ngày", { exact: true }).fill("2026-10-06");
+  await setCalendarDate(page, "2026-10-06");
   const firstCell = page.locator(
-    '.fc-daygrid-day[data-date="2026-10-06"] .fc-event',
+    isMobile
+      ? ".mobile-day-preview .mobile-calendar-event"
+      : '.fc-daygrid-day[data-date="2026-10-06"] .fc-event',
   );
   const nextCell = page.locator(
-    '.fc-daygrid-day[data-date="2026-10-08"] .fc-event',
+    isMobile
+      ? ".mobile-day-preview .mobile-calendar-event"
+      : '.fc-daygrid-day[data-date="2026-10-08"] .fc-event',
   );
   await expect(firstCell).toHaveCSS("background-color", "rgb(197, 34, 31)");
+  if (isMobile) await setCalendarDate(page, "2026-10-08");
   await expect(nextCell).toHaveCSS("background-color", "rgb(24, 128, 56)");
   await page.reload();
+  if (isMobile) await setCalendarDate(page, "2026-10-06");
   await expect(firstCell).toHaveCSS("background-color", "rgb(197, 34, 31)");
 });
 test("attendance cloud stores atomic months, rejects stale/foreign records and keeps offline drafts", async ({
@@ -235,15 +246,15 @@ test("attendance cloud stores atomic months, rejects stale/foreign records and k
         : route.continue(),
     );
     await inline.getByRole("textbox").fill("Lí 12 cloud");
-    await expect(page.locator(".attendance-module [role=alert]")).toContainText(
-      "Bản nháp vẫn được giữ",
-    );
+    await expect(
+      page.locator(".schedule-error[role=alert]:visible"),
+    ).toContainText("Bản nháp vẫn được giữ");
     await expect(inline.getByRole("textbox")).toHaveValue("Lí 12 cloud");
     fail = false;
     await page
       .getByRole("button", { name: "Thử lưu lại", exact: true })
       .click();
-    await expect(page.locator(".attendance-save-state")).toHaveText(
+    await expect(page.locator(".attendance-save-state:visible")).toHaveText(
       "Đã lưu tự động.",
     );
     const stored = (
@@ -362,10 +373,12 @@ test("attendance autosave keeps edits typed during a pending cloud write", async
     exact: true,
   });
   await input.fill("Nội dung đầu");
-  await expect(page.locator(".attendance-save-state")).toHaveText("Đang lưu…");
+  await expect(page.locator(".attendance-save-state:visible")).toHaveText(
+    "Đang lưu…",
+  );
   await input.fill("Nội dung mới nhất");
   await expect.poll(() => writes).toBe(2);
-  await expect(page.locator(".attendance-save-state")).toHaveText(
+  await expect(page.locator(".attendance-save-state:visible")).toHaveText(
     "Đã lưu tự động.",
   );
   await expect(input).toHaveValue("Nội dung mới nhất");
@@ -412,6 +425,11 @@ async function register(page: Page, email: string) {
 }
 
 async function navigate(page: Page, label: string) {
+  const bottom = page.getByRole("navigation", { name: "Điều hướng mobile" });
+  if ((page.viewportSize()?.width ?? 1440) <= 700) {
+    await bottom.getByRole("link", { name: label, exact: true }).click();
+    return;
+  }
   const menu = page.getByRole("button", { name: "Mở menu", exact: true });
   if (await menu.isVisible()) await menu.click();
   await page
@@ -594,6 +612,8 @@ test("logout clears cached data in another tab and a new account starts with its
     otherTab.getByRole("heading", { name: note.title, exact: true }),
   ).toBeVisible();
   await page.goto("/settings");
+  if ((page.viewportSize()?.width ?? 1440) <= 700)
+    await page.getByRole("button", { name: "Tài khoản", exact: true }).click();
   await page.getByRole("button", { name: "Đăng xuất", exact: true }).click();
   await expect(page).toHaveURL(/login$/);
   await expect(
@@ -693,6 +713,8 @@ test("public signup, cloud CRUD, settings, logout and login on desktop/mobile", 
     .click();
   await expect(dialog).not.toBeVisible();
   await page.goto("/settings");
+  if ((page.viewportSize()?.width ?? 1440) <= 700)
+    await page.getByRole("button", { name: "Tài khoản", exact: true }).click();
   await page.getByLabel("Tên hiển thị").fill("Tiến cloud");
   await page.getByLabel("Ngày đầu tuần").selectOption("0");
   await page
@@ -702,6 +724,8 @@ test("public signup, cloud CRUD, settings, logout and login on desktop/mobile", 
     "Đã lưu cài đặt tài khoản",
   );
   await page.reload();
+  if ((page.viewportSize()?.width ?? 1440) <= 700)
+    await page.getByRole("button", { name: "Tài khoản", exact: true }).click();
   await expect(page.getByLabel("Tên hiển thị")).toHaveValue("Tiến cloud");
   await expect(page.getByLabel("Ngày đầu tuần")).toHaveValue("0");
   await page.screenshot({

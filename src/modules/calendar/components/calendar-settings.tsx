@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { firebaseEnabled } from "@/lib/firebase/client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { SettingsSection } from "@/components/settings-section";
 import { NativeSelect } from "@/components/ui/native-select";
 import { useState, type FormEvent } from "react";
 import {
@@ -18,33 +18,26 @@ import "../calendar.css";
 export function CalendarSettingsPanel() {
   const data = useCalendar();
   return (
-    <Card asChild className="settings-section schedule-settings">
-      <section>
-        <CardHeader>
-          <h2>Lịch & thời gian</h2>
-        </CardHeader>
-        <CardContent>
-          {data.loading ? (
-            <p>Đang tải cài đặt lịch…</p>
-          ) : data.error ? (
-            <p role="alert">
-              {data.error}{" "}
-              <Button
-                variant="link"
-                size="default"
-                type="button"
-                className="text-link"
-                onClick={data.refresh}
-              >
-                Thử lại
-              </Button>
-            </p>
-          ) : (
-            <SettingsForm settings={data.settings} />
-          )}
-        </CardContent>
-      </section>
-    </Card>
+    <SettingsSection title="Lịch & thời gian" className="schedule-settings">
+      {data.loading ? (
+        <p>Đang tải cài đặt lịch…</p>
+      ) : data.error ? (
+        <p role="alert">
+          {data.error}{" "}
+          <Button
+            variant="link"
+            size="default"
+            type="button"
+            className="text-link"
+            onClick={data.refresh}
+          >
+            Thử lại
+          </Button>
+        </p>
+      ) : (
+        <SettingsForm settings={data.settings} />
+      )}
+    </SettingsSection>
   );
 }
 function SettingsForm({ settings }: { settings: CalendarSettings }) {

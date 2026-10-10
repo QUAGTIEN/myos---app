@@ -49,7 +49,7 @@ export function CalendarDialog({
             else
               document
                 .querySelector<HTMLButtonElement>(
-                  ".schedule-module .button.primary, .dashboard-actions button",
+                  ".mobile-month-day[aria-pressed=true], .schedule-tabs [aria-selected=true], .schedule-module .button.primary, .dashboard-agenda-entry",
                 )
                 ?.focus();
           }}
