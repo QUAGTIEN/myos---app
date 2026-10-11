@@ -17,7 +17,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { DateTime } from "luxon";
 import { PageSkeleton } from "@/components/page-ui";
 import { useMobile } from "@/components/use-mobile";
@@ -53,6 +53,7 @@ import "./overview.css";
 
 export function OverviewScreen() {
   const mobile = useMobile();
+  const coverRef = useRef<HTMLDivElement>(null);
   const [mobileTab, setMobileTab] = useState<"calendar" | "tasks" | "projects">(
     "calendar",
   );
@@ -105,6 +106,40 @@ export function OverviewScreen() {
   const detailEvent = calendar.events.find(
     (event) => event.id === selectedEvent?.eventId,
   );
+  const ready = !!data;
+  useEffect(() => {
+    const cover = coverRef.current;
+    if (!cover) return;
+    const shell = cover.closest(".overview-shell");
+    shell?.setAttribute("data-overview-cover", "ready");
+    const mobileView = window.matchMedia("(max-width: 700px)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let visible = false;
+    const sync = () => {
+      cover.dataset.motion =
+        visible &&
+        mobileView.matches &&
+        !reducedMotion.matches &&
+        !document.hidden
+          ? "running"
+          : "paused";
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    });
+    observer.observe(cover);
+    document.addEventListener("visibilitychange", sync);
+    mobileView.addEventListener("change", sync);
+    reducedMotion.addEventListener("change", sync);
+    return () => {
+      shell?.removeAttribute("data-overview-cover");
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+      mobileView.removeEventListener("change", sync);
+      reducedMotion.removeEventListener("change", sync);
+    };
+  }, [ready]);
   const detailOccurrence =
     detailEvent && selectedEvent
       ? effectiveOccurrence(detailEvent, selectedEvent.originalStart)
@@ -145,6 +180,9 @@ export function OverviewScreen() {
   return (
     <div className="dashboard">
       <div className="dashboard-summary">
+        <div className="dashboard-cover" ref={coverRef} aria-hidden="true">
+          <div className="dashboard-cover-photo" />
+        </div>
         <div className="dashboard-heading">
           <div>
             <h1 className="sr-only">Tổng quan</h1>

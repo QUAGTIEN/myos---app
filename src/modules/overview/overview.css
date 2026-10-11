@@ -1,6 +1,9 @@
 .dashboard {
   min-width: 0;
 }
+.dashboard-cover {
+  display: none;
+}
 .dashboard-mobile-title,
 .dashboard-mobile-tabs {
   display: none;
@@ -516,10 +519,45 @@
   }
 }
 @media (max-width: 700px) {
+  .overview-shell[data-overview-cover="ready"] .app-header {
+    background: transparent;
+  }
+  .overview-shell[data-overview-cover="ready"]
+    .app-header[data-scrolled="true"] {
+    background: var(--sidebar);
+  }
   .dashboard-summary {
+    position: relative;
+    isolation: isolate;
     color: white;
-    background: var(--mobile-header);
+    background: transparent;
     padding: 0 20px 16px;
+  }
+  .dashboard-cover {
+    display: block;
+    position: absolute;
+    inset: calc(-1 * var(--mobile-header-height, 72px)) 0 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--sidebar);
+  }
+  .dashboard-cover-photo {
+    position: absolute;
+    inset: 0;
+    background: url("/images/overview-canopy.webp") center 46% / cover no-repeat;
+    transform: scale(1.03);
+    animation: overview-canopy-drift 18s ease-in-out infinite alternate;
+    animation-play-state: paused;
+  }
+  .dashboard-cover[data-motion="running"] .dashboard-cover-photo {
+    animation-play-state: running;
+  }
+  .dashboard-cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #102f49c4;
   }
   .dashboard .dashboard-heading {
     margin: 0 0 12px;
@@ -668,5 +706,19 @@
   }
   .dashboard .dashboard-list > li {
     padding: 10px 0;
+  }
+}
+@keyframes overview-canopy-drift {
+  from {
+    transform: scale(1.03) translate3d(-0.4%, 0, 0);
+  }
+  to {
+    transform: scale(1.06) translate3d(0.4%, -0.5%, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-cover-photo {
+    animation: none;
+    transform: none;
   }
 }

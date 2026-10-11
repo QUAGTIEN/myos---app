@@ -99,17 +99,23 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!navRef.current) return;
     const shell = shellRef.current;
-    const observer = new ResizeObserver(([entry]) => {
-      if (entry.borderBoxSize[0]?.blockSize)
-        shell?.style.setProperty(
-          "--mobile-nav-height",
-          `${entry.borderBoxSize[0].blockSize}px`,
-        );
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.borderBoxSize[0]?.blockSize)
+          shell?.style.setProperty(
+            entry.target === navRef.current
+              ? "--mobile-nav-height"
+              : "--mobile-header-height",
+            `${entry.borderBoxSize[0].blockSize}px`,
+          );
+      }
     });
     observer.observe(navRef.current);
+    if (headerRef.current) observer.observe(headerRef.current);
     return () => {
       observer.disconnect();
       shell?.style.removeProperty("--mobile-nav-height");
+      shell?.style.removeProperty("--mobile-header-height");
     };
   }, []);
   useEffect(() => {
@@ -121,11 +127,13 @@ export function AppShell({ children }: { children: ReactNode }) {
     let frame = 0;
     const reveal = () => {
       header.dataset.scrollHidden = "false";
+      header.dataset.scrolled = window.scrollY > 8 ? "true" : "false";
       travel = 0;
     };
     const update = () => {
       frame = 0;
       const next = Math.max(0, window.scrollY);
+      header.dataset.scrolled = next > 8 ? "true" : "false";
       const delta = next - previous;
       previous = next;
       // Focus/keyboard scrolling must not dismiss controls the user is using.
