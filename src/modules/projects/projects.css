@@ -1086,3 +1086,70 @@
     padding: 12px 0;
   }
 }
+@media (max-width: 700px) {
+  .project-modal:has(.project-create-form) {
+    top: 50%;
+    bottom: auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(360px, calc(100vw - 40px));
+    max-height: calc(
+      78dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    padding: 12px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .project-modal:has(.project-create-form) .project-modal-heading {
+    flex-shrink: 0;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 8px;
+  }
+  .project-modal:has(.project-create-form) h2 {
+    font-size: 18px;
+    line-height: 26px;
+  }
+  .project-modal:has(.project-create-form) .icon-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .project-create-form {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .project-create-fields {
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding-bottom: 8px;
+  }
+  .project-create-form .project-form-fields {
+    gap: 6px;
+  }
+  .project-create-form label {
+    margin-top: 6px;
+  }
+  .project-create-form input:not([type="checkbox"]),
+  .project-create-form select,
+  .project-create-form textarea {
+    padding: 8px;
+    min-height: 44px;
+    line-height: 24px;
+  }
+  .project-create-form textarea {
+    height: 80px;
+  }
+  .project-create-form .project-modal-actions {
+    position: static;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 8px 0 0;
+  }
+  .project-create-form .project-modal-actions .button {
+    min-height: 44px;
+  }
+}

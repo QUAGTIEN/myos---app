@@ -1,7 +1,13 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
-import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
+import { useId, useMemo, useState, type ReactNode } from "react";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  Search,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
@@ -55,6 +61,8 @@ export function MobileCalendar({
 }) {
   const [filters, setFilters] = useState(false);
   const [dayOpen, setDayOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const previewId = useId();
   const weekday = localTime(date).weekday % 7;
   const days =
     view === "dayGridMonth"
@@ -291,10 +299,22 @@ export function MobileCalendar({
       </div>
       <div className="mobile-day-preview">
         <div className="mobile-day-heading">
-          <div>
-            <h3>{localTime(date).setLocale("vi").toFormat("cccc, dd/MM")} </h3>
-            <p>{selected.length} mục</p>
-          </div>
+          <h3>
+            <Button
+              variant="ghost"
+              className="mobile-day-toggle"
+              aria-label="Chi tiết ngày được chọn"
+              aria-expanded={previewOpen}
+              aria-controls={previewId}
+              onClick={() => setPreviewOpen(!previewOpen)}
+            >
+              <span>
+                {localTime(date).setLocale("vi").toFormat("cccc, dd/MM")}
+                <small>{selected.length} mục</small>
+              </span>
+              <ChevronDown size={20} aria-hidden="true" />
+            </Button>
+          </h3>
           <Button
             variant="default"
             size="icon"
@@ -305,18 +325,20 @@ export function MobileCalendar({
             <Plus size={20} />
           </Button>
         </div>
-        {selected[0] ? (
-          entry(selected[0])
-        ) : (
-          <p>Chưa có nội dung cho ngày này.</p>
-        )}
-        <Button
-          variant="ghost"
-          className="mobile-day-open"
-          onClick={() => setDayOpen(true)}
-        >
-          Xem lịch trong ngày <ChevronRight size={20} />
-        </Button>
+        <div id={previewId} hidden={!previewOpen}>
+          {selected[0] ? (
+            entry(selected[0])
+          ) : (
+            <p>Chưa có nội dung cho ngày này.</p>
+          )}
+          <Button
+            variant="ghost"
+            className="mobile-day-open"
+            onClick={() => setDayOpen(true)}
+          >
+            Xem lịch trong ngày <ChevronRight size={20} />
+          </Button>
+        </div>
       </div>
       {dayOpen && (
         <CalendarDialog

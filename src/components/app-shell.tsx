@@ -94,6 +94,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const shellRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const calendarDesign = pathname === "/calendar";
   useEffect(() => {
     if (!navRef.current) return;
@@ -111,6 +112,56 @@ export function AppShell({ children }: { children: ReactNode }) {
       shell?.style.removeProperty("--mobile-nav-height");
     };
   }, []);
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const mobile = window.matchMedia("(max-width: 700px)");
+    let previous = Math.max(0, window.scrollY);
+    let travel = 0;
+    let frame = 0;
+    const reveal = () => {
+      header.dataset.scrollHidden = "false";
+      travel = 0;
+    };
+    const update = () => {
+      frame = 0;
+      const next = Math.max(0, window.scrollY);
+      const delta = next - previous;
+      previous = next;
+      // Focus/keyboard scrolling must not dismiss controls the user is using.
+      const editing = document.activeElement?.matches(
+        "input, textarea, select, [contenteditable='true']",
+      );
+      if (
+        !mobile.matches ||
+        next < header.offsetHeight ||
+        editing ||
+        header.contains(document.activeElement) ||
+        document.querySelector('[role="dialog"]')
+      ) {
+        reveal();
+        return;
+      }
+      travel = Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
+      if (Math.abs(travel) >= 18) {
+        header.dataset.scrollHidden = travel > 0 ? "true" : "false";
+        travel = 0;
+      }
+    };
+    const scroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    reveal();
+    window.addEventListener("scroll", scroll, { passive: true });
+    mobile.addEventListener("change", reveal);
+    header.addEventListener("focusin", reveal);
+    return () => {
+      window.removeEventListener("scroll", scroll);
+      mobile.removeEventListener("change", reveal);
+      header.removeEventListener("focusin", reveal);
+      cancelAnimationFrame(frame);
+    };
+  }, [pathname]);
   const current = navigation.find(
     ({ href }) => pathname === href || pathname.startsWith(href + "/"),
   );
@@ -131,7 +182,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <SidebarContent pathname={pathname} />
       </aside>
       <div className="app-workspace">
-        <header className="app-header">
+        <header ref={headerRef} className="app-header">
           <div className="header-location">
             <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
               <Dialog.Trigger asChild>

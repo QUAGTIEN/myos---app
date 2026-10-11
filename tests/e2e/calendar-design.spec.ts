@@ -60,7 +60,7 @@ for (const [width, height] of [
       image.src = "/images/mobile-ocean.jpg";
       await image.decode();
     });
-    const output = resolve("docs/calendar-implementation");
+    const output = resolve("docs/mobile-refinements/calendar");
     mkdirSync(output, { recursive: true });
     const screenshots = async (state: string) =>
       page.screenshot({
@@ -85,7 +85,7 @@ for (const [width, height] of [
     if (width >= 375) expect(measurements.nav.height).toBe(56);
     if (width >= 375) {
       expect(measurements.grid.y).toBe(233);
-      expect(measurements.preview.y).toBe(525);
+      expect(measurements.preview.y).toBe(517);
     }
     await screenshots("month");
     await page.getByRole("button", { name: "Tuần", exact: true }).click();
@@ -94,6 +94,7 @@ for (const [width, height] of [
     await page.getByRole("button", { name: "Tìm kiếm và lọc lịch" }).click();
     await screenshots("filters");
     await page.getByRole("button", { name: "Tìm kiếm và lọc lịch" }).click();
+    await page.getByRole("button", { name: "Chi tiết ngày được chọn" }).click();
     await page
       .getByRole("button", { name: "Xem lịch trong ngày", exact: true })
       .click();

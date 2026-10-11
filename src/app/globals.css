@@ -66,6 +66,10 @@
     display: none;
   }
   .app-shell .app-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--layer-header);
+    transition: transform 180ms ease;
     height: auto;
     min-height: 72px;
     padding: calc(14px + env(safe-area-inset-top)) 20px 14px;
@@ -73,6 +77,10 @@
     color: white;
     border: 0;
     box-shadow: none;
+  }
+  .app-shell .app-header[data-scroll-hidden="true"] {
+    transform: translateY(-100%);
+    pointer-events: none;
   }
   .app-shell .header-current {
     font-size: 25px;
@@ -98,11 +106,15 @@
   }
   .app-shell .main-content {
     padding: 14px 14px
-      calc(var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom)));
+      calc(
+        var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom))
+      );
   }
   .overview-shell .main-content {
     padding: 0 0
-      calc(var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom)));
+      calc(
+        var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom))
+      );
   }
   .app-shell .mobile-bottom-nav {
     display: grid;
@@ -183,8 +195,24 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .app-shell .app-header {
+    transition: none;
+  }
   .mobile-bottom-icon {
     transition: none;
+  }
+}
+/* Portaled forms and auth are outside AppShell; keep mobile editable text readable. */
+@media (max-width: 700px), (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(
+      [type="color"]
+    ):not([type="file"]):not([type="button"]):not([type="submit"]):not(
+      .note-title-input
+    ),
+  textarea,
+  select,
+  [contenteditable="true"] {
+    font-size: 16px !important;
   }
 }
 /* Calendar retains its approved header and content; navigation is shared. */
@@ -213,7 +241,9 @@
   }
   .calendar-design-shell .main-content {
     padding: 0 max(var(--calendar-gutter), env(safe-area-inset-right))
-      calc(var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom)))
+      calc(
+        var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom))
+      )
       max(var(--calendar-gutter), env(safe-area-inset-left));
   }
   .calendar-design-shell .mobile-bottom-nav {

@@ -1453,10 +1453,10 @@
     border-radius: 50%;
   }
   .mobile-day-preview {
-    margin-top: 24px;
-    padding: 0;
+    margin-top: 16px;
+    padding: 12px 0 0;
     background: transparent;
-    border: 0;
+    border-top: 1px solid var(--line);
   }
   .mobile-day-heading {
     display: flex;
@@ -1464,13 +1464,39 @@
     justify-content: space-between;
     gap: 12px;
     min-height: 44px;
-    margin-bottom: 12px;
+    margin-bottom: 0;
   }
   .mobile-day-heading h3 {
+    flex: 1;
+    min-width: 0;
     font-size: 16px;
     line-height: 24px;
     font-weight: 600;
     text-transform: capitalize;
+  }
+  .mobile-day-toggle {
+    width: 100%;
+    min-height: 44px;
+    height: auto;
+    padding: 0 8px 0 0;
+    justify-content: space-between;
+    text-align: left;
+    white-space: normal;
+    font: inherit;
+    text-transform: inherit;
+  }
+  .mobile-day-toggle small {
+    display: block;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .mobile-day-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+  .mobile-day-preview > div[id] {
+    padding-top: 12px;
   }
   .mobile-day-heading p {
     font-size: 12px;
@@ -1484,7 +1510,7 @@
     height: 44px;
     border-radius: var(--radius-control);
   }
-  .mobile-day-preview > p {
+  .mobile-day-preview > div[id] > p {
     color: var(--muted);
     font-size: 15px;
     line-height: 23px;
@@ -1751,12 +1777,12 @@
     bottom: auto;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(398px, calc(100% - 32px));
+    width: min(360px, calc(100% - 40px));
     max-height: calc(
-      100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+      78dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
     );
     border-radius: 16px;
-    padding: 16px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -1765,7 +1791,7 @@
   .calendar-design-dialog .schedule-dialog-heading {
     flex-shrink: 0;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
   .calendar-design-dialog .schedule-dialog-heading h2 {
     font-size: 18px;
@@ -1792,23 +1818,23 @@
     display: flex;
     flex-direction: column;
     max-height: calc(
-      100dvh - 140px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+      78dvh - 84px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
     );
   }
   .calendar-design-dialog .schedule-form > fieldset {
     min-height: 0;
     overflow: auto;
-    padding-bottom: 16px;
+    padding-bottom: 8px;
   }
   .calendar-design-dialog .schedule-form-fields {
     min-height: 0;
     overflow: auto;
-    padding-bottom: 16px;
+    padding-bottom: 8px;
   }
   .calendar-design-dialog .schedule-dialog-actions {
     flex-shrink: 0;
     margin-top: 0;
-    padding-top: 12px;
+    padding-top: 8px;
     border-top: 1px solid var(--line);
   }
   .calendar-design-dialog .button {
@@ -1835,6 +1861,17 @@
   .calendar-design-dialog .schedule-form label {
     font-size: 14px;
     line-height: 20px;
+    gap: 4px;
+  }
+  .calendar-design-dialog .schedule-form fieldset,
+  .calendar-design-dialog .schedule-form-grid {
+    gap: 10px;
+  }
+  .calendar-design-dialog .schedule-form input:not([type="checkbox"]),
+  .calendar-design-dialog .schedule-form select,
+  .calendar-design-dialog .schedule-form textarea {
+    padding: 8px;
+    line-height: 24px;
   }
 }
 @media (max-width: 359px) {

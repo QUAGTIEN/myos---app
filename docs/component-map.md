@@ -1,5 +1,7 @@
 # MyOS mobile — Component map v2
 
+**Bổ sung 12/10/2026:** AppShell sở hữu header theo hướng cuộn, vẫn dùng header/nav hiện hữu. Overview giữ3 button lọc nội dung, thêm phân tách spacing. MobileCalendar sở hữu disclosure ngày với aria-expanded/aria-controls; không thêm kho dữ liệu hoặc thay popup ngày. CalendarDialog/EventForm và ProjectDialog giữ Radix/validation/pending/luồng lưu; form dự án có wrapper cuộn để giữ footer và heading. Quy tắc cỡ chữ chung bao phủ auth/portal/editor. [Báo cáo](mobile-refinements-review.md).
+
 **12/10/2026:** đã được cho phép code pilot Lịch v3; [báo cáo triển khai ứng dụng thật](calendar-implementation-review.md). Thiết kế các route còn lại chưa rollout.
 
 **Cập nhật bản xem thử v3:** ảnh biển thật trong header, nav 56 px, dialog giữa màn hình. [Thông số và ảnh kiểm tra](mobile-design-update.md) thay quy định v2 về ba thành phần này; chưa sửa ứng dụng MyOS.

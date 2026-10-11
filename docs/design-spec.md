@@ -1,5 +1,7 @@
 # MyOS mobile — Đặc tả thiết kế đích v2
 
+**Bổ sung theo yêu cầu đã xác nhận 12/10/2026:** header mobile sticky trong flow, ẩn/hiện theo hướng cuộn sau18 px, transition180 ms (tắt nếu reduced motion), không ẩn khi đang nhập/chạy popup/focus header. Tổng quan: 3 tab dạng segmented, inset4 px, nút44 px, margin16 px tới nội dung; panel giữ đủ viền/radius. Lịch: sau grid margin16 px, divider1 px, padding trên12 px; tiêu đề ngày/count + chevron là nút44 px mở/thu preview (mặc định thu), nút thêm đứng riêng; chạm ngày vẫn mở danh sách đầy đủ. Dialog lịch/dự án: rộng min(360, viewport−40), cao tối đa78dvh trừ safe, inset12, tiêu đề18/26, gap heading8; vùng nhập cuộn và footer44 px. Lịch dưới360 px giữ gutter dialog12 px theo quy tắc trước. Chữ ô nhập>=16 px cả auth/portal/thiết bị cảm ứng; không khóa pinch zoom. [Báo cáo và screenshot mới](mobile-refinements-review.md) thay thông số tương ứng bên dưới; baseline v2/v3 trong tài liệu là lịch sử đối chiếu.
+
 **12/10/2026:** đã được cho phép code pilot Lịch v3; [báo cáo triển khai ứng dụng thật](calendar-implementation-review.md). Thiết kế các route còn lại chưa rollout.
 
 **Cập nhật bản xem thử v3:** ảnh biển thật trong header, nav 56 px, dialog giữa màn hình. [Thông số và ảnh kiểm tra](mobile-design-update.md) thay quy định v2 về ba thành phần này; chưa sửa ứng dụng MyOS.

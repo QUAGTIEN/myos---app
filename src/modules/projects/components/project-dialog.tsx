@@ -112,129 +112,133 @@ export function ProjectDialog({
               <X size={20} />
             </Button>
           </div>
-          <form onSubmit={submit}>
-            <fieldset disabled={pending} className="project-form-fields">
-              <label htmlFor="project-title">
-                Tên dự án <span>*</span>
-              </label>
-              <Input
-                id="project-title"
-                required
-                maxLength={120}
-                value={input.title}
-                onChange={(event) => field("title", event.target.value)}
-                placeholder="Ví dụ: Hoàn thiện website cá nhân"
-                autoFocus
-              />
-              <label htmlFor="project-description">Nội dung</label>
-              <Textarea
-                id="project-description"
-                rows={4}
-                maxLength={20000}
-                value={input.description}
-                onChange={(event) => field("description", event.target.value)}
-                placeholder="Mục tiêu, ý tưởng và những điều cần lưu ý…"
-              />
-              <div className="project-form-grid">
-                <div>
-                  <label htmlFor="project-status">Trạng thái</label>
-                  <select
-                    id="project-status"
-                    value={input.status}
-                    onChange={(event) =>
-                      field(
-                        "status",
-                        event.target.value as ProjectInput["status"],
-                      )
-                    }
-                  >
-                    {Object.entries(projectStatuses).map(([value, label]) => (
-                      <option key={value} value={value}>
-                        {label}
-                      </option>
-                    ))}
-                  </select>
+          <form onSubmit={submit} className="project-create-form">
+            <div className="project-create-fields">
+              <fieldset disabled={pending} className="project-form-fields">
+                <label htmlFor="project-title">
+                  Tên dự án <span>*</span>
+                </label>
+                <Input
+                  id="project-title"
+                  required
+                  maxLength={120}
+                  value={input.title}
+                  onChange={(event) => field("title", event.target.value)}
+                  placeholder="Ví dụ: Hoàn thiện website cá nhân"
+                  autoFocus
+                />
+                <label htmlFor="project-description">Nội dung</label>
+                <Textarea
+                  id="project-description"
+                  rows={4}
+                  maxLength={20000}
+                  value={input.description}
+                  onChange={(event) => field("description", event.target.value)}
+                  placeholder="Mục tiêu, ý tưởng và những điều cần lưu ý…"
+                />
+                <div className="project-form-grid">
+                  <div>
+                    <label htmlFor="project-status">Trạng thái</label>
+                    <select
+                      id="project-status"
+                      value={input.status}
+                      onChange={(event) =>
+                        field(
+                          "status",
+                          event.target.value as ProjectInput["status"],
+                        )
+                      }
+                    >
+                      {Object.entries(projectStatuses).map(([value, label]) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="project-color">Màu đánh dấu</label>
+                    <select
+                      id="project-color"
+                      value={input.color}
+                      onChange={(event) =>
+                        field(
+                          "color",
+                          event.target.value as ProjectInput["color"],
+                        )
+                      }
+                    >
+                      {Object.entries(projectColors).map(([value, label]) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="project-start">Ngày bắt đầu</label>
+                    <Input
+                      id="project-start"
+                      type="date"
+                      value={input.startDate}
+                      onChange={(event) =>
+                        field("startDate", event.target.value)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="project-due">Hạn dự kiến</label>
+                    <Input
+                      id="project-due"
+                      type="date"
+                      min={input.startDate || undefined}
+                      value={input.dueDate}
+                      onChange={(event) => field("dueDate", event.target.value)}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="project-color">Màu đánh dấu</label>
-                  <select
-                    id="project-color"
-                    value={input.color}
-                    onChange={(event) =>
-                      field(
-                        "color",
-                        event.target.value as ProjectInput["color"],
-                      )
-                    }
-                  >
-                    {Object.entries(projectColors).map(([value, label]) => (
-                      <option key={value} value={value}>
-                        {label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="project-start">Ngày bắt đầu</label>
-                  <Input
-                    id="project-start"
-                    type="date"
-                    value={input.startDate}
-                    onChange={(event) => field("startDate", event.target.value)}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="project-due">Hạn dự kiến</label>
-                  <Input
-                    id="project-due"
-                    type="date"
-                    min={input.startDate || undefined}
-                    value={input.dueDate}
-                    onChange={(event) => field("dueDate", event.target.value)}
-                  />
-                </div>
-              </div>
-              <label htmlFor="project-mode">Cách tính tiến độ</label>
-              <select
-                id="project-mode"
-                value={input.progressMode}
-                onChange={(event) =>
-                  field(
-                    "progressMode",
-                    event.target.value as ProjectInput["progressMode"],
-                  )
-                }
-              >
-                <option value="manual">Nhập thủ công</option>
-                <option value="checklist">Theo checklist</option>
-              </select>
-              {input.progressMode === "manual" && (
-                <>
-                  <label htmlFor="project-progress">Tiến độ (%)</label>
-                  <Input
-                    id="project-progress"
-                    type="number"
-                    min={0}
-                    max={100}
-                    step={1}
-                    required
-                    value={
-                      Number.isNaN(input.manualProgress)
-                        ? ""
-                        : input.manualProgress
-                    }
-                    onChange={(event) =>
-                      field(
-                        "manualProgress",
-                        event.target.value === ""
-                          ? NaN
-                          : Number(event.target.value),
-                      )
-                    }
-                  />
-                </>
-              )}
-            </fieldset>
+                <label htmlFor="project-mode">Cách tính tiến độ</label>
+                <select
+                  id="project-mode"
+                  value={input.progressMode}
+                  onChange={(event) =>
+                    field(
+                      "progressMode",
+                      event.target.value as ProjectInput["progressMode"],
+                    )
+                  }
+                >
+                  <option value="manual">Nhập thủ công</option>
+                  <option value="checklist">Theo checklist</option>
+                </select>
+                {input.progressMode === "manual" && (
+                  <>
+                    <label htmlFor="project-progress">Tiến độ (%)</label>
+                    <Input
+                      id="project-progress"
+                      type="number"
+                      min={0}
+                      max={100}
+                      step={1}
+                      required
+                      value={
+                        Number.isNaN(input.manualProgress)
+                          ? ""
+                          : input.manualProgress
+                      }
+                      onChange={(event) =>
+                        field(
+                          "manualProgress",
+                          event.target.value === ""
+                            ? NaN
+                            : Number(event.target.value),
+                        )
+                      }
+                    />
+                  </>
+                )}
+              </fieldset>
+            </div>
             {error && (
               <p className="project-alert error" role="alert">
                 {error}

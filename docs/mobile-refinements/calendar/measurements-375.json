@@ -1,0 +1,37 @@
+{
+  "width": 375,
+  "height": 812,
+  "header": {
+    "x": 0,
+    "y": 0,
+    "width": 375,
+    "height": 64
+  },
+  "nav": {
+    "x": 10,
+    "y": 748,
+    "width": 355,
+    "height": 56
+  },
+  "grid": {
+    "x": 16,
+    "y": 233,
+    "width": 343,
+    "height": 268
+  },
+  "preview": {
+    "x": 16,
+    "y": 517,
+    "width": 343,
+    "height": 57
+  },
+  "overflow": false,
+  "dialog": {
+    "x": 20,
+    "y": 240,
+    "width": 335,
+    "height": 332
+  },
+  "errors": [],
+  "fixture": "isolated test browser, three all-day events"
+}

@@ -47,6 +47,7 @@ test("day sheets create dated notes and tasks, filter them and retain their full
   ).toBeVisible();
   await page.reload();
   await setCalendarDate(page, "2026-10-08");
+  await page.getByRole("button", { name: "Chi tiết ngày được chọn" }).click();
   await page
     .locator(".mobile-day-preview")
     .getByRole("button", { name: /Chuẩn bị bài dạy/ })
@@ -142,6 +143,7 @@ test("compact calendar exposes all entries, overnight boundaries, week navigatio
     path: info.outputPath("calendar-mobile.png"),
     fullPage: true,
   });
+  await page.getByRole("button", { name: "Chi tiết ngày được chọn" }).click();
   await page.getByRole("button", { name: "Xem lịch trong ngày" }).click();
   await page
     .getByRole("dialog")
