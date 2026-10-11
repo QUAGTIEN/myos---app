@@ -1,0 +1,155 @@
+{
+  "metrics": [
+    {
+      "width": 390,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 64,
+        "font": "14px",
+        "line": "23.1px",
+        "background": "rgb(16, 47, 73)"
+      },
+      "grid": {
+        "x": 16,
+        "y": 307,
+        "width": 358,
+        "height": 302,
+        "font": "14px",
+        "line": "20px",
+        "background": "rgb(255, 255, 255)"
+      },
+      "day": {
+        "x": 16,
+        "y": 349,
+        "width": 51.140625,
+        "height": 52,
+        "font": "14px",
+        "line": "20px",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "nav": {
+        "x": 10,
+        "y": 762,
+        "width": 370,
+        "height": 72,
+        "font": "14px",
+        "line": "23.1px",
+        "background": "rgb(16, 47, 73)"
+      },
+      "preview": {
+        "x": 16,
+        "y": 633,
+        "width": 358,
+        "height": 183,
+        "font": "14px",
+        "line": "20px",
+        "background": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "width": 375,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 375,
+        "height": 64,
+        "font": "14px",
+        "line": "23.1px",
+        "background": "rgb(16, 47, 73)"
+      },
+      "grid": {
+        "x": 16,
+        "y": 307,
+        "width": 343,
+        "height": 302,
+        "font": "14px",
+        "line": "20px",
+        "background": "rgb(255, 255, 255)"
+      },
+      "day": {
+        "x": 16,
+        "y": 349,
+        "width": 49,
+        "height": 52,
+        "font": "14px",
+        "line": "20px",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "nav": {
+        "x": 10,
+        "y": 730,
+        "width": 355,
+        "height": 72,
+        "font": "14px",
+        "line": "23.1px",
+        "background": "rgb(16, 47, 73)"
+      },
+      "preview": {
+        "x": 16,
+        "y": 633,
+        "width": 343,
+        "height": 183,
+        "font": "14px",
+        "line": "20px",
+        "background": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "width": 320,
+      "overflow": false,
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 64,
+        "font": "14px",
+        "line": "23.1px",
+        "background": "rgb(16, 47, 73)"
+      },
+      "grid": {
+        "x": 12,
+        "y": 307,
+        "width": 296,
+        "height": 302,
+        "font": "14px",
+        "line": "20px",
+        "background": "rgb(255, 255, 255)"
+      },
+      "day": {
+        "x": 12,
+        "y": 349,
+        "width": 42.28125,
+        "height": 52,
+        "font": "14px",
+        "line": "20px",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "nav": {
+        "x": 10,
+        "y": 647,
+        "width": 300,
+        "height": 83,
+        "font": "14px",
+        "line": "23.1px",
+        "background": "rgb(16, 47, 73)"
+      },
+      "preview": {
+        "x": 12,
+        "y": 633,
+        "width": 296,
+        "height": 183,
+        "font": "14px",
+        "line": "20px",
+        "background": "rgb(255, 255, 255)"
+      }
+    }
+  ],
+  "errors": [],
+  "assetWarnings": [
+    "favicon.ico: 404"
+  ]
+}

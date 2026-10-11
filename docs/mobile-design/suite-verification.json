@@ -1,0 +1,9515 @@
+[
+  {
+    "name": "overview",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Tổng quan\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 104,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 44,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Hôm nay",
+        "x": 199.921875,
+        "y": 432,
+        "w": 86.078125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Ngày trước",
+        "x": 286,
+        "y": 432,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Ngày sau",
+        "x": 330,
+        "y": 432,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Mới nhất",
+        "x": 16,
+        "y": 968,
+        "w": 84.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 108.65625,
+        "y": 968,
+        "w": 80.765625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "3\nLịch hôm nay",
+        "x": 16,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "0\nChecklist cần làm",
+        "x": 107.5,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "1\nDự án đang làm",
+        "x": 199,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "2\nGhi chú",
+        "x": 290.5,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 16,
+        "y": 1028,
+        "w": 358,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "overview-checklist",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Tổng quan\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 104,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 44,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Mới nhất",
+        "x": 16,
+        "y": 532,
+        "w": 84.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 108.65625,
+        "y": 532,
+        "w": 80.765625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "3\nLịch hôm nay",
+        "x": 16,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "0\nChecklist cần làm",
+        "x": 107.5,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "1\nDự án đang làm",
+        "x": 199,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "2\nGhi chú",
+        "x": 290.5,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 16,
+        "y": 592,
+        "w": 358,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "overview-projects",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Tổng quan\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 104,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 44,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Mới nhất",
+        "x": 16,
+        "y": 585,
+        "w": 84.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 108.65625,
+        "y": 585,
+        "w": 80.765625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "3\nLịch hôm nay",
+        "x": 16,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "0\nChecklist cần làm",
+        "x": 107.5,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "1\nDự án đang làm",
+        "x": 199,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "2\nGhi chú",
+        "x": 290.5,
+        "y": 150,
+        "w": 83.5,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 16,
+        "y": 645,
+        "w": 358,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "notes",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm ghi chú",
+        "x": 61,
+        "y": 81,
+        "w": 312,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Từ ảnh",
+        "x": 16,
+        "y": 138,
+        "w": 173,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạo ghi chú",
+        "x": 201,
+        "y": 138,
+        "w": 173,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả ghi chú 2",
+        "x": 16,
+        "y": 224,
+        "w": 135.90625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim 0",
+        "x": 159.90625,
+        "y": 224,
+        "w": 93.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác 0",
+        "x": 261.359375,
+        "y": 224,
+        "w": 105.125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 16,
+        "y": 353,
+        "w": 358,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Đề tài capston\n\nThiết kế prototype cho đồ án. Chuẩn bị tài liệu và kiểm tra bố cục trên mobile.\n\nChư",
+        "x": 16,
+        "y": 486,
+        "w": 358,
+        "h": 144,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "notes-organized",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm ghi chú",
+        "x": 61,
+        "y": 81,
+        "w": 312,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Từ ảnh",
+        "x": 16,
+        "y": 138,
+        "w": 173,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạo ghi chú",
+        "x": 201,
+        "y": 138,
+        "w": 173,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả ghi chú 2",
+        "x": 16,
+        "y": 224,
+        "w": 135.90625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim 0",
+        "x": 159.90625,
+        "y": 224,
+        "w": 93.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác 0",
+        "x": 261.359375,
+        "y": 224,
+        "w": 105.125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thư mục & nhãn",
+        "x": 16,
+        "y": 301,
+        "w": 358,
+        "h": 57,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Cá nhân",
+        "x": 32,
+        "y": 414,
+        "w": 80.5625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Công việc",
+        "x": 120.5625,
+        "y": 414,
+        "w": 93.09375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "#học tập",
+        "x": 32,
+        "y": 514,
+        "w": 88.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "#ý tưởng",
+        "x": 128.65625,
+        "y": 514,
+        "w": 86.890625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Thư mục & nhãn\nThư mục\nCá nhân\nCông việc\nNhãn\n#học tập\n#ý tưởng",
+        "x": 16,
+        "y": 301,
+        "w": 358,
+        "h": 289,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nCá nhân\n03:32 9/10/26",
+        "x": 16,
+        "y": 658,
+        "w": 358,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Đề tài capston\n\nThiết kế prototype cho đồ án. Chuẩn bị tài liệu và kiểm tra bố cục trên mobile.\n\nCôn",
+        "x": 16,
+        "y": 791,
+        "w": 358,
+        "h": 144,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "note-editor",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Ghim",
+        "x": 16,
+        "y": 136,
+        "w": 89.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lịch sử",
+        "x": 113.640625,
+        "y": 136,
+        "w": 102.53125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác",
+        "x": 224.171875,
+        "y": 136,
+        "w": 123.3125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu ngay",
+        "x": 241.75,
+        "y": 212,
+        "w": 116.25,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 300,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Chữ đậm",
+        "x": 32,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chữ nghiêng",
+        "x": 76,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Gạch chân",
+        "x": 120,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tiêu đề đoạn",
+        "x": 164,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách",
+        "x": 208,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách đánh số",
+        "x": 252,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Checklist",
+        "x": 296,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Trích dẫn",
+        "x": 32,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hoàn tác",
+        "x": 76,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Làm lại",
+        "x": 120,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thêm ảnh",
+        "x": 164,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 813,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 903,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 36,
+        "y": 1062,
+        "w": 18,
+        "h": 18,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      }
+    ],
+    "cards": [],
+    "dialog": null
+  },
+  {
+    "name": "note-history",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Ghim",
+        "x": 16,
+        "y": 136,
+        "w": 89.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lịch sử",
+        "x": 113.640625,
+        "y": 136,
+        "w": 102.53125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác",
+        "x": 224.171875,
+        "y": 136,
+        "w": 123.3125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu ngay",
+        "x": 241.75,
+        "y": 212,
+        "w": 116.25,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 300,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Chữ đậm",
+        "x": 32,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chữ nghiêng",
+        "x": 76,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Gạch chân",
+        "x": 120,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tiêu đề đoạn",
+        "x": 164,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách",
+        "x": 208,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách đánh số",
+        "x": 252,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Checklist",
+        "x": 296,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Trích dẫn",
+        "x": 32,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hoàn tác",
+        "x": 76,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Làm lại",
+        "x": 120,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thêm ảnh",
+        "x": 164,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 813,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 903,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 36,
+        "y": 1062,
+        "w": 18,
+        "h": 18,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 314,
+        "y": 359,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "cards": [],
+    "dialog": {
+      "text": "Lịch sử phiên bản\n\nTối đa 20 phiên bản trước được giữ.\n\nChưa có phiên bản trước.",
+      "x": 16,
+      "y": 343,
+      "w": 358,
+      "h": 158,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "projects",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm dự án",
+        "x": 61,
+        "y": 81,
+        "w": 312,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 252.578125,
+        "y": 138,
+        "w": 121.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả",
+        "x": 16,
+        "y": 198,
+        "w": 69.953125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đang làm",
+        "x": 93.953125,
+        "y": 198,
+        "w": 89.484375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạm dừng",
+        "x": 191.4375,
+        "y": 198,
+        "w": 92.390625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hoàn thành",
+        "x": 16,
+        "y": 250,
+        "w": 102.71875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 126.71875,
+        "y": 250,
+        "w": 71.703125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 262.859375,
+        "y": 310,
+        "w": 111.140625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thao tác dự án",
+        "x": 314,
+        "y": 441,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "ĐỒ ÁN CAPSTON 1\nĐang làm\n\nthiết kế được propotype\n\nTiến độ\n0%\n\nChưa đặt hạn",
+        "x": 16,
+        "y": 425,
+        "w": 358,
+        "h": 219,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "projects-kanban",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm dự án",
+        "x": 61,
+        "y": 81,
+        "w": 312,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 252.578125,
+        "y": 138,
+        "w": 121.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả",
+        "x": 16,
+        "y": 198,
+        "w": 69.953125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đang làm",
+        "x": 93.953125,
+        "y": 198,
+        "w": 89.484375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạm dừng",
+        "x": 191.4375,
+        "y": 198,
+        "w": 92.390625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hoàn thành",
+        "x": 16,
+        "y": 250,
+        "w": 102.71875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 126.71875,
+        "y": 250,
+        "w": 71.703125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 262.859375,
+        "y": 310,
+        "w": 111.140625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thao tác dự án",
+        "x": 314,
+        "y": 485,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đang làm\nTạm dừng\nHoàn thành",
+        "x": 32,
+        "y": 634,
+        "w": 326,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "ĐỒ ÁN CAPSTON 1\nĐang làm\n\nthiết kế được propotype\n\nTrạng thái\nĐang làm\nTạm dừng\nHoàn thành\nTiến độ\n0",
+        "x": 16,
+        "y": 469,
+        "w": 358,
+        "h": 307,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "project-detail",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Ghim",
+        "x": 16,
+        "y": 216,
+        "w": 89.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 113.640625,
+        "y": 216,
+        "w": 102.203125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Sửa dự án",
+        "x": 223.84375,
+        "y": 216,
+        "w": 120.296875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Chỉnh sửa hồ sơ",
+        "x": 212.359375,
+        "y": 375,
+        "w": 161.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Mục tiêu",
+        "x": 16,
+        "y": 435,
+        "w": 83.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tài liệu",
+        "x": 107.421875,
+        "y": 435,
+        "w": 71.625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tài nguyên",
+        "x": 187.046875,
+        "y": 435,
+        "w": 97.078125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Phần cứng",
+        "x": 292.125,
+        "y": 435,
+        "w": 95.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Nhật ký & kiểm thử",
+        "x": 395.578125,
+        "y": 435,
+        "w": 151.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tệp đính kèm",
+        "x": 555.21875,
+        "y": 435,
+        "w": 114.6875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thêm checklist",
+        "x": 16,
+        "y": 621,
+        "w": 158.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thêm cột mốc",
+        "x": 182.453125,
+        "y": 621,
+        "w": 153.1875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [],
+    "dialog": null
+  },
+  {
+    "name": "project-create",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm dự án",
+        "x": 61,
+        "y": 81,
+        "w": 312,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 252.578125,
+        "y": 138,
+        "w": 121.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả",
+        "x": 16,
+        "y": 198,
+        "w": 69.953125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đang làm",
+        "x": 93.953125,
+        "y": 198,
+        "w": 89.484375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạm dừng",
+        "x": 191.4375,
+        "y": 198,
+        "w": 92.390625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hoàn thành",
+        "x": 16,
+        "y": 250,
+        "w": 102.71875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 126.71875,
+        "y": 250,
+        "w": 71.703125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 262.859375,
+        "y": 310,
+        "w": 111.140625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thao tác dự án",
+        "x": 314,
+        "y": 441,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 314,
+        "y": 32,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 120,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 210,
+        "w": 326,
+        "h": 122,
+        "font": "16px",
+        "line": "24px",
+        "padding": "12px"
+      },
+      {
+        "text": "Đang làm\nTạm dừng\nHoàn thành",
+        "x": 32,
+        "y": 376,
+        "w": 326,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc\nXanh lam\nCam\nHồng\nTím",
+        "x": 32,
+        "y": 464,
+        "w": 326,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 552,
+        "w": 326,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 644,
+        "w": 326,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Nhập thủ công\nTheo checklist",
+        "x": 32,
+        "y": 736,
+        "w": 326,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 824,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hủy",
+        "x": 191.984375,
+        "y": 768,
+        "w": 52.59375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 256.578125,
+        "y": 768,
+        "w": 101.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "ĐỒ ÁN CAPSTON 1\nĐang làm\n\nthiết kế được propotype\n\nTiến độ\n0%\n\nChưa đặt hạn",
+        "x": 16,
+        "y": 425,
+        "w": 358,
+        "h": 219,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": {
+      "text": "Tạo dự án\nTên dự án *\nNội dung\nTrạng thái\nĐang làm\nTạm dừng\nHoàn thành\nMàu đánh dấu\nXanh ngọc\nXanh l",
+      "x": 16,
+      "y": 16,
+      "w": 358,
+      "h": 812,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "settings",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Cài đặt\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 148,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 216,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 284,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 148,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 216,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 284,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "settings-account",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Cài đặt\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 358,
+        "h": 57,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 215,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thứ Hai\nChủ Nhật",
+        "x": 32,
+        "y": 305,
+        "w": 326,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu tài khoản",
+        "x": 32,
+        "y": 425,
+        "w": 126.03125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      },
+      {
+        "text": "Đăng xuất",
+        "x": 32,
+        "y": 485,
+        "w": 326,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 557,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 625,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 693,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Tài khoản\n\npham.tien@example.com · tài khoản mẫu\n\nTên hiển thị\nNgày đầu tuần\nThứ Hai\nChủ Nhật\nMúi gi",
+        "x": 16,
+        "y": 80,
+        "w": 358,
+        "h": 465,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 557,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 625,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 693,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "settings-calendar",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Cài đặt\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 148,
+        "w": 358,
+        "h": 57,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 249,
+        "w": 326,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "00:00\n01:00\n02:00\n03:00\n04:00\n05:00\n06:00\n07:00\n08:00\n09:00\n10:00\n11:00\n12:00\n13:00\n14:00\n15:00\n16:0",
+        "x": 32,
+        "y": 341,
+        "w": 326,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Không nhắc\nĐúng giờ\n5 phút\n15 phút\n30 phút\n60 phút\n1440 phút",
+        "x": 32,
+        "y": 429,
+        "w": 326,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 582,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc",
+        "x": 35.5,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh dương",
+        "x": 90.5,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hổ phách",
+        "x": 145.5,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hồng",
+        "x": 200.5,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tím",
+        "x": 255.5,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh lá",
+        "x": 310.5,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đỏ",
+        "x": 35.5,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Cam",
+        "x": 90.5,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh trời",
+        "x": 145.5,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chàm",
+        "x": 200.5,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xám",
+        "x": 255.5,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chọn màu tùy chỉnh nhóm 1",
+        "x": 32,
+        "y": 802,
+        "w": 157,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "4px"
+      },
+      {
+        "text": "",
+        "x": 201,
+        "y": 802,
+        "w": 157,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 955,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc",
+        "x": 35.5,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh dương",
+        "x": 90.5,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hổ phách",
+        "x": 145.5,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hồng",
+        "x": 200.5,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tím",
+        "x": 255.5,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh lá",
+        "x": 310.5,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đỏ",
+        "x": 35.5,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Cam",
+        "x": 90.5,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh trời",
+        "x": 145.5,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chàm",
+        "x": 200.5,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xám",
+        "x": 255.5,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chọn màu tùy chỉnh nhóm 2",
+        "x": 32,
+        "y": 1175,
+        "w": 157,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "4px"
+      },
+      {
+        "text": "",
+        "x": 201,
+        "y": 1175,
+        "w": 157,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 1328,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc",
+        "x": 35.5,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh dương",
+        "x": 90.5,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hổ phách",
+        "x": 145.5,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hồng",
+        "x": 200.5,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tím",
+        "x": 255.5,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh lá",
+        "x": 310.5,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đỏ",
+        "x": 35.5,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Cam",
+        "x": 90.5,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh trời",
+        "x": 145.5,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chàm",
+        "x": 200.5,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xám",
+        "x": 255.5,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chọn màu tùy chỉnh nhóm 3",
+        "x": 32,
+        "y": 1548,
+        "w": 157,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "4px"
+      },
+      {
+        "text": "",
+        "x": 201,
+        "y": 1548,
+        "w": 157,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thêm nhóm lịch",
+        "x": 32,
+        "y": 1656,
+        "w": 326,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu cài đặt lịch",
+        "x": 32,
+        "y": 1716,
+        "w": 138.796875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 1788,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 1856,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Lịch & thời gian\nGiờ bắt đầu hiển thị\nGiờ kết thúc hiển thị\n00:00\n01:00\n02:00\n03:00\n04:00\n05:00\n06:0",
+        "x": 16,
+        "y": 148,
+        "w": 358,
+        "h": 1628,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 1788,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 1856,
+        "w": 358,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "attendance",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Lịch\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tạo công việc",
+        "x": 251.015625,
+        "y": 125,
+        "w": 122.984375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đi dạy",
+        "x": 16,
+        "y": 185,
+        "w": 69.015625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 330,
+        "y": 245,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng trước",
+        "x": 286,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng sau",
+        "x": 330,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 16,
+        "y": 361,
+        "w": 358,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [],
+    "dialog": null
+  },
+  {
+    "name": "attendance-day",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Lịch\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tạo công việc",
+        "x": 251.015625,
+        "y": 125,
+        "w": 122.984375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đi dạy",
+        "x": 16,
+        "y": 185,
+        "w": 69.015625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 330,
+        "y": 245,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng trước",
+        "x": 286,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng sau",
+        "x": 330,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 16,
+        "y": 361,
+        "w": 358,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 314,
+        "y": 250.5,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Nội dung chấm công ngày 11/10/2026",
+        "x": 32,
+        "y": 360.5,
+        "w": 326,
+        "h": 122,
+        "font": "16px",
+        "line": "24px",
+        "padding": "12px"
+      },
+      {
+        "text": "Xóa",
+        "x": 32,
+        "y": 549.5,
+        "w": 53.890625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xong",
+        "x": 297.578125,
+        "y": 549.5,
+        "w": 60.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [],
+    "dialog": {
+      "text": "Đi dạy · 11/10/2026\n\nNhập nội dung để chấm công. Thay đổi được tự lưu.\n\nNội dung ngày\n\nĐã lưu · trạn",
+      "x": 16,
+      "y": 234.5,
+      "w": 358,
+      "h": 375,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "attendance-activity",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Lịch\nP",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 780,
+      "w": 370,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 330,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tạo công việc",
+        "x": 251.015625,
+        "y": 125,
+        "w": 122.984375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đi dạy",
+        "x": 16,
+        "y": 185,
+        "w": 69.015625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 330,
+        "y": 245,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng trước",
+        "x": 286,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng sau",
+        "x": 330,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 16,
+        "y": 361,
+        "w": 358,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 314,
+        "y": 263.5,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 373.5,
+        "w": 326,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc\nXanh lam\nCam\nHồng\nTím",
+        "x": 32,
+        "y": 463.5,
+        "w": 326,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đóng",
+        "x": 154.21875,
+        "y": 536.5,
+        "w": 63.328125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu công việc",
+        "x": 229.546875,
+        "y": 536.5,
+        "w": 128.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      }
+    ],
+    "cards": [],
+    "dialog": {
+      "text": "Tạo công việc\n\nMỗi công việc có bảng chấm công theo tháng riêng.\n\nTên công việc\nMàu\nXanh ngọc\nXanh l",
+      "x": 16,
+      "y": 247.5,
+      "w": 358,
+      "h": 349,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "overview",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Tổng quan\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 104,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 44,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Hôm nay",
+        "x": 184.921875,
+        "y": 432,
+        "w": 86.078125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Ngày trước",
+        "x": 271,
+        "y": 432,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Ngày sau",
+        "x": 315,
+        "y": 432,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Mới nhất",
+        "x": 16,
+        "y": 968,
+        "w": 84.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 108.65625,
+        "y": 968,
+        "w": 80.765625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "3\nLịch hôm nay",
+        "x": 16,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "0\nChecklist cần làm",
+        "x": 103.75,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "1\nDự án đang làm",
+        "x": 191.5,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "2\nGhi chú",
+        "x": 279.25,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 16,
+        "y": 1028,
+        "w": 343,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "overview-checklist",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Tổng quan\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 104,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 44,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Mới nhất",
+        "x": 16,
+        "y": 532,
+        "w": 84.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 108.65625,
+        "y": 532,
+        "w": 80.765625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "3\nLịch hôm nay",
+        "x": 16,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "0\nChecklist cần làm",
+        "x": 103.75,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "1\nDự án đang làm",
+        "x": 191.5,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "2\nGhi chú",
+        "x": 279.25,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 16,
+        "y": 592,
+        "w": 343,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "overview-projects",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Tổng quan\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 104,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 44,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Mới nhất",
+        "x": 16,
+        "y": 585,
+        "w": 84.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 108.65625,
+        "y": 585,
+        "w": 80.765625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "3\nLịch hôm nay",
+        "x": 16,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "0\nChecklist cần làm",
+        "x": 103.75,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "1\nDự án đang làm",
+        "x": 191.5,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "2\nGhi chú",
+        "x": 279.25,
+        "y": 150,
+        "w": 79.75,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 8px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 16,
+        "y": 645,
+        "w": 343,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "notes",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm ghi chú",
+        "x": 61,
+        "y": 81,
+        "w": 297,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Từ ảnh",
+        "x": 16,
+        "y": 138,
+        "w": 165.5,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạo ghi chú",
+        "x": 193.5,
+        "y": 138,
+        "w": 165.5,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả ghi chú 2",
+        "x": 16,
+        "y": 224,
+        "w": 135.90625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim 0",
+        "x": 159.90625,
+        "y": 224,
+        "w": 93.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác 0",
+        "x": 16,
+        "y": 276,
+        "w": 105.125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 16,
+        "y": 405,
+        "w": 343,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Đề tài capston\n\nThiết kế prototype cho đồ án. Chuẩn bị tài liệu và kiểm tra bố cục trên mobile.\n\nChư",
+        "x": 16,
+        "y": 538,
+        "w": 343,
+        "h": 144,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "notes-organized",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm ghi chú",
+        "x": 61,
+        "y": 81,
+        "w": 297,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Từ ảnh",
+        "x": 16,
+        "y": 138,
+        "w": 165.5,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạo ghi chú",
+        "x": 193.5,
+        "y": 138,
+        "w": 165.5,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả ghi chú 2",
+        "x": 16,
+        "y": 224,
+        "w": 135.90625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim 0",
+        "x": 159.90625,
+        "y": 224,
+        "w": 93.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác 0",
+        "x": 16,
+        "y": 276,
+        "w": 105.125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thư mục & nhãn",
+        "x": 16,
+        "y": 353,
+        "w": 343,
+        "h": 57,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Cá nhân",
+        "x": 32,
+        "y": 466,
+        "w": 80.5625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Công việc",
+        "x": 120.5625,
+        "y": 466,
+        "w": 93.09375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "#học tập",
+        "x": 32,
+        "y": 566,
+        "w": 88.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "#ý tưởng",
+        "x": 128.65625,
+        "y": 566,
+        "w": 86.890625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Thư mục & nhãn\nThư mục\nCá nhân\nCông việc\nNhãn\n#học tập\n#ý tưởng",
+        "x": 16,
+        "y": 353,
+        "w": 343,
+        "h": 289,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nCá nhân\n03:32 9/10/26",
+        "x": 16,
+        "y": 710,
+        "w": 343,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Đề tài capston\n\nThiết kế prototype cho đồ án. Chuẩn bị tài liệu và kiểm tra bố cục trên mobile.\n\nCôn",
+        "x": 16,
+        "y": 843,
+        "w": 343,
+        "h": 144,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "note-editor",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Ghim",
+        "x": 16,
+        "y": 136,
+        "w": 89.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lịch sử",
+        "x": 113.640625,
+        "y": 136,
+        "w": 102.53125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác",
+        "x": 224.171875,
+        "y": 136,
+        "w": 123.3125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu ngay",
+        "x": 226.75,
+        "y": 212,
+        "w": 116.25,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 300,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Chữ đậm",
+        "x": 32,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chữ nghiêng",
+        "x": 76,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Gạch chân",
+        "x": 120,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tiêu đề đoạn",
+        "x": 164,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách",
+        "x": 208,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách đánh số",
+        "x": 252,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Checklist",
+        "x": 296,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Trích dẫn",
+        "x": 32,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hoàn tác",
+        "x": 76,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Làm lại",
+        "x": 120,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thêm ảnh",
+        "x": 164,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 813,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 903,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 36,
+        "y": 1062,
+        "w": 18,
+        "h": 18,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      }
+    ],
+    "cards": [],
+    "dialog": null
+  },
+  {
+    "name": "note-history",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Ghim",
+        "x": 16,
+        "y": 136,
+        "w": 89.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lịch sử",
+        "x": 113.640625,
+        "y": 136,
+        "w": 102.53125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác",
+        "x": 224.171875,
+        "y": 136,
+        "w": 123.3125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu ngay",
+        "x": 226.75,
+        "y": 212,
+        "w": 116.25,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 300,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Chữ đậm",
+        "x": 32,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chữ nghiêng",
+        "x": 76,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Gạch chân",
+        "x": 120,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tiêu đề đoạn",
+        "x": 164,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách",
+        "x": 208,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách đánh số",
+        "x": 252,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Checklist",
+        "x": 296,
+        "y": 371,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Trích dẫn",
+        "x": 32,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hoàn tác",
+        "x": 76,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Làm lại",
+        "x": 120,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thêm ảnh",
+        "x": 164,
+        "y": 415,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 813,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 903,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 36,
+        "y": 1062,
+        "w": 18,
+        "h": 18,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 299,
+        "y": 343,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "cards": [],
+    "dialog": {
+      "text": "Lịch sử phiên bản\n\nTối đa 20 phiên bản trước được giữ.\n\nChưa có phiên bản trước.",
+      "x": 16,
+      "y": 327,
+      "w": 343,
+      "h": 158,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "projects",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm dự án",
+        "x": 61,
+        "y": 81,
+        "w": 297,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 237.578125,
+        "y": 138,
+        "w": 121.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả",
+        "x": 16,
+        "y": 198,
+        "w": 69.953125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đang làm",
+        "x": 93.953125,
+        "y": 198,
+        "w": 89.484375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạm dừng",
+        "x": 191.4375,
+        "y": 198,
+        "w": 92.390625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hoàn thành",
+        "x": 16,
+        "y": 250,
+        "w": 102.71875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 126.71875,
+        "y": 250,
+        "w": 71.703125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 247.859375,
+        "y": 310,
+        "w": 111.140625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thao tác dự án",
+        "x": 299,
+        "y": 441,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "ĐỒ ÁN CAPSTON 1\nĐang làm\n\nthiết kế được propotype\n\nTiến độ\n0%\n\nChưa đặt hạn",
+        "x": 16,
+        "y": 425,
+        "w": 343,
+        "h": 219,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "projects-kanban",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm dự án",
+        "x": 61,
+        "y": 81,
+        "w": 297,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 237.578125,
+        "y": 138,
+        "w": 121.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả",
+        "x": 16,
+        "y": 198,
+        "w": 69.953125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đang làm",
+        "x": 93.953125,
+        "y": 198,
+        "w": 89.484375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạm dừng",
+        "x": 191.4375,
+        "y": 198,
+        "w": 92.390625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hoàn thành",
+        "x": 16,
+        "y": 250,
+        "w": 102.71875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 126.71875,
+        "y": 250,
+        "w": 71.703125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 247.859375,
+        "y": 310,
+        "w": 111.140625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thao tác dự án",
+        "x": 299,
+        "y": 485,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đang làm\nTạm dừng\nHoàn thành",
+        "x": 32,
+        "y": 634,
+        "w": 311,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "ĐỒ ÁN CAPSTON 1\nĐang làm\n\nthiết kế được propotype\n\nTrạng thái\nĐang làm\nTạm dừng\nHoàn thành\nTiến độ\n0",
+        "x": 16,
+        "y": 469,
+        "w": 343,
+        "h": 307,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "project-detail",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Ghim",
+        "x": 16,
+        "y": 216,
+        "w": 89.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 113.640625,
+        "y": 216,
+        "w": 102.203125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Sửa dự án",
+        "x": 223.84375,
+        "y": 216,
+        "w": 120.296875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Chỉnh sửa hồ sơ",
+        "x": 197.359375,
+        "y": 375,
+        "w": 161.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Mục tiêu",
+        "x": 16,
+        "y": 435,
+        "w": 83.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tài liệu",
+        "x": 107.421875,
+        "y": 435,
+        "w": 71.625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tài nguyên",
+        "x": 187.046875,
+        "y": 435,
+        "w": 97.078125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Phần cứng",
+        "x": 292.125,
+        "y": 435,
+        "w": 95.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Nhật ký & kiểm thử",
+        "x": 395.578125,
+        "y": 435,
+        "w": 151.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tệp đính kèm",
+        "x": 555.21875,
+        "y": 435,
+        "w": 114.6875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thêm checklist",
+        "x": 16,
+        "y": 621,
+        "w": 158.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thêm cột mốc",
+        "x": 182.453125,
+        "y": 621,
+        "w": 153.1875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [],
+    "dialog": null
+  },
+  {
+    "name": "project-create",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm dự án",
+        "x": 61,
+        "y": 81,
+        "w": 297,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 237.578125,
+        "y": 138,
+        "w": 121.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả",
+        "x": 16,
+        "y": 198,
+        "w": 69.953125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đang làm",
+        "x": 93.953125,
+        "y": 198,
+        "w": 89.484375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạm dừng",
+        "x": 191.4375,
+        "y": 198,
+        "w": 92.390625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hoàn thành",
+        "x": 16,
+        "y": 250,
+        "w": 102.71875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 126.71875,
+        "y": 250,
+        "w": 71.703125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 247.859375,
+        "y": 310,
+        "w": 111.140625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thao tác dự án",
+        "x": 299,
+        "y": 441,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 299,
+        "y": 32,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 120,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 210,
+        "w": 311,
+        "h": 122,
+        "font": "16px",
+        "line": "24px",
+        "padding": "12px"
+      },
+      {
+        "text": "Đang làm\nTạm dừng\nHoàn thành",
+        "x": 32,
+        "y": 376,
+        "w": 311,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc\nXanh lam\nCam\nHồng\nTím",
+        "x": 32,
+        "y": 464,
+        "w": 311,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 552,
+        "w": 311,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 644,
+        "w": 311,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Nhập thủ công\nTheo checklist",
+        "x": 32,
+        "y": 736,
+        "w": 311,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 824,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hủy",
+        "x": 176.984375,
+        "y": 736,
+        "w": 52.59375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 241.578125,
+        "y": 736,
+        "w": 101.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "ĐỒ ÁN CAPSTON 1\nĐang làm\n\nthiết kế được propotype\n\nTiến độ\n0%\n\nChưa đặt hạn",
+        "x": 16,
+        "y": 425,
+        "w": 343,
+        "h": 219,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": {
+      "text": "Tạo dự án\nTên dự án *\nNội dung\nTrạng thái\nĐang làm\nTạm dừng\nHoàn thành\nMàu đánh dấu\nXanh ngọc\nXanh l",
+      "x": 16,
+      "y": 16,
+      "w": 343,
+      "h": 780,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "settings",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Cài đặt\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 148,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 216,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 284,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 148,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 216,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 284,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "settings-account",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Cài đặt\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 343,
+        "h": 57,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 215,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thứ Hai\nChủ Nhật",
+        "x": 32,
+        "y": 305,
+        "w": 311,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu tài khoản",
+        "x": 32,
+        "y": 425,
+        "w": 126.03125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      },
+      {
+        "text": "Đăng xuất",
+        "x": 32,
+        "y": 485,
+        "w": 311,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 557,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 625,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 693,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Tài khoản\n\npham.tien@example.com · tài khoản mẫu\n\nTên hiển thị\nNgày đầu tuần\nThứ Hai\nChủ Nhật\nMúi gi",
+        "x": 16,
+        "y": 80,
+        "w": 343,
+        "h": 465,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 557,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 625,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 693,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "settings-calendar",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Cài đặt\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 16,
+        "y": 148,
+        "w": 343,
+        "h": 57,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 249,
+        "w": 311,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "00:00\n01:00\n02:00\n03:00\n04:00\n05:00\n06:00\n07:00\n08:00\n09:00\n10:00\n11:00\n12:00\n13:00\n14:00\n15:00\n16:0",
+        "x": 32,
+        "y": 341,
+        "w": 311,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Không nhắc\nĐúng giờ\n5 phút\n15 phút\n30 phút\n60 phút\n1440 phút",
+        "x": 32,
+        "y": 429,
+        "w": 311,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 582,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc",
+        "x": 34.25,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh dương",
+        "x": 86.75,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hổ phách",
+        "x": 139.25,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hồng",
+        "x": 191.75,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tím",
+        "x": 244.25,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh lá",
+        "x": 296.75,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đỏ",
+        "x": 34.25,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Cam",
+        "x": 86.75,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh trời",
+        "x": 139.25,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chàm",
+        "x": 191.75,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xám",
+        "x": 244.25,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chọn màu tùy chỉnh nhóm 1",
+        "x": 32,
+        "y": 802,
+        "w": 149.5,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "4px"
+      },
+      {
+        "text": "",
+        "x": 193.5,
+        "y": 802,
+        "w": 149.5,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 955,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc",
+        "x": 34.25,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh dương",
+        "x": 86.75,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hổ phách",
+        "x": 139.25,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hồng",
+        "x": 191.75,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tím",
+        "x": 244.25,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh lá",
+        "x": 296.75,
+        "y": 1045,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đỏ",
+        "x": 34.25,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Cam",
+        "x": 86.75,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh trời",
+        "x": 139.25,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chàm",
+        "x": 191.75,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xám",
+        "x": 244.25,
+        "y": 1093,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chọn màu tùy chỉnh nhóm 2",
+        "x": 32,
+        "y": 1175,
+        "w": 149.5,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "4px"
+      },
+      {
+        "text": "",
+        "x": 193.5,
+        "y": 1175,
+        "w": 149.5,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 1328,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc",
+        "x": 34.25,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh dương",
+        "x": 86.75,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hổ phách",
+        "x": 139.25,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hồng",
+        "x": 191.75,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tím",
+        "x": 244.25,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh lá",
+        "x": 296.75,
+        "y": 1418,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đỏ",
+        "x": 34.25,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Cam",
+        "x": 86.75,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh trời",
+        "x": 139.25,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chàm",
+        "x": 191.75,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xám",
+        "x": 244.25,
+        "y": 1466,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chọn màu tùy chỉnh nhóm 3",
+        "x": 32,
+        "y": 1548,
+        "w": 149.5,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "4px"
+      },
+      {
+        "text": "",
+        "x": 193.5,
+        "y": 1548,
+        "w": 149.5,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thêm nhóm lịch",
+        "x": 32,
+        "y": 1656,
+        "w": 311,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu cài đặt lịch",
+        "x": 32,
+        "y": 1716,
+        "w": 138.796875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 1788,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 1856,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Tài khoản",
+        "x": 16,
+        "y": 80,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Lịch & thời gian\nGiờ bắt đầu hiển thị\nGiờ kết thúc hiển thị\n00:00\n01:00\n02:00\n03:00\n04:00\n05:00\n06:0",
+        "x": 16,
+        "y": 148,
+        "w": 343,
+        "h": 1628,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 16,
+        "y": 1788,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 16,
+        "y": 1856,
+        "w": 343,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "attendance",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Lịch\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tạo công việc",
+        "x": 236.015625,
+        "y": 125,
+        "w": 122.984375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đi dạy",
+        "x": 16,
+        "y": 185,
+        "w": 69.015625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 315,
+        "y": 245,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng trước",
+        "x": 271,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng sau",
+        "x": 315,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 16,
+        "y": 361,
+        "w": 343,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [],
+    "dialog": null
+  },
+  {
+    "name": "attendance-day",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Lịch\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tạo công việc",
+        "x": 236.015625,
+        "y": 125,
+        "w": 122.984375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đi dạy",
+        "x": 16,
+        "y": 185,
+        "w": 69.015625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 315,
+        "y": 245,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng trước",
+        "x": 271,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng sau",
+        "x": 315,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 16,
+        "y": 361,
+        "w": 343,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 299,
+        "y": 234.5,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Nội dung chấm công ngày 11/10/2026",
+        "x": 32,
+        "y": 344.5,
+        "w": 311,
+        "h": 122,
+        "font": "16px",
+        "line": "24px",
+        "padding": "12px"
+      },
+      {
+        "text": "Xóa",
+        "x": 32,
+        "y": 533.5,
+        "w": 53.890625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xong",
+        "x": 282.578125,
+        "y": 533.5,
+        "w": 60.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [],
+    "dialog": {
+      "text": "Đi dạy · 11/10/2026\n\nNhập nội dung để chấm công. Thay đổi được tự lưu.\n\nNội dung ngày\n\nĐã lưu · trạn",
+      "x": 16,
+      "y": 218.5,
+      "w": 343,
+      "h": 375,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "attendance-activity",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Lịch\nP",
+      "x": 0,
+      "y": 0,
+      "w": 375,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 748,
+      "w": 355,
+      "h": 56,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 315,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tạo công việc",
+        "x": 236.015625,
+        "y": 125,
+        "w": 122.984375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đi dạy",
+        "x": 16,
+        "y": 185,
+        "w": 69.015625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 315,
+        "y": 245,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng trước",
+        "x": 271,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng sau",
+        "x": 315,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 16,
+        "y": 361,
+        "w": 343,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 299,
+        "y": 247.5,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 357.5,
+        "w": 311,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc\nXanh lam\nCam\nHồng\nTím",
+        "x": 32,
+        "y": 447.5,
+        "w": 311,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đóng",
+        "x": 139.21875,
+        "y": 520.5,
+        "w": 63.328125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu công việc",
+        "x": 214.546875,
+        "y": 520.5,
+        "w": 128.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      }
+    ],
+    "cards": [],
+    "dialog": {
+      "text": "Tạo công việc\n\nMỗi công việc có bảng chấm công theo tháng riêng.\n\nTên công việc\nMàu\nXanh ngọc\nXanh l",
+      "x": 16,
+      "y": 231.5,
+      "w": 343,
+      "h": 349,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "overview",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Tổng quan\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 104,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 44,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Hôm nay",
+        "x": 133.921875,
+        "y": 432,
+        "w": 86.078125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Ngày trước",
+        "x": 220,
+        "y": 432,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Ngày sau",
+        "x": 264,
+        "y": 432,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Mới nhất",
+        "x": 12,
+        "y": 968,
+        "w": 84.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 104.65625,
+        "y": 968,
+        "w": 80.765625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "3\nLịch hôm nay",
+        "x": 12,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "0\nChecklist cần làm",
+        "x": 87,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "1\nDự án đang làm",
+        "x": 162,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "2\nGhi chú",
+        "x": 237,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 12,
+        "y": 1028,
+        "w": 296,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "overview-checklist",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Tổng quan\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 104,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 44,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Mới nhất",
+        "x": 12,
+        "y": 532,
+        "w": 84.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 104.65625,
+        "y": 532,
+        "w": 80.765625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "3\nLịch hôm nay",
+        "x": 12,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "0\nChecklist cần làm",
+        "x": 87,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "1\nDự án đang làm",
+        "x": 162,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "2\nGhi chú",
+        "x": 237,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 12,
+        "y": 592,
+        "w": 296,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "overview-projects",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Tổng quan\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 104,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px 16px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 44,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Mới nhất",
+        "x": 12,
+        "y": 585,
+        "w": 84.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 104.65625,
+        "y": 585,
+        "w": 80.765625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "3\nLịch hôm nay",
+        "x": 12,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "0\nChecklist cần làm",
+        "x": 87,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "1\nDự án đang làm",
+        "x": 162,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "2\nGhi chú",
+        "x": 237,
+        "y": 150,
+        "w": 71,
+        "h": 102,
+        "font": "15px",
+        "line": "23px",
+        "padding": "12px 6px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 12,
+        "y": 645,
+        "w": 296,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "notes",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm ghi chú",
+        "x": 57,
+        "y": 81,
+        "w": 250,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Từ ảnh",
+        "x": 12,
+        "y": 138,
+        "w": 144,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 8px"
+      },
+      {
+        "text": "Tạo ghi chú",
+        "x": 164,
+        "y": 138,
+        "w": 144,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 8px"
+      },
+      {
+        "text": "Tất cả ghi chú 2",
+        "x": 12,
+        "y": 224,
+        "w": 135.90625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim 0",
+        "x": 155.90625,
+        "y": 224,
+        "w": 93.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác 0",
+        "x": 12,
+        "y": 276,
+        "w": 105.125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nChưa phân thư mục\n03:32 9/10/26",
+        "x": 12,
+        "y": 405,
+        "w": 296,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Đề tài capston\n\nThiết kế prototype cho đồ án. Chuẩn bị tài liệu và kiểm tra bố cục trên mobile.\n\nChư",
+        "x": 12,
+        "y": 538,
+        "w": 296,
+        "h": 167,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "notes-organized",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm ghi chú",
+        "x": 57,
+        "y": 81,
+        "w": 250,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Từ ảnh",
+        "x": 12,
+        "y": 138,
+        "w": 144,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 8px"
+      },
+      {
+        "text": "Tạo ghi chú",
+        "x": 164,
+        "y": 138,
+        "w": 144,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 8px"
+      },
+      {
+        "text": "Tất cả ghi chú 2",
+        "x": 12,
+        "y": 224,
+        "w": 135.90625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim 0",
+        "x": 155.90625,
+        "y": 224,
+        "w": 93.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác 0",
+        "x": 12,
+        "y": 276,
+        "w": 105.125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thư mục & nhãn",
+        "x": 12,
+        "y": 353,
+        "w": 296,
+        "h": 57,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Cá nhân",
+        "x": 28,
+        "y": 466,
+        "w": 80.5625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Công việc",
+        "x": 116.5625,
+        "y": 466,
+        "w": 93.09375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "#học tập",
+        "x": 28,
+        "y": 566,
+        "w": 88.65625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "#ý tưởng",
+        "x": 124.65625,
+        "y": 566,
+        "w": 86.890625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Thư mục & nhãn\nThư mục\nCá nhân\nCông việc\nNhãn\n#học tập\n#ý tưởng",
+        "x": 12,
+        "y": 353,
+        "w": 296,
+        "h": 289,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Ghi chú mới\n\nChưa có nội dung.\n\nCá nhân\n03:32 9/10/26",
+        "x": 12,
+        "y": 710,
+        "w": 296,
+        "h": 121,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Đề tài capston\n\nThiết kế prototype cho đồ án. Chuẩn bị tài liệu và kiểm tra bố cục trên mobile.\n\nCôn",
+        "x": 12,
+        "y": 843,
+        "w": 296,
+        "h": 167,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "note-editor",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Ghim",
+        "x": 12,
+        "y": 136,
+        "w": 89.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lịch sử",
+        "x": 109.640625,
+        "y": 136,
+        "w": 102.53125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác",
+        "x": 12,
+        "y": 188,
+        "w": 123.3125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu ngay",
+        "x": 175.75,
+        "y": 264,
+        "w": 116.25,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 352,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Chữ đậm",
+        "x": 28,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chữ nghiêng",
+        "x": 72,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Gạch chân",
+        "x": 116,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tiêu đề đoạn",
+        "x": 160,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách",
+        "x": 204,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách đánh số",
+        "x": 248,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Checklist",
+        "x": 28,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Trích dẫn",
+        "x": 72,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hoàn tác",
+        "x": 116,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Làm lại",
+        "x": 160,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thêm ảnh",
+        "x": 204,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 865,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 955,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 1114,
+        "w": 18,
+        "h": 18,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      }
+    ],
+    "cards": [],
+    "dialog": null
+  },
+  {
+    "name": "note-history",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Ghi chú\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Ghim",
+        "x": 12,
+        "y": 136,
+        "w": 89.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lịch sử",
+        "x": 109.640625,
+        "y": 136,
+        "w": 102.53125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thùng rác",
+        "x": 12,
+        "y": 188,
+        "w": 123.3125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu ngay",
+        "x": 175.75,
+        "y": 264,
+        "w": 116.25,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 352,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Chữ đậm",
+        "x": 28,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chữ nghiêng",
+        "x": 72,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Gạch chân",
+        "x": 116,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tiêu đề đoạn",
+        "x": 160,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách",
+        "x": 204,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Danh sách đánh số",
+        "x": 248,
+        "y": 423,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Checklist",
+        "x": 28,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Trích dẫn",
+        "x": 72,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hoàn tác",
+        "x": 116,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Làm lại",
+        "x": 160,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thêm ảnh",
+        "x": 204,
+        "y": 467,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 865,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 955,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 32,
+        "y": 1114,
+        "w": 18,
+        "h": 18,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 248,
+        "y": 307,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "cards": [],
+    "dialog": {
+      "text": "Lịch sử phiên bản\n\nTối đa 20 phiên bản trước được giữ.\n\nChưa có phiên bản trước.",
+      "x": 12,
+      "y": 291,
+      "w": 296,
+      "h": 158,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "projects",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm dự án",
+        "x": 57,
+        "y": 81,
+        "w": 250,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 186.578125,
+        "y": 138,
+        "w": 121.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả",
+        "x": 12,
+        "y": 198,
+        "w": 69.953125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đang làm",
+        "x": 89.953125,
+        "y": 198,
+        "w": 89.484375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạm dừng",
+        "x": 187.4375,
+        "y": 198,
+        "w": 92.390625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hoàn thành",
+        "x": 12,
+        "y": 250,
+        "w": 102.71875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 122.71875,
+        "y": 250,
+        "w": 71.703125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 196.859375,
+        "y": 310,
+        "w": 111.140625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thao tác dự án",
+        "x": 248,
+        "y": 441,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "ĐỒ ÁN CAPSTON 1\nĐang làm\n\nthiết kế được propotype\n\nTiến độ\n0%\n\nChưa đặt hạn",
+        "x": 12,
+        "y": 425,
+        "w": 296,
+        "h": 219,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "projects-kanban",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm dự án",
+        "x": 57,
+        "y": 81,
+        "w": 250,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 186.578125,
+        "y": 138,
+        "w": 121.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả",
+        "x": 12,
+        "y": 198,
+        "w": 69.953125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đang làm",
+        "x": 89.953125,
+        "y": 198,
+        "w": 89.484375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạm dừng",
+        "x": 187.4375,
+        "y": 198,
+        "w": 92.390625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hoàn thành",
+        "x": 12,
+        "y": 250,
+        "w": 102.71875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 122.71875,
+        "y": 250,
+        "w": 71.703125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 196.859375,
+        "y": 310,
+        "w": 111.140625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thao tác dự án",
+        "x": 248,
+        "y": 485,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đang làm\nTạm dừng\nHoàn thành",
+        "x": 28,
+        "y": 634,
+        "w": 264,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "ĐỒ ÁN CAPSTON 1\nĐang làm\n\nthiết kế được propotype\n\nTrạng thái\nĐang làm\nTạm dừng\nHoàn thành\nTiến độ\n0",
+        "x": 12,
+        "y": 469,
+        "w": 296,
+        "h": 307,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "project-detail",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Ghim",
+        "x": 12,
+        "y": 216,
+        "w": 89.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 109.640625,
+        "y": 216,
+        "w": 102.203125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Sửa dự án",
+        "x": 12,
+        "y": 268,
+        "w": 120.296875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Chỉnh sửa hồ sơ",
+        "x": 146.359375,
+        "y": 427,
+        "w": 161.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Mục tiêu",
+        "x": 12,
+        "y": 487,
+        "w": 83.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tài liệu",
+        "x": 103.421875,
+        "y": 487,
+        "w": 71.625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tài nguyên",
+        "x": 183.046875,
+        "y": 487,
+        "w": 97.078125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Phần cứng",
+        "x": 288.125,
+        "y": 487,
+        "w": 95.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Nhật ký & kiểm thử",
+        "x": 391.578125,
+        "y": 487,
+        "w": 151.640625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tệp đính kèm",
+        "x": 551.21875,
+        "y": 487,
+        "w": 114.6875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thêm checklist",
+        "x": 12,
+        "y": 673,
+        "w": 158.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thêm cột mốc",
+        "x": 12,
+        "y": 725,
+        "w": 153.1875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [],
+    "dialog": null
+  },
+  {
+    "name": "project-create",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Dự án\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tìm dự án",
+        "x": 57,
+        "y": 81,
+        "w": 250,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px 10px 0px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 186.578125,
+        "y": 138,
+        "w": 121.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tất cả",
+        "x": 12,
+        "y": 198,
+        "w": 69.953125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đang làm",
+        "x": 89.953125,
+        "y": 198,
+        "w": 89.484375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạm dừng",
+        "x": 187.4375,
+        "y": 198,
+        "w": 92.390625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hoàn thành",
+        "x": 12,
+        "y": 250,
+        "w": 102.71875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu trữ",
+        "x": 122.71875,
+        "y": 250,
+        "w": 71.703125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đã ghim",
+        "x": 196.859375,
+        "y": 310,
+        "w": 111.140625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thao tác dự án",
+        "x": 248,
+        "y": 441,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 248,
+        "y": 28,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 116,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 206,
+        "w": 264,
+        "h": 122,
+        "font": "16px",
+        "line": "24px",
+        "padding": "12px"
+      },
+      {
+        "text": "Đang làm\nTạm dừng\nHoàn thành",
+        "x": 28,
+        "y": 372,
+        "w": 264,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc\nXanh lam\nCam\nHồng\nTím",
+        "x": 28,
+        "y": 460,
+        "w": 264,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 548,
+        "w": 264,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 640,
+        "w": 264,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Nhập thủ công\nTheo checklist",
+        "x": 28,
+        "y": 732,
+        "w": 264,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 820,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Hủy",
+        "x": 125.984375,
+        "y": 668,
+        "w": 52.59375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Tạo dự án",
+        "x": 190.578125,
+        "y": 668,
+        "w": 101.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "ĐỒ ÁN CAPSTON 1\nĐang làm\n\nthiết kế được propotype\n\nTiến độ\n0%\n\nChưa đặt hạn",
+        "x": 12,
+        "y": 425,
+        "w": 296,
+        "h": 219,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "dialog": {
+      "text": "Tạo dự án\nTên dự án *\nNội dung\nTrạng thái\nĐang làm\nTạm dừng\nHoàn thành\nMàu đánh dấu\nXanh ngọc\nXanh l",
+      "x": 12,
+      "y": 12,
+      "w": 296,
+      "h": 716,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "settings",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Cài đặt\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tài khoản",
+        "x": 12,
+        "y": 80,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 12,
+        "y": 148,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 12,
+        "y": 216,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 12,
+        "y": 284,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Tài khoản",
+        "x": 12,
+        "y": 80,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 12,
+        "y": 148,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 12,
+        "y": 216,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 12,
+        "y": 284,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "settings-account",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Cài đặt\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tài khoản",
+        "x": 12,
+        "y": 80,
+        "w": 296,
+        "h": 57,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 215,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thứ Hai\nChủ Nhật",
+        "x": 28,
+        "y": 305,
+        "w": 264,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu tài khoản",
+        "x": 28,
+        "y": 425,
+        "w": 126.03125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      },
+      {
+        "text": "Đăng xuất",
+        "x": 28,
+        "y": 485,
+        "w": 264,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 12,
+        "y": 557,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 12,
+        "y": 625,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 12,
+        "y": 693,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Tài khoản\n\npham.tien@example.com · tài khoản mẫu\n\nTên hiển thị\nNgày đầu tuần\nThứ Hai\nChủ Nhật\nMúi gi",
+        "x": 12,
+        "y": 80,
+        "w": 296,
+        "h": 465,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 12,
+        "y": 557,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 12,
+        "y": 625,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 12,
+        "y": 693,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "settings-calendar",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Cài đặt\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tài khoản",
+        "x": 12,
+        "y": 80,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Lịch & thời gian",
+        "x": 12,
+        "y": 148,
+        "w": 296,
+        "h": 57,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 249,
+        "w": 264,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "00:00\n01:00\n02:00\n03:00\n04:00\n05:00\n06:00\n07:00\n08:00\n09:00\n10:00\n11:00\n12:00\n13:00\n14:00\n15:00\n16:0",
+        "x": 28,
+        "y": 341,
+        "w": 264,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Không nhắc\nĐúng giờ\n5 phút\n15 phút\n30 phút\n60 phút\n1440 phút",
+        "x": 28,
+        "y": 429,
+        "w": 264,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 582,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc",
+        "x": 30.796875,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh dương",
+        "x": 84.390625,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hổ phách",
+        "x": 137.984375,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hồng",
+        "x": 191.59375,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tím",
+        "x": 245.1875,
+        "y": 672,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh lá",
+        "x": 30.796875,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đỏ",
+        "x": 84.390625,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Cam",
+        "x": 137.984375,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh trời",
+        "x": 191.59375,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chàm",
+        "x": 245.1875,
+        "y": 720,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xám",
+        "x": 30.796875,
+        "y": 768,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chọn màu tùy chỉnh nhóm 1",
+        "x": 28,
+        "y": 850,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "4px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 934,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 1087,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc",
+        "x": 30.796875,
+        "y": 1177,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh dương",
+        "x": 84.390625,
+        "y": 1177,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hổ phách",
+        "x": 137.984375,
+        "y": 1177,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hồng",
+        "x": 191.59375,
+        "y": 1177,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tím",
+        "x": 245.1875,
+        "y": 1177,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh lá",
+        "x": 30.796875,
+        "y": 1225,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đỏ",
+        "x": 84.390625,
+        "y": 1225,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Cam",
+        "x": 137.984375,
+        "y": 1225,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh trời",
+        "x": 191.59375,
+        "y": 1225,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chàm",
+        "x": 245.1875,
+        "y": 1225,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xám",
+        "x": 30.796875,
+        "y": 1273,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chọn màu tùy chỉnh nhóm 2",
+        "x": 28,
+        "y": 1355,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "4px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 1439,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 1592,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc",
+        "x": 30.796875,
+        "y": 1682,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh dương",
+        "x": 84.390625,
+        "y": 1682,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hổ phách",
+        "x": 137.984375,
+        "y": 1682,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Hồng",
+        "x": 191.59375,
+        "y": 1682,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tím",
+        "x": 245.1875,
+        "y": 1682,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh lá",
+        "x": 30.796875,
+        "y": 1730,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Đỏ",
+        "x": 84.390625,
+        "y": 1730,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Cam",
+        "x": 137.984375,
+        "y": 1730,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xanh trời",
+        "x": 191.59375,
+        "y": 1730,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chàm",
+        "x": 245.1875,
+        "y": 1730,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Xám",
+        "x": 30.796875,
+        "y": 1778,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "24px",
+        "padding": "0px"
+      },
+      {
+        "text": "Chọn màu tùy chỉnh nhóm 3",
+        "x": 28,
+        "y": 1860,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "4px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 1944,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Thêm nhóm lịch",
+        "x": 28,
+        "y": 2052,
+        "w": 264,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu cài đặt lịch",
+        "x": 28,
+        "y": 2112,
+        "w": 138.796875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 12,
+        "y": 2184,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 12,
+        "y": 2252,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "16px"
+      }
+    ],
+    "cards": [
+      {
+        "text": "Tài khoản",
+        "x": 12,
+        "y": 80,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Lịch & thời gian\nGiờ bắt đầu hiển thị\nGiờ kết thúc hiển thị\n00:00\n01:00\n02:00\n03:00\n04:00\n05:00\n06:0",
+        "x": 12,
+        "y": 148,
+        "w": 296,
+        "h": 2024,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Giao diện",
+        "x": 12,
+        "y": 2184,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Thông báo & dữ liệu",
+        "x": 12,
+        "y": 2252,
+        "w": 296,
+        "h": 56,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      }
+    ],
+    "dialog": null
+  },
+  {
+    "name": "attendance",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Lịch\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tạo công việc",
+        "x": 185.015625,
+        "y": 125,
+        "w": 122.984375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đi dạy",
+        "x": 12,
+        "y": 185,
+        "w": 69.015625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 264,
+        "y": 245,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng trước",
+        "x": 220,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng sau",
+        "x": 264,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 12,
+        "y": 361,
+        "w": 296,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [],
+    "dialog": null
+  },
+  {
+    "name": "attendance-day",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Lịch\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tạo công việc",
+        "x": 185.015625,
+        "y": 125,
+        "w": 122.984375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đi dạy",
+        "x": 12,
+        "y": 185,
+        "w": 69.015625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 264,
+        "y": 245,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng trước",
+        "x": 220,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng sau",
+        "x": 264,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 12,
+        "y": 361,
+        "w": 296,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 248,
+        "y": 198.5,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Nội dung chấm công ngày 11/10/2026",
+        "x": 28,
+        "y": 308.5,
+        "w": 264,
+        "h": 122,
+        "font": "16px",
+        "line": "24px",
+        "padding": "12px"
+      },
+      {
+        "text": "Xóa",
+        "x": 28,
+        "y": 497.5,
+        "w": 53.890625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xong",
+        "x": 231.578125,
+        "y": 497.5,
+        "w": 60.421875,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      }
+    ],
+    "cards": [],
+    "dialog": {
+      "text": "Đi dạy · 11/10/2026\n\nNhập nội dung để chấm công. Thay đổi được tự lưu.\n\nNội dung ngày\n\nĐã lưu · trạn",
+      "x": 12,
+      "y": 182.5,
+      "w": 296,
+      "h": 375,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  },
+  {
+    "name": "attendance-activity",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "header": {
+      "text": "Lịch\nP",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 64,
+      "font": "15px",
+      "line": "23px",
+      "padding": "10px 12px"
+    },
+    "nav": {
+      "text": "Tổng quan\nLịch\nGhi chú\nDự án\nCài đặt",
+      "x": 10,
+      "y": 666,
+      "w": 300,
+      "h": 66,
+      "font": "15px",
+      "line": "23px",
+      "padding": "4px"
+    },
+    "controls": [
+      {
+        "text": "P",
+        "x": 264,
+        "y": 10,
+        "w": 44,
+        "h": 44,
+        "font": "16px",
+        "line": "23px",
+        "padding": "1px 6px"
+      },
+      {
+        "text": "Tạo công việc",
+        "x": 185.015625,
+        "y": 125,
+        "w": 122.984375,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đi dạy",
+        "x": 12,
+        "y": 185,
+        "w": 69.015625,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 264,
+        "y": 245,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng trước",
+        "x": 220,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "Tháng sau",
+        "x": 264,
+        "y": 289,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 12,
+        "y": 361,
+        "w": 296,
+        "h": 48,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "",
+        "x": 248,
+        "y": 211.5,
+        "w": 44,
+        "h": 44,
+        "font": "15px",
+        "line": "23px",
+        "padding": "0px"
+      },
+      {
+        "text": "",
+        "x": 28,
+        "y": 321.5,
+        "w": 264,
+        "h": 46,
+        "font": "16px",
+        "line": "24px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Xanh ngọc\nXanh lam\nCam\nHồng\nTím",
+        "x": 28,
+        "y": 411.5,
+        "w": 264,
+        "h": 44,
+        "font": "16px",
+        "line": "normal",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Đóng",
+        "x": 88.21875,
+        "y": 484.5,
+        "w": 63.328125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 12px"
+      },
+      {
+        "text": "Lưu công việc",
+        "x": 163.546875,
+        "y": 484.5,
+        "w": 128.453125,
+        "h": 44,
+        "font": "14px",
+        "line": "20px",
+        "padding": "10px 16px"
+      }
+    ],
+    "cards": [],
+    "dialog": {
+      "text": "Tạo công việc\n\nMỗi công việc có bảng chấm công theo tháng riêng.\n\nTên công việc\nMàu\nXanh ngọc\nXanh l",
+      "x": 12,
+      "y": 195.5,
+      "w": 296,
+      "h": 349,
+      "font": "15px",
+      "line": "23px",
+      "padding": "16px"
+    }
+  }
+]

@@ -181,6 +181,69 @@
     transition: none;
   }
 }
+/* Calendar is the first approved design rollout; other routes retain their shell. */
+@media (max-width: 700px) {
+  .calendar-design-shell {
+    --calendar-gutter: 16px;
+    --mobile-nav-height: 56px;
+    --mobile-header:
+      linear-gradient(#102f496b, #102f496b),
+      url("/images/mobile-ocean.jpg") center 48% / cover;
+  }
+  .calendar-design-shell .app-header {
+    min-height: calc(64px + env(safe-area-inset-top));
+    padding: calc(10px + env(safe-area-inset-top))
+      max(var(--calendar-gutter), env(safe-area-inset-right)) 10px
+      max(var(--calendar-gutter), env(safe-area-inset-left));
+  }
+  .calendar-design-shell .header-current {
+    font-size: 22px;
+    line-height: 28px;
+    letter-spacing: 0;
+  }
+  .calendar-design-shell .header-avatar {
+    width: 44px;
+    height: 44px;
+  }
+  .calendar-design-shell .main-content {
+    padding: 0 max(var(--calendar-gutter), env(safe-area-inset-right))
+      calc(var(--mobile-nav-height) + 34px + env(safe-area-inset-bottom))
+      max(var(--calendar-gutter), env(safe-area-inset-left));
+  }
+  .calendar-design-shell .mobile-bottom-nav {
+    min-height: 56px;
+    padding: 4px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    border-radius: 18px;
+    box-shadow: 0 4px 16px #102f4920;
+  }
+  .calendar-design-shell .mobile-bottom-link {
+    min-height: 48px;
+    justify-content: center;
+    gap: 2px;
+    font-size: 11px;
+    line-height: 16px;
+    text-align: center;
+  }
+  .calendar-design-shell .mobile-bottom-icon {
+    width: 36px;
+    height: 24px;
+    border-radius: 8px;
+    transform: none;
+  }
+  .calendar-design-shell .mobile-bottom-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  .calendar-design-shell .mobile-bottom-link.active .mobile-bottom-icon {
+    transform: none;
+  }
+}
+@media (max-width: 359px) {
+  .calendar-design-shell {
+    --calendar-gutter: 12px;
+  }
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--ink);

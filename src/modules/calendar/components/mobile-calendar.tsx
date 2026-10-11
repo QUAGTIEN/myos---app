@@ -100,6 +100,12 @@ export function MobileCalendar({
   }
   function entry(item: Occurrence) {
     const background = color(item);
+    const badgeSurface =
+      background === "#007f78"
+        ? "var(--primary-soft)"
+        : background === "#2463a0"
+          ? "var(--blue)"
+          : background;
     return (
       <Button
         key={item.eventId + item.originalStart}
@@ -109,16 +115,24 @@ export function MobileCalendar({
           "mobile-calendar-event" +
           (item.completed ? " schedule-completed" : "")
         }
-        style={{ background, color: calendarTextColor(background) }}
         onClick={() => {
           setDayOpen(false);
           onOpen(item);
         }}
       >
-        <span>
+        <span
+          style={{
+            background: badgeSurface,
+            color:
+              badgeSurface === background
+                ? calendarTextColor(background)
+                : background,
+          }}
+        >
           {item.allDay ? "Cả ngày" : localTime(item.start).toFormat("HH:mm")}
         </span>
         <strong>{item.title}</strong>
+        <ChevronRight size={18} aria-hidden="true" />
         {item.completed && <span className="sr-only">Đã hoàn thành</span>}
       </Button>
     );
@@ -132,7 +146,7 @@ export function MobileCalendar({
           aria-label={view === "dayGridMonth" ? "Tháng trước" : "Tuần trước"}
           onClick={() => shift(-1)}
         >
-          <ChevronLeft size={18} />
+          <ChevronLeft size={20} />
         </Button>
         <h2 aria-live="polite">
           {localTime(date).setLocale("vi").toFormat("'Tháng' M, yyyy")}
@@ -143,8 +157,10 @@ export function MobileCalendar({
           aria-label={view === "dayGridMonth" ? "Tháng sau" : "Tuần sau"}
           onClick={() => shift(1)}
         >
-          <ChevronRight size={18} />
+          <ChevronRight size={20} />
         </Button>
+      </div>
+      <div className="mobile-calendar-options">
         <div
           className="schedule-view-buttons"
           role="group"
@@ -164,8 +180,6 @@ export function MobileCalendar({
             </Button>
           ))}
         </div>
-      </div>
-      <div className="mobile-calendar-options">
         <span>
           {settings.groups.find((item) => item.id === group)?.name ??
             "Tất cả bộ lịch"}
@@ -178,44 +192,53 @@ export function MobileCalendar({
           aria-expanded={filters}
           onClick={() => setFilters(!filters)}
         >
-          <Search size={18} />
+          <Search size={20} />
         </Button>
         {tools}
       </div>
       {filters && (
         <div className="mobile-calendar-filters">
-          <Input
-            aria-label="Tìm lịch hẹn, ghi chú"
-            placeholder="Tìm lịch hẹn, ghi chú…"
-            value={search}
-            onChange={(e) => onSearch(e.target.value)}
-          />
-          <Input
-            aria-label="Đến ngày"
-            type="date"
-            min="2000-01-01"
-            max="2100-12-31"
-            value={date}
-            onChange={(e) => {
-              if (
-                e.target.value >= "2000-01-01" &&
-                e.target.value <= "2100-12-31"
-              )
-                onDate(e.target.value);
-            }}
-          />
-          <NativeSelect
-            aria-label="Bộ thời khóa biểu"
-            value={group}
-            onChange={(e) => onGroup(e.target.value)}
-          >
-            <option value="">Tất cả bộ lịch</option>
-            {settings.groups.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </NativeSelect>
+          <label>
+            Tìm lịch hẹn, ghi chú
+            <Input
+              aria-label="Tìm lịch hẹn, ghi chú"
+              placeholder="Tìm lịch hẹn, ghi chú…"
+              value={search}
+              onChange={(e) => onSearch(e.target.value)}
+            />
+          </label>
+          <label>
+            Đến ngày
+            <Input
+              aria-label="Đến ngày"
+              type="date"
+              min="2000-01-01"
+              max="2100-12-31"
+              value={date}
+              onChange={(e) => {
+                if (
+                  e.target.value >= "2000-01-01" &&
+                  e.target.value <= "2100-12-31"
+                )
+                  onDate(e.target.value);
+              }}
+            />
+          </label>
+          <label>
+            Bộ thời khóa biểu
+            <NativeSelect
+              aria-label="Bộ thời khóa biểu"
+              value={group}
+              onChange={(e) => onGroup(e.target.value)}
+            >
+              <option value="">Tất cả bộ lịch</option>
+              {settings.groups.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </NativeSelect>
+          </label>
         </div>
       )}
       <div
@@ -268,10 +291,10 @@ export function MobileCalendar({
       </div>
       <div className="mobile-day-preview">
         <div className="mobile-day-heading">
-          <h3>
-            {localTime(date).setLocale("vi").toFormat("cccc, dd/MM")}{" "}
-            <span>· {selected.length} mục</span>
-          </h3>
+          <div>
+            <h3>{localTime(date).setLocale("vi").toFormat("cccc, dd/MM")} </h3>
+            <p>{selected.length} mục</p>
+          </div>
           <Button
             variant="default"
             size="icon"
@@ -279,7 +302,7 @@ export function MobileCalendar({
             disabled={disabled}
             onClick={() => onCreate(date)}
           >
-            <Plus size={18} />
+            <Plus size={20} />
           </Button>
         </div>
         {selected[0] ? (
@@ -292,13 +315,14 @@ export function MobileCalendar({
           className="mobile-day-open"
           onClick={() => setDayOpen(true)}
         >
-          Xem lịch trong ngày <ChevronRight size={17} />
+          Xem lịch trong ngày <ChevronRight size={20} />
         </Button>
       </div>
       {dayOpen && (
         <CalendarDialog
           title={localTime(date).setLocale("vi").toFormat("cccc, dd/MM/yyyy")}
           description="Toàn bộ nội dung của ngày được chọn."
+          showDescription
           onClose={() => setDayOpen(false)}
         >
           <div className="mobile-day-list">

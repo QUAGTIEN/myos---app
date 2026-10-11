@@ -495,6 +495,7 @@ export function CalendarScreen({
   return (
     <Tabs
       className="schedule-module"
+      data-calendar-view={tab}
       value={tab}
       onValueChange={(value) => chooseTab(value as "book" | "attendance")}
     >

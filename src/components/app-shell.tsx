@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useAccount } from "@/modules/auth/account-context";
 const navigation = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
@@ -92,14 +92,36 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const shellRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const calendarDesign = pathname === "/calendar";
+  useEffect(() => {
+    if (!calendarDesign || !navRef.current) return;
+    const shell = shellRef.current;
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry.borderBoxSize[0]?.blockSize)
+        shell?.style.setProperty(
+          "--mobile-nav-height",
+          `${entry.borderBoxSize[0].blockSize}px`,
+        );
+    });
+    observer.observe(navRef.current);
+    return () => {
+      observer.disconnect();
+      shell?.style.removeProperty("--mobile-nav-height");
+    };
+  }, [calendarDesign]);
   const current = navigation.find(
     ({ href }) => pathname === href || pathname.startsWith(href + "/"),
   );
 
   return (
     <div
+      ref={shellRef}
       className={
-        "app-shell" + (pathname === "/dashboard" ? " overview-shell" : "")
+        "app-shell" +
+        (pathname === "/dashboard" ? " overview-shell" : "") +
+        (calendarDesign ? " calendar-design-shell" : "")
       }
     >
       <a className="skip-link" href="#main-content">
@@ -181,7 +203,11 @@ export function AppShell({ children }: { children: ReactNode }) {
           {children}
         </main>
       </div>
-      <nav className="mobile-bottom-nav" aria-label="Điều hướng mobile">
+      <nav
+        ref={navRef}
+        className="mobile-bottom-nav"
+        aria-label="Điều hướng mobile"
+      >
         {navigation.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + "/");
           return (

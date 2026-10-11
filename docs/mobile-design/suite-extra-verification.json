@@ -1,0 +1,110 @@
+[
+  {
+    "name": "attendance-conflict",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 358
+  },
+  {
+    "name": "attendance-empty-day",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 358
+  },
+  {
+    "name": "attendance-edit",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 358
+  },
+  {
+    "name": "project-edit",
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 358
+  },
+  {
+    "name": "attendance-conflict",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 343
+  },
+  {
+    "name": "attendance-empty-day",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 343
+  },
+  {
+    "name": "attendance-edit",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 343
+  },
+  {
+    "name": "project-edit",
+    "width": 375,
+    "height": 812,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 343
+  },
+  {
+    "name": "attendance-conflict",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 296
+  },
+  {
+    "name": "attendance-empty-day",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 296
+  },
+  {
+    "name": "attendance-edit",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 296
+  },
+  {
+    "name": "project-edit",
+    "width": 320,
+    "height": 740,
+    "errors": [],
+    "overflow": false,
+    "fontLoaded": true,
+    "dialogWidth": 296
+  }
+]

@@ -116,7 +116,14 @@ test("compact calendar exposes all entries, overnight boundaries, week navigatio
     await expect(sheet).toContainText("Qua nửa đêm");
     await expect(sheet).not.toContainText("Kết thúc nửa đêm");
     const box = (await sheet.boundingBox())!;
-    expect(box.y + box.height).toBeCloseTo(page.viewportSize()!.height, 0);
+    expect(box.y + box.height / 2).toBeCloseTo(
+      page.viewportSize()!.height / 2,
+      0,
+    );
+    expect(box.x + box.width / 2).toBeCloseTo(
+      page.viewportSize()!.width / 2,
+      0,
+    );
     await page.keyboard.press("Escape");
     await expect(
       page.getByRole("button", {

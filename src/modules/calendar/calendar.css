@@ -342,6 +342,12 @@
   margin-bottom: 8px;
 }
 @media (max-width: 700px) {
+  .calendar-design-shell .main-content.calendar-content {
+    padding-top: 0;
+  }
+  .calendar-design-shell .schedule-module[data-slot="tabs"] {
+    gap: 0;
+  }
   .schedule-heading {
     border-bottom: 1px solid var(--line);
   }
@@ -1270,202 +1276,280 @@
   .schedule-module .schedule-tabs {
     min-height: 44px;
   }
+
   .mobile-calendar {
     min-width: 0;
   }
   .mobile-calendar-toolbar {
     display: grid;
-    grid-template-columns: 36px minmax(0, 1fr) 36px auto;
+    grid-template-columns: minmax(0, 1fr) 44px 44px;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
+    min-height: 44px;
   }
   .mobile-calendar-toolbar h2 {
-    font-size: 14px;
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 18px;
+    line-height: 26px;
     font-weight: 600;
-    text-align: center;
+    text-align: left;
+  }
+  .mobile-calendar-toolbar > button:first-child {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .mobile-calendar-toolbar > button:nth-of-type(2) {
+    grid-column: 3;
+    grid-row: 1;
   }
   .mobile-calendar-toolbar > button {
-    width: 36px;
+    width: 44px;
     height: 44px;
   }
-  .mobile-calendar .schedule-view-buttons {
-    padding: 2px;
-    gap: 0;
-  }
-  .mobile-calendar .schedule-view-buttons button {
-    padding: 7px;
-    font-size: 12px;
-    min-height: 40px;
+  .mobile-calendar-toolbar > button svg,
+  .mobile-calendar-options svg,
+  .mobile-day-heading > button svg,
+  .mobile-day-open svg {
+    width: 20px;
+    height: 20px;
   }
   .mobile-calendar-options {
     display: flex;
     align-items: center;
-    margin: 2px 0 8px;
-    gap: 4px;
+    gap: 8px;
+    margin-top: 8px;
+    min-height: 44px;
+  }
+  .mobile-calendar .schedule-view-buttons {
+    display: flex;
+    flex: 0 0 128px;
+    gap: 0;
+    padding: 0;
+    background: var(--surface-soft);
+    border-radius: var(--radius-control);
+  }
+  .mobile-calendar .schedule-view-buttons button {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 8px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    border-radius: var(--radius-control);
+  }
+  .mobile-calendar .schedule-view-buttons button[aria-pressed="true"] {
+    background: var(--surface);
+    color: var(--primary);
+    font-weight: 600;
+    box-shadow: inset 0 0 0 1px var(--line);
   }
   .mobile-calendar-options > span {
     flex: 1;
     min-width: 0;
     color: var(--muted);
     font-size: 12px;
+    line-height: 18px;
     overflow-wrap: anywhere;
   }
-  .mobile-calendar-options > button {
-    width: 40px;
+  .mobile-calendar-options > button,
+  .mobile-calendar-options .icon-button {
+    width: 44px;
+    min-width: 44px;
     min-height: 44px;
+  }
+  .mobile-calendar-options .schedule-tools {
+    margin-left: -8px;
   }
   .mobile-calendar-filters {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .mobile-calendar-filters > input:first-child {
-    grid-column: 1 / -1;
-  }
-  .mobile-calendar-filters select {
-    width: 100%;
-    min-width: 0;
-    padding: 8px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-control);
-    background: var(--surface);
-  }
-  .mobile-month-grid {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .mobile-month-weekday {
-    font-size: 12px;
-    text-align: center;
-    color: var(--muted);
-    padding: 12px 0;
-    background: var(--surface-soft);
-  }
-  .mobile-month-grid .mobile-month-day {
-    min-height: 44px;
-    height: auto;
-    padding: 6px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    border-radius: 0;
-    border-top: 1px solid var(--line);
-    border-right: 1px solid var(--line);
-    color: var(--ink);
-    font-size: 14px;
-  }
-  .mobile-month-day:nth-child(7n) {
-    border-right: 0;
-  }
-  .mobile-month-grid .mobile-month-day.selected {
-    background: var(--primary-soft);
-    color: var(--primary);
-    font-weight: 700;
-  }
-  .mobile-month-day.selected > span:first-child {
-    background: var(--primary);
-    color: white;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    display: grid;
-    place-items: center;
-  }
-  .mobile-month-grid .mobile-month-day.outside-month {
-    color: var(--muted);
-    opacity: 0.65;
-  }
-  .mobile-month-day[aria-current="date"] > span:first-child {
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .mobile-month-dots {
-    display: flex;
-    justify-content: center;
-    gap: 3px;
-    height: 5px;
-  }
-  .mobile-month-dots i {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-  }
-  .mobile-day-preview {
-    padding: 14px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     margin-top: 12px;
   }
-  .mobile-day-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .mobile-calendar-filters label {
+    display: grid;
     gap: 8px;
-    margin-bottom: 8px;
-  }
-  .mobile-day-heading h3 {
     font-size: 14px;
-    text-transform: capitalize;
+    line-height: 20px;
+    font-weight: 500;
   }
-  .mobile-day-heading h3 span {
-    font-weight: 400;
+  .mobile-calendar-filters input,
+  .mobile-calendar-filters select {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 12px;
+    line-height: 24px;
+    background: var(--surface-soft);
+  }
+  .mobile-month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    margin-top: 12px;
+    background: transparent;
+    border: 0;
+  }
+  .mobile-month-weekday {
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    line-height: 18px;
     color: var(--muted);
   }
+  .mobile-month-grid .mobile-month-day {
+    min-width: 0;
+    min-height: 48px;
+    height: auto;
+    padding: 4px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border: 0;
+    border-radius: var(--radius-control);
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--ink);
+    background: transparent;
+    font-weight: 400;
+  }
+  .mobile-month-day > span:first-child {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+  }
+  .mobile-month-grid .mobile-month-day.selected > span:first-child {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+  }
+  .mobile-month-grid .mobile-month-day.outside-month {
+    color: var(--muted);
+  }
+  .mobile-month-day[aria-current="date"] > span:first-child {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .mobile-month-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    min-height: 6px;
+  }
+  .mobile-month-dots i {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+  }
+  .mobile-day-preview {
+    margin-top: 24px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+  }
+  .mobile-day-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 44px;
+    margin-bottom: 12px;
+  }
+  .mobile-day-heading h3 {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  .mobile-day-heading p {
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--muted);
+    margin: 0;
+  }
   .mobile-day-heading > button {
-    width: 40px;
+    width: 44px;
+    flex-shrink: 0;
     height: 44px;
     border-radius: var(--radius-control);
   }
   .mobile-day-preview > p {
     color: var(--muted);
-    font-size: 13px;
-    margin: 10px 0;
+    font-size: 15px;
+    line-height: 23px;
+    padding: 12px 0;
   }
   .mobile-calendar-event {
     display: flex;
     width: 100%;
     height: auto;
-    min-height: 44px;
-    align-items: flex-start;
+    min-height: 64px;
+    align-items: center;
     justify-content: flex-start;
     gap: 12px;
-    padding: 11px;
-    border-radius: var(--radius-control);
-    margin-bottom: 8px;
+    padding: 12px;
+    border-radius: var(--radius);
     white-space: normal;
     text-align: left;
+    background: var(--surface);
+    color: var(--ink);
   }
-  .mobile-calendar-event > span {
+  .mobile-calendar-event > span:first-child {
+    flex: 0 0 72px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    border-radius: var(--radius-control);
     font-size: 12px;
-    flex-shrink: 0;
+    line-height: 18px;
   }
   .mobile-calendar-event > strong {
-    font-size: 13px;
-    font-weight: 500;
+    flex: 1;
+    min-width: 0;
+    font-size: 15px;
+    line-height: 23px;
+    font-weight: 600;
     overflow-wrap: anywhere;
+  }
+  .mobile-calendar-event > svg {
+    width: 18px;
+    height: 18px;
+    color: var(--muted);
+    flex-shrink: 0;
   }
   .mobile-calendar-event.schedule-completed > strong {
     text-decoration: line-through;
   }
   .mobile-day-preview .mobile-day-open {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 8px 0;
     min-height: 44px;
+    padding: 0 4px;
+    margin-top: 8px;
     color: var(--primary);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
   }
   .mobile-day-list {
     display: grid;
     gap: 2px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
   .schedule-dialog {
     top: auto;
@@ -1624,5 +1708,147 @@
   }
   .attendance-day-actions .button {
     min-height: 44px;
+  }
+}
+
+@media (max-width: 359px) {
+  .app-shell:has(.schedule-module[data-calendar-view="book"]) {
+    --calendar-gutter: 12px;
+  }
+  .mobile-calendar-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .calendar-design-shell .schedule-heading {
+    margin: 0 calc(-1 * var(--calendar-gutter)) 16px;
+    padding: 0 var(--calendar-gutter);
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+  .calendar-design-shell .schedule-tabs {
+    gap: 24px;
+  }
+  .calendar-design-shell .schedule-tabs button {
+    min-height: 44px;
+    padding: 0 4px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .calendar-design-shell .schedule-tabs[data-slot="tabs-list"] {
+    border: 0;
+  }
+  .calendar-design-shell .schedule-tabs [data-slot="tabs-trigger"]::after {
+    height: 3px;
+    background: var(--primary);
+  }
+  .calendar-design-shell .schedule-module > [data-slot="tabs-content"] {
+    margin-top: 0;
+  }
+  .calendar-design-dialog {
+    top: 50%;
+    bottom: auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(398px, calc(100% - 32px));
+    max-height: calc(
+      100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 16px 48px #102f4929;
+  }
+  .calendar-design-dialog .schedule-dialog-heading {
+    flex-shrink: 0;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .calendar-design-dialog .schedule-dialog-heading h2 {
+    font-size: 18px;
+    line-height: 26px;
+    margin: 0;
+  }
+  .calendar-design-dialog .icon-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .calendar-design-dialog .icon-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  .calendar-design-dialog input:not([type="checkbox"]):not([type="radio"]) {
+    min-height: 44px;
+  }
+  .calendar-design-dialog .schedule-dialog-body {
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  .calendar-design-dialog .schedule-form {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(
+      100dvh - 140px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+  }
+  .calendar-design-dialog .schedule-form > fieldset {
+    min-height: 0;
+    overflow: auto;
+    padding-bottom: 16px;
+  }
+  .calendar-design-dialog .schedule-form-fields {
+    min-height: 0;
+    overflow: auto;
+    padding-bottom: 16px;
+  }
+  .calendar-design-dialog .schedule-dialog-actions {
+    flex-shrink: 0;
+    margin-top: 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+  .calendar-design-dialog .button {
+    min-height: 44px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .calendar-design-dialog .mobile-calendar-event {
+    border-radius: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 12px 0;
+  }
+  .calendar-design-dialog
+    .schedule-dialog-heading
+    .schedule-dialog-description {
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--muted);
+  }
+  .calendar-design-dialog .mobile-day-list + .button {
+    width: 100%;
+  }
+  .calendar-design-dialog .schedule-form label {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+@media (max-width: 359px) {
+  .mobile-calendar-options {
+    flex-wrap: wrap;
+  }
+  .mobile-calendar-options > span {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .mobile-calendar-options > .schedule-view-buttons {
+    margin-right: auto;
+  }
+  .calendar-design-dialog {
+    width: calc(100% - 24px);
   }
 }

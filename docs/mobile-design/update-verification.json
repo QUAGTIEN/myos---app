@@ -1,0 +1,242 @@
+{
+  "scope": "Standalone design preview, not MyOS runtime",
+  "records": [
+    {
+      "file": "overview.html",
+      "width": 390,
+      "height": 844,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": null
+    },
+    {
+      "file": "calendar-preview.html?state=day",
+      "width": 390,
+      "height": 844,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 195,
+        "centerY": 422,
+        "top": 248,
+        "bottom": 596
+      }
+    },
+    {
+      "file": "note-history.html",
+      "width": 390,
+      "height": 844,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 195,
+        "centerY": 422,
+        "top": 343,
+        "bottom": 501
+      }
+    },
+    {
+      "file": "project-create.html",
+      "width": 390,
+      "height": 844,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 195,
+        "centerY": 422,
+        "top": 16,
+        "bottom": 828
+      }
+    },
+    {
+      "file": "attendance-day.html",
+      "width": 390,
+      "height": 844,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 195,
+        "centerY": 422,
+        "top": 234.5,
+        "bottom": 609.5
+      }
+    },
+    {
+      "file": "attendance-activity.html",
+      "width": 390,
+      "height": 844,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 195,
+        "centerY": 422,
+        "top": 247.5,
+        "bottom": 596.5
+      }
+    },
+    {
+      "file": "overview.html",
+      "width": 375,
+      "height": 812,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": null
+    },
+    {
+      "file": "calendar-preview.html?state=day",
+      "width": 375,
+      "height": 812,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 187.5,
+        "centerY": 406,
+        "top": 232,
+        "bottom": 580
+      }
+    },
+    {
+      "file": "note-history.html",
+      "width": 375,
+      "height": 812,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 187.5,
+        "centerY": 406,
+        "top": 327,
+        "bottom": 485
+      }
+    },
+    {
+      "file": "project-create.html",
+      "width": 375,
+      "height": 812,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 187.5,
+        "centerY": 406,
+        "top": 16,
+        "bottom": 796
+      }
+    },
+    {
+      "file": "attendance-day.html",
+      "width": 375,
+      "height": 812,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 187.5,
+        "centerY": 406,
+        "top": 218.5,
+        "bottom": 593.5
+      }
+    },
+    {
+      "file": "attendance-activity.html",
+      "width": 375,
+      "height": 812,
+      "imageLoaded": true,
+      "navHeight": 56,
+      "overflow": false,
+      "dialog": {
+        "centerX": 187.5,
+        "centerY": 406,
+        "top": 231.5,
+        "bottom": 580.5
+      }
+    },
+    {
+      "file": "overview.html",
+      "width": 320,
+      "height": 740,
+      "imageLoaded": true,
+      "navHeight": 66,
+      "overflow": false,
+      "dialog": null
+    },
+    {
+      "file": "calendar-preview.html?state=day",
+      "width": 320,
+      "height": 740,
+      "imageLoaded": true,
+      "navHeight": 66,
+      "overflow": false,
+      "dialog": {
+        "centerX": 160,
+        "centerY": 370,
+        "top": 187,
+        "bottom": 553
+      }
+    },
+    {
+      "file": "note-history.html",
+      "width": 320,
+      "height": 740,
+      "imageLoaded": true,
+      "navHeight": 66,
+      "overflow": false,
+      "dialog": {
+        "centerX": 160,
+        "centerY": 370,
+        "top": 291,
+        "bottom": 449
+      }
+    },
+    {
+      "file": "project-create.html",
+      "width": 320,
+      "height": 740,
+      "imageLoaded": true,
+      "navHeight": 66,
+      "overflow": false,
+      "dialog": {
+        "centerX": 160,
+        "centerY": 370,
+        "top": 12,
+        "bottom": 728
+      }
+    },
+    {
+      "file": "attendance-day.html",
+      "width": 320,
+      "height": 740,
+      "imageLoaded": true,
+      "navHeight": 66,
+      "overflow": false,
+      "dialog": {
+        "centerX": 160,
+        "centerY": 370,
+        "top": 182.5,
+        "bottom": 557.5
+      }
+    },
+    {
+      "file": "attendance-activity.html",
+      "width": 320,
+      "height": 740,
+      "imageLoaded": true,
+      "navHeight": 66,
+      "overflow": false,
+      "dialog": {
+        "centerX": 160,
+        "centerY": 370,
+        "top": 195.5,
+        "bottom": 544.5
+      }
+    }
+  ]
+}

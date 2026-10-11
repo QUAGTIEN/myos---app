@@ -1,0 +1,16 @@
+/* Review revision: real ocean photo, compact navigation, centered dialogs. */
+:root{--nav-height:56px;--review-photo:url('https://images.unsplash.com/photo-1559627707-b2d6c5810df4?auto=format&fit=crop&w=1000&q=85')}
+body>header{position:relative;isolation:isolate;background:var(--navy);overflow:hidden}
+body>header::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(#102f496b,#102f496b),var(--review-photo);background-size:cover;background-position:50% 48%}
+body>header.overview-header{min-height:104px;align-items:flex-end;padding-bottom:16px}
+.bottom-nav{min-height:56px;padding:4px;border-radius:18px;bottom:calc(8px + env(safe-area-inset-bottom));box-shadow:0 4px 16px #102f4920}
+.bottom-nav .nav-item{min-height:48px;gap:2px;padding:0 2px}
+.bottom-nav .nav-item span{width:36px;min-height:24px;border-radius:8px}
+.bottom-nav .nav-item svg{width:18px;height:18px}
+.bottom-nav .nav-item b{font-size:11px;line-height:16px;font-weight:500}
+.sheet,.suite-sheet{top:50%;bottom:auto;left:50%;right:auto;transform:translate(-50%,-50%);width:calc(100% - 32px);max-width:398px;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));border-radius:16px;padding:16px;box-shadow:0 16px 48px #102f4929}
+.suite-sheet{overflow:hidden;display:flex;flex-direction:column}
+.suite-sheet .sheet-head,.suite-sheet .sheet-footer{flex-shrink:0}
+.suite-sheet .sheet-body{min-height:0;overflow:auto;overscroll-behavior:contain}
+.suite-sheet .sheet-footer{padding-bottom:0}
+@media(max-width:359px){.sheet,.suite-sheet{width:calc(100% - 24px);max-height:calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}}

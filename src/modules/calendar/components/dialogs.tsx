@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import * as Dialog from "@radix-ui/react-dialog";
+import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import { useState, type ReactNode, type FormEvent } from "react";
 import {
@@ -18,14 +19,17 @@ export function CalendarDialog({
   description,
   children,
   pending = false,
+  showDescription = false,
   onClose,
 }: {
   title: string;
   description: string;
   children: ReactNode;
   pending?: boolean;
+  showDescription?: boolean;
   onClose: () => void;
 }) {
+  const calendarDesign = usePathname() === "/calendar";
   const [returnFocus] = useState(() =>
     typeof document !== "undefined" &&
     document.activeElement instanceof HTMLElement
@@ -42,7 +46,10 @@ export function CalendarDialog({
       <Dialog.Portal>
         <Dialog.Overlay className="schedule-overlay" />
         <Dialog.Content
-          className="schedule-dialog"
+          className={
+            "schedule-dialog" +
+            (calendarDesign ? " calendar-design-dialog" : "")
+          }
           onCloseAutoFocus={(event) => {
             event.preventDefault();
             if (returnFocus?.isConnected) returnFocus.focus();
@@ -63,7 +70,11 @@ export function CalendarDialog({
           <div className="schedule-dialog-heading">
             <div>
               <Dialog.Title>{title}</Dialog.Title>
-              <Dialog.Description className="sr-only">
+              <Dialog.Description
+                className={
+                  showDescription ? "schedule-dialog-description" : "sr-only"
+                }
+              >
                 {description}
               </Dialog.Description>
             </div>
@@ -79,7 +90,7 @@ export function CalendarDialog({
               <X size={20} />
             </Button>
           </div>
-          {children}
+          <div className="schedule-dialog-body">{children}</div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

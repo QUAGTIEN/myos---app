@@ -157,313 +157,322 @@ export function EventForm({
       onClose={close}
     >
       <form className="schedule-form" onSubmit={(e) => void submit(e)}>
-        <fieldset disabled={pending}>
-          {event?.repeat && (
+        <div className="schedule-form-fields">
+          <fieldset disabled={pending}>
+            {event?.repeat && (
+              <label>
+                Phạm vi sửa
+                <select
+                  value={scope}
+                  onChange={(e) =>
+                    switchScope(e.target.value as "one" | "series")
+                  }
+                >
+                  <option value="one">Chỉ buổi này</option>
+                  <option value="series">Toàn chuỗi</option>
+                </select>
+              </label>
+            )}
             <label>
-              Phạm vi sửa
-              <select
-                value={scope}
-                onChange={(e) =>
-                  switchScope(e.target.value as "one" | "series")
-                }
-              >
-                <option value="one">Chỉ buổi này</option>
-                <option value="series">Toàn chuỗi</option>
-              </select>
-            </label>
-          )}
-          <label>
-            {"Tên " + label}
-            <Input
-              required
-              autoFocus
-              maxLength={120}
-              value={input.title}
-              onChange={(e) => change({ title: e.target.value })}
-            />
-          </label>
-          <label>
-            Nội dung
-            <Textarea
-              rows={3}
-              maxLength={10000}
-              value={input.description}
-              onChange={(e) => change({ description: e.target.value })}
-            />
-          </label>
-          <label className="schedule-check">
-            <input
-              type="checkbox"
-              checked={input.allDay}
-              disabled={one}
-              onChange={(e) =>
-                change({
-                  allDay: e.target.checked,
-                  start: e.target.checked
-                    ? input.start.slice(0, 10)
-                    : input.start.slice(0, 10) + "T09:00",
-                  end: e.target.checked
-                    ? addDays(input.end.slice(0, 10), 1)
-                    : addDays(input.end, -1) + "T10:00",
-                })
-              }
-            />
-            Cả ngày
-          </label>
-          <div className="schedule-form-grid">
-            <label>
-              Bắt đầu
-              <input
+              {"Tên " + label}
+              <Input
                 required
-                type={input.allDay ? "date" : "datetime-local"}
-                min={input.allDay ? "2000-01-01" : "2000-01-01T00:00"}
-                max={input.allDay ? "2100-12-31" : "2100-12-31T23:59"}
-                value={input.start}
-                onChange={(e) => change({ start: e.target.value })}
+                autoFocus
+                maxLength={120}
+                value={input.title}
+                onChange={(e) => change({ title: e.target.value })}
               />
             </label>
             <label>
-              {input.allDay ? "Ngày cuối" : "Kết thúc"}
-              <input
-                required
-                type={input.allDay ? "date" : "datetime-local"}
-                value={input.allDay ? addDays(input.end, -1) : input.end}
-                onChange={(e) =>
-                  change({
-                    end: input.allDay
-                      ? addDays(e.target.value, 1)
-                      : e.target.value,
-                  })
-                }
+              Nội dung
+              <Textarea
+                rows={3}
+                maxLength={10000}
+                value={input.description}
+                onChange={(e) => change({ description: e.target.value })}
               />
             </label>
-            <label>
-              Nhóm lịch
-              <select
-                value={input.groupId}
-                onChange={(e) => change({ groupId: e.target.value })}
-              >
-                {settings.groups.map((group) => (
-                  <option value={group.id} key={group.id}>
-                    {group.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Nhắc trước (chưa bật)
-              <select
-                value={input.reminderMinutes ?? "off"}
-                onChange={(e) =>
-                  change({
-                    reminderMinutes:
-                      e.target.value === "off" ? null : Number(e.target.value),
-                  })
-                }
-              >
-                {[
-                  null,
-                  0,
-                  5,
-                  15,
-                  30,
-                  60,
-                  1440,
-                  ...(input.reminderMinutes !== null &&
-                  ![0, 5, 15, 30, 60, 1440].includes(input.reminderMinutes)
-                    ? [input.reminderMinutes]
-                    : []),
-                ].map((value) => (
-                  <option key={value ?? "off"} value={value ?? "off"}>
-                    {value === null
-                      ? "Không nhắc"
-                      : value === 0
-                        ? "Đúng giờ"
-                        : `${value} phút`}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <CalendarColorPicker
-            label="Màu lịch hẹn"
-            value={input.color ?? null}
-            inheritedColor={
-              settings.groups.find((group) => group.id === input.groupId)
-                ?.color ?? "turquoise"
-            }
-            onChange={(color) => change({ color })}
-          />
-          <div className="schedule-flags">
             <label className="schedule-check">
               <input
                 type="checkbox"
-                checked={input.important}
-                onChange={(e) => change({ important: e.target.checked })}
+                checked={input.allDay}
+                disabled={one}
+                onChange={(e) =>
+                  change({
+                    allDay: e.target.checked,
+                    start: e.target.checked
+                      ? input.start.slice(0, 10)
+                      : input.start.slice(0, 10) + "T09:00",
+                    end: e.target.checked
+                      ? addDays(input.end.slice(0, 10), 1)
+                      : addDays(input.end, -1) + "T10:00",
+                  })
+                }
               />
-              Quan trọng
+              Cả ngày
             </label>
-            {(!input.repeat || one) && (
-              <label className="schedule-check">
+            <div className="schedule-form-grid">
+              <label>
+                Bắt đầu
                 <input
-                  type="checkbox"
-                  checked={input.completed}
-                  onChange={(e) => change({ completed: e.target.checked })}
+                  required
+                  type={input.allDay ? "date" : "datetime-local"}
+                  min={input.allDay ? "2000-01-01" : "2000-01-01T00:00"}
+                  max={input.allDay ? "2100-12-31" : "2100-12-31T23:59"}
+                  value={input.start}
+                  onChange={(e) => change({ start: e.target.value })}
                 />
-                Đã hoàn thành
               </label>
-            )}
-          </div>
-          {!one && (
-            <div className="schedule-repeat">
-              <label className="schedule-check">
+              <label>
+                {input.allDay ? "Ngày cuối" : "Kết thúc"}
                 <input
-                  type="checkbox"
-                  checked={!!input.repeat}
+                  required
+                  type={input.allDay ? "date" : "datetime-local"}
+                  value={input.allDay ? addDays(input.end, -1) : input.end}
                   onChange={(e) =>
                     change({
-                      completed: false,
-                      repeat: e.target.checked
-                        ? {
-                            weekdays: [localTime(input.start).weekday % 7],
-                            until: addDays(input.start.slice(0, 10), 90),
-                          }
-                        : null,
+                      end: input.allDay
+                        ? addDays(e.target.value, 1)
+                        : e.target.value,
                     })
                   }
                 />
-                Lặp hàng tuần
               </label>
-              {input.repeat && (
-                <>
-                  <div
-                    className="schedule-weekdays"
-                    role="group"
-                    aria-label="Các thứ lặp"
-                  >
-                    {[1, 2, 3, 4, 5, 6, 0].map((day) => (
-                      <label key={day}>
-                        <input
-                          type="checkbox"
-                          checked={input.repeat!.weekdays.includes(day)}
-                          onChange={(e) =>
-                            change({
-                              repeat: {
-                                ...input.repeat!,
-                                weekdays: e.target.checked
-                                  ? [...input.repeat!.weekdays, day]
-                                  : input.repeat!.weekdays.filter(
-                                      (value) => value !== day,
-                                    ),
-                              },
-                            })
-                          }
-                        />
-                        {weekdays[day]}
-                      </label>
-                    ))}
-                  </div>
-                  <label>
-                    Lặp đến hết ngày
-                    <Input
-                      type="date"
-                      required
-                      min={input.start.slice(0, 10)}
-                      value={input.repeat.until}
-                      onChange={(e) =>
-                        change({
-                          repeat: { ...input.repeat!, until: e.target.value },
-                        })
-                      }
-                    />
-                  </label>
-                </>
+              <label>
+                Nhóm lịch
+                <select
+                  value={input.groupId}
+                  onChange={(e) => change({ groupId: e.target.value })}
+                >
+                  {settings.groups.map((group) => (
+                    <option value={group.id} key={group.id}>
+                      {group.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Nhắc trước (chưa bật)
+                <select
+                  value={input.reminderMinutes ?? "off"}
+                  onChange={(e) =>
+                    change({
+                      reminderMinutes:
+                        e.target.value === "off"
+                          ? null
+                          : Number(e.target.value),
+                    })
+                  }
+                >
+                  {[
+                    null,
+                    0,
+                    5,
+                    15,
+                    30,
+                    60,
+                    1440,
+                    ...(input.reminderMinutes !== null &&
+                    ![0, 5, 15, 30, 60, 1440].includes(input.reminderMinutes)
+                      ? [input.reminderMinutes]
+                      : []),
+                  ].map((value) => (
+                    <option key={value ?? "off"} value={value ?? "off"}>
+                      {value === null
+                        ? "Không nhắc"
+                        : value === 0
+                          ? "Đúng giờ"
+                          : `${value} phút`}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <CalendarColorPicker
+              label="Màu lịch hẹn"
+              value={input.color ?? null}
+              inheritedColor={
+                settings.groups.find((group) => group.id === input.groupId)
+                  ?.color ?? "turquoise"
+              }
+              onChange={(color) => change({ color })}
+            />
+            <div className="schedule-flags">
+              <label className="schedule-check">
+                <input
+                  type="checkbox"
+                  checked={input.important}
+                  onChange={(e) => change({ important: e.target.checked })}
+                />
+                Quan trọng
+              </label>
+              {(!input.repeat || one) && (
+                <label className="schedule-check">
+                  <input
+                    type="checkbox"
+                    checked={input.completed}
+                    onChange={(e) => change({ completed: e.target.checked })}
+                  />
+                  Đã hoàn thành
+                </label>
               )}
             </div>
-          )}
-          <details
-            className="schedule-links"
-            open={!!input.projectIds.length || !!input.noteIds.length}
-          >
-            <summary>Liên kết Dự án / Ghi chú</summary>
-            {(projectError || noteError) && (
-              <p role="alert">
-                {projectError || noteError} Có thể lưu lịch; tải lại để chọn
-                liên kết mới.
-              </p>
+            {!one && (
+              <div className="schedule-repeat">
+                <label className="schedule-check">
+                  <input
+                    type="checkbox"
+                    checked={!!input.repeat}
+                    onChange={(e) =>
+                      change({
+                        completed: false,
+                        repeat: e.target.checked
+                          ? {
+                              weekdays: [localTime(input.start).weekday % 7],
+                              until: addDays(input.start.slice(0, 10), 90),
+                            }
+                          : null,
+                      })
+                    }
+                  />
+                  Lặp hàng tuần
+                </label>
+                {input.repeat && (
+                  <>
+                    <div
+                      className="schedule-weekdays"
+                      role="group"
+                      aria-label="Các thứ lặp"
+                    >
+                      {[1, 2, 3, 4, 5, 6, 0].map((day) => (
+                        <label key={day}>
+                          <input
+                            type="checkbox"
+                            checked={input.repeat!.weekdays.includes(day)}
+                            onChange={(e) =>
+                              change({
+                                repeat: {
+                                  ...input.repeat!,
+                                  weekdays: e.target.checked
+                                    ? [...input.repeat!.weekdays, day]
+                                    : input.repeat!.weekdays.filter(
+                                        (value) => value !== day,
+                                      ),
+                                },
+                              })
+                            }
+                          />
+                          {weekdays[day]}
+                        </label>
+                      ))}
+                    </div>
+                    <label>
+                      Lặp đến hết ngày
+                      <Input
+                        type="date"
+                        required
+                        min={input.start.slice(0, 10)}
+                        value={input.repeat.until}
+                        onChange={(e) =>
+                          change({
+                            repeat: { ...input.repeat!, until: e.target.value },
+                          })
+                        }
+                      />
+                    </label>
+                  </>
+                )}
+              </div>
             )}
-            <p className="schedule-help">
-              Dự án{projectsLoading ? " — đang tải…" : ""}
-            </p>
-            <div className="schedule-link-options">
-              {projects
-                .filter(
-                  (project) =>
-                    !project.archivedAt ||
-                    input.projectIds.includes(project.id),
-                )
-                .map((project) => (
-                  <label className="schedule-check" key={project.id}>
-                    <input
-                      type="checkbox"
-                      checked={input.projectIds.includes(project.id)}
-                      onChange={() => toggleLink("projectIds", project.id)}
-                    />
-                    {project.title}
-                    {project.archivedAt ? " (lưu trữ)" : ""}
-                  </label>
-                ))}
-              {!projects.length && !projectsLoading && (
-                <span>Chưa có dự án.</span>
+            <details
+              className="schedule-links"
+              open={!!input.projectIds.length || !!input.noteIds.length}
+            >
+              <summary>Liên kết Dự án / Ghi chú</summary>
+              {(projectError || noteError) && (
+                <p role="alert">
+                  {projectError || noteError} Có thể lưu lịch; tải lại để chọn
+                  liên kết mới.
+                </p>
               )}
-              {input.projectIds
-                .filter((id) => !projects.some((project) => project.id === id))
-                .map((id) => (
-                  <label className="schedule-check" key={id}>
-                    <input
-                      type="checkbox"
-                      checked
-                      onChange={() => toggleLink("projectIds", id)}
-                    />
-                    Dự án không còn khả dụng
-                  </label>
-                ))}
-            </div>
-            <p className="schedule-help">
-              Ghi chú{notesLoading ? " — đang tải…" : ""}
-            </p>
-            <div className="schedule-link-options">
-              {notes
-                .filter(
-                  (note) => !note.trashedAt || input.noteIds.includes(note.id),
-                )
-                .map((note) => (
-                  <label className="schedule-check" key={note.id}>
-                    <input
-                      type="checkbox"
-                      checked={input.noteIds.includes(note.id)}
-                      onChange={() => toggleLink("noteIds", note.id)}
-                    />
-                    {note.title}
-                    {note.trashedAt ? " (thùng rác)" : ""}
-                  </label>
-                ))}
-              {!notes.length && !notesLoading && <span>Chưa có ghi chú.</span>}
-              {input.noteIds
-                .filter((id) => !notes.some((note) => note.id === id))
-                .map((id) => (
-                  <label className="schedule-check" key={id}>
-                    <input
-                      type="checkbox"
-                      checked
-                      onChange={() => toggleLink("noteIds", id)}
-                    />
-                    Ghi chú không còn khả dụng
-                  </label>
-                ))}
-            </div>
-          </details>
-        </fieldset>
+              <p className="schedule-help">
+                Dự án{projectsLoading ? " — đang tải…" : ""}
+              </p>
+              <div className="schedule-link-options">
+                {projects
+                  .filter(
+                    (project) =>
+                      !project.archivedAt ||
+                      input.projectIds.includes(project.id),
+                  )
+                  .map((project) => (
+                    <label className="schedule-check" key={project.id}>
+                      <input
+                        type="checkbox"
+                        checked={input.projectIds.includes(project.id)}
+                        onChange={() => toggleLink("projectIds", project.id)}
+                      />
+                      {project.title}
+                      {project.archivedAt ? " (lưu trữ)" : ""}
+                    </label>
+                  ))}
+                {!projects.length && !projectsLoading && (
+                  <span>Chưa có dự án.</span>
+                )}
+                {input.projectIds
+                  .filter(
+                    (id) => !projects.some((project) => project.id === id),
+                  )
+                  .map((id) => (
+                    <label className="schedule-check" key={id}>
+                      <input
+                        type="checkbox"
+                        checked
+                        onChange={() => toggleLink("projectIds", id)}
+                      />
+                      Dự án không còn khả dụng
+                    </label>
+                  ))}
+              </div>
+              <p className="schedule-help">
+                Ghi chú{notesLoading ? " — đang tải…" : ""}
+              </p>
+              <div className="schedule-link-options">
+                {notes
+                  .filter(
+                    (note) =>
+                      !note.trashedAt || input.noteIds.includes(note.id),
+                  )
+                  .map((note) => (
+                    <label className="schedule-check" key={note.id}>
+                      <input
+                        type="checkbox"
+                        checked={input.noteIds.includes(note.id)}
+                        onChange={() => toggleLink("noteIds", note.id)}
+                      />
+                      {note.title}
+                      {note.trashedAt ? " (thùng rác)" : ""}
+                    </label>
+                  ))}
+                {!notes.length && !notesLoading && (
+                  <span>Chưa có ghi chú.</span>
+                )}
+                {input.noteIds
+                  .filter((id) => !notes.some((note) => note.id === id))
+                  .map((id) => (
+                    <label className="schedule-check" key={id}>
+                      <input
+                        type="checkbox"
+                        checked
+                        onChange={() => toggleLink("noteIds", id)}
+                      />
+                      Ghi chú không còn khả dụng
+                    </label>
+                  ))}
+              </div>
+            </details>
+          </fieldset>
+        </div>
         {conflicts.length > 0 && (
           <p className="schedule-warning" role="status">
             Trùng thời gian:{" "}
