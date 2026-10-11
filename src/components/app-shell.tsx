@@ -96,7 +96,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const navRef = useRef<HTMLElement>(null);
   const calendarDesign = pathname === "/calendar";
   useEffect(() => {
-    if (!calendarDesign || !navRef.current) return;
+    if (!navRef.current) return;
     const shell = shellRef.current;
     const observer = new ResizeObserver(([entry]) => {
       if (entry.borderBoxSize[0]?.blockSize)
@@ -110,7 +110,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       observer.disconnect();
       shell?.style.removeProperty("--mobile-nav-height");
     };
-  }, [calendarDesign]);
+  }, []);
   const current = navigation.find(
     ({ href }) => pathname === href || pathname.startsWith(href + "/"),
   );

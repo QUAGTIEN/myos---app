@@ -17,6 +17,7 @@ MYOS/
 ├── src/
 │   ├── app/                        # Quy ước route/layout của Next.js
 │   │   ├── layout.tsx, page.tsx, globals.css
+│   │   ├── manifest.ts             # Home Screen standalone, không cache dữ liệu/offline
 │   │   ├── global-error.tsx, not-found.tsx
 │   │   ├── (auth)/                 # login/register/forgot-password, layout
 │   │   ├── api/{auth,data}/route.ts # Session/CSRF và dữ liệu có kiểm tra UID

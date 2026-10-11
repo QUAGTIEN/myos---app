@@ -1,5 +1,7 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
+Cập nhật Home Screen 12/10/2026: manifest và metadata Apple ở root cho phép mở standalone, kể cả trang xác thực. Đây là cấu hình web app cần mạng; không thêm service worker/cache offline, không đổi session, repository hoặc dữ liệu. Thanh điều hướng mobile dùng cùng kích thước gọn và safe area cho 5 phân hệ.
+
 Ngày cập nhật: **09/10/2026** · Phiên bản: **1.16 — Chấm công theo nội dung và tự lưu**
 
 Cập nhật giao diện mobile 11/10/2026: media query chung 700 px, bottom navigation 5 phân hệ; lịch tháng/tuần và chấm công vừa màn hình, chi tiết/nhập theo ngày dùng bottom sheet. Tổng quan dùng tab, Cài đặt gập mở để giảm cuộn dọc. Thay đổi ở lớp UI, giữ service/repository, schema, xác thực và cache theo UID. Xem bổ sung mobile trong [ADR 007](docs/decisions/007-calendar-attendance.md).

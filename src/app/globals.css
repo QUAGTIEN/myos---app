@@ -52,7 +52,8 @@
     #075664 55%,
     #007f78 100%
   );
-  --mobile-nav-height: 76px;
+  --mobile-nav-height: 56px;
+  --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 .mobile-brand,
 .mobile-bottom-nav {
@@ -97,52 +98,57 @@
   }
   .app-shell .main-content {
     padding: 14px 14px
-      calc(var(--mobile-nav-height) + 22px + env(safe-area-inset-bottom));
+      calc(var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom)));
   }
   .overview-shell .main-content {
     padding: 0 0
-      calc(var(--mobile-nav-height) + 22px + env(safe-area-inset-bottom));
+      calc(var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom)));
   }
   .app-shell .mobile-bottom-nav {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     position: fixed;
     z-index: var(--layer-header);
-    bottom: calc(10px + env(safe-area-inset-bottom));
+    bottom: max(8px, var(--mobile-safe-bottom));
     left: max(10px, env(safe-area-inset-left));
     right: max(10px, env(safe-area-inset-right));
     background: var(--sidebar);
-    padding: 7px 6px;
-    border-radius: 24px;
-    box-shadow: 0 8px 24px #102f4930;
+    min-height: 56px;
+    padding: 4px;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px #102f4920;
   }
   .mobile-bottom-link {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 56px;
-    gap: 3px;
+    min-height: 48px;
+    justify-content: center;
+    gap: 2px;
     padding: 0 2px;
     color: #c5d6e5;
     font-size: 11px;
     font-weight: 500;
+    line-height: 16px;
+    text-align: center;
   }
   .mobile-bottom-icon {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 32px;
-    border-radius: 12px;
-    transition:
-      background 180ms ease,
-      transform 180ms ease;
+    width: 36px;
+    height: 24px;
+    border-radius: 8px;
+    transition: background 180ms ease;
+  }
+  .mobile-bottom-icon svg {
+    width: 18px;
+    height: 18px;
   }
   .mobile-bottom-link.active {
     color: white;
   }
   .mobile-bottom-link.active .mobile-bottom-icon {
     background: var(--primary);
-    transform: translateY(-2px);
   }
   .mobile-bottom-link:hover .mobile-bottom-icon,
   .mobile-bottom-link:focus-visible .mobile-bottom-icon {
@@ -181,7 +187,7 @@
     transition: none;
   }
 }
-/* Calendar is the first approved design rollout; other routes retain their shell. */
+/* Calendar retains its approved header and content; navigation is shared. */
 @media (max-width: 700px) {
   .calendar-design-shell {
     --calendar-gutter: 16px;
@@ -207,13 +213,13 @@
   }
   .calendar-design-shell .main-content {
     padding: 0 max(var(--calendar-gutter), env(safe-area-inset-right))
-      calc(var(--mobile-nav-height) + 34px + env(safe-area-inset-bottom))
+      calc(var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom)))
       max(var(--calendar-gutter), env(safe-area-inset-left));
   }
   .calendar-design-shell .mobile-bottom-nav {
     min-height: 56px;
     padding: 4px;
-    bottom: calc(8px + env(safe-area-inset-bottom));
+    bottom: max(8px, var(--mobile-safe-bottom));
     border-radius: 18px;
     box-shadow: 0 4px 16px #102f4920;
   }

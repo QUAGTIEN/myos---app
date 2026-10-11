@@ -9,7 +9,7 @@
 - Header min64 + safe top, title 22/28/600 và account44; gutter16, dưới360 dùng12. Một title phân hệ trên header; title record chỉ hiển thị trong detail hoặc trường title đang sửa.
 - Navy/turquoise và màu semantic nguồn giữ nguyên. KPI dùng bốn màu hiện có; note pastel hiện có. Màu11 swatch từ calendarPalette là dữ liệu có sẵn, không là11 màu brand mới.
 - Body15/23; field/editor16/24; section/card16/24/600; action14/20; metadata12/18. Glyph action20/nav18, inline metadata16; không dùng icon mới ngoài Lucide.
-- Nút/tab/field min44; icon-only44×44; nav năm mục min56/label 11/16/radius18, margin8+safe-bottom. Nav giãn theo nhãn, reserve main dùng nav thực +34+safe-bottom.
+- Nút/tab/field min44; icon-only44×44; nav năm mục min56/label 11/16/radius18, margin max(8,safe-bottom). Nav giãn theo nhãn, reserve main dùng nav thực +26+max(8,safe-bottom).
 - Section24, title→content12, card padding16, event row12. Library card không min-height212/220; metadata theo flow. Trục x16 là mép section và card; text trong card x32 là inset có mục đích.
 - Sheet title18/26/600, close44, radius16 bốn góc, giữa viewport, max100dvh trừ32 và safe-top/bottom. Header và footer theo flow flex, body cuộn riêng, footer không che field cuối. Không thêm gesture hoặc hiệu ứng.
 - Tất cả sample date/content/account/status chỉ minh họa. Không nối database/API; không gọi các preview này là dữ liệu/ứng dụng thật.

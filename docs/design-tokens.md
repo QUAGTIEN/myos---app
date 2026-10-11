@@ -56,7 +56,7 @@ Không thu title dài xuống meta. Card preview title tối đa2 dòng; nội d
 | Button / field / icon hit area | min44 cao | Icon-only min44 rộng; text wrap tăng chiều cao |
 | Header | min64 + safe-top | Padding dọc10, account44; không fixed-height |
 | Nav | min56, margin ngang10 / dưới8 | Padding4, item min48; text tăng nav tự giãn |
-| Main bottom reserve | nav thực + 34 + safe-bottom | 8 margin +26 breathing; không token76 trong khi DOM70 |
+| Main bottom reserve | nav thực +26 +max(8,safe-bottom) | max(8,safe-bottom) margin +26 breathing; không token76 trong khi DOM70 |
 | Calendar weekday / row | 28 / min48 | Cột available/7; tháng5/6 hàng theo dữ liệu |
 | Calendar number shape | 32 ×32 circle | Selected primary; today underline; không tăng hit area theo glyph |
 | Calendar view group | width128, min44 cao | 2 trigger 64; <360 options wrap, giữ hit area |

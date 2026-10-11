@@ -30,8 +30,8 @@ AppShell: header navy64 + safe top, title Lịch / account44
       Gap12
       Một event đầu hiện có: time + title + chevron, min64
       Gap8 + Xem lịch trong ngày44
-  Main reserve: nav actual height +34 +safe bottom
-  Bottom nav 5 mục: margin ngang10, dưới8 + safe, min56
+  Main reserve: nav actual height +26 +max(8,safe bottom)
+  Bottom nav 5 mục: margin ngang10, dưới max(8,safe), min56
 Overlay: scrim / sheet chứa đầy đủ events, close 44, Thêm nội dung44
 ~~~
 
@@ -59,7 +59,7 @@ Số đo [verification.json](mobile-design/verification.json). Month6 hàng cộ
 
 - 375/390 dùng cùng layout; <360 options wrap summary xuống hàng, giữ trigger/icon44, gutter12. Cột320 rộng296/7≈42,3, row 48; không overflow toàn trang.
 - <=700 giữ mobile breakpoint hiện có. Desktop/calendar FullCalendar không thay. Preview standalone hiển thị tối đa430 trên màn rộng chỉ để review, không phải spec desktop.
-- Header + safe top; gutter max(token,safe-side); nav bottom8+safe-bottom; main reserve nav+34+safe-bottom. Không vẽ status bar, notch hoặc toolbar Safari.
+- Header + safe top; gutter max(token,safe-side); nav bottom max(8,safe-bottom); main reserve nav+26+max(8,safe-bottom). Không vẽ status bar, notch hoặc toolbar Safari.
 - Nội dung dài theo flow, month/title/actions có thể tăng chiều cao; không dùng truncation cho h1/action. Meta không nhỏ hơn12. Grid ngày không scale theo poster.
 - Sheet max100dvh trừ32 và safe-top/bottom, padding16 +safe; body cuộn; scrim khóa nền; focus trap/return/Escape dùng Radix hiện hữu lúc code. Trạng thái bàn phím cần kiểm tra thực, không mặc định coi dVH giải quyết tất cả.
 
