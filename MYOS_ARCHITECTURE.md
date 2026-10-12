@@ -1,5 +1,7 @@
 # MyOS — Kiến trúc và bộ khung dự án Firebase
 
+Cập nhật ghi nhớ đăng nhập 12/10/2026: cookie server HttpOnly ghi nhớ 14 ngày (trước 5 ngày); `/login` kiểm tra phiên và chuyển Tổng quan khi hợp lệ, giữ kiểm tra disabled/revoked/session hash ở server. Browser SDK vẫn inMemory và signOut sau đổi ID token; không lưu mật khẩu hoặc thêm refresh credential trong bộ nhớ lâu dài. Ghi nhớ không tự gia hạn vô hạn; xem [ADR 006](docs/decisions/006-firebase-public-accounts.md). Menu mobile đổi sang icon-only, tên truy cập và các route giữ nguyên.
+
 Cập nhật Home Screen 12/10/2026: manifest và metadata Apple ở root cho phép mở standalone, kể cả trang xác thực. Đây là cấu hình web app cần mạng; không thêm service worker/cache offline, không đổi session, repository hoặc dữ liệu. Thanh điều hướng mobile dùng cùng kích thước gọn và safe area cho 5 phân hệ.
 
 Ngày cập nhật: **09/10/2026** · Phiên bản: **1.16 — Chấm công theo nội dung và tự lưu**

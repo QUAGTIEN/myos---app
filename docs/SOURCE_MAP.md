@@ -1,5 +1,7 @@
 # Bản đồ source MyOS
 
+Cập nhật 12/10/2026: `(auth)/login/page.tsx` xác thực cookie trước khi hiện form; `api/auth/route.ts` cấp phiên ghi nhớ 14 ngày. `src/next-image.d.ts` tham chiếu kiểu static image của Next để typecheck từ checkout sạch trước build. Menu icon-only vẫn dùng `components/app-shell.tsx` và tokens/style chung ở `app/globals.css`; không thêm module hoặc kho dữ liệu.
+
 Cập nhật 09/10/2026. G2 bước 1–5 thêm tài khoản công khai và Firestore; local giữ riêng, không migration. Cây này mô tả source hiện có, không dựng thư mục giữ chỗ cho kế hoạch cloud.
 
 ## Cấu trúc hiện tại

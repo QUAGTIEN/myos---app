@@ -41,12 +41,12 @@ export async function POST(request: NextRequest) {
       throw new HttpError(401, "Vui lòng đăng nhập lại trước khi tạo phiên.");
     const user = await auth.getUser(token.uid);
     if (user.disabled) throw new HttpError(403, "Tài khoản bị vô hiệu hóa.");
-    const profile = await ensureProfile(user);
-    const expiresIn = input.remember ? 5 * 86400000 : 2 * 3600000;
-    const value =
-      (await auth.createSessionCookie(input.idToken, { expiresIn })) +
-      "~" +
-      randomBytes(32).toString("hex");
+    const expiresIn = input.remember ? 14 * 86400000 : 2 * 3600000;
+    const [profile, jwt] = await Promise.all([
+      ensureProfile(user),
+      auth.createSessionCookie(input.idToken, { expiresIn }),
+    ]);
+    const value = jwt + "~" + randomBytes(32).toString("hex");
     await sessionReference(user.uid, value).set({
       expiresAt: Date.now() + expiresIn,
     });

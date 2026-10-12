@@ -6,6 +6,8 @@ Nền màn hình xác thực: [A Green Forest — Lauri Poldre / Pexels](https:/
 
 ## Trạng thái hiện tại
 
+**Menu và ghi nhớ đăng nhập 12/10/2026:** menu mobile chỉ hiện icon Lucide 26 px, giữ tên truy cập, vùng bấm tối thiểu 44 px và chiều cao 52 px/safe area. “Ghi nhớ đăng nhập” mặc định bật: lần đăng nhập mới tạo cookie HttpOnly 14 ngày; mở lại `/login` với phiên hợp lệ vào thẳng Tổng quan. Bỏ ghi nhớ vẫn là cookie phiên browser với token 2 giờ. Không lưu mật khẩu; đăng xuất/thu hồi/vô hiệu hóa/hết hạn vẫn chặn phiên. CSRF chuẩn bị khi nhập form và không ép refresh token vừa cấp. Xem [ADR 006](docs/decisions/006-firebase-public-accounts.md) và [ảnh/kiểm chứng](docs/mobile-menu-login-review.md).
+
 **Tối ưu mobile 12/10/2026:** Lịch lập bảng occurrence theo ngày để dùng lại khi đóng/mở; FullCalendar và DTO desktop chỉ tải/tính khi xem desktop. Kiểm tra trùng dùng chỉ mục khoảng thời gian, không tính lại khi chỉ sửa mô tả/tiêu đề. Thư viện liên kết tải khi mở bộ chọn hoặc có query liên kết; điều hướng phản hồi pending và prefetch khi rảnh. Cloud chuẩn bị CSRF trong nền và trả Server-Timing chỉ chứa thời gian auth/read/write/total; giữ kiểm tra phiên, version và canonical sau commit. [Audit](docs/performance-audit.md), [triển khai và kiểm chứng](docs/performance-implementation.md).
 
 **Ảnh header 3 phân hệ 12/10/2026:** theo yêu cầu đồng bộ mới, Lịch, Ghi chú và Dự án cùng dùng ảnh cực quang `calendar-aurora.webp` (1200×300, khoảng16 KiB); bỏ hai asset header vịnh/núi và phố ven nước khỏi ứng dụng. Giữ lớp phủ navy, header64/72 px và safe-top, search/filter bên dưới nền sáng; áp cả chi tiết ghi chú/dự án, chỉ mobile. Ảnh người dùng cung cấp, không đổi nội dung bằng AI hoặc thêm animation. [Ảnh và kiểm tra](docs/module-header-photos-review.md).

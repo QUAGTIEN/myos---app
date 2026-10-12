@@ -161,7 +161,7 @@ test("Vietnamese font loads and dashboard screenshot is captured", async ({
 test("keyboard navigation and narrow viewport stay usable", async ({
   page,
   isMobile,
-}) => {
+}, info) => {
   await page.goto("/dashboard");
   await page.keyboard.press("Tab");
   await expect(
@@ -173,9 +173,35 @@ test("keyboard navigation and narrow viewport stay usable", async ({
     const navigation = page.getByRole("navigation", {
       name: "Điều hướng mobile",
     });
+    for (const screen of screens) {
+      const link = navigation.getByRole("link", {
+        name: screen.label,
+        exact: true,
+      });
+      await expect(link).toBeVisible();
+      // Navigation remains named and reachable when its visual label is removed.
+      expect((await link.innerText()).trim()).toBe("");
+      const bounds = (await link.boundingBox())!;
+      expect(bounds.width).toBeGreaterThanOrEqual(44);
+      expect(bounds.height).toBeGreaterThanOrEqual(44);
+    }
     await navigation.getByRole("link", { name: "Lịch", exact: true }).focus();
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/calendar$/);
+    await page.goto("/dashboard");
+    for (const viewport of [
+      { width: 390, height: 844 },
+      { width: 375, height: 812 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.evaluate(() => document.fonts.ready);
+      await expect(navigation).toBeVisible();
+      await page.screenshot({
+        path: info.outputPath(
+          `icon-menu-${viewport.width}x${viewport.height}.png`,
+        ),
+      });
+    }
   }
   await page.setViewportSize({ width: 320, height: 740 });
   for (const screen of screens) {

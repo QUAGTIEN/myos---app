@@ -9,9 +9,10 @@ import {
   type APIRequestContext,
   type Page,
 } from "@playwright/test";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { initializeApp, deleteApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
+import { getFirestore } from "firebase-admin/firestore";
 import {
   emptyProjectInput,
   projectSchema,
@@ -34,6 +35,116 @@ import {
 import { effectiveOccurrence } from "../../src/modules/calendar/recurrence";
 
 const password = "MyOS-test-2026!";
+
+test("remembered login survives reopening and skips the login form without another credential request", async ({
+  page,
+  context,
+  browser,
+  isMobile,
+}) => {
+  const email = `remember-${randomUUID()}@example.com`;
+  await register(page, email);
+  const cookie = (await context.cookies()).find(
+    (item) => item.name === "myos-session",
+  )!;
+  expect(cookie.httpOnly).toBe(true);
+  expect(cookie.sameSite).toBe("Lax");
+  expect(cookie.expires - Date.now() / 1000).toBeGreaterThan(13 * 86400);
+  expect(cookie.expires - Date.now() / 1000).toBeLessThanOrEqual(14 * 86400);
+  const claims = JSON.parse(
+    Buffer.from(cookie.value.split(".")[1], "base64url").toString(),
+  );
+  expect(claims.exp - claims.iat).toBe(14 * 86400);
+  await page.close();
+  // Reopen with only persistent cookies, without restoring page memory or
+  // localStorage/IndexedDB credentials; browser-session cookies are excluded.
+  const reopened = await browser.newContext({
+    baseURL: "http://127.0.0.1:3101",
+    viewport: isMobile
+      ? { width: 390, height: 844 }
+      : { width: 1440, height: 1000 },
+    isMobile,
+    hasTouch: isMobile,
+    storageState: {
+      cookies: (await context.cookies()).filter((item) => item.expires > 0),
+      origins: [],
+    },
+  });
+  try {
+    const resumed = await reopened.newPage();
+    const credentialRequests: string[] = [];
+    resumed.on("request", (request) => {
+      const url = new URL(request.url());
+      if (
+        url.port === "9099" ||
+        url.hostname.includes("securetoken") ||
+        (url.pathname === "/api/auth" && request.method() === "POST")
+      )
+        credentialRequests.push(request.url());
+    });
+    await resumed.goto("/login");
+    await expect(resumed).toHaveURL(/dashboard$/);
+    await expect(resumed.getByLabel("Mật khẩu", { exact: true })).toHaveCount(
+      0,
+    );
+    await resumed.goto("/settings");
+    if (isMobile)
+      await resumed
+        .getByRole("button", { name: "Tài khoản", exact: true })
+        .click();
+    await expect(resumed.locator(".account-email")).toHaveText(email);
+    expect(credentialRequests).toEqual([]);
+    await resumed
+      .getByRole("button", { name: "Đăng xuất", exact: true })
+      .click();
+    await expect(resumed).toHaveURL(/login$/);
+    await expect(resumed.getByLabel("Mật khẩu", { exact: true })).toBeVisible();
+    // A new manual login can explicitly opt out of remembering the device.
+    await resumed.getByLabel("Email", { exact: true }).fill(email);
+    await resumed.getByLabel("Mật khẩu", { exact: true }).fill(password);
+    await resumed
+      .getByRole("checkbox", { name: /Ghi nhớ đăng nhập/ })
+      .uncheck();
+    await resumed
+      .getByRole("button", { name: "Đăng nhập", exact: true })
+      .click();
+    await expect(resumed).toHaveURL(/dashboard$/, { timeout: 15000 });
+    expect(
+      (await reopened.cookies()).find((item) => item.name === "myos-session")
+        ?.expires,
+    ).toBe(-1);
+  } finally {
+    await reopened.close();
+  }
+});
+
+test("expired remembered session returns to login and cannot read private data", async ({
+  page,
+  context,
+}) => {
+  const owner = await account(context.request);
+  const cookie = (await context.cookies()).find(
+    (item) => item.name === "myos-session",
+  )!;
+  const app = initializeApp({ projectId: "demo-myos" }, randomUUID());
+  try {
+    const hash = createHash("sha256").update(cookie.value).digest("hex");
+    await getFirestore(app)
+      .doc(`users/${owner.uid}/sessions/${hash}`)
+      .update({
+        expiresAt: Date.now() - 1000,
+      });
+    await page.goto("/login");
+    await expect(page.getByLabel("Mật khẩu", { exact: true })).toBeVisible();
+    await page.goto("/dashboard");
+    await expect(page).toHaveURL(/login$/);
+    expect((await context.request.get("/api/data?kind=profile")).status()).toBe(
+      401,
+    );
+  } finally {
+    await deleteApp(app);
+  }
+});
 
 test("calendar loads linked libraries on demand and data API reports private stage timings", async ({
   page,
@@ -648,10 +759,12 @@ test("session optimization preserves disabled account and token revocation check
     expect((await request.get("/api/data?kind=profile")).status()).toBe(200);
     await getAuth(app).updateUser(disabled.uid, { disabled: true });
     expect((await second.get("/api/data?kind=profile")).status()).toBe(401);
+    expect((await second.get("/login")).url()).toMatch(/login$/);
     // Auth tokens use seconds; revoke after the creation second has passed.
     await new Promise((resolve) => setTimeout(resolve, 1100));
     await getAuth(app).revokeRefreshTokens(revoked.uid);
     expect((await request.get("/api/data?kind=profile")).status()).toBe(401);
+    expect((await request.get("/login")).url()).toMatch(/login$/);
   } finally {
     await second.dispose();
     await deleteApp(app);

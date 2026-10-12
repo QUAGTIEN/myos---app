@@ -337,9 +337,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               onPointerDown={() => router.prefetch(href)}
             >
               <MobileNavigationIcon>
-                <Icon size={20} aria-hidden="true" />
+                <Icon size={26} aria-hidden="true" />
               </MobileNavigationIcon>
-              <span>{label}</span>
             </Link>
           );
         })}

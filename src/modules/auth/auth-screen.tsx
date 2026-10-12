@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import forestBackground from "../../../public/images/login-forest.jpg";
 import { Eye, EyeOff, Sprout } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import {
   createUserWithEmailAndPassword,
   inMemoryPersistence,
@@ -16,7 +16,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { browserAuth, firebaseEnabled } from "@/lib/firebase/client";
-import { authenticatedFetch } from "@/lib/firebase/cloud-client";
+import { authenticatedFetch, csrfToken } from "@/lib/firebase/cloud-client";
 type Mode = "login" | "register" | "forgot";
 function authMessage(cause: unknown) {
   const code =
@@ -73,6 +73,13 @@ export function AuthScreen({ mode }: { mode: Mode }) {
   const [created, setCreated] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  useEffect(() => {
+    if (firebaseEnabled && mode !== "forgot") {
+      // Prepare the shared token while the user fills the form; submit retries
+      // token preparation normally if this speculative request fails.
+      void csrfToken().catch(() => {});
+    }
+  }, [mode]);
   const title =
     mode === "register"
       ? "Tạo tài khoản"
@@ -124,7 +131,7 @@ export function AuthScreen({ mode }: { mode: Mode }) {
         await updateProfile(credential.user, { displayName: name.trim() });
       }
       await authenticatedFetch("/api/auth", {
-        idToken: await credential.user.getIdToken(true),
+        idToken: await credential.user.getIdToken(),
         remember,
       });
       await signOut(auth);
@@ -232,7 +239,7 @@ export function AuthScreen({ mode }: { mode: Mode }) {
                     checked={remember}
                     onChange={(e) => setRemember(e.target.checked)}
                   />
-                  Ghi nhớ đăng nhập
+                  Ghi nhớ đăng nhập (14 ngày)
                 </label>
                 <Link href="/forgot-password">Quên mật khẩu?</Link>
               </div>
