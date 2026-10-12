@@ -288,6 +288,10 @@
   .calendar-design-shell {
     --calendar-gutter: 16px;
     --mobile-nav-height: 52px;
+  }
+  .app-shell[data-module="calendar"],
+  .app-shell[data-module="notes"],
+  .app-shell[data-module="projects"] {
     --mobile-header:
       linear-gradient(#102f49c4, #102f49c4),
       url("/images/calendar-aurora.webp") center / cover;
@@ -314,16 +318,6 @@
         var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom))
       )
       max(var(--calendar-gutter), env(safe-area-inset-left));
-  }
-  .app-shell[data-module="notes"] {
-    --mobile-header:
-      linear-gradient(#102f49c4, #102f49c4),
-      url("/images/notes-fjord.webp") center / cover;
-  }
-  .app-shell[data-module="projects"] {
-    --mobile-header:
-      linear-gradient(#102f49c4, #102f49c4),
-      url("/images/projects-waterfront.webp") center / cover;
   }
   .app-shell[data-module="notes"] .app-header,
   .app-shell[data-module="projects"] .app-header {

@@ -9,11 +9,16 @@ const modules = [
     asset: "calendar-aurora.webp",
     height: 64,
   },
-  { route: "notes", title: "Ghi chú", asset: "notes-fjord.webp", height: 72 },
+  {
+    route: "notes",
+    title: "Ghi chú",
+    asset: "calendar-aurora.webp",
+    height: 72,
+  },
   {
     route: "projects",
     title: "Dự án",
-    asset: "projects-waterfront.webp",
+    asset: "calendar-aurora.webp",
     height: 72,
   },
 ];
