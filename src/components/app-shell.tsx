@@ -183,6 +183,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div
       ref={shellRef}
+      data-module={current?.href.slice(1)}
       className={
         "app-shell" +
         (pathname === "/dashboard" ? " overview-shell" : "") +
