@@ -353,20 +353,30 @@ test("project dossier saves documents, safe links, IoT hardware, journal and fil
     ),
   ).toBe(true);
   await page.goto("/projects");
-  await page.getByRole("tab", { name: "Kanban", exact: true }).click();
-  if (isMobile)
+  if (isMobile) {
+    await expect(
+      page.getByRole("tab", { name: "Kanban", exact: true }),
+    ).toHaveCount(0);
+    await page.goto(url);
+    await page.getByRole("button", { name: "Sửa dự án", exact: true }).click();
     await page
-      .getByLabel("Trạng thái IoT giám sát môi trường")
+      .getByRole("dialog")
+      .getByLabel("Trạng thái")
       .selectOption("completed");
-  else
+    await page
+      .getByRole("button", { name: "Lưu thay đổi", exact: true })
+      .click();
+  } else {
+    await page.getByRole("tab", { name: "Kanban", exact: true }).click();
     await page
       .locator(".kanban-handle")
       .dragTo(
         page.getByRole("region", { name: "Kanban Hoàn thành", exact: true }),
       );
-  await expect(
-    page.getByRole("region", { name: "Kanban Hoàn thành", exact: true }),
-  ).toContainText("IoT giám sát môi trường");
+    await expect(
+      page.getByRole("region", { name: "Kanban Hoàn thành", exact: true }),
+    ).toContainText("IoT giám sát môi trường");
+  }
   await page.screenshot({
     path: info.outputPath("project-kanban.png"),
     fullPage: true,

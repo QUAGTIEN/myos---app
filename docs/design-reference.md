@@ -1,5 +1,7 @@
 # MyOS mobile — Phân tích ảnh tham khảo
 
+**Nguồn bổ sung đã xác nhận12/10/2026:1.docx.** Ảnh lịch Task schedule:7 cột, ngày trong vòng tròn trắng/màu, weekday phía trên; đây là nội dung app, không có khung điện thoại hoặc status bar trong crop. User yêu cầu độ đậm theo lượng việc; đó là yêu cầu riêng, không suy count từ màu xanh/cam/tím trong ảnh. Ảnh thứ hai:search pill trắng và hàng filter pill; selected nền đậm/chữ trắng, unselected trắng/chữ tối, không underline. Crop dùng để xác định dạng component và hierarchy; không suy số đo tuyệt đối/font hoặc lấy nền cyan làm màu MyOS. Dùng hai mẫu này cho Lịch và filters Ghi chú/Dự án theo [spec cập nhật](design-spec.md), [báo cáo triển khai](mobile-document-update-review.md). Yêu cầu mới đổi popup sang bottom sheet và giữ phạm vi mobile.
+
 **12/10/2026:** đã được cho phép code pilot Lịch v3; [báo cáo triển khai ứng dụng thật](calendar-implementation-review.md). Thiết kế các route còn lại chưa rollout.
 
 Ngày 11/10/2026 · Phân tích nguồn tham khảo, giữ tách biệt với thiết kế đích.

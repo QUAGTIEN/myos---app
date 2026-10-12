@@ -36,7 +36,7 @@ for (const [width, height] of [
     await page.setViewportSize({ width, height });
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    const output = resolve("docs/mobile-refinements");
+    const output = resolve("docs/mobile-document-update");
     mkdirSync(output, { recursive: true });
     const capture = async (name: string) => {
       await page.evaluate(() => document.fonts.ready);
@@ -110,10 +110,16 @@ for (const [width, height] of [
     await openAppointment(page);
     const calendarDialog = page.getByRole("dialog");
     await readableFields(page);
+    await expect
+      .poll(async () => {
+        const b = (await calendarDialog.boundingBox())!;
+        return Math.round(b.y + b.height);
+      })
+      .toBe(height);
     const box = (await calendarDialog.boundingBox())!;
-    expect(box.height).toBeLessThanOrEqual(height * 0.78);
-    expect(box.width).toBeLessThanOrEqual(width - 24);
-    expect(box.y + box.height / 2).toBeCloseTo(height / 2, 0);
+    expect(box.height).toBeLessThanOrEqual(height * 0.72 + 1);
+    expect(box.width).toBeLessThanOrEqual(width);
+    expect(box.y + box.height).toBeCloseTo(height, 0);
     await capture("calendar-create");
     await page.setViewportSize({ width, height: 480 });
     const calendarKeyboardBox = (await calendarDialog.boundingBox())!;
@@ -134,9 +140,15 @@ for (const [width, height] of [
     await page.getByRole("button", { name: "Tạo dự án", exact: true }).click();
     const projectDialog = page.getByRole("dialog");
     await readableFields(page);
+    await expect
+      .poll(async () => {
+        const b = (await projectDialog.boundingBox())!;
+        return Math.round(b.y + b.height);
+      })
+      .toBe(height);
     const projectBox = (await projectDialog.boundingBox())!;
-    expect(projectBox.height).toBeLessThanOrEqual(height * 0.78 + 1);
-    expect(projectBox.y + projectBox.height / 2).toBeCloseTo(height / 2, 0);
+    expect(projectBox.height).toBeLessThanOrEqual(height * 0.72 + 1);
+    expect(projectBox.y + projectBox.height).toBeCloseTo(height, 0);
     await capture("project-create");
     await projectDialog.getByLabel("Tên dự án").fill("Dự án kiểm tra mobile");
     await page.setViewportSize({ width, height: 480 });

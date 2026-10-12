@@ -121,12 +121,14 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => {
     const header = headerRef.current;
     if (!header) return;
+    const nav = navRef.current;
     const mobile = window.matchMedia("(max-width: 700px)");
     let previous = Math.max(0, window.scrollY);
     let travel = 0;
     let frame = 0;
     const reveal = () => {
       header.dataset.scrollHidden = "false";
+      if (nav) nav.dataset.scrollHidden = "false";
       header.dataset.scrolled = window.scrollY > 8 ? "true" : "false";
       travel = 0;
     };
@@ -145,6 +147,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         next < header.offsetHeight ||
         editing ||
         header.contains(document.activeElement) ||
+        nav?.querySelector(":focus-visible") ||
         document.querySelector('[role="dialog"]')
       ) {
         reveal();
@@ -153,6 +156,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       travel = Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
       if (Math.abs(travel) >= 18) {
         header.dataset.scrollHidden = travel > 0 ? "true" : "false";
+        if (nav) nav.dataset.scrollHidden = travel > 0 ? "true" : "false";
         travel = 0;
       }
     };
@@ -163,10 +167,12 @@ export function AppShell({ children }: { children: ReactNode }) {
     window.addEventListener("scroll", scroll, { passive: true });
     mobile.addEventListener("change", reveal);
     header.addEventListener("focusin", reveal);
+    nav?.addEventListener("focusin", reveal);
     return () => {
       window.removeEventListener("scroll", scroll);
       mobile.removeEventListener("change", reveal);
       header.removeEventListener("focusin", reveal);
+      nav?.removeEventListener("focusin", reveal);
       cancelAnimationFrame(frame);
     };
   }, [pathname]);
@@ -241,6 +247,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
           </div>
           <div className="header-right">
+            <div id="mobile-header-actions" className="mobile-header-actions" />
             <Link
               href="/settings"
               className="header-avatar"

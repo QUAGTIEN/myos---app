@@ -1,5 +1,7 @@
 # MyOS mobile — Design tokens v2
 
+**Tài liệu1.docx12/10/2026:** radius-pill999; calendar-load-medium#b4e8e2/high#55bdb2, low dùng primary-soft và4+ dùng primary; ghi chú một hàng56/title14/22. Nav52/item44/icon18/label10/14, gutter24,maxwidth340. Sheet72dvh/radius-top16/inner12–16/footer44, motion180ms/tắt theo reduced motion. Chữ nhập16 vẫn giữ. [Kiểm tra](mobile-document-update-review.md).
+
 **Override đã xác nhận 12/10/2026:** overview tabs gap4/inset4/height44, outer margin16; calendar disclosure gap16/divider1/inset-top12/trigger44; popup create/edit calendar/project width360 tối đa (viewport−40), inset12/max78dvh trừ safe/heading18/26/gap8/footer44. Form label–field4, calendar field-group10; project field gap6. Input/select/textarea/contenteditable tối thiểu16 trên mobile hoặc pointer coarse, không khóa zoom; note title giữ21. Header direction threshold18/transition180, reduced motion0. Màu, font, nav56 và radius dialog16 giữ nguyên. [Kiểm tra ứng dụng](mobile-refinements-review.md).
 
 **12/10/2026:** đã được cho phép code pilot Lịch v3; [báo cáo triển khai ứng dụng thật](calendar-implementation-review.md). Thiết kế các route còn lại chưa rollout.

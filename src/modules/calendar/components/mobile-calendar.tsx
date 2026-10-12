@@ -278,6 +278,7 @@ export function MobileCalendar({
               }
               aria-current={day === today ? "date" : undefined}
               aria-pressed={day === date}
+              data-load={Math.min(items.length, 4)}
               disabled={day < "2000-01-01" || day > "2100-12-31"}
               onClick={() => {
                 onDate(day);
@@ -285,14 +286,6 @@ export function MobileCalendar({
               }}
             >
               <span>{Number(day.slice(8))}</span>
-              <span className="mobile-month-dots" aria-hidden="true">
-                {items.slice(0, 3).map((item) => (
-                  <i
-                    key={item.eventId + item.originalStart}
-                    style={{ background: color(item) }}
-                  />
-                ))}
-              </span>
             </Button>
           );
         })}

@@ -71,7 +71,7 @@ for (const size of [
           })
           .toBe(Math.max(8, safeBottom));
         const bounds = (await nav.boundingBox())!;
-        expect(bounds.height).toBe(56);
+        expect(bounds.height).toBe(52);
         expect(
           await page.evaluate(
             () => document.documentElement.scrollWidth <= innerWidth,

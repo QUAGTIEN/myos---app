@@ -1426,10 +1426,25 @@
     display: grid;
     place-items: center;
     border-radius: 50%;
+    background: var(--surface);
   }
-  .mobile-month-grid .mobile-month-day.selected > span:first-child {
+  .mobile-month-day[data-load="1"] > span:first-child {
+    background: var(--primary-soft);
+  }
+  .mobile-month-day[data-load="2"] > span:first-child {
+    background: var(--calendar-load-medium);
+  }
+  .mobile-month-day[data-load="3"] > span:first-child {
+    background: var(--calendar-load-high);
+  }
+  .mobile-month-day[data-load="4"] > span:first-child {
     background: var(--primary);
     color: white;
+  }
+  .mobile-month-grid .mobile-month-day.selected > span:first-child {
+    box-shadow:
+      0 0 0 2px var(--background),
+      0 0 0 3px var(--primary);
     font-weight: 600;
   }
   .mobile-month-grid .mobile-month-day.outside-month {
@@ -1583,8 +1598,8 @@
     left: 0;
     transform: none;
     width: 100%;
-    max-height: calc(90dvh - env(safe-area-inset-top));
-    padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+    max-height: calc(72dvh - env(safe-area-inset-top));
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
     border-radius: 16px 16px 0 0;
     overscroll-behavior: contain;
   }
@@ -1773,16 +1788,14 @@
     margin-top: 0;
   }
   .calendar-design-dialog {
-    top: 50%;
-    bottom: auto;
+    top: auto;
+    bottom: 0;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(360px, calc(100% - 40px));
-    max-height: calc(
-      78dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
-    );
-    border-radius: 16px;
-    padding: 12px;
+    transform: translateX(-50%);
+    width: min(420px, 100%);
+    max-height: calc(72dvh - env(safe-area-inset-top));
+    border-radius: 16px 16px 0 0;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -1818,7 +1831,7 @@
     display: flex;
     flex-direction: column;
     max-height: calc(
-      78dvh - 84px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+      72dvh - 84px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
     );
   }
   .calendar-design-dialog .schedule-form > fieldset {
@@ -1886,6 +1899,6 @@
     margin-right: auto;
   }
   .calendar-design-dialog {
-    width: calc(100% - 24px);
+    width: 100%;
   }
 }

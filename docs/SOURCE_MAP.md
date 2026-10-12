@@ -30,6 +30,7 @@ MYOS/
 │   │       └── settings/page.tsx
 │   ├── components/
 │   │   ├── app-shell.tsx           # Sidebar/header, drawer tablet, bottom navigation mobile
+│   │   ├── mobile-header-action.tsx # Portal cho thao tác mobile do module sở hữu, không truy vấn dữ liệu
 │   │   ├── use-mobile.ts           # Media query 700 px với server snapshot ổn định
 │   │   ├── settings-section.tsx    # Nhóm cài đặt gập mở mobile, giữ form đang nhập
 │   │   ├── page-ui.tsx             # Heading, empty và skeleton

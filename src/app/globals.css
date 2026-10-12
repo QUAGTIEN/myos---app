@@ -13,6 +13,8 @@
   --primary-hover: #006760;
   --accent: #00b8a9;
   --primary-soft: #e6f7f5;
+  --calendar-load-medium: #b4e8e2;
+  --calendar-load-high: #55bdb2;
   --primary-border: #c8e8e3;
   --focus: #008e85;
   --skeleton: #e0edf0;
@@ -23,6 +25,7 @@
   --radius: 8px;
   --radius-control: 6px;
   --radius-dialog: 10px;
+  --radius-pill: 999px;
   --text-body: 14px;
   --text-label: 14px;
   --text-meta: 12px;
@@ -52,10 +55,11 @@
     #075664 55%,
     #007f78 100%
   );
-  --mobile-nav-height: 56px;
+  --mobile-nav-height: 52px;
   --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 .mobile-brand,
+.mobile-header-actions,
 .mobile-bottom-nav {
   display: none;
 }
@@ -122,33 +126,67 @@
     position: fixed;
     z-index: var(--layer-header);
     bottom: max(8px, var(--mobile-safe-bottom));
-    left: max(10px, env(safe-area-inset-left));
-    right: max(10px, env(safe-area-inset-right));
+    left: 50%;
+    right: auto;
+    width: min(
+      340px,
+      calc(100% - 48px - env(safe-area-inset-left) - env(safe-area-inset-right))
+    );
+    transform: translateX(-50%);
+    transition:
+      transform 180ms ease,
+      opacity 180ms ease;
     background: var(--sidebar);
-    min-height: 56px;
+    min-height: 52px;
     padding: 4px;
     border-radius: 18px;
     box-shadow: 0 4px 16px #102f4920;
+  }
+  .app-shell .mobile-bottom-nav[data-scroll-hidden="true"] {
+    transform: translate(
+      -50%,
+      calc(100% + max(8px, var(--mobile-safe-bottom)))
+    );
+    opacity: 0;
+    pointer-events: none;
+  }
+  .mobile-header-actions:not(:empty) {
+    display: flex;
+  }
+  .mobile-header-create {
+    color: white;
+    width: 44px;
+    min-height: 44px;
+    border-radius: var(--radius-control);
+  }
+  .mobile-header-create:hover,
+  .mobile-header-create:focus-visible {
+    background: #ffffff26;
+    color: white;
+  }
+  .app-shell .mobile-create-in-toolbar {
+    display: none;
   }
   .mobile-bottom-link {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 48px;
+    min-height: 44px;
     justify-content: center;
     gap: 2px;
     padding: 0 2px;
     color: #c5d6e5;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
-    line-height: 16px;
+    line-height: 14px;
     text-align: center;
+    white-space: nowrap;
   }
   .mobile-bottom-icon {
     display: grid;
     place-items: center;
-    width: 36px;
-    height: 24px;
+    width: 32px;
+    height: 20px;
     border-radius: 8px;
     transition: background 180ms ease;
   }
@@ -198,6 +236,9 @@
   .app-shell .app-header {
     transition: none;
   }
+  .app-shell .mobile-bottom-nav {
+    transition: none;
+  }
   .mobile-bottom-icon {
     transition: none;
   }
@@ -216,10 +257,34 @@
   }
 }
 /* Calendar retains its approved header and content; navigation is shared. */
+@keyframes mobile-sheet-enter {
+  from {
+    translate: 0 24px;
+    opacity: 0;
+  }
+  to {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+@media (max-width: 700px) {
+  .schedule-dialog,
+  .project-modal,
+  .note-history-modal {
+    animation: mobile-sheet-enter 180ms ease-out;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .schedule-dialog,
+  .project-modal,
+  .note-history-modal {
+    animation: none;
+  }
+}
 @media (max-width: 700px) {
   .calendar-design-shell {
     --calendar-gutter: 16px;
-    --mobile-nav-height: 56px;
+    --mobile-nav-height: 52px;
     --mobile-header:
       linear-gradient(#102f496b, #102f496b),
       url("/images/mobile-ocean.jpg") center 48% / cover;
@@ -245,34 +310,6 @@
         var(--mobile-nav-height) + 26px + max(8px, var(--mobile-safe-bottom))
       )
       max(var(--calendar-gutter), env(safe-area-inset-left));
-  }
-  .calendar-design-shell .mobile-bottom-nav {
-    min-height: 56px;
-    padding: 4px;
-    bottom: max(8px, var(--mobile-safe-bottom));
-    border-radius: 18px;
-    box-shadow: 0 4px 16px #102f4920;
-  }
-  .calendar-design-shell .mobile-bottom-link {
-    min-height: 48px;
-    justify-content: center;
-    gap: 2px;
-    font-size: 11px;
-    line-height: 16px;
-    text-align: center;
-  }
-  .calendar-design-shell .mobile-bottom-icon {
-    width: 36px;
-    height: 24px;
-    border-radius: 8px;
-    transform: none;
-  }
-  .calendar-design-shell .mobile-bottom-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-  .calendar-design-shell .mobile-bottom-link.active .mobile-bottom-icon {
-    transform: none;
   }
 }
 @media (max-width: 359px) {

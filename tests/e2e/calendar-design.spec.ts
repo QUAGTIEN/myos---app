@@ -60,7 +60,7 @@ for (const [width, height] of [
       image.src = "/images/mobile-ocean.jpg";
       await image.decode();
     });
-    const output = resolve("docs/mobile-refinements/calendar");
+    const output = resolve("docs/mobile-document-update/calendar");
     mkdirSync(output, { recursive: true });
     const screenshots = async (state: string) =>
       page.screenshot({
@@ -82,7 +82,7 @@ for (const [width, height] of [
     });
     expect(measurements.overflow).toBe(false);
     expect(measurements.header.height).toBe(64);
-    if (width >= 375) expect(measurements.nav.height).toBe(56);
+    if (width >= 375) expect(measurements.nav.height).toBe(52);
     if (width >= 375) {
       expect(measurements.grid.y).toBe(233);
       expect(measurements.preview.y).toBe(517);
@@ -100,8 +100,14 @@ for (const [width, height] of [
       .click();
     const dialog = page.getByRole("dialog");
     await expect(dialog.locator(".mobile-calendar-event")).toHaveCount(3);
+    await expect
+      .poll(async () => {
+        const b = (await dialog.boundingBox())!;
+        return Math.round(b.y + b.height);
+      })
+      .toBe(height);
     const box = (await dialog.boundingBox())!;
-    expect(box.y + box.height / 2).toBeCloseTo(height / 2, 0);
+    expect(box.y + box.height).toBeCloseTo(height, 0);
     expect(box.x + box.width / 2).toBeCloseTo(width / 2, 0);
     await screenshots("day");
     await page.keyboard.press("Escape");
@@ -132,7 +138,7 @@ for (const [width, height] of [
     const close = (await page
       .getByRole("button", { name: "Đóng hộp thoại lịch" })
       .boundingBox())!;
-    expect(footer.y + footer.height).toBeLessThanOrEqual(height - 12);
+    expect(footer.y + footer.height).toBeLessThanOrEqual(height);
     expect(close.y).toBeGreaterThanOrEqual(12);
     const fields = (await page.locator(".schedule-form-fields").boundingBox())!;
     expect(fields.y + fields.height).toBeLessThanOrEqual(footer.y);

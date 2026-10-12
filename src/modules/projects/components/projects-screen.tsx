@@ -1,6 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MobileHeaderAction } from "@/components/mobile-header-action";
+import { useMobile } from "@/components/use-mobile";
 
 import {
   Archive,
@@ -128,9 +130,11 @@ function ProjectCardActions({
 }
 
 export function ProjectsScreen() {
+  const mobile = useMobile();
   const { projects, loading, error, pending, message, run, refresh } =
     useProjects();
-  const [layout, setLayout] = useState<"cards" | "kanban">("cards");
+  const [desktopLayout, setLayout] = useState<"cards" | "kanban">("cards");
+  const layout = mobile ? "cards" : desktopLayout;
   const [creating, setCreating] = useState(false);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
@@ -288,6 +292,20 @@ export function ProjectsScreen() {
           {message}
         </p>
       )}
+      <MobileHeaderAction>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="mobile-header-create"
+          aria-label="Tạo dự án"
+          title="Tạo dự án"
+          disabled={loading || !!error}
+          onClick={() => setCreating(true)}
+        >
+          <Plus size={20} aria-hidden="true" />
+        </Button>
+      </MobileHeaderAction>
       <Card className="project-library-workspace">
         <div className="project-search-row">
           <label className="project-search">
@@ -305,7 +323,7 @@ export function ProjectsScreen() {
           <Button
             variant="default"
             size="default"
-            className="button primary"
+            className="button primary mobile-create-in-toolbar"
             type="button"
             onClick={() => setCreating(true)}
             disabled={loading || !!error}
@@ -346,13 +364,15 @@ export function ProjectsScreen() {
                 ))}
               </div>
               <div className="project-view-controls">
-                <TabsList
-                  aria-label="Hiển thị dự án"
-                  className="project-layout-buttons"
-                >
-                  <TabsTrigger value="cards">Thẻ</TabsTrigger>
-                  <TabsTrigger value="kanban">Kanban</TabsTrigger>
-                </TabsList>
+                {!mobile && (
+                  <TabsList
+                    aria-label="Hiển thị dự án"
+                    className="project-layout-buttons"
+                  >
+                    <TabsTrigger value="cards">Thẻ</TabsTrigger>
+                    <TabsTrigger value="kanban">Kanban</TabsTrigger>
+                  </TabsList>
+                )}
 
                 <Button
                   variant="ghost"
@@ -406,7 +426,17 @@ export function ProjectsScreen() {
                 ))}
               </div>
             </div>
-            <TabsContent value={layout}>
+            <TabsContent
+              value={layout}
+              {...(mobile
+                ? {
+                    role: "region",
+                    "aria-labelledby": undefined,
+                    "aria-label": "Danh sách dự án",
+                    tabIndex: -1,
+                  }
+                : {})}
+            >
               {layout === "kanban" ? (
                 <div className="project-kanban">
                   {Object.entries(projectStatuses).map(([status, label]) => {

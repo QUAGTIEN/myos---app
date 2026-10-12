@@ -14,6 +14,7 @@ const screens = [
 
 test("calendar and project tabs support keyboard selection and named panels", async ({
   page,
+  isMobile,
 }) => {
   await page.goto("/calendar");
   const calendarTabs = page.getByRole("tablist", { name: "Phân mục lịch" });
@@ -27,6 +28,13 @@ test("calendar and project tabs support keyboard selection and named panels", as
   await expect(page.getByRole("tabpanel")).toContainText("Tháng");
   await page.goto("/projects");
   const projectTabs = page.getByRole("tablist", { name: "Hiển thị dự án" });
+  if (isMobile) {
+    await expect(projectTabs).toHaveCount(0);
+    await expect(
+      page.getByRole("region", { name: "Danh sách dự án" }),
+    ).toBeVisible();
+    return;
+  }
   await projectTabs.getByRole("tab", { name: "Thẻ", exact: true }).focus();
   await page.keyboard.press("ArrowRight");
   await expect(

@@ -703,6 +703,82 @@
   display: contents;
 }
 @media (max-width: 700px) {
+  .notes-module .note-library-workspace {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .notes-module .note-list-toolbar {
+    padding: 0;
+    border: 0;
+    flex-wrap: nowrap;
+    margin-bottom: 12px;
+  }
+  .notes-module .note-search {
+    flex-basis: auto;
+    background: var(--surface);
+    border: 0;
+    border-radius: var(--radius-pill);
+  }
+  .notes-module .note-search input {
+    min-height: 44px;
+  }
+  .notes-module .note-list-toolbar > .button {
+    flex: 0 0 44px;
+    width: 44px;
+    padding: 0;
+  }
+  .note-image-action-label {
+    display: none;
+  }
+  .notes-module .note-library-sidebar {
+    padding: 0;
+    border: 0;
+    gap: 8px;
+  }
+  .notes-module .note-library-sidebar > button:not(.note-organize-toggle) {
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: var(--radius-pill);
+    color: var(--ink);
+    background: var(--surface);
+    font-size: 12px;
+    gap: 6px;
+  }
+  .notes-module .note-library-sidebar > button.selected {
+    background: var(--primary);
+    color: white;
+  }
+  .notes-module .note-library-sidebar > button > span:last-child {
+    margin-left: 0;
+  }
+  .notes-module .note-library-main {
+    padding: 16px 0 0;
+  }
+  .notes-module .note-card {
+    min-height: 56px;
+    padding: 12px;
+    justify-content: center;
+  }
+  .notes-module .note-card-top {
+    margin: 0;
+    min-width: 0;
+  }
+  .notes-module .note-card h2 {
+    font-size: 14px;
+    line-height: 22px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .notes-module .note-card-preview,
+  .notes-module .note-card-tags,
+  .notes-module .note-card-bottom {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
   .note-library-workspace {
     min-height: 0;
   }
@@ -771,8 +847,8 @@
     transform: none;
     width: 100%;
     max-width: 100%;
-    max-height: 90dvh;
-    padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+    max-height: calc(72dvh - env(safe-area-inset-top));
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
     border-radius: 16px 16px 0 0;
   }
 }

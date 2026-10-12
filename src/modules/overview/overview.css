@@ -633,8 +633,8 @@
     font-size: 13px;
   }
   .dashboard-mobile-tabs button[aria-pressed="true"] {
-    color: var(--primary);
-    background: var(--surface);
+    color: white;
+    background: var(--primary);
     box-shadow: var(--shadow);
     font-weight: 600;
   }

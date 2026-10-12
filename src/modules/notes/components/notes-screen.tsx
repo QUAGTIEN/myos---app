@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useMobile } from "@/components/use-mobile";
+import { MobileHeaderAction } from "@/components/mobile-header-action";
 import { EmptyState, PageSkeleton } from "@/components/page-ui";
 
 import {
@@ -110,6 +111,20 @@ export function NotesScreen() {
   }
   return (
     <div className="notes-module">
+      <MobileHeaderAction>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="mobile-header-create"
+          aria-label="Tạo ghi chú"
+          title="Tạo ghi chú"
+          disabled={loading || !!error || pending}
+          onClick={() => void create()}
+        >
+          <Plus size={20} aria-hidden="true" />
+        </Button>
+      </MobileHeaderAction>
       <h1 className="sr-only">Ghi chú</h1>
       {(error || actionError) && (
         <div className="note-error" role="alert">
@@ -153,16 +168,17 @@ export function NotesScreen() {
             className="button secondary"
             type="button"
             disabled={firebaseEnabled || loading || pending || !!error}
+            aria-label="Từ ảnh"
             title={firebaseEnabled ? "Ảnh cloud sẽ triển khai sau" : undefined}
             onClick={() => imageInput.current?.click()}
           >
             <ImagePlus size={17} />
-            Từ ảnh
+            <span className="note-image-action-label">Từ ảnh</span>
           </Button>
           <Button
             variant="default"
             size="default"
-            className="button primary"
+            className="button primary mobile-create-in-toolbar"
             type="button"
             disabled={loading || !!error || pending}
             onClick={() => {
@@ -202,7 +218,8 @@ export function NotesScreen() {
                 onClick={() => selectCollection("all")}
               >
                 <NotebookPen size={17} />
-                Tất cả ghi chú<span>{live.length}</span>
+                {mobile ? "Tất cả" : "Tất cả ghi chú"}
+                <span>{live.length}</span>
               </Button>
               <Button
                 variant="ghost"
