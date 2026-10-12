@@ -194,6 +194,9 @@
     width: 18px;
     height: 18px;
   }
+  .mobile-bottom-icon[aria-busy="true"] {
+    opacity: 0.55;
+  }
   .mobile-bottom-link.active {
     color: white;
   }

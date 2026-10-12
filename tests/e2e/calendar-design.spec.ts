@@ -18,7 +18,7 @@ for (const [width, height] of [
 ]) {
   test(`calendar design is usable at ${width} × ${height}`, async ({
     page,
-  }) => {
+  }, info) => {
     await page.setViewportSize({ width, height });
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
@@ -60,7 +60,7 @@ for (const [width, height] of [
       image.src = "/images/mobile-ocean.jpg";
       await image.decode();
     });
-    const output = resolve("docs/mobile-document-update/calendar");
+    const output = info.outputPath("calendar-design");
     mkdirSync(output, { recursive: true });
     const screenshots = async (state: string) =>
       page.screenshot({

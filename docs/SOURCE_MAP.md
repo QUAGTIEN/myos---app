@@ -83,6 +83,7 @@ Rà soát bổ sung: 55 file TypeScript/React đều có vai trò route hoặc i
 | Ghi chú, ảnh, lịch sử, autosave | src/modules/notes |
 | Khung Tổng quan và Cài đặt | overview/overview-screen.tsx, settings/settings-screen.tsx |
 | Lịch mobile và bảng nhập theo ngày | calendar/components/mobile-calendar.tsx, attendance.tsx, dialogs.tsx; dùng service/repository lịch hiện hữu |
+| Lịch desktop tải động, chỉ mục ngày/kiểm tra trùng và timing cloud | calendar/components/desktop-calendar.tsx, calendar/recurrence.ts, app/api/data/route.ts; báo cáo docs/performance-implementation.md |
 | Kết nối/kho/version dữ liệu local | src/lib/local-database.ts |
 | Luồng người dùng và quy tắc thời gian | tests/e2e |
 

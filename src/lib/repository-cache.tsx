@@ -149,10 +149,11 @@ export function useRepositoryData<T>(
   kind: RepositoryKind,
   id: string | undefined,
   read: () => Promise<T>,
+  enabled = true,
 ) {
   const active = useContext(SessionActive);
   const { data, error, isLoading, mutate } = useSWR<T>(
-    active ? [kind, id ?? ""] : null,
+    active && enabled ? [kind, id ?? ""] : null,
     read,
   );
   return {

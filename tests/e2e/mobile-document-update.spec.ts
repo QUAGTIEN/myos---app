@@ -17,11 +17,11 @@ for (const [width, height] of [
 ]) {
   test(`document requirements retain navigation and content at ${width}`, async ({
     page,
-  }) => {
+  }, info) => {
     await page.setViewportSize({ width, height });
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    const output = resolve("docs/mobile-document-update");
+    const output = info.outputPath("mobile-document-update");
     mkdirSync(output, { recursive: true });
     const capture = async (name: string) => {
       await page.evaluate(() => document.fonts.ready);

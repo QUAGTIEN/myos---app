@@ -67,6 +67,8 @@ Kiểm chứng trong `tests/e2e/notes.spec.ts`; quyết định tại [ADR G4](.
 
 ## Lịch
 
+Hiệu năng mobile 12/10/2026: `desktop-calendar.tsx` tải động FullCalendar/plugins và tính DTO chỉ cho desktop; `mobile-calendar.tsx` dùng bảng occurrence theo ngày memoize từ `recurrence.ts`. Kiểm tra trùng dùng chỉ mục khoảng thời gian và giữ thứ tự/các trường hợp end exclusive/ngoại lệ. Form chỉ tính lại trùng khi trường thời gian/loại/phạm vi thay đổi; vẫn validate toàn bộ input trước lưu. Projects/Notes hooks dùng cùng cache, có thể bật khi mở bộ chọn hoặc theo query liên kết.
+
 Ca sử dụng: tab Lịch xem tháng/tuần; thêm lịch hẹn/công việc/ghi chú ở từng ô ngày. Tab Chấm công tạo công việc và bảng chấm tháng riêng; vẫn giữ lịch lặp tuần, ngoại lệ, nhóm/bộ lịch, liên kết và xuất .ics.
 
 calendar-book.tsx giữ form bộ lịch, lưới năm đã bỏ. Groups hiện hữu là bộ lịch lưu riêng: tên/màu, sự kiện theo groupId; tạo nhanh dùng bộ đang chọn. Sao chép nhóm và masters/ngoại lệ nguyên tử; bản sao cùng khoảng ngày có ID riêng, không mang liên kết và trạng thái hoàn thành từ bản gốc. Chưa có dịch toàn bộ bộ lịch sang kỳ mới. Tab đang chọn được giữ trong sessionStorage; nội dung vẫn ở IndexedDB.

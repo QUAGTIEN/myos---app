@@ -1,9 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import { signOut } from "firebase/auth";
 import { browserAuth } from "@/lib/firebase/client";
-import { authenticatedFetch } from "@/lib/firebase/cloud-client";
+import { authenticatedFetch, csrfToken } from "@/lib/firebase/cloud-client";
 import type { AccountProfile } from "@/lib/firebase/profile";
 import { RepositoryCacheProvider } from "@/lib/repository-cache";
 const AccountContext = createContext<{
@@ -18,6 +24,13 @@ export function AccountProvider({
   children: ReactNode;
 }) {
   const [profile, setProfile] = useState(initial);
+  useEffect(() => {
+    // Warm the shared token without blocking reads; mutations retry if warm-up fails.
+    const timer = window.setTimeout(() => {
+      void csrfToken().catch(() => {});
+    }, 1000);
+    return () => window.clearTimeout(timer);
+  }, []);
   return (
     <AccountContext.Provider value={{ profile, setProfile }}>
       <RepositoryCacheProvider key={initial.uid}>

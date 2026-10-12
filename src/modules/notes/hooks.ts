@@ -13,9 +13,12 @@ import {
 } from "./model";
 import { noteService, prepareImages } from "./service";
 
-export function useNotes(id?: string) {
-  const result = useRepositoryData<Note[] | Note | null>("notes", id, () =>
-    id ? noteRepository.get(id) : noteRepository.list(),
+export function useNotes(id?: string, enabled = true) {
+  const result = useRepositoryData<Note[] | Note | null>(
+    "notes",
+    id,
+    () => (id ? noteRepository.get(id) : noteRepository.list()),
+    enabled,
   );
   return {
     notes: Array.isArray(result.data) ? result.data : [],

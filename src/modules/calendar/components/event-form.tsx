@@ -50,12 +50,19 @@ export function EventForm({
   const [baseline, setBaseline] = useState(JSON.stringify(initial));
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
+  const [linksOpen, setLinksOpen] = useState(
+    !!initial.projectIds.length || !!initial.noteIds.length,
+  );
   const {
     projects,
     loading: projectsLoading,
     error: projectError,
-  } = useProjects();
-  const { notes, loading: notesLoading, error: noteError } = useNotes();
+  } = useProjects(undefined, linksOpen);
+  const {
+    notes,
+    loading: notesLoading,
+    error: noteError,
+  } = useNotes(undefined, linksOpen);
   const one = !!event?.repeat && scope === "one";
   const label =
     input.entryKind === "note"
@@ -63,22 +70,37 @@ export function EventForm({
       : input.entryKind === "task"
         ? "công việc"
         : "lịch hẹn";
-  const conflicts = useMemo(() => {
+  const { entryKind, start, end, allDay, repeat } = input;
+  // Descriptive edits do not change overlap; submit still validates the full input.
+  const scheduleInput = useMemo(
+    () => ({
+      ...initial,
+      title: initial.title || "Lịch",
+      entryKind,
+      start,
+      end,
+      allDay,
+      repeat,
+    }),
+    [initial, entryKind, start, end, allDay, repeat],
+  );
+  const candidate = useMemo(() => {
     try {
-      return conflictingEvents(
-        events,
-        event
-          ? editCalendarEvent(
-              event,
-              input,
-              one ? occurrence?.originalStart : undefined,
-            )
-          : newCalendarEvent(input),
-      );
+      return event
+        ? editCalendarEvent(
+            event,
+            scheduleInput,
+            one ? occurrence?.originalStart : undefined,
+          )
+        : newCalendarEvent(scheduleInput);
     } catch {
-      return [];
+      return null;
     }
-  }, [events, event, input, one, occurrence]);
+  }, [event, scheduleInput, one, occurrence]);
+  const conflicts = useMemo(
+    () => (candidate ? conflictingEvents(events, candidate) : []),
+    [events, candidate],
+  );
   function change(patch: Partial<EventInput>) {
     setInput((current) => ({ ...current, ...patch }));
   }
@@ -386,7 +408,8 @@ export function EventForm({
             )}
             <details
               className="schedule-links"
-              open={!!input.projectIds.length || !!input.noteIds.length}
+              open={linksOpen}
+              onToggle={(event) => setLinksOpen(event.currentTarget.open)}
             >
               <summary>Liên kết Dự án / Ghi chú</summary>
               {(projectError || noteError) && (
@@ -476,7 +499,15 @@ export function EventForm({
         {conflicts.length > 0 && (
           <p className="schedule-warning" role="status">
             Trùng thời gian:{" "}
-            {[...new Set(conflicts.map((item) => item.title))]
+            {[
+              ...new Set(
+                conflicts.map((item) =>
+                  item.eventId === candidate?.id
+                    ? input.title.trim() || "Lịch"
+                    : item.title,
+                ),
+              ),
+            ]
               .slice(0, 3)
               .join(", ")}
             . Bạn sẽ được hỏi trước khi lưu.

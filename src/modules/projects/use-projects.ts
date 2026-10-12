@@ -5,12 +5,13 @@ import { useRepositoryData } from "@/lib/repository-cache";
 import { projectErrorMessage, type Project } from "./model";
 import { projectRepository } from "./repository";
 
-export function useProjects(projectId?: string) {
+export function useProjects(projectId?: string, enabled = true) {
   const result = useRepositoryData<Project[] | Project | null>(
     "projects",
     projectId,
     () =>
       projectId ? projectRepository.get(projectId) : projectRepository.list(),
+    enabled,
   );
   const [actionError, setActionError] = useState("");
   const [pending, setPending] = useState(false);

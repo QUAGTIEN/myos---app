@@ -20,7 +20,7 @@ import {
   type CalendarSettings,
   type Occurrence,
 } from "../model";
-import { expandEvents } from "../recurrence";
+import { expandEvents, occurrencesByDay } from "../recurrence";
 import type { CalendarEvent } from "../model";
 import { CalendarDialog } from "./dialogs";
 
@@ -84,15 +84,11 @@ export function MobileCalendar({
       ),
     [events, from, until, group, search],
   );
-  function onDay(day: string) {
-    return occurrences.filter(
-      (item) =>
-        localTime(item.start).toMillis() <
-          localTime(addDays(day, 1)).toMillis() &&
-        localTime(item.end).toMillis() > localTime(day).toMillis(),
-    );
-  }
-  const selected = onDay(date);
+  const indexedDays = useMemo(
+    () => occurrencesByDay(occurrences, from, until),
+    [occurrences, from, until],
+  );
+  const selected = indexedDays.get(date) ?? [];
   function color(item: Occurrence) {
     return resolveCalendarColor(
       item.color ??
@@ -260,7 +256,7 @@ export function MobileCalendar({
           </span>
         ))}
         {days.map((day) => {
-          const items = onDay(day);
+          const items = indexedDays.get(day) ?? [];
           return (
             <Button
               key={day}

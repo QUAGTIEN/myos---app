@@ -344,7 +344,8 @@ export function NotesScreen() {
                           )}
                         </div>
                         <p className="note-card-preview">
-                          {plainText(note.content) || "Chưa có nội dung."}
+                          {!mobile &&
+                            (plainText(note.content) || "Chưa có nội dung.")}
                         </p>
                         {!!note.tags.length && (
                           <div className="note-card-tags">

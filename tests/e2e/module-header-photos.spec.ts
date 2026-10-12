@@ -22,10 +22,10 @@ test("selected module photos stay inside mobile headers and preserve their contr
   page,
   isMobile,
   request,
-}) => {
+}, info) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  const output = resolve("docs/module-header-photos");
+  const output = info.outputPath("module-header-photos");
   mkdirSync(output, { recursive: true });
   for (const screen of modules) {
     const response = await request.get(`/images/${screen.asset}`);

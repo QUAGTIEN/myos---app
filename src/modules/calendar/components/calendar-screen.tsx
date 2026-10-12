@@ -2,11 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAccount } from "@/modules/auth/account-context";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import luxonPlugin from "@fullcalendar/luxon3";
-import viLocale from "@fullcalendar/core/locales/vi";
+import type FullCalendar from "@fullcalendar/react";
+import dynamic from "next/dynamic";
 import type { EventApi, DatesSetArg } from "@fullcalendar/core";
 import {
   Check,
@@ -36,10 +33,8 @@ import { useNotes } from "@/modules/notes/hooks";
 import {
   addDays,
   blankEvent,
-  calendarTextColor,
   resolveCalendarColor,
   calendarError,
-  calendarZone,
   localTime,
   wallTime,
   type CalendarEvent,
@@ -60,7 +55,10 @@ import { CalendarDialog, ExportDialog } from "./dialogs";
 import { Attendance } from "./attendance";
 import { MobileCalendar } from "./mobile-calendar";
 
-const plugins = [dayGridPlugin, interactionPlugin, luxonPlugin];
+const DesktopCalendar = dynamic(
+  () => import("./desktop-calendar").then((module) => module.DesktopCalendar),
+  { ssr: false, loading: () => <PageSkeleton /> },
+);
 const validRange = { start: "2000-01-01", end: "2100-12-31" };
 const views = [
   { id: "dayGridMonth", name: "Tháng" },
@@ -170,10 +168,17 @@ export function CalendarScreen({
     projects,
     loading: projectsLoading,
     error: projectsError,
-  } = useProjects();
-  const { notes, loading: notesLoading, error: notesError } = useNotes();
+  } = useProjects(undefined, !!query.projectId);
+  const {
+    notes,
+    loading: notesLoading,
+    error: notesError,
+  } = useNotes(undefined, !!query.noteId);
   const [range, setRange] = useState({ from: today, until: addDays(today, 1) });
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(() =>
+    localTime(today).setLocale("vi").toFormat("'tháng' M 'năm' yyyy"),
+  );
+  const [desktopReady, setDesktopReady] = useState(false);
   const [view, setView] = useState("dayGridMonth");
   const [chosenDate, setChosenDate] = useState(today);
   const [group, setGroup] = useState("");
@@ -223,7 +228,7 @@ export function CalendarScreen({
   const visibleRange = range;
   const occurrences = useMemo(
     () =>
-      expandEvents(data.events, range.from, range.until).filter(
+      (mobile ? [] : expandEvents(data.events, range.from, range.until)).filter(
         (item) =>
           (!group || item.groupId === group) &&
           (!search.trim() ||
@@ -231,7 +236,7 @@ export function CalendarScreen({
               .toLocaleLowerCase("vi")
               .includes(search.trim().toLocaleLowerCase("vi"))),
       ),
-    [data.events, range, group, search],
+    [data.events, range, group, search, mobile],
   );
   function createOnDate(
     date: string,
@@ -257,36 +262,8 @@ export function CalendarScreen({
       setActionError("");
     }
   }
-  const calendarEvents = useMemo(
-    () =>
-      occurrences.map((occurrence) => {
-        const color = resolveCalendarColor(
-          occurrence.color ??
-            data.settings.groups.find((item) => item.id === occurrence.groupId)
-              ?.color ??
-            "turquoise",
-        );
-        return {
-          id: occurrence.eventId + ":" + occurrence.originalStart,
-          title: occurrence.title,
-          start: occurrence.allDay
-            ? occurrence.start
-            : localTime(occurrence.start).toISO()!,
-          end: occurrence.allDay
-            ? occurrence.end
-            : localTime(occurrence.end).toISO()!,
-          allDay: occurrence.allDay,
-          display: "block",
-          backgroundColor: color,
-          textColor: calendarTextColor(color),
-          borderColor: "transparent",
-          classNames: occurrence.completed ? ["schedule-completed"] : [],
-          extendedProps: { occurrence },
-        };
-      }),
-    [occurrences, data.settings.groups],
-  );
   const datesSet = useCallback((info: DatesSetArg) => {
+    setDesktopReady(true);
     const next = { from: wallTime(info.start), until: wallTime(info.end) };
     setRange((current) =>
       current.from === next.from && current.until === next.until
@@ -582,6 +559,7 @@ export function CalendarScreen({
                       }
                       type="button"
                       onClick={() => calendar.current?.getApi().prev()}
+                      disabled={!desktopReady}
                     >
                       <ChevronLeft size={19} />
                     </Button>
@@ -594,6 +572,7 @@ export function CalendarScreen({
                       }
                       type="button"
                       onClick={() => calendar.current?.getApi().next()}
+                      disabled={!desktopReady}
                     >
                       <ChevronRight size={19} />
                     </Button>
@@ -613,6 +592,7 @@ export function CalendarScreen({
                         type="button"
                         key={item.id}
                         aria-pressed={view === item.id}
+                        disabled={!desktopReady}
                         onClick={() =>
                           calendar.current?.getApi().changeView(item.id)
                         }
@@ -632,6 +612,7 @@ export function CalendarScreen({
                   </label>
                   <Input
                     className="schedule-date-input"
+                    disabled={!desktopReady}
                     aria-label="Đến ngày"
                     title="Đến ngày"
                     type="date"
@@ -660,11 +641,10 @@ export function CalendarScreen({
                 </div>
               </div>
               <div className="schedule-calendar-scroll" aria-busy={pending}>
-                <FullCalendar
-                  ref={calendar}
-                  plugins={plugins}
-                  locale={viLocale}
-                  timeZone={calendarZone}
+                <DesktopCalendar
+                  calendarRef={calendar}
+                  occurrences={occurrences}
+                  settings={data.settings}
                   initialDate={chosenDate}
                   initialView={view}
                   firstDay={account?.profile.firstDay ?? 1}
@@ -678,7 +658,6 @@ export function CalendarScreen({
                   dayMaxEvents={false}
                   navLinks={false}
                   datesSet={datesSet}
-                  events={calendarEvents}
                   dayCellContent={(info) => (
                     <span className="schedule-day-heading">
                       <span>{info.dayNumberText}</span>

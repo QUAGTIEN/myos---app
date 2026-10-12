@@ -18,6 +18,8 @@ import {
   effectiveOccurrence,
   expandEvents,
   originalStarts,
+  allOccurrences,
+  occurrencesByDay,
 } from "../../src/modules/calendar/recurrence";
 import {
   editCalendarEvent,
@@ -313,4 +315,131 @@ test("all-day weekly export preserves DATE values and exclusive DTEND", () => {
   expect(imported).toHaveLength(2);
   expect(imported.every((item) => item.allDay)).toBe(true);
   expect(expandEvents([event], "2026-10-08", "2026-10-09")).toHaveLength(0);
+});
+
+test("day index preserves overnight, exclusive midnight, multi-day and moved recurring sessions", () => {
+  const overnight = series();
+  const moved = editCalendarEvent(
+    overnight,
+    {
+      ...occurrenceToInput(
+        effectiveOccurrence(overnight, overnight.start)!,
+        overnight,
+      ),
+      start: "2026-10-10T23:30",
+      end: "2026-10-11T01:00",
+    },
+    overnight.start,
+  );
+  const allDay = newCalendarEvent({
+    ...blankEvent("2026-10-06", defaultCalendarSettings),
+    title: "Cả ngày",
+    allDay: true,
+    start: "2026-10-06",
+    end: "2026-10-08",
+  });
+  const midnight = newCalendarEvent({
+    ...blankEvent("2026-10-06", defaultCalendarSettings),
+    title: "Đến nửa đêm",
+    start: "2026-10-06T22:00",
+    end: "2026-10-07T00:00",
+  });
+  const spanning = newCalendarEvent({
+    ...blankEvent("2026-09-30", defaultCalendarSettings),
+    title: "Qua biên vùng xem",
+    allDay: true,
+    start: "2026-09-30",
+    end: "2026-10-07",
+  });
+  const occurrences = expandEvents(
+    [moved, allDay, midnight, spanning],
+    "2026-10-06",
+    "2026-10-12",
+  );
+  const days = occurrencesByDay(occurrences, "2026-10-06", "2026-10-12");
+  expect(days.get("2026-10-06")!.map((item) => item.title)).toEqual([
+    "Qua biên vùng xem",
+    "Cả ngày",
+    "Đến nửa đêm",
+  ]);
+  expect(days.get("2026-10-07")!.map((item) => item.title)).toEqual([
+    "Cả ngày",
+  ]);
+  expect(days.get("2026-10-08")!.map((item) => item.title)).toEqual([
+    "Học TypeScript",
+  ]);
+  expect(days.get("2026-10-09")!.map((item) => item.title)).toEqual([
+    "Học TypeScript",
+  ]);
+  expect(days.get("2026-10-10")!.map((item) => item.originalStart)).toEqual([
+    overnight.start,
+  ]);
+  expect(days.get("2026-10-11")!.map((item) => item.originalStart)).toEqual([
+    overnight.start,
+  ]);
+  expect(days.has("2026-10-12")).toBe(false);
+});
+
+test("conflict lookup matches pairwise overlap across recurring, nested and touching intervals", () => {
+  let seed = 19;
+  function next(limit: number) {
+    seed = (seed * 16807) % 2147483647;
+    return seed % limit;
+  }
+  for (let iteration = 0; iteration < 12; iteration++) {
+    const candidate = newCalendarEvent({
+      ...blankEvent("2026-10-01", defaultCalendarSettings),
+      title: "Chuỗi",
+      start: "2026-10-01T09:00",
+      end: localTime("2026-10-01T09:00")
+        .plus({ days: next(5), hours: 1 })
+        .toFormat("yyyy-MM-dd'T'HH:mm"),
+      repeat: { weekdays: [0, 1, 2, 3, 4, 5, 6], until: "2026-10-12" },
+    });
+    const events = Array.from({ length: 15 }, (_, index) => {
+      const start = localTime("2026-10-01T09:00").plus({
+        days: next(16),
+        hours: next(12),
+      });
+      return newCalendarEvent({
+        ...blankEvent("2026-10-01", defaultCalendarSettings),
+        title: "Mục " + index,
+        start: start.toFormat("yyyy-MM-dd'T'HH:mm"),
+        end: start.plus({ hours: 1 + next(60) }).toFormat("yyyy-MM-dd'T'HH:mm"),
+        entryKind: index % 4 === 0 ? "note" : "appointment",
+      });
+    });
+    const proposed = allOccurrences(candidate);
+    const ranges = proposed.map((item) => ({
+      start: localTime(item.start).toMillis(),
+      end: localTime(item.end).toMillis(),
+    }));
+    const existing = expandEvents(
+      events,
+      proposed[0].start,
+      proposed.reduce(
+        (end, item) => (item.end > end ? item.end : end),
+        proposed[0].end,
+      ),
+    ).filter((item) => item.entryKind !== "note");
+    const external = existing.filter((item) =>
+      ranges.some(
+        (range) =>
+          localTime(item.start).toMillis() < range.end &&
+          localTime(item.end).toMillis() > range.start,
+      ),
+    );
+    const internal = proposed.filter((_, index) =>
+      ranges.some(
+        (range, other) =>
+          other !== index &&
+          ranges[index].start < range.end &&
+          ranges[index].end > range.start,
+      ),
+    );
+    expect(conflictingEvents(events, candidate)).toEqual([
+      ...external,
+      ...internal,
+    ]);
+  }
 });

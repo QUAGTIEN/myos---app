@@ -42,8 +42,14 @@ export function EventDetails({
       : occurrence.entryKind === "task"
         ? "công việc"
         : "lịch hẹn";
-  const { projects, error: projectsError } = useProjects();
-  const { notes, error: notesError } = useNotes();
+  const { projects, error: projectsError } = useProjects(
+    undefined,
+    !!occurrence.projectIds.length,
+  );
+  const { notes, error: notesError } = useNotes(
+    undefined,
+    !!occurrence.noteIds.length,
+  );
   const format = (value: string) =>
     localTime(value)
       .setLocale("vi")

@@ -40,7 +40,7 @@ test("overview cover is mobile-only and honors motion, scroll and resize", async
     )
     .not.toBe(animationTime);
   expect(await content.boundingBox()).toEqual(initialBox);
-  const output = resolve("docs/overview-cover");
+  const output = testInfo.outputPath("overview-cover");
   mkdirSync(output, { recursive: true });
   for (const [width, height] of [
     [390, 844],

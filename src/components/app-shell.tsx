@@ -12,7 +12,7 @@ import {
   Sprout,
   X,
 } from "lucide-react";
-import Link from "next/link";
+import Link, { useLinkStatus } from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useAccount } from "@/modules/auth/account-context";
@@ -23,6 +23,20 @@ const navigation = [
   { href: "/projects", label: "Dự án", icon: FolderKanban },
   { href: "/settings", label: "Cài đặt", icon: Settings2 },
 ] as const;
+
+function MobileNavigationIcon({ children }: { children: ReactNode }) {
+  const { pending } = useLinkStatus();
+  return (
+    <span className="mobile-bottom-icon" aria-busy={pending}>
+      {children}
+      {pending && (
+        <span className="sr-only" role="status">
+          Đang mở phân hệ…
+        </span>
+      )}
+    </span>
+  );
+}
 
 function Brand() {
   return (
@@ -96,6 +110,38 @@ export function AppShell({ children }: { children: ReactNode }) {
   const navRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const calendarDesign = pathname === "/calendar";
+  const initialPath = useRef(pathname);
+  useEffect(() => {
+    const connection = (
+      navigator as Navigator & {
+        connection?: { saveData?: boolean; effectiveType?: string };
+      }
+    ).connection;
+    if (connection?.saveData || connection?.effectiveType?.includes("2g"))
+      return;
+    const routes = navigation
+      .filter(({ href }) => href !== initialPath.current)
+      .map(({ href }) => href);
+    let timer: number;
+    let idle: number | undefined;
+    function warmNext() {
+      if (document.hidden) return;
+      const href = routes.shift();
+      if (!href) return;
+      router.prefetch(href);
+      timer = window.setTimeout(schedule, 500);
+    }
+    function schedule() {
+      if ("requestIdleCallback" in window)
+        idle = window.requestIdleCallback(warmNext);
+      else warmNext();
+    }
+    timer = window.setTimeout(schedule, 1200);
+    return () => {
+      window.clearTimeout(timer);
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+    };
+  }, [router]);
   useEffect(() => {
     if (!navRef.current) return;
     const shell = shellRef.current;
@@ -285,12 +331,14 @@ export function AppShell({ children }: { children: ReactNode }) {
               className={
                 active ? "mobile-bottom-link active" : "mobile-bottom-link"
               }
+              aria-label={label}
               onFocus={() => router.prefetch(href)}
               onPointerEnter={() => router.prefetch(href)}
+              onPointerDown={() => router.prefetch(href)}
             >
-              <span className="mobile-bottom-icon">
+              <MobileNavigationIcon>
                 <Icon size={20} aria-hidden="true" />
-              </span>
+              </MobileNavigationIcon>
               <span>{label}</span>
             </Link>
           );

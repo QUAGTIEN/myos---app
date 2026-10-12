@@ -34,6 +34,78 @@ import {
 import { effectiveOccurrence } from "../../src/modules/calendar/recurrence";
 
 const password = "MyOS-test-2026!";
+
+test("calendar loads linked libraries on demand and data API reports private stage timings", async ({
+  page,
+  context,
+  isMobile,
+}) => {
+  await account(context.request);
+  const reads: Record<string, number> = {};
+  let csrfReads = 0;
+  page.on("request", (request) => {
+    const url = new URL(request.url());
+    if (request.method() !== "GET") return;
+    if (url.pathname === "/api/auth") csrfReads++;
+    if (url.pathname === "/api/data") {
+      const kind = url.searchParams.get("kind")!;
+      reads[kind] = (reads[kind] ?? 0) + 1;
+    }
+  });
+  const eventsRead = page.waitForResponse(
+    (response) =>
+      new URL(response.url()).searchParams.get("kind") === "calendarEvents",
+  );
+  await page.goto("/calendar");
+  await expect(
+    page.locator(isMobile ? ".mobile-month-grid" : ".fc-daygrid-body"),
+  ).toBeVisible();
+  const response = await eventsRead;
+  expect(response.headers()["server-timing"]).toMatch(
+    /auth;dur=[\d.]+, read;dur=[\d.]+, total;dur=[\d.]+/,
+  );
+  expect(response.headers()["cache-control"]).toBe("no-store, private");
+  expect(reads).toEqual({ calendarEvents: 1, calendarSettings: 1 });
+  await openAppointment(page);
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  expect(reads.projects).toBeUndefined();
+  expect(reads.notes).toBeUndefined();
+  await dialog.locator(".schedule-links summary").click();
+  await expect.poll(() => reads.projects).toBe(1);
+  await expect.poll(() => reads.notes).toBe(1);
+  await expect(
+    dialog.getByText("Chưa có dự án.", { exact: true }),
+  ).toBeVisible();
+  await dialog
+    .getByLabel("Tên lịch hẹn", { exact: true })
+    .fill("Lịch hiệu năng");
+  const writeResponse = page.waitForResponse(
+    (response) =>
+      response.request().method() === "POST" &&
+      new URL(response.url()).pathname === "/api/data",
+  );
+  await dialog
+    .getByRole("button", { name: "Lưu lịch hẹn", exact: true })
+    .click();
+  await expect(dialog).not.toBeVisible();
+  const written = await writeResponse;
+  expect(written.status()).toBe(200);
+  expect(written.headers()["server-timing"]).toMatch(
+    /auth;dur=[\d.]+, write;dur=[\d.]+, total;dur=[\d.]+/,
+  );
+  expect(csrfReads).toBe(1);
+  expect(reads).toEqual({
+    calendarEvents: 1,
+    calendarSettings: 1,
+    projects: 1,
+    notes: 1,
+  });
+  const rejected = await context.request.post("/api/data", { data: {} });
+  expect(rejected.status()).toBe(403);
+  expect(rejected.headers()["server-timing"]).toMatch(/^total;dur=[\d.]+$/);
+  expect(rejected.headers()["cache-control"]).toBe("no-store, private");
+});
 test("calendar custom colors persist through cloud validation and recurring overrides", async ({
   page,
   context,
@@ -117,21 +189,30 @@ test("calendar custom colors persist through cloud validation and recurring over
   expect(effectiveOccurrence(saved, "2026-10-08T09:00")?.color).toBeNull();
   await page.goto("/calendar");
   await setCalendarDate(page, "2026-10-06");
+  if (isMobile)
+    await page
+      .getByRole("button", { name: "Chi tiết ngày được chọn", exact: true })
+      .click();
   const firstCell = page.locator(
     isMobile
-      ? ".mobile-day-preview .mobile-calendar-event"
+      ? ".mobile-day-preview .mobile-calendar-event > span:first-child"
       : '.fc-daygrid-day[data-date="2026-10-06"] .fc-event',
   );
   const nextCell = page.locator(
     isMobile
-      ? ".mobile-day-preview .mobile-calendar-event"
+      ? ".mobile-day-preview .mobile-calendar-event > span:first-child"
       : '.fc-daygrid-day[data-date="2026-10-08"] .fc-event',
   );
   await expect(firstCell).toHaveCSS("background-color", "rgb(197, 34, 31)");
   if (isMobile) await setCalendarDate(page, "2026-10-08");
   await expect(nextCell).toHaveCSS("background-color", "rgb(24, 128, 56)");
   await page.reload();
-  if (isMobile) await setCalendarDate(page, "2026-10-06");
+  if (isMobile) {
+    await setCalendarDate(page, "2026-10-06");
+    await page
+      .getByRole("button", { name: "Chi tiết ngày được chọn", exact: true })
+      .click();
+  }
   await expect(firstCell).toHaveCSS("background-color", "rgb(197, 34, 31)");
 });
 test("attendance cloud stores atomic months, rejects stale/foreign records and keeps offline drafts", async ({

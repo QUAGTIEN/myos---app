@@ -112,6 +112,33 @@ export function expandEvents(
     (a, b) => a.start.localeCompare(b.start) || a.title.localeCompare(b.title),
   );
 }
+
+// Index the visible days once; disclosures must not parse every event per cell.
+export function occurrencesByDay(
+  occurrences: Occurrence[],
+  from: string,
+  until: string,
+) {
+  const days: { date: string; start: number; end: number }[] = [];
+  for (let day = localTime(from); day.toISODate()! < until;) {
+    const next = day.plus({ days: 1 });
+    days.push({
+      date: day.toISODate()!,
+      start: day.toMillis(),
+      end: next.toMillis(),
+    });
+    day = next;
+  }
+  const indexed = new Map(days.map(({ date }) => [date, [] as Occurrence[]]));
+  for (const occurrence of occurrences) {
+    const start = millis(occurrence.start);
+    const end = millis(occurrence.end);
+    for (const day of days)
+      if (start < day.end && end > day.start)
+        indexed.get(day.date)!.push(occurrence);
+  }
+  return indexed;
+}
 export function conflictingEvents(
   events: CalendarEvent[],
   candidate: CalendarEvent,
@@ -133,22 +160,36 @@ export function conflictingEvents(
     from,
     until,
   ).filter((item) => item.entryKind !== "note");
-  const ranges = proposed.map((item) => ({
-    start: millis(item.start),
-    end: millis(item.end),
-  }));
+  const ranges = proposed
+    .map((item, index) => ({
+      start: millis(item.start),
+      end: millis(item.end),
+      index,
+    }))
+    .sort((a, b) => a.start - b.start);
+  const maxEnds: number[] = [];
+  for (const range of ranges)
+    maxEnds.push(Math.max(range.end, maxEnds.at(-1) ?? -Infinity));
   const external = existing.filter((item) => {
     const start = millis(item.start),
       end = millis(item.end);
-    return ranges.some((range) => start < range.end && end > range.start);
+    let low = 0;
+    let high = ranges.length;
+    while (low < high) {
+      const middle = Math.floor((low + high) / 2);
+      if (ranges[middle].start < end) low = middle + 1;
+      else high = middle;
+    }
+    return low > 0 && maxEnds[low - 1] > start;
   });
-  const internal = proposed.filter((_, index) =>
-    ranges.some(
-      (range, other) =>
-        other !== index &&
-        ranges[index].start < range.end &&
-        ranges[index].end > range.start,
-    ),
-  );
+  const conflictingIndices = new Set<number>();
+  ranges.forEach((range, index) => {
+    if (
+      (index > 0 && maxEnds[index - 1] > range.start) ||
+      (index + 1 < ranges.length && ranges[index + 1].start < range.end)
+    )
+      conflictingIndices.add(range.index);
+  });
+  const internal = proposed.filter((_, index) => conflictingIndices.has(index));
   return [...external, ...internal];
 }
