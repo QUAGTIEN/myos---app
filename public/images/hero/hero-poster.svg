@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <title>Minh hoạ bố cục cuộn nhãn — không phải ảnh nhà xưởng Sunflower</title>
+  <defs>
+    <linearGradient id="field" x2="1" y2="1"><stop stop-color="#aebdc9"/><stop offset="1" stop-color="#3a536d"/></linearGradient>
+    <linearGradient id="paper" x2="1" y2=".3"><stop stop-color="#ffffff"/><stop offset=".55" stop-color="#f0f2f3"/><stop offset="1" stop-color="#b9c5cf"/></linearGradient>
+    <linearGradient id="core" x2="1" y2="0"><stop stop-color="#718294"/><stop offset="1" stop-color="#243b51"/></linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#field)"/>
+  <path d="M0 840h1600M0 845h1600" stroke="#d6dfe5" stroke-opacity=".22"/>
+  <g transform="translate(570 205) rotate(-12 450 340)">
+    <path d="M450 145H820c108 0 195 100 195 235S928 615 820 615H450Z" fill="url(#paper)"/>
+    <ellipse cx="450" cy="380" rx="195" ry="235" fill="#e7edf1"/>
+    <ellipse cx="450" cy="380" rx="145" ry="178" fill="none" stroke="#c5d0d9" stroke-width="1.5"/>
+    <ellipse cx="450" cy="380" rx="120" ry="150" fill="none" stroke="#c5d0d9" stroke-width="1.5"/>
+    <ellipse cx="450" cy="380" rx="78" ry="105" fill="url(#core)"/>
+    <path d="M785 576c-125 87-314 103-377 95S264 615 212 643 175 828 343 847h497c-138-7-177-86-148-142 18-32 68-66 93-129Z" fill="url(#paper)"/>
+    <g fill="none" stroke="#d0d9df" stroke-width="2"><path d="M420 668h326M381 728h314M372 790h349"/></g>
+  </g>
+  <path d="M1180 98h240v140M160 690v140h200" fill="none" stroke="#d3dde4" stroke-width="1" opacity=".32"/>
+</svg>
