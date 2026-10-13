@@ -2,7 +2,7 @@
 > **Version:** 2.0 · 2026-10-13  
 > **Status:** Seven public routes approved. Internal page sections are implementation specifications subject to real content/media and user review.  
 > **Visual reference:** Sonoco homepage section storytelling + Sunflower business context  
-> **Related:** `../AGENTS.md` (working rules) · `DESIGN.md` (UI/UX and media)
+> **Related:** `../../AGENTS.md` (working rules at workspace root) · `DESIGN.md` (UI/UX and media)
 
 ## 0. What this document governs
 
@@ -306,14 +306,19 @@ public/
 
 ## 11. Recommended Next.js App Router folder structure
 
+The single `AGENTS.md` lives at the workspace root, one directory above `sunflower-website/`, and applies to the website source below it.
+
 ```text
 sunflower-website/
-├── AGENTS.md                          # Codex auto-discovered rules
 ├── README.md
 ├── docs/
+│   ├── INDEX.md                       # Canonical document map
 │   ├── DESIGN.md                      # Visual system
-│   └── STRUCTURE.md                   # This file
-├── references/                        # Internal reference screenshots (not shipped)
+│   ├── STRUCTURE.md                   # This file
+│   ├── REFERENCE_GUIDE.md              # Reference principles and links
+│   ├── ARCHITECTURE.md                 # Actual source architecture
+│   ├── IMPLEMENTATION_PLAN.md          # Delivery modules and acceptance
+│   └── PROJECT_OVERVIEW.md             # Original ERP context, not website specs
 ├── public/
 │   ├── images/{brand,hero,company,products,solutions,capabilities,projects,contact}/
 │   └── videos/hero/
@@ -357,6 +362,8 @@ sunflower-website/
 ```
 
 Folder trees show **recommended final organization**, not directories that should be created empty. Adapt to the actual existing repo. Avoid aggressive restructuring without specific benefit.
+
+Maintain one document directory as listed above. Reference screenshots live only in `../reference/desktop/` relative to the website root; link to them instead of copying them into the repository or public assets.
 
 ### Architecture responsibilities
 

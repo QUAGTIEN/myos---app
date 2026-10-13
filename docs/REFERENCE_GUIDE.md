@@ -2,7 +2,7 @@
 
 > **Version:** 1.0 · 14/10/2026  
 > **Primary reference:** https://www.sonoco.com/na  
-> **Source material:** 8 desktop screenshots **provided by the project owner** and included in `references/sonoco/desktop/`.  
+> **Source material:** 8 desktop screenshots **provided by the project owner** and included in `../reference/desktop/`.\
 > **Purpose:** Map the **observable visual design principles** of Sonoco to the approved 7-page Sunflower corporate website.  
 > **Applies to:** Sunflower website only, **not** the internal Sunflower ERP/CRM.  
 > **Working language:** Vietnamese; component names remain in English.
@@ -11,11 +11,11 @@
 
 Read in this order:
 
-1. `AGENTS.md`: **HOW TO WORK**, security and agent workflow.
+1. `../AGENTS.md`: **HOW TO WORK**, security and agent workflow.
 2. `docs/DESIGN.md`: **HOW IT LOOKS**, canonical design tokens, font, spacing, animation.
 3. `docs/STRUCTURE.md`: **WHAT TO BUILD**, seven approved pages, content and functionality.
 4. `docs/REFERENCE_GUIDE.md` (this file): **WHAT TO LEARN FROM EACH SCREENSHOT**.
-5. Open the actual images under `references/sonoco/desktop/` with an image-viewing tool before designing each corresponding section.
+5. Open the actual images under `../reference/desktop/` with an image-viewing tool before designing each corresponding section.
 
 **Priority:** Latest user-approved instructions > true Sunflower business identity/assets > `AGENTS.md`, `DESIGN.md`, `STRUCTURE.md` > this guide > subjective inference. If a reference screenshot conflicts with a fixed design token, **report the conflict and propose a change for approval**. Do not silently rewrite design colors or copy Sonoco exactly.
 
@@ -25,18 +25,18 @@ Read in this order:
 
 ## 1. INVENTORY — EIGHT SCREENSHOTS
 
-All paths are relative to the repository root. Place this document in `docs/`.
+Paths in code spans are relative to the sunflower-website repository root. Markdown links are relative to this document in docs/. The single screenshot pack is in ../reference/desktop/ at workspace level; do not create another copy.
 
 | ID | Screenshot | Observed composition | Best Sunflower target | Priority |
 |---|---|---|---|---|
-| REF-01 | `references/sonoco/desktop/01-home-cinematic-hero.png` | Dark-blue oversized curve, overlay header, rectangular landscape media at right, large white H1, green CTA | `/` → `VideoHero`, `Header` | **Critical** |
-| REF-02 | `references/sonoco/desktop/02-staggered-value-cards.png` | Deep-navy section; 5 unevenly stacked photographic cards, white text, green arrow | `/` → `WhySunflower`; `/nang-luc` | High |
-| REF-03 | `references/sonoco/desktop/03-circle-stats.png` | White/ice-blue section; 4 large floating circular metrics; generous negative space | `/gioi-thieu` and Home only **if figures are verified** | Conditional |
-| REF-04 | `references/sonoco/desktop/04-editorial-content-cards.png` | Four tall editorial image cards, bottom blue overlays, green category tags | `/du-an`; Home → featured projects | Medium |
-| REF-05 | `references/sonoco/desktop/05-interior-photo-hero.png` | Full-bleed photographic interior-page hero with centered white text and overlay navigation | `/giai-phap` or another interior-page hero | High |
-| REF-06 | `references/sonoco/desktop/06-two-column-product-gallery.png` | Two-column product categories, large cut-out item images, light-blue/white field, no boxed cards | `/san-pham` | **Critical** |
-| REF-07 | `references/sonoco/desktop/07-about-curved-blue-hero.png` | Deep-blue curved Hero, narrative text left, rounded wide photograph right, sparse arc motifs | `/gioi-thieu` → `AboutHero` | **Critical** |
-| REF-08 | `references/sonoco/desktop/08-history-editorial-split.png` | Half light-blue/half white background, large editorial photo left, historical copy right | `/gioi-thieu` → `OurStory`; `/nang-luc` feature | High |
+| REF-01 | `../reference/desktop/01-home-cinematic-hero.png` | Dark-blue oversized curve, overlay header, rectangular landscape media at right, large white H1, green CTA | `/` → `VideoHero`, `Header` | **Critical** |
+| REF-02 | `../reference/desktop/02-staggered-value-cards.png` | Deep-navy section; 5 unevenly stacked photographic cards, white text, green arrow | `/` → `WhySunflower`; `/nang-luc` | High |
+| REF-03 | `../reference/desktop/03-circle-stats.png` | White/ice-blue section; 4 large floating circular metrics; generous negative space | `/gioi-thieu` and Home only **if figures are verified** | Conditional |
+| REF-04 | `../reference/desktop/04-editorial-content-cards.png` | Four tall editorial image cards, bottom blue overlays, green category tags | `/du-an`; Home → featured projects | Medium |
+| REF-05 | `../reference/desktop/05-interior-photo-hero.png` | Full-bleed photographic interior-page hero with centered white text and overlay navigation | `/giai-phap` or another interior-page hero | High |
+| REF-06 | `../reference/desktop/06-two-column-product-gallery.png` | Two-column product categories, large cut-out item images, light-blue/white field, no boxed cards | `/san-pham` | **Critical** |
+| REF-07 | `../reference/desktop/07-about-curved-blue-hero.png` | Deep-blue curved Hero, narrative text left, rounded wide photograph right, sparse arc motifs | `/gioi-thieu` → `AboutHero` | **Critical** |
+| REF-08 | `../reference/desktop/08-history-editorial-split.png` | Half light-blue/half white background, large editorial photo left, historical copy right | `/gioi-thieu` → `OurStory`; `/nang-luc` feature | High |
 
 > IMPORTANT: These screenshots are from **different pages/positions**. They are not eight consecutive Home sections. Do not build them all sequentially on the homepage.
 
@@ -76,7 +76,7 @@ All paths are relative to the repository root. Place this document in `docs/`.
 
 ### REF-01 — HOME CINEMATIC HERO
 
-**File:** [`01-home-cinematic-hero.png`](../references/sonoco/desktop/01-home-cinematic-hero.png)  
+**File:** [`01-home-cinematic-hero.png`](../../reference/desktop/01-home-cinematic-hero.png)\
 **Applies to:** Home `VideoHero` + shared `Header`.
 
 **Visible in screenshot**
@@ -102,7 +102,7 @@ All paths are relative to the repository root. Place this document in `docs/`.
 
 ### REF-02 — STAGGERED VALUE / CAPABILITY TILES
 
-**File:** [`02-staggered-value-cards.png`](../references/sonoco/desktop/02-staggered-value-cards.png)  
+**File:** [`02-staggered-value-cards.png`](../../reference/desktop/02-staggered-value-cards.png)\
 **Applies to:** Home `WhySunflower` or `CapabilitiesHighlights`.
 
 **Visible in screenshot**
@@ -123,7 +123,7 @@ All paths are relative to the repository root. Place this document in `docs/`.
 
 ### REF-03 — CIRCULAR CORPORATE METRICS
 
-**File:** [`03-circle-stats.png`](../references/sonoco/desktop/03-circle-stats.png)  
+**File:** [`03-circle-stats.png`](../../reference/desktop/03-circle-stats.png)\
 **Applies to:** About/company overview **ONLY IF REAL VERIFIED NUMBERS EXIST**.
 
 **Visible in screenshot**
@@ -142,7 +142,7 @@ All paths are relative to the repository root. Place this document in `docs/`.
 
 ### REF-04 — IMAGE-LED EDITORIAL CARDS
 
-**File:** [`04-editorial-content-cards.png`](../references/sonoco/desktop/04-editorial-content-cards.png)  
+**File:** [`04-editorial-content-cards.png`](../../reference/desktop/04-editorial-content-cards.png)\
 **Applies to:** Home `FeaturedProjects`; `/du-an` gallery.
 
 **Visible in screenshot**
@@ -162,7 +162,7 @@ All paths are relative to the repository root. Place this document in `docs/`.
 
 ### REF-05 — INTERIOR PHOTOGRAPHIC HERO
 
-**File:** [`05-interior-photo-hero.png`](../references/sonoco/desktop/05-interior-photo-hero.png)  
+**File:** [`05-interior-photo-hero.png`](../../reference/desktop/05-interior-photo-hero.png)\
 **Applies to:** `/giai-phap` landing Hero; pattern can be reused on selected interior pages.
 
 **Visible in screenshot**
@@ -182,7 +182,7 @@ All paths are relative to the repository root. Place this document in `docs/`.
 
 ### REF-06 — PRODUCT CATALOGUE WITH OPEN BACKGROUNDS
 
-**File:** [`06-two-column-product-gallery.png`](../references/sonoco/desktop/06-two-column-product-gallery.png)  
+**File:** [`06-two-column-product-gallery.png`](../../reference/desktop/06-two-column-product-gallery.png)\
 **Applies to:** `/san-pham` product landing/featured categories.
 
 **Visible in screenshot**
@@ -202,7 +202,7 @@ All paths are relative to the repository root. Place this document in `docs/`.
 
 ### REF-07 — ABOUT HERO WITH CURVED BLUE BRAND SHAPE
 
-**File:** [`07-about-curved-blue-hero.png`](../references/sonoco/desktop/07-about-curved-blue-hero.png)  
+**File:** [`07-about-curved-blue-hero.png`](../../reference/desktop/07-about-curved-blue-hero.png)\
 **Applies to:** `/gioi-thieu` Hero; can inspire a limited `/nang-luc` blue Hero variant.
 
 **Visible in screenshot**
@@ -222,7 +222,7 @@ All paths are relative to the repository root. Place this document in `docs/`.
 
 ### REF-08 — HISTORY / COMPANY STORY EDITORIAL SPLIT
 
-**File:** [`08-history-editorial-split.png`](../references/sonoco/desktop/08-history-editorial-split.png)  
+**File:** [`08-history-editorial-split.png`](../../reference/desktop/08-history-editorial-split.png)\
 **Applies to:** `/gioi-thieu` → `OurStory`; `/nang-luc` explanatory text/photo split.
 
 **Visible in screenshot**
@@ -320,7 +320,7 @@ For every approved section:
 
 ## 7. ASSET OWNERSHIP & SHIPPING RULES
 
-`references/sonoco/desktop/*` are **reference screenshots only**:
+`../reference/desktop/*` are **reference screenshots only**:
 
 - Never import them in `src/` as customer-facing components.
 - Never copy them to `public/`, bundle in production, or host them as Sunflower business imagery.
@@ -332,8 +332,8 @@ For every approved section:
 
 ## 8. HANDOFF CHECKLIST
 
-- [ ] All 8 images in `references/sonoco/desktop/`, filenames match this file.
-- [ ] Read `AGENTS.md`, `docs/DESIGN.md`, `docs/STRUCTURE.md`.
+- [ ] All 8 images in `../reference/desktop/`, filenames match this file.
+- [ ] Read `../AGENTS.md`, `docs/DESIGN.md`, `docs/STRUCTURE.md`.
 - [ ] Open and summarize visual evidence from relevant images.
 - [ ] Do not confuse Sonoco's product names/pages with Sunflower's approved seven pages.
 - [ ] No fabricated metrics or actual-factory claims.
@@ -346,4 +346,4 @@ For every approved section:
 
 ### Suggested Codex kickoff prompt
 
-> Read `AGENTS.md`, `docs/DESIGN.md`, `docs/STRUCTURE.md`, and `docs/REFERENCE_GUIDE.md`. Open all 8 screenshots under `references/sonoco/desktop/`. Produce a visual-analysis report mapping each reference to the approved Sunflower pages, clearly separating visible facts from inferred animation/responsive behavior. Then propose a **Home desktop/mobile mockup for Header + Cinematic Video Hero + two representative sections**. Keep the existing seven-page sitemap. Do not yet implement all site routes or integrate Firebase. Explain the layout, type hierarchy, spacing, and media/assets still needed. Ask for approval of the mock before detailed component architecture and full coding.
+> Read `../AGENTS.md`, `docs/DESIGN.md`, `docs/STRUCTURE.md`, and `docs/REFERENCE_GUIDE.md`. Open all 8 screenshots under `../reference/desktop/`. Produce a visual-analysis report mapping each reference to the approved Sunflower pages, clearly separating visible facts from inferred animation/responsive behavior. Then propose a **Home desktop/mobile mockup for Header + Cinematic Video Hero + two representative sections**. Keep the existing seven-page sitemap. Do not yet implement all site routes or integrate Firebase. Explain the layout, type hierarchy, spacing, and media/assets still needed. Ask for approval of the mock before detailed component architecture and full coding.

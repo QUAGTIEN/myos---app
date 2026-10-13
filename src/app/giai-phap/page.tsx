@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { PendingPage } from '@/components/layout/PendingPage';
+import { Container } from '@/components/layout/Container';
 
 export const metadata: Metadata = { title: 'Giải pháp', description: 'Giải pháp nhận diện sản phẩm theo nhu cầu doanh nghiệp.' };
 
 export default function Page() {
-  return <PendingPage title="Giải pháp" description="Giải pháp nhận diện sản phẩm theo nhu cầu doanh nghiệp." />;
+  return <main id="main-content" className="content-page"><Container><h1>Giải pháp</h1></Container></main>;
 }
 

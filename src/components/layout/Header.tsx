@@ -79,7 +79,6 @@ export function Header() {
           {siteRoutes.slice(0, 6).map(item => <Link href={item.href} key={item.href} aria-current={pathname === item.href ? 'page' : undefined} onClick={closeMenu}>{item.label}<Arrow /></Link>)}
           <Link href="/lien-he" className="button button-primary mobile-menu-cta" onClick={closeMenu}>Yêu cầu báo giá <Arrow diagonal /></Link>
         </nav>
-        <p className="mobile-menu-note">Bản thử Header & Hero<br />Các trang nội dung đang chờ triển khai.</p>
       </dialog>
     </>
   );
