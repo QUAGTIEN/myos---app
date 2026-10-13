@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 import { useRepositoryData } from "@/lib/repository-cache";
-import { taskError, type Task } from "./model";
+import { taskError, type Task, type TaskInput } from "./model";
 import { taskRepository } from "./repository";
 import { taskService } from "./service";
 
@@ -72,11 +72,12 @@ export function useTasks() {
       setActionError("");
       result.refresh();
     },
-    create: (title: string) => run("create", () => taskService.create(title)),
+    create: (input: TaskInput) =>
+      run("create", () => taskService.create(input)),
     toggle: (task: Task) =>
       run(task.id, () => taskService.toggle(task), !task.completed),
-    rename: (task: Task, title: string) =>
-      run(task.id, () => taskService.rename(task, title)),
+    edit: (task: Task, input: TaskInput) =>
+      run(task.id, () => taskService.edit(task, input)),
     remove: (task: Task) => run(task.id, () => taskService.remove(task)),
   };
 }

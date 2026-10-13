@@ -15,17 +15,14 @@
   font-weight: 600;
   margin: 0;
 }
-.tasks-heading > span {
+.tasks-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.tasks-heading-actions > span {
   font-size: 13px;
   color: var(--muted);
-}
-.task-create {
-  display: flex;
-  gap: 10px;
-}
-.task-create > input {
-  flex: 1;
-  min-width: 0;
 }
 .tasks-toolbar {
   display: flex;
@@ -76,6 +73,20 @@
   overflow-wrap: anywhere;
   line-height: 1.6;
 }
+.task-content {
+  flex: 1;
+  min-width: 0;
+}
+.task-deadline {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.task-deadline.overdue {
+  color: var(--danger);
+  font-weight: 500;
+}
 .task-row-done .task-title {
   color: var(--muted);
   text-decoration: line-through;
@@ -88,29 +99,35 @@
 .task-actions button:last-child:hover {
   color: var(--danger);
 }
-.task-edit {
-  display: flex;
-  align-items: center;
+.task-form {
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+  background: var(--surface-soft);
+  border-radius: var(--radius-control);
+}
+.task-form-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
+  gap: 16px;
+}
+.task-form-fields label {
+  display: grid;
   gap: 8px;
-  flex: 1;
   min-width: 0;
+  font-size: 13px;
 }
-.task-edit input {
+.task-form-fields input {
+  width: 100%;
   min-width: 0;
-  flex: 1;
+  background: var(--surface);
 }
-.tasks-completed {
-  margin-top: 16px;
-}
-.tasks-completed-toggle {
-  color: var(--muted);
-  padding-left: 0;
-}
-.tasks-completed-toggle svg {
-  transform: rotate(-90deg);
-}
-.tasks-completed-toggle svg.expanded {
-  transform: rotate(0);
+.task-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
 }
 .tasks-empty {
   padding: 48px 16px;
@@ -174,11 +191,18 @@
   .tasks-heading {
     gap: 8px;
     align-items: flex-start;
+    flex-wrap: wrap;
   }
   .tasks-heading h2 {
     font-size: 16px;
+    width: 100%;
   }
-  .tasks-heading > span {
+  .tasks-heading-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .tasks-heading-actions > span {
     white-space: nowrap;
     font-size: 12px;
   }
@@ -197,15 +221,16 @@
     width: 36px;
     height: 44px;
   }
-  .task-create button {
-    padding: 0 12px;
+  .task-form {
+    padding: 12px;
+  }
+  .task-form-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .task-form-actions button,
+  .tasks-heading-actions button {
     min-height: 44px;
-  }
-  .task-edit {
-    flex-wrap: wrap;
-  }
-  .task-edit input {
-    flex-basis: 100%;
   }
   .tasks-empty {
     padding: 32px 8px;

@@ -5,10 +5,18 @@ export const taskTitleSchema = z
   .trim()
   .min(1, "Nhập tên công việc.")
   .max(200, "Tên công việc tối đa 200 ký tự.");
+export const taskInputSchema = z
+  .object({
+    title: taskTitleSchema,
+    dueDate: z.string().date("Deadline không hợp lệ.").nullable().default(null),
+  })
+  .strict();
+export type TaskInput = z.infer<typeof taskInputSchema>;
 export const taskSchema = z
   .object({
     id: z.string().uuid(),
     title: taskTitleSchema,
+    dueDate: taskInputSchema.shape.dueDate,
     completed: z.boolean(),
     version: z.number().int().positive(),
     createdAt: z.string().datetime(),

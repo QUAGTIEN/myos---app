@@ -387,6 +387,9 @@ export function OverviewScreen() {
                   <Link href="/tasks">
                     <strong>{task.title}</strong>
                   </Link>
+                  {task.dueDate && (
+                    <DueDate date={task.dueDate} today={today} />
+                  )}
                 </li>
               ))}
             </ul>
