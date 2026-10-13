@@ -9,6 +9,7 @@ import {
 import type { UserRecord } from "firebase-admin/auth";
 import { z } from "zod";
 import { projectSchema, type Project } from "@/modules/projects/model";
+import { taskSchema } from "@/modules/tasks/model";
 import {
   imageIds,
   noteSchema,
@@ -36,6 +37,7 @@ import {
 } from "@/modules/calendar/attendance-model";
 
 export const kindSchema = z.enum([
+  "tasks",
   "projects",
   "notes",
   "calendarEvents",
@@ -190,15 +192,21 @@ export async function readData(user: UserRecord, kind: Kind, id?: string) {
         throw new HttpError(404, "Công việc đã bị xóa hoặc không tồn tại.");
     }
     const value = unpack(await ref.get());
-    if (kind === "attendanceActivities" && value?.deletedAt) return null;
+    if (
+      (kind === "attendanceActivities" || kind === "tasks") &&
+      value?.deletedAt
+    )
+      return null;
     return value
-      ? (kind === "attendanceActivities"
-          ? activitySchema
-          : kind === "attendanceMonths"
-            ? attendanceMonthSchema
-            : kind === "projects"
-              ? projectSchema
-              : eventSchema
+      ? (kind === "tasks"
+          ? taskSchema
+          : kind === "attendanceActivities"
+            ? activitySchema
+            : kind === "attendanceMonths"
+              ? attendanceMonthSchema
+              : kind === "projects"
+                ? projectSchema
+                : eventSchema
         ).parse(value)
       : null;
   }
@@ -221,13 +229,15 @@ export async function readData(user: UserRecord, kind: Kind, id?: string) {
     result.push(
       ...page.docs.map((doc) => {
         const value = unpack(doc);
-        return kind === "attendanceActivities"
-          ? activitySchema.parse(value)
-          : kind === "projects"
-            ? projectSchema.parse(value)
-            : kind === "notes"
-              ? noteSchema.parse({ ...value, revisions: [] })
-              : eventSchema.parse(value);
+        return kind === "tasks"
+          ? taskSchema.parse(value)
+          : kind === "attendanceActivities"
+            ? activitySchema.parse(value)
+            : kind === "projects"
+              ? projectSchema.parse(value)
+              : kind === "notes"
+                ? noteSchema.parse({ ...value, revisions: [] })
+                : eventSchema.parse(value);
       }),
     );
     if (page.size)
@@ -245,7 +255,9 @@ export async function readData(user: UserRecord, kind: Kind, id?: string) {
   }
   return kind === "attendanceActivities"
     ? result.filter((value) => !activitySchema.parse(value).deletedAt)
-    : result;
+    : kind === "tasks"
+      ? result.filter((value) => !taskSchema.parse(value).deletedAt)
+      : result;
 }
 export async function writeData(user: UserRecord, raw: unknown) {
   const command = commandSchema.parse(raw);
@@ -273,6 +285,23 @@ export async function writeData(user: UserRecord, raw: unknown) {
       expectedVersion,
     );
     const now = new Date().toISOString();
+    if (kind === "tasks") {
+      const current = previous ? taskSchema.parse(previous) : null;
+      if (current?.deletedAt) throw new HttpError(404, "Công việc đã bị xóa.");
+      const input = taskSchema.parse(command.value);
+      if (input.id !== id || input.version !== expectedVersion + 1)
+        throw new HttpError(400, "Sai phiên bản công việc.");
+      if (!current && input.deletedAt)
+        throw new HttpError(400, "Không thể xóa công việc chưa tồn tại.");
+      const saved = taskSchema.parse({
+        ...input,
+        createdAt: current?.createdAt ?? now,
+        updatedAt: now,
+        deletedAt: input.deletedAt ? now : null,
+      });
+      tx.set(ref, pack(saved));
+      return saved;
+    }
     if (kind === "attendanceActivities" || kind === "attendanceMonths") {
       const schema =
         kind === "attendanceActivities"

@@ -57,7 +57,7 @@ import { MobileCalendar } from "./mobile-calendar";
 
 const DesktopCalendar = dynamic(
   () => import("./desktop-calendar").then((module) => module.DesktopCalendar),
-  { ssr: false, loading: () => <PageSkeleton /> },
+  { ssr: false, loading: () => <PageSkeleton variant="calendar" /> },
 );
 const validRange = { start: "2000-01-01", end: "2100-12-31" };
 const views = [
@@ -432,7 +432,6 @@ export function CalendarScreen({
       data.refresh();
     }
   }
-  if (data.loading) return <PageSkeleton />;
   const tools = (
     <CalendarTools
       actions={[
@@ -516,7 +515,9 @@ export function CalendarScreen({
         </p>
       )}
       <TabsContent value={tab}>
-        {tab === "attendance" ? (
+        {data.loading && tab === "book" ? (
+          <PageSkeleton variant="calendar" />
+        ) : tab === "attendance" ? (
           <Attendance
             today={today}
             firstDay={account?.profile.firstDay ?? 1}

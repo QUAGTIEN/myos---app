@@ -6,6 +6,7 @@ import {
   CalendarDays,
   FolderKanban,
   LayoutDashboard,
+  ListTodo,
   Menu,
   NotebookPen,
   Settings2,
@@ -19,10 +20,20 @@ import { useAccount } from "@/modules/auth/account-context";
 const navigation = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
   { href: "/calendar", label: "Lịch", icon: CalendarDays },
+  { href: "/tasks", label: "Công việc", icon: ListTodo },
   { href: "/notes", label: "Ghi chú", icon: NotebookPen },
   { href: "/projects", label: "Dự án", icon: FolderKanban },
   { href: "/settings", label: "Cài đặt", icon: Settings2 },
 ] as const;
+
+function NavigationProgress() {
+  const { pending } = useLinkStatus();
+  return pending ? (
+    <span className="navigation-progress" role="status">
+      <span className="sr-only">Đang mở trang…</span>
+    </span>
+  ) : null;
+}
 
 function MobileNavigationIcon({ children }: { children: ReactNode }) {
   const { pending } = useLinkStatus();
@@ -81,6 +92,7 @@ function SidebarContent({
               <Icon size={20} aria-hidden="true" />
               <span>{label}</span>
               {active && <span className="active-dot" />}
+              <NavigationProgress />
             </Link>
           );
         })}
@@ -321,27 +333,30 @@ export function AppShell({ children }: { children: ReactNode }) {
         className="mobile-bottom-nav"
         aria-label="Điều hướng mobile"
       >
-        {navigation.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href || pathname.startsWith(href + "/");
-          return (
-            <Link
-              key={href}
-              href={href}
-              aria-current={active ? "page" : undefined}
-              className={
-                active ? "mobile-bottom-link active" : "mobile-bottom-link"
-              }
-              aria-label={label}
-              onFocus={() => router.prefetch(href)}
-              onPointerEnter={() => router.prefetch(href)}
-              onPointerDown={() => router.prefetch(href)}
-            >
-              <MobileNavigationIcon>
-                <Icon size={26} aria-hidden="true" />
-              </MobileNavigationIcon>
-            </Link>
-          );
-        })}
+        {navigation
+          .filter((item) => item.href !== "/settings")
+          .map(({ href, label, icon: Icon }) => {
+            const active = pathname === href || pathname.startsWith(href + "/");
+            return (
+              <Link
+                key={href}
+                href={href}
+                aria-current={active ? "page" : undefined}
+                className={
+                  active ? "mobile-bottom-link active" : "mobile-bottom-link"
+                }
+                aria-label={label}
+                onFocus={() => router.prefetch(href)}
+                onPointerEnter={() => router.prefetch(href)}
+                onPointerDown={() => router.prefetch(href)}
+              >
+                <MobileNavigationIcon>
+                  <Icon size={26} aria-hidden="true" />
+                </MobileNavigationIcon>
+                <NavigationProgress />
+              </Link>
+            );
+          })}
       </nav>
     </div>
   );

@@ -11,6 +11,7 @@ import useSWR, { SWRConfig, useSWRConfig, unstable_serialize } from "swr";
 import { announceLocalChange, isOwnLocalChange } from "./local-database";
 
 export const repositoryEvents = {
+  tasks: "myos:tasks-changed",
   projects: "myos:projects-changed",
   notes: "myos:notes-changed",
   calendarEvents: "myos:calendar-changed",

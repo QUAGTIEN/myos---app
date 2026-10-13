@@ -41,15 +41,72 @@ export function PageHeading({
   );
 }
 
-export function PageSkeleton() {
+export function PageSkeleton({
+  variant = "list",
+}: {
+  variant?: "list" | "cards" | "calendar" | "overview";
+}) {
   return (
-    <div aria-label="Đang tải nội dung" role="status" className="page-skeleton">
+    <div
+      aria-label="Đang tải nội dung"
+      role="status"
+      className={"page-skeleton loading-" + variant}
+    >
       <span className="sr-only">Đang tải nội dung…</span>
-      <div className="skeleton skeleton-title" />
-      <div className="skeleton-grid">
-        {[0, 1, 2].map((item) => (
-          <div key={item} className="skeleton skeleton-panel" />
-        ))}
+      <div aria-hidden="true" className="loading-preview">
+        {variant === "calendar" ? (
+          <>
+            <div className="loading-calendar-header">
+              {Array.from({ length: 7 }, (_, i) => (
+                <span className="skeleton" key={i} />
+              ))}
+            </div>
+            <div className="loading-calendar-grid">
+              {Array.from({ length: 35 }, (_, i) => (
+                <div key={i}>
+                  <span className="skeleton" />
+                  {i % 4 === 0 && (
+                    <span className="skeleton loading-calendar-event" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
+        ) : variant === "list" ? (
+          <div className="loading-list">
+            {Array.from({ length: 5 }, (_, i) => (
+              <div className="loading-row" key={i}>
+                <span className="skeleton loading-check" />
+                <span
+                  className="skeleton"
+                  style={{ width: `${48 + (i % 3) * 15}%` }}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <>
+            {variant === "overview" && (
+              <div className="loading-metrics">
+                {[0, 1, 2, 3].map((i) => (
+                  <div className="skeleton" key={i} />
+                ))}
+              </div>
+            )}
+            <div className="loading-cards">
+              {Array.from(
+                { length: variant === "overview" ? 3 : 6 },
+                (_, i) => (
+                  <div className="loading-card" key={i}>
+                    <span className="skeleton" />
+                    <span className="skeleton" />
+                    <span className="skeleton" />
+                  </div>
+                ),
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

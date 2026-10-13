@@ -201,7 +201,7 @@ export function NotesScreen() {
           />
         </div>
         {loading ? (
-          <PageSkeleton />
+          <PageSkeleton variant="cards" />
         ) : (
           <div className="note-library">
             <aside

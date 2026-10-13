@@ -13,11 +13,6 @@ export function selectOverview(
   const unfinished = projects.filter(
     (project) => !project.archivedAt && project.status !== "completed",
   );
-  const tasks = unfinished.flatMap((project) =>
-    project.items
-      .filter((item) => item.kind === "task" && !item.completed)
-      .map((item) => ({ project, item })),
-  );
   const milestones = unfinished.flatMap((project) =>
     project.items
       .filter(
@@ -25,11 +20,13 @@ export function selectOverview(
       )
       .map((item) => ({ project, item })),
   );
-  const byDueDate = (a: (typeof tasks)[number], b: (typeof tasks)[number]) =>
+  const byDueDate = (
+    a: (typeof milestones)[number],
+    b: (typeof milestones)[number],
+  ) =>
     (a.item.dueDate || "9999").localeCompare(b.item.dueDate || "9999") ||
     a.item.title.localeCompare(b.item.title, "vi") ||
     a.item.id.localeCompare(b.item.id);
-  tasks.sort(byDueDate);
   milestones.sort(byDueDate);
   const activeProjects = unfinished
     .filter((project) => project.status === "active")
@@ -50,14 +47,10 @@ export function selectOverview(
   const dayEvents =
     day === today ? todayEvents : expandEvents(events, day, addDays(day, 1));
   return {
-    tasks,
     milestones,
     activeProjects,
     liveNotes,
     todayEvents,
     dayEvents,
-    overdueTasks: tasks.filter(
-      ({ item }) => item.dueDate && item.dueDate < today,
-    ).length,
   };
 }

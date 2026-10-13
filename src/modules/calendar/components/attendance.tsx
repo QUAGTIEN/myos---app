@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useMobile } from "@/components/use-mobile";
+import { PageSkeleton } from "@/components/page-ui";
 
 import { useEffect, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
@@ -330,12 +331,7 @@ function AttendanceMonthView(props: {
   const id = props.activity.id + "_" + props.month;
   const data = useAttendanceMonth(id);
   const { mutate } = useSWRConfig();
-  if (data.loading)
-    return (
-      <div className="panel" role="status">
-        Đang tải bảng chấm công…
-      </div>
-    );
+  if (data.loading) return <PageSkeleton variant="calendar" />;
   if (data.error && data.data === undefined)
     return (
       <p role="alert" className="schedule-error">

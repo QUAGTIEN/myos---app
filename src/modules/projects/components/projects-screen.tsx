@@ -333,7 +333,7 @@ export function ProjectsScreen() {
           </Button>
         </div>
         {loading ? (
-          <PageSkeleton />
+          <PageSkeleton variant="cards" />
         ) : (
           <>
             <div className="project-toolbar">

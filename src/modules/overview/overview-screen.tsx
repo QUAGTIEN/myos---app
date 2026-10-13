@@ -38,14 +38,9 @@ import { EventForm } from "@/modules/calendar/components/event-form";
 import { EventDetails } from "@/modules/calendar/components/event-details";
 import { useNotes } from "@/modules/notes/hooks";
 import { noteTime, plainText } from "@/modules/notes/model";
-import {
-  getProjectProgress,
-  projectErrorMessage,
-  type Project,
-  type ProjectItem,
-} from "@/modules/projects/model";
-import { projectService } from "@/modules/projects/service";
+import { getProjectProgress } from "@/modules/projects/model";
 import { useProjects } from "@/modules/projects/use-projects";
+import { useTasks } from "@/modules/tasks/use-tasks";
 import { selectOverview } from "./model";
 import "@/modules/calendar/calendar.css";
 import "@/modules/projects/projects.css";
@@ -60,6 +55,8 @@ export function OverviewScreen() {
   const calendar = useCalendar();
   const projects = useProjects();
   const notes = useNotes();
+  const tasks = useTasks();
+  const unfinishedTasks = tasks.tasks.filter((task) => !task.completed);
   const [today, setToday] = useState("");
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [noteTab, setNoteTab] = useState<"recent" | "pinned">("recent");
@@ -74,8 +71,6 @@ export function OverviewScreen() {
   } | null>(null);
   const [eventPending, setEventPending] = useState(false);
   const [eventError, setEventError] = useState("");
-  const [taskPending, setTaskPending] = useState("");
-  const [taskError, setTaskError] = useState("");
   useEffect(() => {
     const update = () =>
       setToday(DateTime.now().setZone(calendarZone).toISODate()!);
@@ -144,19 +139,6 @@ export function OverviewScreen() {
     detailEvent && selectedEvent
       ? effectiveOccurrence(detailEvent, selectedEvent.originalStart)
       : null;
-  async function completeTask(project: Project, item: ProjectItem) {
-    if (taskPending) return;
-    setTaskPending(item.id);
-    setTaskError("");
-    try {
-      await projectService.toggleItem(project, item.id);
-    } catch (cause) {
-      setTaskError(projectErrorMessage(cause));
-      projects.refresh();
-    } finally {
-      setTaskPending("");
-    }
-  }
   async function changeEvent(operation: () => Promise<unknown>) {
     if (eventPending) return;
     setEventPending(true);
@@ -171,7 +153,7 @@ export function OverviewScreen() {
       setEventPending(false);
     }
   }
-  if (!data) return <PageSkeleton />;
+  if (!data) return <PageSkeleton variant="overview" />;
   const visibleNotes =
     noteTab === "pinned"
       ? data.liveNotes.filter((note) => note.pinned)
@@ -203,14 +185,11 @@ export function OverviewScreen() {
           />
           <Metric
             icon={CircleCheck}
-            label="Checklist cần làm"
-            value={data.tasks.length}
-            state={projects}
+            label="Công việc cần làm"
+            value={unfinishedTasks.length}
+            state={tasks}
             tone="mint"
-            href="/projects"
-            detail={
-              data.overdueTasks ? data.overdueTasks + " quá hạn" : undefined
-            }
+            href="/tasks"
           />
           <Metric
             icon={FolderKanban}
@@ -238,7 +217,7 @@ export function OverviewScreen() {
         {(
           [
             ["calendar", "Lịch hôm nay"],
-            ["tasks", "Checklist"],
+            ["tasks", "Công việc"],
             ["projects", "Dự án"],
           ] as const
         ).map(([id, label]) => (
@@ -386,35 +365,28 @@ export function OverviewScreen() {
         >
           <PanelHeading
             id="overview-tasks"
-            title="Checklist cần làm"
+            title="Công việc cần làm"
             icon={CircleCheck}
-            href="/projects"
+            href="/tasks"
           />
-          {taskError && (
-            <p className="dashboard-error" role="alert">
-              {taskError}
-            </p>
-          )}
           <BlockState
-            state={projects}
-            empty={!data.tasks.length}
-            emptyText="Không có checklist cần làm"
+            state={tasks}
+            empty={!unfinishedTasks.length}
+            emptyText="Không có công việc cần làm"
           >
             <ul className="dashboard-list">
-              {data.tasks.slice(0, mobile ? 3 : 5).map(({ project, item }) => (
-                <li key={item.id} className="dashboard-task">
+              {unfinishedTasks.slice(0, mobile ? 3 : 5).map((task) => (
+                <li key={task.id} className="dashboard-task">
                   <input
                     type="checkbox"
-                    checked={taskPending === item.id}
-                    disabled={!!taskPending}
-                    aria-label={"Hoàn thành " + item.title}
-                    onChange={() => void completeTask(project, item)}
+                    checked={task.completed}
+                    disabled={tasks.pending.includes(task.id)}
+                    aria-label={"Hoàn thành " + task.title}
+                    onChange={() => void tasks.toggle(task)}
                   />
-                  <Link href={"/projects/" + project.id}>
-                    <strong>{item.title}</strong>
-                    <span>{project.title}</span>
+                  <Link href="/tasks">
+                    <strong>{task.title}</strong>
                   </Link>
-                  <DueDate date={item.dueDate} today={today} />
                 </li>
               ))}
             </ul>

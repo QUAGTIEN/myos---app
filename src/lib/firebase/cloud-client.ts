@@ -11,6 +11,7 @@ import type { ProjectRepository } from "@/modules/projects/repository";
 import type { NoteRepository } from "@/modules/notes/repository";
 import type { CalendarRepository } from "@/modules/calendar/repository";
 import { projectSchema } from "@/modules/projects/model";
+import { taskSchema } from "@/modules/tasks/model";
 import { noteSchema } from "@/modules/notes/model";
 import { profileSchema } from "./profile";
 import {
@@ -130,6 +131,7 @@ export async function cloudWrite(
   const command = z
     .object({
       kind: z.enum([
+        "tasks",
         "projects",
         "notes",
         "calendarEvents",
@@ -149,25 +151,28 @@ export async function cloudWrite(
     return id;
   }
   const saved =
-    command.kind === "attendanceActivities"
-      ? activitySchema.parse(value)
-      : command.kind === "attendanceMonths"
-        ? attendanceMonthSchema.parse(value)
-        : command.kind === "projects"
-          ? projectSchema.parse(value)
-          : command.kind === "notes"
-            ? value
-              ? noteSchema.parse(value)
-              : null
-            : command.kind === "calendarEvents"
-              ? eventSchema.parse(value)
-              : settingsSchema.parse(value);
+    command.kind === "tasks"
+      ? taskSchema.parse(value)
+      : command.kind === "attendanceActivities"
+        ? activitySchema.parse(value)
+        : command.kind === "attendanceMonths"
+          ? attendanceMonthSchema.parse(value)
+          : command.kind === "projects"
+            ? projectSchema.parse(value)
+            : command.kind === "notes"
+              ? value
+                ? noteSchema.parse(value)
+                : null
+              : command.kind === "calendarEvents"
+                ? eventSchema.parse(value)
+                : settingsSchema.parse(value);
   announceRepositorySave({
     kind: command.kind,
     id: command.id,
     value:
-      command.kind === "attendanceActivities" &&
-      activitySchema.parse(saved).deletedAt
+      (command.kind === "attendanceActivities" &&
+        activitySchema.parse(saved).deletedAt) ||
+      (command.kind === "tasks" && taskSchema.parse(saved).deletedAt)
         ? null
         : saved,
   });

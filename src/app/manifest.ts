@@ -5,7 +5,8 @@ export default function manifest(): MetadataRoute.Manifest {
     id: "/",
     name: "MyOS — Không gian cá nhân",
     short_name: "MyOS",
-    description: "Sắp xếp lịch, dự án và ghi chú trong một không gian cá nhân.",
+    description:
+      "Sắp xếp lịch, công việc, dự án và ghi chú trong một không gian cá nhân.",
     lang: "vi",
     start_url: "/dashboard",
     scope: "/",
