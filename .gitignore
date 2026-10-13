@@ -32,10 +32,7 @@ serviceAccount*.json
 firebase-export-*/
 emulator-data/
 
-# Test output and logs
-coverage/
-playwright-report/
-test-results/
+# Logs
 *.log
 
 # Local OS files

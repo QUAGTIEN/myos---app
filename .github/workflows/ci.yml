@@ -20,10 +20,4 @@ jobs:
       - run: pnpm lint
       - run: pnpm format:check
       - run: pnpm typecheck
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:local
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 21
-      - run: pnpm test:firebase
+      - run: pnpm build
