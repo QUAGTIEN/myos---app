@@ -79,21 +79,23 @@ If the repo already uses Tailwind/shadcn tokens, **map these values into the exi
 
 **Brand mark caveat:** If Sunflower's official yellow is essential in the logo, leave it in the mark and use sparingly as a decorative brand accent. Do not replace official brand assets with a Sonoco-colored logo.
 
-### Color preview requested 14/10/2026 — warm accent
+### Active color direction requested 14/10/2026 — brighter blue + orange
 
-The user requested a preview of navy/white with yellow–orange accents on Header + Hero. This is an active review variant, not final approval of new corporate brand colors. It retains the layout, typography, media and seven-page scope. The baseline palette above remains available; runtime activates the variant through `data-accent="warm"` on the root html element.
+The user's latest comparison screenshots request a fresher blue and orange buttons, superseding the earlier amber-button preview. The active interface uses the existing `--brand-blue: #00488E` for primary branded surfaces and orange for actions. Layout, typography, media and seven-page scope remain unchanged. Keep the current `data-accent="warm"` activation rather than adding another theme/source tree. The baseline palette above remains available; these are Sunflower interface choices, not a claim about Sonoco's official CSS or Sunflower's legal brand guidelines.
 
-| Preview token | Value | Role |
+| Active token | Value | Role |
 |---|---|---|
-| `--brand-amber` | `#E9AD3D` | Primary CTA background |
-| `--brand-orange` | `#D97732` | CTA hover, keyboard focus, navigation underline and small arrow/wordmark details |
-| `--surface-warm` | `#F7F5EF` | Light corner outside the Home navy Hero curve |
+| `--brand-navy` in active variant | `var(--brand-blue)` → `#00488E` | Primary blue Hero, branded surfaces and headings |
+| `--brand-navy-deep` | `#092746` | Dark button text and small video-control/caption backplates |
+| `--brand-orange` | `#F58A2B` | All primary button backgrounds, navigation underline and small arrow/wordmark details |
+| `--brand-orange-hover` | `#D97732` | Deeper orange hover background |
+| `--surface-warm` | `#F7F5EF` | Light corner outside the Home blue Hero curve |
 
-Shared UI consumes semantic tokens `--action-accent`, `--action-hover`, `--focus-accent`, `--detail-accent`, `--mark-accent` and `--hero-base`. Default values map to the baseline green/gold/light-blue palette; the warm variant maps these to amber/orange/ivory. Do not hardcode palette values in individual components or create a separate demo source tree.
+Shared UI consumes semantic tokens `--action-accent`, `--action-hover`, `--focus-accent`, `--detail-accent`, `--mark-accent` and `--hero-base`. Default values map to the baseline green/gold/light-blue palette; the active variant maps actions to orange/deeper-orange and the corner to ivory. Amber remains an unused optional token, not an action background. Focus is blue on light surfaces, white on Hero/overlay Header, and blue on the wordmark's light desktop corner; mobile wordmark uses white focus. Do not hardcode palette values in individual components or create a separate demo source tree.
 
-Calculated contrast: deep-navy `#092746` text on amber is 7.56:1, and on orange hover is 4.77:1. Orange on white is 3.16:1 and on Hero navy `#12345F` is 3.94:1; these pairings are for focus outlines/non-text details, not small orange body text. Headings/body text remain white/navy as before.
+Calculated contrast: deep-navy `#092746` text on orange is 6.15:1 and on hover is 4.77:1; white text/focus on blue is 9.06:1. Orange on blue is 3.69:1 for small non-text details. Bright orange is not used for normal body text on white. White text against an 86% blue overlay composited over white is 6.36:1; this calculation does not replace frame-by-frame/browser review.
 
-To return to the baseline, remove the root `data-accent="warm"` attribute. Choose the final accent direction after reviewing the desktop/mobile preview; keep other design rules unchanged.
+Removing the root `data-accent="warm"` attribute restores the original baseline. Do not remove it during routine implementation: the active brighter-blue/orange direction is explicitly requested by the user.
 
 ## 3. Typography & hierarchy
 
@@ -267,11 +269,11 @@ No random icon illustrations where good imagery or text tells the story better.
 
 ### G1 implementation refinement — 14/10/2026
 
-Header/Hero retains the approved navy/light composition and active warm accent. Header switches to the dialog menu below 1200px so the five links, brand descriptor and quotation action have room; its height remains 88px desktop/tablet and 76px mobile.
+Header/Hero retains the approved blue/light composition and the user's active brighter-blue/orange revision above. Header switches to the dialog menu below 1200px so the five links, brand descriptor and quotation action have room; its height remains 88px desktop/tablet and 76px mobile.
 
 Hero uses the same three phrase groups on desktop/mobile: `Giải pháp` / `tem nhãn cho` / `từng sản phẩm.`. CSS consumes `--hero-title-size` (the existing desktop type clamp), `--hero-media-min-height: 520px` and `--hero-focal-point: 70% center`. The latter two describe media geometry/framing, not new brand colors or spacing scales. Desktop media starts at 40% of the viewport, uses a 16:9 base ratio with a minimum height bounded by 60svh; the original navy arc remains. On mobile and portrait tablet, copy and footage occupy separate rows and the footage retains 16:9 because no separate portrait source exists. No stretch/upscale export is introduced.
 
-Poster stays behind the video until the `playing` event. The gradient has an explicit layer above both assets; caption/status sit on deep navy to keep small text legible. Autoplay rejection leaves a working manual Play action. Reduced motion and supported Save-Data/2G signals prevent mounting the video/source; errors return to the poster.
+Poster stays behind the video until the `playing` event. The desktop gradient has an explicit layer above both assets and protects the left text zone, fading to clear sooner at 62%; the dark bottom gradient is removed. On mobile/portrait tablet, text is outside the footage so no media overlay is needed. Caption/status remain on small deep-navy backplates to keep text legible. Autoplay rejection leaves a manual Play action. Reduced motion and supported Save-Data/2G signals prevent mounting the video/source; errors return to the poster.
 
 These are source refinements pending fresh visual review. Browser/Windows automation currently fails to initialize with `failed to write kernel assets: The system cannot find the path specified. (os error 3)`; no G1 screenshots at 1440×900/390×844 or fresh responsive certification have been produced. Validation status is tracked in IMPLEMENTATION_PLAN.md.
 

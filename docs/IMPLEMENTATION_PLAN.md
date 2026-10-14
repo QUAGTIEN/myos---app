@@ -98,7 +98,7 @@ Files thay đổi: `src/components/layout/Header.tsx`, `src/components/media/Vid
 | Tiêu chí | Đối chiếu định hướng với reference, từ source | Trạng thái |
 |---|---|---|
 | Bố cục | Giữ đường cong navy nguyên bản, chữ lớn bên trái và media từ 40% chiều rộng; khung dựa trên 16:9 thay cho chiều cao cố định cắt mạnh footage | Đã sửa source; chưa so screenshot kết quả |
-| Màu | Navy Sunflower tối hơn xanh sáng trong REF-01; vàng–cam là bản xem người dùng yêu cầu. Gradient bảo vệ chữ; caption trên deep navy | Khác biệt có chủ đích; cần rà frame thật |
+| Màu | Theo phản hồi ảnh mới của người dùng: xanh chính tươi hơn và nút cam theo DESIGN.md, thay bản navy/vàng trước. Bỏ lớp tối dưới video, rút ngắn vùng fade ngang; caption vẫn có nền deep navy nhỏ | Đã cập nhật source theo yêu cầu; cần xem ảnh kết quả mới |
 | Typography | Inter tiếng Việt, câu đầy đủ chia ba cụm; bỏ dòng riêng “cho”. Giữ clamp desktop và cân lại cỡ chữ mobile | Đã sửa source; chưa đo text wrap thực tế |
 | Spacing | Đưa copy lên 35svh có giới hạn; gutters 64/40/32/20px theo breakpoint, giảm khoảng trống mobile; Header 88/76px | Cần kiểm tra trực quan trên các viewport |
 | Responsive | Header dưới 1200px dùng dialog. Mobile/tablet dọc xếp chữ trước, video 16:9 phía dưới; không có reference mobile nên đây là adaptation Sunflower | Chưa xác nhận overflow/crop bằng trình duyệt |
@@ -108,12 +108,14 @@ Kiểm tra đã thực hiện:
 
 - `npm run lint`, `npm run typecheck`, `npm run build`: đạt.
 - Dev HTTP 200; static preview kiểm tra đủ 7 route HTTP 200, title riêng, mỗi trang một H1 và noindex. Hero chỉ xuất hiện ở Trang chủ; SSR có poster, chưa có thẻ video trước khi kiểm tra tùy chọn người dùng. Poster/video trả đúng MIME và số byte.
-- Contrast tính từ tokens: chữ deep navy trên amber 7,56:1, trên orange hover 4,77:1; caption trắng/deep navy 15,11:1, chữ trắng/navy 12,48:1. Trắng trên lớp navy 86% phủ nền trắng là 8,20:1; đây là phép tính cho màu overlay, không thay thế kiểm tra toàn bộ video frame.
+- Contrast sau chỉnh màu theo phản hồi: chữ deep navy trên cam 6,15:1, trên hover cam đậm 4,77:1; caption trắng/deep navy 15,11:1, chữ trắng/xanh chính 9,06:1. Trắng trên lớp xanh 86% phủ nền trắng là 6,36:1; đây là phép tính cho màu overlay, không thay thế kiểm tra toàn bộ video frame. Focus trắng trên Hero và xanh trên nền sáng.
 - Không thêm dependency, thư mục test/demo, ảnh tham chiếu vào public hoặc asset trùng; media Hero giữ nguyên, video 2.925.394 byte và poster 24.172 byte.
 
 Giới hạn: CUA và Windows computer-use/node runtime đều trả `failed to write kernel assets: The system cannot find the path specified. (os error 3)`. Chưa có screenshot 1440×900/390×844, chưa kiểm tra trực quan 768/1024/1920, keyboard/menu/video mới, autoplay blocked, reduced-motion/Save-Data hoặc console trong trình duyệt. Không dùng kết quả browser QA của phiên bản cũ để nghiệm thu phiên bản này. Bản xem riêng tư có thể tiếp tục cập nhật; G1 vẫn cần vòng screenshot → điều chỉnh → kiểm tra lại khi công cụ hoạt động.
 
 Logo vẫn là wordmark tạm; video iStock preview có watermark và độ phân giải 768×432. Đây là đầu vào G0 đã chốt cho bản xem, chưa phải media phát hành công khai.
+
+Phản hồi màu 14/10/2026: đã đối chiếu hai ảnh người dùng gửi (Sonoco và Sunflower); nền trước sẫm hơn ảnh tham chiếu và các CTA còn vàng. Điều chỉnh chỉ ở tokens/focus/overlay trong globals.css và tài liệu canonical, giữ bố cục, typography, video cùng chức năng G1. Bản màu đang hoạt động được quy định tại DESIGN.md, không tạo theme hoặc bộ source mới. CUA vẫn lỗi khởi tạo khi thử lại ở lượt này; ảnh người dùng là bằng chứng cho bản trước chỉnh màu, không thay thế screenshot/QA của bản mới.
 
 ### G2 — Các section đại diện và component chung
 

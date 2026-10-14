@@ -31,7 +31,7 @@ Tài liệu được quản lý tại một nơi: [docs/INDEX.md](docs/INDEX.md)
 
 `docs/DESIGN.md` là nguồn tokens chính. `docs/STRUCTURE.md` quy định bảy trang và chức năng. `docs/REFERENCE_GUIDE.md` hướng dẫn phân tích và áp dụng bộ ảnh Sonoco; ảnh tham chiếu gốc vẫn nằm ngoài `public/`.
 
-Theo yêu cầu xem thử, Header + Hero đang dùng accent vàng hổ phách/cam và góc nền trắng ngà. Bản thử được bật bằng `data-accent="warm"` trong `src/app/layout.tsx`; chưa chốt thành màu thương hiệu cuối. Các token và cách trở về palette nền tảng được ghi ngay trong `docs/DESIGN.md`, không tạo source demo riêng.
+Theo yêu cầu mới nhất, Header + Hero dùng xanh tươi `#00488E`, nút cam `#F58A2B` và góc nền trắng ngà. Vẫn bật bằng `data-accent="warm"` trong `src/app/layout.tsx`; thay thế bản nút vàng trước đó, không tạo theme/demo riêng. Token, contrast và lớp phủ video nhẹ hơn được ghi tại `docs/DESIGN.md`; chưa xác nhận đây là màu nhận diện pháp lý của Sunflower.
 
 Kế hoạch triển khai theo module, đầu vào và tiêu chí nghiệm thu: [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
 
