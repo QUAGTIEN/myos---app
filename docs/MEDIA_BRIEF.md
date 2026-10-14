@@ -256,3 +256,9 @@ G0 đã có danh sách media và bộ copy tại [CONTENT.md](CONTENT.md), với
 G2 giữ các originals đã nhận và xuất bản WebP web từ cùng ảnh, không thêm ảnh mới hoặc sao chép theo trang. Registries company-media.ts/product-media.ts thêm webSrc; nguồn, alt, caption và credit vẫn ở một nơi. Company: cả 5 JPG có WebP, workshop rộng 1000px, bốn ảnh landscape rộng 1200px. Products: Tem trắng cuộn, Tem màu cuộn, Mực in, Tem dệt có WebP tối đa 1000px, không phóng lớn ảnh nhỏ. Render lazy dưới Hero; không đổi video/poster.
 
 BrandIntroduction dùng workshop; WhySunflower dùng large-format-printing, print-color-samples, press-operators, printing-press — tất cả caption Ảnh minh họa ngành in + credit. ProductGallery dùng bốn ảnh đủ kích thước trên; không dùng ảnh 218px làm ảnh lớn. Chưa có visual/crop QA mới do người dùng yêu cầu bỏ kiểm thử lượt G2.
+
+## G3 — Tái sử dụng media trên Sản phẩm/Giải pháp
+
+Bổ sung WebP delivery cho Tem màu tờ, Tem trắng tờ, Máy in, Thẻ bài và Băng dính: tối đa 1600px, quality 86, không upscale. Cả 9 PNG nguồn được giữ; product-media.ts là registry chung. ProductImage giữ object-contain và không vượt kích thước nguồn; hai ảnh 218px không được kéo thành ảnh lớn. Bốn nhóm Máy quét/Hộp/Tem vải nilon/Satin dùng bố cục chữ có hướng dẫn inquiry, không có ảnh giả hoặc ảnh nhóm khác.
+
+SolutionsHero tái dùng Băng dính làm ảnh bao bì minh họa. Các use case lần lượt dùng Tem màu cuộn, Tem trắng cuộn, Printing press (Bank Phrom/Unsplash), Tem dệt và Băng dính. Đây là hình minh họa sản phẩm/ngành in, không phải bằng chứng dự án hoặc nhà máy Sunflower. Chưa có ảnh ứng dụng chuyên biệt trong solutions/ và không sao chép registry sang thư mục đó. Theo yêu cầu người dùng, chưa chạy crop/visual QA G3.

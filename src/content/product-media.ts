@@ -30,6 +30,7 @@ export const productMedia = [
   {
     slug: 'tem-mau-to',
     src: '/images/products/tem-mau-to.png',
+    webSrc: '/images/products/tem-mau-to.webp',
     width: 218,
     height: 218,
     alt: 'Các mẫu nhãn chữ nhật in màu xếp lớp trên mặt gỗ.',
@@ -37,6 +38,7 @@ export const productMedia = [
   {
     slug: 'tem-trang-to',
     src: '/images/products/tem-trang-to.png',
+    webSrc: '/images/products/tem-trang-to.webp',
     width: 550,
     height: 413,
     alt: 'Các tờ nhãn chưa in nội dung với đường bế hình tròn và chữ nhật.',
@@ -52,6 +54,7 @@ export const productMedia = [
   {
     slug: 'may-in',
     src: '/images/products/may-in.png',
+    webSrc: '/images/products/may-in.webp',
     width: 400,
     height: 400,
     alt: 'Máy in tem nhãn mở nắp với một dải nhãn đang đưa ra phía trước.',
@@ -59,6 +62,7 @@ export const productMedia = [
   {
     slug: 'the-bai',
     src: '/images/products/the-bai.png',
+    webSrc: '/images/products/the-bai.webp',
     width: 218,
     height: 218,
     alt: 'Thẻ bài in đỏ hình thoi, có lỗ treo ở góc trên, đặt trên mặt gỗ.',
@@ -74,6 +78,7 @@ export const productMedia = [
   {
     slug: 'bang-dinh',
     src: '/images/products/bang-dinh.png',
+    webSrc: '/images/products/bang-dinh.webp',
     width: 1980,
     height: 1080,
     alt: 'Cuộn và dải băng dính giấy in họa tiết đặt cạnh hộp đóng gói trên mặt gỗ.',

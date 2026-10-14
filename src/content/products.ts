@@ -1,5 +1,5 @@
 // Canonical catalogue copy from docs/CONTENT.md. Names confirmed; descriptions are inquiry guidance.
-// Shared by the Home selection and future G3 catalogue; no model/stock/capacity claims.
+// Shared by Home, the catalogue and solution links; no model/stock/capacity claims.
 export const productCategories = [
   {
     "slug": "tem-trang-cuon",
@@ -79,4 +79,37 @@ export const productCategories = [
     "description": "Băng dính phục vụ đóng gói và nhu cầu sử dụng theo quy cách được lựa chọn.",
     "inquiryHint": "Mục đích sử dụng, loại vật liệu, chiều rộng/chiều dài mong muốn, số lượng."
   }
+] as const;
+
+export type ProductSlug = typeof productCategories[number]['slug'];
+
+export const productGroups = [
+  { id: 'tem-cuon-tem-to', name: 'Tem cuộn & tem tờ', description: 'Từ nhãn trắng để bổ sung thông tin đến tem in theo nhận diện. Bắt đầu bằng nội dung, cách in và cách dán nhãn.', slugs: ['tem-trang-cuon', 'tem-mau-cuon', 'tem-trang-to', 'tem-mau-to'] },
+  { id: 'nhan-may-mac-the-bai', name: 'Nhãn may mặc & thẻ bài', description: 'Thông tin thương hiệu và sản phẩm được trao đổi cùng vị trí gắn, nội dung và cách hoàn thiện từng loại nhãn, thẻ.', slugs: ['tem-det', 'the-bai', 'tem-vai-nilon', 'satin'] },
+  { id: 'hop-bang-dinh', name: 'Hộp & băng dính', description: 'Xem xét hạng mục đóng gói từ kích thước sản phẩm, hình thức trình bày đến nội dung in và cách sử dụng.', slugs: ['hop', 'bang-dinh'] },
+  { id: 'muc-in-thiet-bi', name: 'Mực in & thiết bị', description: 'Trao đổi theo công việc cần thực hiện, vật liệu và thiết bị đang dùng trước khi lựa chọn quy cách hoặc model.', slugs: ['muc-in', 'may-in', 'may-quet'] },
+] as const satisfies readonly { id: string; name: string; description: string; slugs: readonly ProductSlug[] }[];
+
+export const productApplications = {
+  'tem-trang-cuon': ['Thông tin sản phẩm', 'Mã hàng & quản lý'],
+  'tem-mau-cuon': ['Nhận diện thương hiệu', 'Nhãn sản phẩm'],
+  'tem-trang-to': ['Bổ sung thông tin', 'Nhãn dạng tờ'],
+  'tem-mau-to': ['Nhận diện sản phẩm', 'Nội dung in theo mẫu'],
+  'tem-det': ['Nhãn thương hiệu', 'Hoàn thiện may mặc'],
+  'the-bai': ['Thông tin sản phẩm', 'Thẻ treo thương hiệu'],
+  'tem-vai-nilon': ['Nội dung trên nhãn', 'Nhãn may mặc'],
+  'satin': ['Vật liệu làm nhãn', 'Nhãn hoàn thiện'],
+  'hop': ['Đóng gói', 'Trình bày sản phẩm'],
+  'bang-dinh': ['Đóng gói', 'Nội dung in theo yêu cầu'],
+  'muc-in': ['Vật tư in ấn', 'Lựa chọn theo thiết bị'],
+  'may-in': ['In thông tin & nhãn', 'Thiết bị theo nhu cầu'],
+  'may-quet': ['Thu thập thông tin', 'Quản lý hàng hóa'],
+} as const satisfies Record<ProductSlug, readonly string[]>;
+
+export const specificationsGuide = [
+  { title: 'Sản phẩm & mục đích', text: 'Nhóm sản phẩm cần làm hoặc vật tư, thiết bị cần tìm; cách bạn dự định sử dụng.' },
+  { title: 'Kích thước & vật liệu', text: 'Hình dạng, kích thước, bề mặt hoặc vị trí sử dụng và vật liệu mong muốn.' },
+  { title: 'Nội dung & mẫu', text: 'Ảnh mẫu, nội dung cần in hoặc file thiết kế nếu hạng mục cần thiết kế.' },
+  { title: 'Số lượng & thời điểm', text: 'Số lượng dự kiến và thời điểm mong muốn nhận hàng để cùng trao đổi phương án.' },
+  { title: 'Địa điểm & yêu cầu khác', text: 'Địa điểm giao nhận và các thông tin cần đối chiếu thêm trong quá trình tư vấn.' },
 ] as const;

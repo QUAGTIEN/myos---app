@@ -165,6 +165,14 @@ Kiểm tra tập trung: TypeScript và production build đạt. Chromium product
 
 ### G3 — Sản phẩm và Giải pháp
 
+**Trạng thái G3:** đã code hai route theo phạm vi người dùng xác nhận. ProductsHero tái sử dụng CSS 3D scene dạng compact; ProductCatalogue dùng anchor cho 4 cụm/13 nhóm, application labels, disclosure thông tin cần chuẩn bị và CTA `san-pham` bằng slug công khai. SpecificationsGuide và CTA cuối trang hoàn thiện hành trình. SolutionsHero áp dụng REF-05 với ảnh bao bì minh họa; SolutionsOverview, 5 UseCaseSections và RelatedProducts phân biệt nhu cầu với catalogue, cross-link thẳng tới anchor sản phẩm và chuyển `nhu-cau` sang Liên hệ.
+
+Không thêm filter/search, trang chi tiết, backend hoặc animation dependency. Dữ liệu sản phẩm dùng chung với Home; solutions.ts lấy từ CONTENT.md. Bốn nhóm thiếu ảnh dùng bố cục chữ; 9 ảnh có WebP delivery, không upscale ảnh nhỏ. Ảnh công đoạn có caption/credit, các nhu cầu không được trình bày thành portfolio khách hàng. Giữ xanh tươi/cam, Header solid, responsive CSS và reduced-motion của hệ thống G2.
+
+**Giới hạn nghiệm thu:** người dùng yêu cầu “không cần chạy kiểm lại”; không chạy lint, typecheck riêng, browser/functional tests hay screenshot. Chỉ build để đóng gói triển khai; không coi build là bằng chứng UI/responsive/anchor đã được QA. Trang Liên hệ chưa nhận/prefill URL; phần đó và gửi yêu cầu thật ở G5. Đánh giá trực quan G3 chờ chủ dự án xem bản demo.
+
+Build triển khai hoàn tất ngày 15/10/2026: biên dịch, TypeScript tích hợp trong Next build và static export đủ bảy route đạt. Đã sửa cách đọc media registry để WebP có fallback theo kiểu ProductMedia, tránh nhánh TypeScript `never` khi tất cả ảnh đều có webSrc. Npm được gọi bằng đường dẫn CLI có sẵn do shim Windows của bước build helper lỗi phân giải đường dẫn; không thay package hoặc kiến trúc hosting.
+
 Đợt G3.1 — Sản phẩm:
 
 - Hero trang con, nhóm sản phẩm nổi bật theo REF-06 và catalogue theo danh mục đã xác nhận.
@@ -272,8 +280,8 @@ Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá
 - [x] G1 code/QA: Header/Hero hoàn tất với footage/poster G0, screenshot và tương tác đã kiểm tra; chủ dự án duyệt bản xem trước G2.
 - [x] G2 code: section sáng/tối và component chung đã triển khai; bỏ kiểm thử theo yêu cầu người dùng, UI chờ duyệt qua bản xem.
 - [x] G2.Motion: choreography, interaction, CSS 3D scene và reduced-motion/no-JS fallback đã code; kiểm tra tập trung desktop/mobile đạt.
-- [ ] G3.1: Sản phẩm hoàn thiện.
-- [ ] G3.2: Giải pháp hoàn thiện.
+- [x] G3.1 code: Sản phẩm đủ 13 nhóm/anchor/CTA; chờ nghiệm thu UI, không chạy kiểm lại theo yêu cầu.
+- [x] G3.2 code: Giải pháp đủ 5 nhu cầu/cross-link/CTA; chờ nghiệm thu UI, prefill Liên hệ thuộc G5.
 - [ ] G4.1: Giới thiệu hoàn thiện.
 - [ ] G4.2: Năng lực hoàn thiện.
 - [ ] G4.3: Dự án/Mẫu thành phẩm hoàn thiện.

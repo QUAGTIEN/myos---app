@@ -354,6 +354,14 @@ G2.Motion adds a shared IntersectionObserver controller with progressive enhance
 
 At 1440×900 and 390×844, production-preview screenshots confirm the intended composition, complete content and no horizontal overflow. Motion state was inspected in-browser; desktop tilt changes the 3D transform, mobile menu opens/closes, and no page errors occurred. Reduced-motion keeps all reveal content visible, removes the scene movement and uses the existing static Hero poster. TypeScript and production build pass; the full G1 five-viewport/media/network test matrix and lint were not repeated for this slice.
 
+### G3 product/solution implementation — 14/10/2026
+
+Products uses an original pale-blue editorial Hero with a compact version of the existing CSS 3D scene. The interior H1 token `--interior-title-size` maps to the approved `clamp(2.8rem, 4.8vw, 5rem)`, with a mobile clamp for the actual Vietnamese phrases. Four anchor groups organize thirteen product categories; desktop uses a narrow group introduction and an open two-column catalogue, stacking to one column on mobile. Missing product photographs use useful text compositions instead of fake imagery; small photographs are capped at native dimensions. Native details/summary exposes inquiry guidance without introducing a filter or new client engine.
+
+Solutions applies REF-05 with the supplied packaging photograph, centered white typography on a deep-blue overlay and a solid shared Header. The five use cases alternate image/text order; the production scenario uses a blue field and a credited stock illustration. Product photographs are captioned as illustrations. Gallery sequencing, phrase reveals, image masks and CTA feedback reuse section 8. Reduced-motion/no-JS use the existing static fallback. No colors, motion timings or libraries were added outside the token system.
+
+The owner requested no repeated checks in G3. Responsive styles are implemented, but no new browser/screenshot, interaction or contrast QA has been performed. Build is for demo packaging only; it does not certify visual acceptance.
+
 ## 11. EXAMPLE SECTION SEQUENCE / COLOR MAP
 
 | Home sequence | Visual recipe | Background |

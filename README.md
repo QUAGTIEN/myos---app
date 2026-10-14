@@ -2,13 +2,15 @@
 
 Chỉ dẫn làm việc dùng một file duy nhất ở gốc workspace: `../AGENTS.md`. File này áp dụng cho toàn bộ source trong `sunflower-website/`.
 
-Phạm vi hiện tại: G1 Header/VideoHero và G2 các section Trang chủ + Footer dùng chung, gồm lượt hoàn thiện motion/3D. Giữ sitemap 7 trang; sáu trang con vẫn chỉ có tiêu đề/metadata và Footer, chưa triển khai nội dung/chức năng G3–G5.
+Phạm vi hiện tại: G1 Header/VideoHero, G2 các section Trang chủ + motion/3D và G3 Sản phẩm/Giải pháp. Giữ sitemap 7 trang; Giới thiệu, Năng lực, Dự án và Liên hệ còn chờ G4–G5.
+
+G3 đã triển khai `/san-pham` với Hero có CSS 3D scene, mục lục anchor, 13 nhóm trong 4 cụm, thông tin ứng dụng, disclosure hướng dẫn hỏi hàng và CTA theo slug. `/giai-phap` có Hero ảnh, 5 nhu cầu, các đoạn ảnh–chữ xen kẽ và liên kết tới đúng sản phẩm. Source dùng lại tokens/reveal controller; không cài dependency mới. Theo yêu cầu người dùng, không chạy lint, typecheck riêng, browser tests hoặc screenshot G3; build chỉ phục vụ đóng gói bản demo. Việc nhận/prefill ngữ cảnh tại Liên hệ vẫn thuộc G5.
 
 G1 đã hoàn tất code và QA: Header/menu responsive, Hero xanh tươi/nút cam, poster và Pause/Play/Retry hoạt động. Đã chụp và xem lại đủ năm viewport, sửa media gây cuộn ngang/cắt chữ rồi kiểm tra lại. Lint/typecheck/build đạt. QA Chromium headless có menu/focus, reduced motion, tín hiệu tiết kiệm dữ liệu và lỗi media; bằng chứng/giới hạn tại [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md). G2 và lượt G2.Motion đã hoàn tất trên Trang chủ.
 
 Stack: Next.js App Router, React, TypeScript, Tailwind CSS. Font Inter được self-host từ gói Fontsource, có Vietnamese subset, không phụ thuộc tải font khi build.
 
-G2 đã ghép BrandIntroduction → FeaturedProductCategories (4 nhóm) → WhySunflower → ContactCTA dưới Hero và Footer trên cả bảy route. Copy sản phẩm dùng chung ở `src/content/products.ts`; copy thương hiệu/liên hệ ở `src/content/company.ts`; selection Trang chủ ở `src/content/home.ts`. Không chạy lại lint/typecheck riêng, browser tests hoặc chụp screenshot theo yêu cầu của người dùng; chỉ build để tạo bản xem thử. Chưa nghiệm thu UI/responsive G2.
+G2 đã ghép BrandIntroduction → FeaturedProductCategories (4 nhóm) → WhySunflower → ContactCTA dưới Hero và Footer trên cả bảy route. Copy sản phẩm dùng chung ở `src/content/products.ts`; copy thương hiệu/liên hệ ở `src/content/company.ts`; selection Trang chủ ở `src/content/home.ts`. G2.Motion đã được QA tập trung desktop/mobile theo IMPLEMENTATION_PLAN.md.
 
 ## Chạy
 
@@ -51,7 +53,7 @@ Người dùng đã chỉ định tận dụng bộ hiện có trước: **15 �
 
 G0 đã nhận 5 JPG Unsplash minh họa ngành in trong [public/images/company/](public/images/company/), đăng ký tại [src/content/company-media.ts](src/content/company-media.ts). Giữ kích thước gốc, alt, caption minh họa và credit; mỗi ảnh lưu một lần để tái sử dụng. Vị trí section dự kiến nằm trong MEDIA_BRIEF.md. G2 render các ảnh qua WebP delivery derivatives, kèm caption/credit; JPG gốc giữ để quản lý nguồn. Bộ ảnh này không xác thực xưởng/nhân viên Sunflower.
 
-G0 đã nhận 9 ảnh sản phẩm trong [public/images/products/](public/images/products/). Bảng ánh xạ dùng chung cho Trang chủ/Sản phẩm tại [src/content/product-media.ts](src/content/product-media.ts), gồm slug, đường dẫn, kích thước gốc và alt. Ảnh giữ nguyên nguồn PNG; G2 dùng WebP của 4 nhóm Tem trắng cuộn, Tem màu cuộn, Mực in, Tem dệt trong ProductGallery Trang chủ. Catalogue G3 chưa triển khai. Còn thiếu ảnh Máy quét, Hộp, Tem vải nilon và Satin. Nguồn/trạng thái sử dụng và lưu ý ảnh nhỏ được ghi tại [docs/MEDIA_BRIEF.md](docs/MEDIA_BRIEF.md).
+G0 đã nhận 9 ảnh sản phẩm trong [public/images/products/](public/images/products/). Bảng ánh xạ dùng chung tại [src/content/product-media.ts](src/content/product-media.ts), gồm slug, đường dẫn, kích thước gốc và alt. Giữ PNG nguồn và WebP delivery cho cả 9 nhóm; G3 không phóng lớn ảnh thumbnail. Máy quét, Hộp, Tem vải nilon và Satin chưa có ảnh riêng nên dùng bố cục nội dung. Giải pháp tái sử dụng registry, không sao chép ảnh theo trang. Nguồn/trạng thái sử dụng được ghi tại [docs/MEDIA_BRIEF.md](docs/MEDIA_BRIEF.md).
 
 Header dùng tên thương hiệu dạng chữ, chưa có logo gốc. Hero đã tích hợp video iStock preview do người dùng cung cấp (768×432, 21,81 giây, có watermark), kèm poster trích từ video. Đây là footage minh họa ngành in, không phải hình ảnh xưởng Sunflower. Desktop/mobile dùng chung nguồn; chưa có bản mobile riêng. Xem nguồn và trạng thái quyền sử dụng tại `docs/MEDIA_BRIEF.md`. Cần thay bằng bản HD được cấp phép trước khi công khai. Không có tài nguyên Sonoco trong `public/`.
 

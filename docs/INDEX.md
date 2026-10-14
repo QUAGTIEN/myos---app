@@ -22,6 +22,8 @@ Tài liệu ERP được giữ nguyên nội dung. Các tên source, tài liệu
 
 Hướng cập nhật 14/10/2026: sạch sẽ/chuyên nghiệp, đồng thời hiện đại/mạnh mẽ/bắt mắt với nhiều animation và khối 3D. Quy định nằm trong DESIGN.md mục 1 và 8; G2.Motion đã được triển khai và ghi nhận trong IMPLEMENTATION_PLAN.md. Không tạo thêm file motion/design hoặc bản sao AGENTS.
 
+G3 đã code Sản phẩm/Giải pháp trên hai route hiện có; trạng thái và giới hạn kiểm tra nằm trong IMPLEMENTATION_PLAN.md, source thực tế tại ARCHITECTURE.md. Không tạo tài liệu G3 riêng hoặc bản catalogue/copy song song.
+
 Tám ảnh Sonoco chỉ có một bộ tại [reference/desktop/](../../reference/desktop/) ở gốc workspace. REFERENCE_GUIDE.md trỏ tới bộ ảnh này; không sao chép vào thư mục tài liệu, public/ hoặc output website.
 
 ## Quy ước đường dẫn
