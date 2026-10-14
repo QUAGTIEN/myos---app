@@ -1,7 +1,7 @@
 export const heroContent = {
   eyebrow: 'SUNFLOWER / TEM NHÃN & IN ẤN',
-  title: ['Giải pháp', 'tem nhãn', 'cho', 'từng sản phẩm.'],
-  description: 'Thiết kế tem nhãn, nhãn decal và bao bì in theo nhu cầu doanh nghiệp. Bắt đầu từ sản phẩm và yêu cầu của bạn.',
+  title: ['Giải pháp', 'tem nhãn cho', 'từng sản phẩm.'],
+  description: 'Thiết kế, gia công, sản xuất tem nhãn và bao bì; cung cấp vật tư in ấn cho doanh nghiệp tại Hà Nội và khu vực lân cận.',
   primaryCta: { label: 'Khám phá sản phẩm', href: '/san-pham' },
   secondaryCta: { label: 'Yêu cầu báo giá', href: '/lien-he' },
 } as const;

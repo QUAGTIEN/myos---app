@@ -1,6 +1,6 @@
 # Sunflower — G0: Danh sách ảnh và video cần chuẩn bị
 
-Ngày lập: 14/10/2026. Trạng thái: đã nhận và tích hợp video Hero minh họa người dùng chọn; ảnh/logo doanh nghiệp vẫn đang chờ. Tài liệu này chi tiết hóa các vị trí ảnh trong [STRUCTURE.md](STRUCTURE.md) theo art direction của [DESIGN.md](DESIGN.md), không bổ sung trang/section.
+Ngày lập: 14/10/2026. Trạng thái: đã nhận và tích hợp video Hero minh họa người dùng chọn; đã nhận 9 ảnh catalogue, 5 ảnh Unsplash minh họa doanh nghiệp/ngành in và 1 ảnh văn phòng, đưa vào source G0. Người dùng chỉ định tiếp tục bằng bộ hiện có, bổ sung/chỉnh sửa ảnh sau; không chờ đủ bộ 35 ảnh để làm bản xem. Logo và ảnh xác thực cơ sở/nhân sự Sunflower vẫn đang chờ. Tài liệu này chi tiết hóa các vị trí ảnh trong [STRUCTURE.md](STRUCTURE.md) theo art direction của [DESIGN.md](DESIGN.md), không bổ sung trang/section.
 
 ### Tài nguyên Hero đã nhận
 
@@ -11,12 +11,72 @@ Ngày lập: 14/10/2026. Trạng thái: đã nhận và tích hợp video Hero m
 - Poster: `public/images/hero/hero-poster.webp`, trích từ 0,2 giây của cùng video; desktop/mobile hiện dùng cùng tài nguyên.
 - Trạng thái quyền sử dụng: đã có chỉ định sử dụng từ người dùng; chưa có bằng chứng giấy phép iStock cho bản công khai. Cần bản HD được cấp phép, không watermark trước khi phát hành công khai. Bản hiện tại dùng để xem giao diện với quyền truy cập riêng tư hiện có.
 
+### Ảnh sản phẩm đã nhận — 14/10/2026
+
+Nguồn: 9 ảnh PNG người dùng đính kèm trong cuộc trò chuyện và yêu cầu đưa vào phần sản phẩm. Đã lưu mỗi ảnh một lần tại `public/images/products/`, giữ nguyên byte, kích thước, màu sắc và chữ/logo trong ảnh. File nguồn đính kèm không bị di chuyển hoặc xóa. Bảng ánh xạ dùng trong source: [product-media.ts](../src/content/product-media.ts), gồm slug, đường dẫn, kích thước và alt; chưa render catalogue trên giao diện ở giai đoạn G0.
+
+| Ảnh đính kèm | ID | Nhóm được ánh xạ | File thực tế | Kích thước nguồn |
+|---|---|---|---|---|
+| 1 | P04 | Tem trắng tờ — nhãn chưa in nội dung, thấy đường bế | [tem-trang-to.png](../public/images/products/tem-trang-to.png) | 550×413 |
+| 2 | P01 | Tem trắng cuộn | [tem-trang-cuon.png](../public/images/products/tem-trang-cuon.png) | 550×413 |
+| 3 | P02 | Tem màu cuộn | [tem-mau-cuon.png](../public/images/products/tem-mau-cuon.png) | 635×322 |
+| 4 | P05 | Mực in — ribbon chuyển nhiệt | [muc-in.png](../public/images/products/muc-in.png) | 1200×900 |
+| 5 | P06 | Máy in tem nhãn | [may-in.png](../public/images/products/may-in.png) | 400×400 |
+| 6 | P09 | Thẻ bài — có lỗ treo | [the-bai.png](../public/images/products/the-bai.png) | 218×218 |
+| 7 | P03 | Tem màu tờ — các mẫu nhãn phẳng in màu | [tem-mau-to.png](../public/images/products/tem-mau-to.png) | 218×218 |
+| 8 | P10 | Tem dệt | [tem-det.png](../public/images/products/tem-det.png) | 1086×815 |
+| 9 | P13 | Băng dính in dùng đóng gói | [bang-dinh.png](../public/images/products/bang-dinh.png) | 1980×1080 |
+
+- Trạng thái: **đã nhận, đã phân loại và lưu source; minh họa catalogue**. Người dùng chỉ định sử dụng cho phần sản phẩm. Chưa có thông tin nguồn gốc/giấy phép của từng ảnh cho bản công khai; không xem việc gửi ảnh là bằng chứng Sunflower sản xuất các mẫu trong ảnh.
+- Một số ảnh có tên/nhãn hiệu bên thứ ba như Avery, Zebra, TSC, Mizuno, YARDSALE.NZ và GUZMAN. Giữ nguyên ảnh; không dùng chúng làm logo khách hàng, dự án Sunflower hoặc bằng chứng quan hệ phân phối chính thức. Model/quy cách chưa được xác nhận từ ảnh.
+- Ảnh 6 và 7 chỉ 218×218 px: dùng minh họa nhỏ khi xem bố cục, cần nguồn lớn hơn cho catalogue với ảnh lớn. Ảnh 5 là 400×400 px; ảnh 1–3 cũng cần đánh giá theo kích thước hiển thị và mật độ điểm ảnh. Không upscale để giả độ nét hoặc dùng các ảnh này làm full-bleed Hero.
+- Khi dựng UI, ưu tiên `object-contain`, giữ tỷ lệ gốc và đầy đủ hình dạng sản phẩm. Ảnh 1 được xếp vào nhãn tờ chưa in nội dung; màu giấy/đế không được diễn giải thành quy cách vật liệu đã xác nhận. Ảnh 7 là mẫu nhãn phẳng, không xác nhận nguyên tờ sản xuất. Ảnh 9 đại diện băng dính, không thay thế ảnh riêng của nhóm Hộp.
+- Tổng PNG khoảng 5,75 MB; chưa xuất định dạng web/biến thể responsive ở lượt nhập nguồn này. Do static export đang dùng `images.unoptimized`, cần tối ưu encoding và chọn kích thước thực khi triển khai gallery; tránh tải toàn bộ bộ nguồn cho các thumbnail.
+- Đã có **9/13 ảnh đại diện nhóm sản phẩm**. Còn thiếu **Máy quét, Hộp, Tem vải nilon, Satin**; bổ sung sau theo chỉ định người dùng. Mục tiêu 35 ảnh nội dung bên dưới vẫn là kế hoạch phiên bản đầy đủ; video/poster được tính riêng.
+
+### Bộ ảnh minh họa doanh nghiệp đã nhận — 14/10/2026
+
+Nguồn: 5 JPG người dùng cung cấp từ thư mục OneDrive và yêu cầu dùng cho doanh nghiệp. Tên nguồn mang tên tác giả và ID ảnh Unsplash; lưu các thông tin này trong [company-media.ts](../src/content/company-media.ts). Mỗi ảnh có đường dẫn, kích thước gốc, alt, loại `stock-illustration`, caption “Ảnh minh họa ngành in” và credit. Đã sao chép nguyên byte vào `public/images/company/`; bản gốc OneDrive giữ nguyên. Chưa render các section sử dụng ảnh.
+
+| Ảnh | Tác giả / ID theo tên file nguồn | File đã lưu | Kích thước gốc | Vị trí minh họa dự kiến |
+|---|---|---|---|---|
+| 1 | Aleksandr Galichkin / QRykXu51r_0 | [printing-workshop-unsplash.jpg](../public/images/company/printing-workshop-unsplash.jpg) | 3168×4752 | Giới thiệu → OurStory: ảnh dọc kể bối cảnh ngành in |
+| 2 | Bank Phrom / Tzm3Oyu_6sk | [printing-press-unsplash.jpg](../public/images/company/printing-press-unsplash.jpg) | 6016×4016 | Trang chủ → BrandIntroduction; Giới thiệu → InteriorPageHero |
+| 3 | Daulet Turubayev / RAwn1QFwfss | [press-operators-unsplash.jpg](../public/images/company/press-operators-unsplash.jpg) | 6000×4000 | Năng lực → CollaborationAndDelivery: minh họa phối hợp/vận hành |
+| 4 | Geri Sakti / CYrYxz-uvE4 | [large-format-printing-unsplash.jpg](../public/images/company/large-format-printing-unsplash.jpg) | 5184×3456 | Minh họa công đoạn in trong ProductionProcess, khi nội dung tương ứng phù hợp |
+| 5 | Pierre Bamin / X16N5J0uRD4 | [print-color-samples-unsplash.jpg](../public/images/company/print-color-samples-unsplash.jpg) | 5472×3648 | Giới thiệu → CompanyOverview; minh họa trao đổi mẫu/màu trong ProductionProcess |
+
+- Bộ này là **ảnh stock minh họa**, không phải ảnh xác thực xưởng, thiết bị, nhân viên hoặc mẫu thành phẩm của Sunflower. Caption minh họa phải hiện khi dựng section; credit ghi tác giả/Unsplash. Không đặt ảnh 3 dưới tiêu đề “Đội ngũ Sunflower”, không dùng ảnh 4 để tự công bố năng lực in khổ lớn.
+- Trạng thái nguồn/quyền: người dùng chỉ định sử dụng; tác giả/ID được ghi từ tên file. Chưa đối chiếu trang nguồn và điều kiện sử dụng từng ảnh trong lượt nhập này. Không tự ghi “ảnh do Sunflower chụp” hoặc “đã xác minh giấy phép”.
+- Tất cả nằm một lần trong `company/` vì thuộc bộ minh họa doanh nghiệp. Nếu dùng tại trang Năng lực/Trang chủ, tham chiếu cùng đường dẫn; không sao chép sang `capabilities/` hoặc tạo ảnh `home-*`.
+- Ảnh 1 tỷ lệ dọc 2:3, hợp panel dọc; không ép thành Hero ngang. Ảnh 2–5 gần 3:2, hợp editorial split. Khi crop ảnh 3 giữ người và bảng điều khiển; ảnh 4 giữ cụm máy/vật liệu, ảnh 5 giữ các dải màu bên trái. Điểm crop cuối cần kiểm tra trên layout desktop/mobile.
+- Tổng nguồn JPG khoảng **15,48 MB**. Giữ bản gốc trong lượt nhập này; trước khi render cần xuất kích thước/encoding web phù hợp vì `images.unoptimized` không tự tối ưu. Không tải nguồn 5–6K cho một ô ảnh nhỏ.
+- Hiện có **15 ảnh nội dung đã nhận** (9 catalogue + 5 minh họa + 1 văn phòng), cùng video/poster. Năm ảnh stock không được tính là hoàn thành các vị trí ảnh thực tế C01–C04/K01–K06 trong mục tiêu 35 ảnh; ảnh doanh nghiệp/năng lực làm bằng chứng vẫn cần nguồn Sunflower.
+
+### Ảnh văn phòng đã nhận — T01, 14/10/2026
+
+- Nguồn: người dùng đính kèm `codex-clipboard-e84f3c31-4790-4d16-b35d-bfcb0e7740fd.png`, mô tả là ảnh văn phòng và chỉ định tận dụng bộ ảnh hiện có trước.
+- File duy nhất: [office-interior.png](../public/images/contact/office-interior.png); giữ nguyên PNG **638×480**, 390.521 byte. Bản đính kèm gốc được giữ nguyên, không crop/upscale hoặc tạo bản sao ở `company/`.
+- Ánh xạ: [contact-media.ts](../src/content/contact-media.ts) → `officeMedia`, với đường dẫn, kích thước, alt và nguồn. Dùng chính ở trang Liên hệ; trang Giới thiệu có thể tham chiếu cùng đối tượng khi bố cục phù hợp. Chưa render lên UI.
+- Nội dung: bàn làm việc, ghế, vách ngăn xanh và cây xanh trong không gian văn phòng. Caption trung tính “Không gian văn phòng”; chưa có địa chỉ hoặc thông tin nguồn chụp để liên kết ảnh với một địa điểm Sunflower cụ thể. Không suy ra địa chỉ, diện tích hay đội ngũ từ ảnh.
+- Ảnh vừa đủ minh họa nhỏ; tránh Hero full-bleed hoặc kéo giãn trên desktop. Khi dựng section, chọn kích thước hiển thị theo nguồn; người dùng sẽ bổ sung bản tốt hơn sau.
+
+### Chốt bộ đầu vào tạm để tiếp tục thiết kế
+
+Theo chỉ định mới nhất, tiếp tục các module bằng **15 ảnh + video/poster đang có**. Các ảnh thiếu là phần bổ sung sau, không phải yêu cầu người dùng tìm đủ mới bắt đầu.
+
+- Catalogue vẫn giữ đủ 13 nhóm đã xác nhận; 4 nhóm chưa có ảnh có thể dùng phần nội dung chữ rõ ràng, không mượn ảnh sai loại hoặc tạo ảnh giả. Gallery nổi bật chọn trong các nhóm có ảnh đủ phù hợp.
+- Giới thiệu và nội dung giải thích ngành in dùng lại ảnh doanh nghiệp/stock với caption đúng nguồn. Năng lực sử dụng workflow đã xác nhận và ảnh minh họa phù hợp; ảnh stock không trở thành chứng cứ sở hữu máy móc.
+- Giải pháp có thể dùng ảnh sản phẩm tương ứng để giải thích, ghi rõ là minh họa sản phẩm; chưa gọi đó là ảnh ứng dụng thực tế tại khách hàng.
+- Trang Dự án vẫn giữ route; khi chưa có bộ thành phẩm/dữ liệu dự án, không dựng case study hoặc khách hàng giả. Nếu dùng ảnh catalogue để xem layout, ghi rõ “Hình ảnh sản phẩm minh họa”.
+- Giữ logo dạng chữ hiện tại và dữ liệu liên hệ minh họa có nhãn theo CONTENT.md. Bản xem vẫn giữ quyền riêng tư/noindex; việc tiếp tục thiết kế không đồng nghĩa hoàn thành điều kiện phát hành.
+
 ## 1. Số lượng đề xuất
 
 | Nhóm | Số ảnh nội dung | Nơi dùng chính | Dùng lại trên Trang chủ |
 |---|---:|---|---|
 | Doanh nghiệp | 4 | Giới thiệu | BrandIntroduction |
-| Sản phẩm | 13 dự kiến | Sản phẩm | FeaturedProductCategories: chọn 4–6 ảnh |
+| Sản phẩm | 13 nhóm đã xác nhận | Sản phẩm | FeaturedProductCategories: chọn 4–6 ảnh |
 | Giải pháp/ứng dụng | 5 dự kiến | Giải pháp | SolutionsByIndustry: chọn 3 ảnh |
 | Năng lực/sản xuất | 6 | Năng lực | WhySunflower, CapabilitiesFeature, ProcessPreview |
 | Dự án/mẫu thành phẩm | 6 | Dự án | FeaturedProjects: chọn 3 ảnh |
@@ -25,7 +85,7 @@ Ngày lập: 14/10/2026. Trạng thái: đã nhận và tích hợp video Hero m
 
 Ngoài 35 ảnh: 1 video Hero desktop, 1 poster trích từ video và logo chính thức. Như vậy dự kiến có 36 hình raster tính cả poster; logo không tính vào số ảnh chụp. Bản mobile của video/poster có thể crop từ cùng nguồn nếu bố cục cho phép; đó là biến thể phục vụ responsive, không phải ảnh nội dung mới.
 
-Đây là mục tiêu chuẩn bị của phiên bản đầy đủ, không phải yêu cầu chụp đủ trước khi bắt đầu. 13 nhóm sản phẩm và 5 nhóm ứng dụng vẫn cần xác nhận. Số ảnh cuối có thể giảm nếu một nhóm không được công bố, ảnh có thể dùng chung hợp lý hoặc ảnh liên hệ không cần thiết; không dùng ảnh giả để đủ số lượng.
+Đây là mục tiêu chuẩn bị của phiên bản đầy đủ, không phải yêu cầu chụp đủ trước khi bắt đầu. Chủ doanh nghiệp đã xác nhận đủ 13 nhóm sản phẩm; quy cách/model và ảnh thực tế vẫn cần bổ sung. Năm nhóm ứng dụng cần đối chiếu nội dung và ảnh trước khi công bố. Số ảnh cuối có thể giảm nếu ảnh dùng chung hợp lý hoặc ảnh liên hệ không cần thiết; không dùng ảnh giả để đủ số lượng.
 
 ## 2. Bộ ưu tiên để bắt đầu G1–G2
 
@@ -38,7 +98,7 @@ Ngoài 35 ảnh: 1 video Hero desktop, 1 poster trích từ video và logo chín
 | P1 / G2 | 5 nhóm sản phẩm ưu tiên | 5 ảnh | Gallery sản phẩm nổi bật |
 | P1 / G2 | K02–K05: in, gia công, phối hợp/duyệt mẫu, QC | 4 ảnh | Section navy và minh chứng cách làm việc |
 
-**Bộ khởi động: 10 ảnh nội dung + 1 poster + 1 video + logo.** Mười ảnh là một phần của bộ 35, không cộng thêm. Đề xuất năm nhóm sản phẩm để chọn ban đầu: tem trắng cuộn, tem màu cuộn, tem màu tờ, hộp, thẻ bài; thay thế bằng nhóm Sunflower thực sự muốn giới thiệu sau khi xác nhận.
+**Bộ khởi động: 10 ảnh nội dung + 1 poster + 1 video + logo.** Mười ảnh là một phần của bộ 35, không cộng thêm. Đề xuất năm nhóm sản phẩm để chọn ban đầu: tem trắng cuộn, tem màu cuộn, tem màu tờ, hộp, thẻ bài. Cả 13 nhóm đã được xác nhận kinh doanh; việc chọn nhóm nổi bật có thể điều chỉnh theo ảnh và ưu tiên giới thiệu của Sunflower.
 
 Nếu chưa có hình một công đoạn, chọn một năng lực khác có thật và có ảnh tương ứng. Màn hình đầu G1 chỉ cần logo/video/poster; bộ 10 ảnh giúp tiếp tục các section G2 ngay sau đó.
 
@@ -67,7 +127,7 @@ Nếu chưa có hình một công đoạn, chọn một năng lực khác có th
 
 ## 4. Danh sách chụp theo vị trí
 
-Tên file dưới đây là tên đề xuất cho bản tối ưu dùng trên web. Chưa tạo các file ảnh rỗng hoặc mock trong source.
+Tên file dưới đây là tên đề xuất cho bản tối ưu dùng trên web; bảng “Ảnh sản phẩm đã nhận” phía trên ghi file PNG thực tế hiện có. Chưa tạo các file ảnh rỗng hoặc mock trong source.
 
 ### A. Doanh nghiệp — 4 ảnh
 
@@ -82,11 +142,11 @@ Tên file dưới đây là tên đề xuất cho bản tối ưu dùng trên we
 
 C01 và C03 ưu tiên góc rộng có thể đặt trong layout split. C02/C04 tránh hiển thị tài liệu hoặc màn hình có dữ liệu khách hàng.
 
-### B. Sản phẩm — dự kiến 13 ảnh
+### B. Sản phẩm — 13 ảnh cho các nhóm đã xác nhận
 
 Mỗi nhóm một ảnh đại diện, chụp bộ sản phẩm có chủ đích trên nền trắng/trắng ngà sạch. Giữ ánh sáng, góc chụp và tỷ lệ đồng nhất; để đủ mép quanh sản phẩm. Chụp nguồn 1:1 hoặc đủ rộng để crop 4:5; chất liệu và mép in phải thấy rõ.
 
-| ID | Nhóm cần xác nhận | Cách thể hiện đề xuất | Tên file đề xuất |
+| ID | Nhóm sản phẩm | Cách thể hiện đề xuất | Tên file đề xuất |
 |---|---|---|---|
 | P01 | Tem trắng cuộn | Cuộn nhãn và dải nhãn mở để thấy bề mặt, kích thước tương đối | tem-trang-cuon.webp |
 | P02 | Tem màu cuộn | Cuộn nhãn đã in với một đoạn mở, rõ màu và chất lượng in | tem-mau-cuon.webp |
@@ -168,13 +228,13 @@ Tên khách hàng, logo, thiết kế và sản phẩm trong ảnh phải đư�
 - Dùng file gốc thay vì screenshot, ảnh có chữ quảng cáo dán lên hoặc file đã bị ứng dụng nhắn tin nén mạnh. Copy và CTA sẽ đặt bằng HTML.
 - Kiểm tra biển tên, màn hình, tài liệu, barcode hoặc thiết kế trong khung để chỉ công bố những nội dung được phép.
 
-Mỗi tài nguyên cần ghi: mã ảnh, mô tả chủ thể thật, người cung cấp, quyền công bố, nhóm sản phẩm/công đoạn tương ứng và điểm cần giữ khi crop. Trạng thái là “chưa có / đã nhận / cần chỉnh / được duyệt”. H01/H02 đã nhận và tích hợp cho bản xem giao diện; các ảnh nội dung và logo còn là đề xuất chưa có media.
+Mỗi tài nguyên cần ghi: mã ảnh, mô tả chủ thể thật, người cung cấp, quyền công bố, nhóm sản phẩm/công đoạn tương ứng và điểm cần giữ khi crop. Trạng thái là “chưa có / đã nhận / cần chỉnh / được duyệt”. H01/H02 đã nhận và tích hợp cho bản xem giao diện; 9 ảnh sản phẩm, 5 ảnh stock minh họa doanh nghiệp và T01 văn phòng đã nhận theo các bảng phía trên. Bốn nhóm sản phẩm còn lại, ảnh thực tế Sunflower, giải pháp/dự án và logo chưa có media tương ứng; tiếp tục bản xem với bộ hiện tại theo chỉ định người dùng.
 
 ## 6. Tổ chức tài nguyên, tránh bản sao
 
-- Ảnh đã duyệt và tối ưu đặt vào public/images/brand, hero, company, products, solutions, capabilities, projects, contact theo nhóm hiện có; video vào public/videos/hero/.
+- Ảnh nhận để chuẩn bị G0 đặt vào public/images/brand, hero, company, products, solutions, capabilities, projects, contact theo nhóm hiện có; video vào public/videos/hero/. Chỉ render khi phù hợp chất lượng và trạng thái sử dụng; ảnh nằm trong public không tự có nghĩa đã được duyệt công khai.
 - Cùng một ảnh dùng ở Trang chủ và trang con sẽ tham chiếu cùng một file. Không tạo bản sao có tên home-..., about-... chỉ để dùng ở hai nơi.
 - Bản crop/độ phân giải khác chỉ xuất khi responsive cần; đó là biến thể có mục đích rõ. Không lưu nhiều file giống nội dung/độ phân giải dưới các tên khác nhau.
 - Không đưa ảnh tham chiếu Sonoco, ảnh QA hoặc dữ liệu ERP vào public/.
 
-G0 mới hoàn thành phần đề xuất danh sách media. Cần tiếp tục chọn nhóm sản phẩm/ứng dụng thật, nhận tài nguyên và xác nhận nội dung/quyền công bố trước khi nghiệm thu đầu vào các module liên quan.
+G0 đã có danh sách media và bộ copy tại [CONTENT.md](CONTENT.md), với 13 nhóm sản phẩm được chủ doanh nghiệp xác nhận. Cần tiếp tục nhận tài nguyên, đối chiếu thông số/model và xác nhận ảnh/nội dung được phép công bố trước khi nghiệm thu đầu vào các module liên quan.

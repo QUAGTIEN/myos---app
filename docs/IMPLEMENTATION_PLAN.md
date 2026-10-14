@@ -1,6 +1,6 @@
 # Sunflower — Kế hoạch triển khai website
 
-Ngày lập: 14/10/2026. Trạng thái: đang thực hiện G0; đã tích hợp video Hero minh họa theo chỉ định người dùng. Các ảnh/logo/nội dung doanh nghiệp và bản video HD được cấp phép vẫn đang chờ; chưa nghiệm thu G1 hoặc triển khai các trang còn lại.
+Ngày lập: 14/10/2026. Trạng thái: đã chốt bộ đầu vào G0 tạm cho bản xem theo chỉ định người dùng — copy bảy trang, 9 ảnh sản phẩm, 5 ảnh Unsplash minh họa doanh nghiệp, 1 ảnh văn phòng và video/poster Hero. Tiếp tục bằng bộ này; người dùng bổ sung/chỉnh sửa ảnh sau, không chờ đủ bộ media. Chủ doanh nghiệp xác nhận đủ 13 nhóm sản phẩm và cho phép dữ liệu liên hệ minh họa để xem bố cục. Đầu vào chính thức vẫn cần hoàn thiện trước công khai; chưa nghiệm thu G1 hoặc triển khai các trang còn lại.
 
 Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, REFERENCE_GUIDE.md, ARCHITECTURE.md và source hiện tại. Kế hoạch này tổ chức công việc, không thay thế design tokens hoặc bổ sung sitemap/chức năng ngoài tài liệu đã duyệt.
 
@@ -19,7 +19,7 @@ Hiện có:
 - Static export ra out/; đang giữ noindex. Chưa có backend gửi yêu cầu báo giá.
 - Tám ảnh Sonoco tại reference/desktop/ ở gốc workspace. Đây là tài liệu nghiên cứu, không phải media của website.
 
-Hiện thiếu logo chính thức, bản Hero HD được cấp phép, ảnh Sunflower, nội dung chi tiết đã xác nhận và đích nhận yêu cầu. Video đang dùng là preview 768×432 có watermark, không phải footage cơ sở Sunflower. Không tái tạo legacy-demo, dữ liệu mock hoặc ảnh nhà máy giả để lấp chỗ trống. Phần chưa đủ dữ liệu ghi trong tài liệu tiến độ; không coi là đã hoàn thành.
+Hiện thiếu logo chính thức, bản Hero HD được cấp phép, ảnh Sunflower, thông số chi tiết và đích nhận yêu cầu. Copy bảy trang đã được soạn trong CONTENT.md; dữ liệu liên hệ đang là minh họa theo chỉ định người dùng. Video đang dùng là preview 768×432 có watermark, không phải footage cơ sở Sunflower. Không tái tạo legacy-demo hoặc ảnh nhà máy/dự án giả để lấp chỗ trống. Phần chưa đủ dữ liệu ghi trong tài liệu tiến độ; không coi là đã hoàn thành.
 
 ## 2. Nguyên tắc thực hiện
 
@@ -51,14 +51,20 @@ G2 tạo phần đầu trang chủ và các pattern cần thiết. G6 ghép các
 
 ### G0 — Nội dung và tài sản hình ảnh
 
-Đề xuất ảnh/video và thứ tự chuẩn bị được quản lý tại [MEDIA_BRIEF.md](MEDIA_BRIEF.md). Đây là danh sách để xác nhận, chưa phải bộ tài nguyên đã nhận hoặc được duyệt.
+Đề xuất ảnh/video, thứ tự chuẩn bị và trạng thái tài nguyên đã nhận được quản lý tại [MEDIA_BRIEF.md](MEDIA_BRIEF.md). Đã nhập 9/13 ảnh nhóm sản phẩm, giữ nguyên nguồn PNG và đăng ký tại [product-media.ts](../src/content/product-media.ts). Thiếu Máy quét, Hộp, Tem vải nilon, Satin; ảnh thẻ bài và tem màu tờ cần bản lớn hơn cho gallery. Chưa render catalogue hoặc nghiệm thu chất lượng ảnh trên layout.
+
+Copy bảy trang được quản lý tại [CONTENT.md](CONTENT.md). Đã xác nhận mô hình thương mại/sản xuất, bốn bộ phận, 13 nhóm sản phẩm và phạm vi hoạt động theo thông tin chủ doanh nghiệp. Liên hệ dùng dữ liệu minh họa có nhãn; chưa bật các kênh gửi yêu cầu thật.
+
+Đã nhập 5 JPG Unsplash người dùng cung cấp vào `public/images/company/`, đăng ký tại [company-media.ts](../src/content/company-media.ts) kèm alt, kích thước, caption minh họa và credit. Đây là tài nguyên minh họa để chuẩn bị bố cục, không thay thế ảnh bằng chứng doanh nghiệp/năng lực. Chưa render section; cần tối ưu nguồn lớn và kiểm tra crop khi đến module giao diện.
+
+Đã nhận ảnh văn phòng T01 tại `public/images/contact/office-interior.png`, đăng ký `officeMedia` trong [contact-media.ts](../src/content/contact-media.ts), có thể dùng chung ở Liên hệ/Giới thiệu. Người dùng chỉ định tận dụng bộ ảnh hiện có trước và bổ sung sau. Cách xử lý các vị trí thiếu ảnh được chốt trong mục “Chốt bộ đầu vào tạm để tiếp tục thiết kế” của MEDIA_BRIEF.md; tiếp tục module giao diện với bộ này, giữ đầy đủ bảy route và caption nguồn.
 
 Công việc:
 
 - Chốt thông điệp Hero và giới thiệu ngắn: Sunflower cung cấp gì, cho ai, khách nên thực hiện hành động nào.
 - Lập danh sách nội dung theo từng section của bảy trang; phân biệt dữ liệu đã xác nhận với dữ liệu đang chờ.
 - Kiểm tra logo, chất lượng ảnh/video, quyền sử dụng, điểm cần crop và khả năng dùng lại trên trang chủ.
-- Xác nhận danh mục sản phẩm. Danh sách 13 nhóm trong STRUCTURE.md là danh sách làm việc, không tự công bố tất cả.
+- Tên 13 nhóm sản phẩm trong STRUCTURE.md đã được xác nhận; tiếp tục đối chiếu thông số, model và ảnh của từng nhóm trước khi công bố chi tiết.
 - Xác nhận kênh liên hệ và phương án nhận báo giá trước G5; quyết định này có thể thực hiện trong khi làm các module nội dung.
 
 Đầu vào ưu tiên cho G1–G2: logo gốc; footage Hero và poster lấy từ footage; 4–6 ảnh nhóm sản phẩm nổi bật; ảnh/copy giới thiệu; thông tin liên hệ và vài năng lực được xác nhận. Các ảnh còn lại bổ sung theo module. Mục tiêu 35 ảnh trong tài liệu là dự kiến nội dung, không phải lý do bắt chờ đủ cả bộ mới làm phần đầu.
@@ -68,6 +74,8 @@ Vị trí làm việc: src/content/ và public/images/, public/videos/ theo cây
 Nghiệm thu: biết rõ tài nguyên nào dùng cho section nào, phần nào chưa đủ dữ liệu và ai cần xác nhận. Không có media tham chiếu Sonoco được đưa vào public/.
 
 ### G1 — Nền tảng và màn hình đầu
+
+**Trạng thái 14/10/2026:** đã cập nhật source G1 Header/VideoHero, giữ palette warm và media G0. Lint/typecheck/build cùng kiểm tra HTTP/static export đạt; chưa nghiệm thu UI vì browser automation không khởi tạo được. Không triển khai G2 hoặc các trang còn lại trong lượt này.
 
 Công việc:
 
@@ -80,6 +88,32 @@ Công việc:
 File/module dự kiến: src/app/globals.css, src/app/layout.tsx, src/components/layout/Header.tsx, Container.tsx, src/components/media/VideoHero.tsx, src/content/hero.ts và media Hero.
 
 Nghiệm thu: H1 và CTA chính đọc được ngay; Header không xung đột với ảnh; chủ thể video không bị crop mất; thao tác menu/video bằng bàn phím hoạt động. Đối chiếu 1440×900 và 390×844, sửa và kiểm tra lại. Chưa có footage/poster thật thì chưa nghiệm thu chất lượng cinematic.
+
+#### Báo cáo G1 — 14/10/2026
+
+Đã đọc các tài liệu theo contract và mở đủ tám ảnh tham chiếu. REF-01 định hướng Hero; REF-02/06/08 bổ sung ngữ cảnh Header nền trắng. Các pattern khác vẫn thuộc module tương ứng, không ghép thành section mới trong G1.
+
+Files thay đổi: `src/components/layout/Header.tsx`, `src/components/media/VideoHero.tsx`, `src/content/hero.ts`, `src/app/globals.css`; copy/tài liệu canonical được cập nhật tại chỗ.
+
+| Tiêu chí | Đối chiếu định hướng với reference, từ source | Trạng thái |
+|---|---|---|
+| Bố cục | Giữ đường cong navy nguyên bản, chữ lớn bên trái và media từ 40% chiều rộng; khung dựa trên 16:9 thay cho chiều cao cố định cắt mạnh footage | Đã sửa source; chưa so screenshot kết quả |
+| Màu | Navy Sunflower tối hơn xanh sáng trong REF-01; vàng–cam là bản xem người dùng yêu cầu. Gradient bảo vệ chữ; caption trên deep navy | Khác biệt có chủ đích; cần rà frame thật |
+| Typography | Inter tiếng Việt, câu đầy đủ chia ba cụm; bỏ dòng riêng “cho”. Giữ clamp desktop và cân lại cỡ chữ mobile | Đã sửa source; chưa đo text wrap thực tế |
+| Spacing | Đưa copy lên 35svh có giới hạn; gutters 64/40/32/20px theo breakpoint, giảm khoảng trống mobile; Header 88/76px | Cần kiểm tra trực quan trên các viewport |
+| Responsive | Header dưới 1200px dùng dialog. Mobile/tablet dọc xếp chữ trước, video 16:9 phía dưới; không có reference mobile nên đây là adaptation Sunflower | Chưa xác nhận overflow/crop bằng trình duyệt |
+| Tương tác | Focus/menu đóng theo route/breakpoint; autoplay promise được xử lý, poster giữ đến `playing`; reduced-motion và Save-Data ngăn mount video | Đã sửa logic; cần kiểm tra runtime |
+
+Kiểm tra đã thực hiện:
+
+- `npm run lint`, `npm run typecheck`, `npm run build`: đạt.
+- Dev HTTP 200; static preview kiểm tra đủ 7 route HTTP 200, title riêng, mỗi trang một H1 và noindex. Hero chỉ xuất hiện ở Trang chủ; SSR có poster, chưa có thẻ video trước khi kiểm tra tùy chọn người dùng. Poster/video trả đúng MIME và số byte.
+- Contrast tính từ tokens: chữ deep navy trên amber 7,56:1, trên orange hover 4,77:1; caption trắng/deep navy 15,11:1, chữ trắng/navy 12,48:1. Trắng trên lớp navy 86% phủ nền trắng là 8,20:1; đây là phép tính cho màu overlay, không thay thế kiểm tra toàn bộ video frame.
+- Không thêm dependency, thư mục test/demo, ảnh tham chiếu vào public hoặc asset trùng; media Hero giữ nguyên, video 2.925.394 byte và poster 24.172 byte.
+
+Giới hạn: CUA và Windows computer-use/node runtime đều trả `failed to write kernel assets: The system cannot find the path specified. (os error 3)`. Chưa có screenshot 1440×900/390×844, chưa kiểm tra trực quan 768/1024/1920, keyboard/menu/video mới, autoplay blocked, reduced-motion/Save-Data hoặc console trong trình duyệt. Không dùng kết quả browser QA của phiên bản cũ để nghiệm thu phiên bản này. Bản xem riêng tư có thể tiếp tục cập nhật; G1 vẫn cần vòng screenshot → điều chỉnh → kiểm tra lại khi công cụ hoạt động.
+
+Logo vẫn là wordmark tạm; video iStock preview có watermark và độ phân giải 768×432. Đây là đầu vào G0 đã chốt cho bản xem, chưa phải media phát hành công khai.
 
 ### G2 — Các section đại diện và component chung
 
@@ -199,7 +233,8 @@ Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá
 
 ## 7. Checklist tiến độ
 
-- [ ] G0: xác nhận đầu vào ưu tiên và content/media map.
+- [x] G0 bản xem: content/media map và bộ ảnh tạm đã chốt theo chỉ định người dùng.
+- [ ] G0 công khai: hoàn thiện dữ liệu chính thức, media phù hợp và trạng thái quyền sử dụng.
 - [ ] G1: Header/Hero đã duyệt và kiểm tra với footage/poster thật.
 - [ ] G2: section sáng/tối và component chung đã duyệt.
 - [ ] G3.1: Sản phẩm hoàn thiện.

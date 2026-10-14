@@ -11,6 +11,7 @@
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Cấu trúc source và trạng thái hệ thống thực tế |
 | [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) | Kế hoạch triển khai theo module, đầu vào và tiêu chí nghiệm thu |
 | [MEDIA_BRIEF.md](MEDIA_BRIEF.md) | G0: danh sách chụp ảnh/video, vị trí sử dụng và bộ tài nguyên ưu tiên |
+| [CONTENT.md](CONTENT.md) | G0: copy bảy trang, catalogue đã xác nhận, CTA, microcopy và dữ liệu liên hệ minh họa |
 | [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) | Tài liệu ERP gốc để hiểu bối cảnh doanh nghiệp; không phải đặc tả website |
 
 Thứ tự và thẩm quyền làm việc được quy định trong AGENTS.md. Kế hoạch không thay thế DESIGN/STRUCTURE; ARCHITECTURE mô tả source hiện có, không xác nhận mọi chức năng trong kế hoạch đã triển khai.

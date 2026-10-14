@@ -265,6 +265,16 @@ No random icon illustrations where good imagery or text tells the story better.
 
 ## 10. Responsive & visual QA
 
+### G1 implementation refinement — 14/10/2026
+
+Header/Hero retains the approved navy/light composition and active warm accent. Header switches to the dialog menu below 1200px so the five links, brand descriptor and quotation action have room; its height remains 88px desktop/tablet and 76px mobile.
+
+Hero uses the same three phrase groups on desktop/mobile: `Giải pháp` / `tem nhãn cho` / `từng sản phẩm.`. CSS consumes `--hero-title-size` (the existing desktop type clamp), `--hero-media-min-height: 520px` and `--hero-focal-point: 70% center`. The latter two describe media geometry/framing, not new brand colors or spacing scales. Desktop media starts at 40% of the viewport, uses a 16:9 base ratio with a minimum height bounded by 60svh; the original navy arc remains. On mobile and portrait tablet, copy and footage occupy separate rows and the footage retains 16:9 because no separate portrait source exists. No stretch/upscale export is introduced.
+
+Poster stays behind the video until the `playing` event. The gradient has an explicit layer above both assets; caption/status sit on deep navy to keep small text legible. Autoplay rejection leaves a working manual Play action. Reduced motion and supported Save-Data/2G signals prevent mounting the video/source; errors return to the poster.
+
+These are source refinements pending fresh visual review. Browser/Windows automation currently fails to initialize with `failed to write kernel assets: The system cannot find the path specified. (os error 3)`; no G1 screenshots at 1440×900/390×844 or fresh responsive certification have been produced. Validation status is tracked in IMPLEMENTATION_PLAN.md.
+
 Test breakpoints at viewport widths `390`, `768`, `1024`, `1440`, `1920` px (also test unusually narrow ~320px if relevant).
 
 - **Mobile Hero:** approximately 82–100svh when practical; text block prioritizes clarity, not desktop crop reproduction.

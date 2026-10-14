@@ -37,18 +37,19 @@ sunflower-website/
 │   ├── ARCHITECTURE.md
 │   ├── IMPLEMENTATION_PLAN.md
 │   ├── MEDIA_BRIEF.md               # G0: danh sách ảnh/video đề xuất
+│   ├── CONTENT.md                  # G0: copy bảy trang, chưa đưa toàn bộ lên UI
 │   ├── PROJECT_OVERVIEW.md         # Bối cảnh ERP gốc
 │   └── INDEX.md                    # Bản đồ tài liệu
 ├── public/
 │   ├── images/
 │   │   ├── brand/                  # [chờ] Logo gốc
 │   │   ├── hero/hero-poster.webp    # Poster trích từ video người dùng cung cấp
-│   │   ├── company/                # [chờ] Ảnh doanh nghiệp
-│   │   ├── products/               # [chờ] Ảnh nhóm sản phẩm
+│   │   ├── company/                # 5 JPG Unsplash minh họa ngành in, chưa render
+│   │   ├── products/               # 9 PNG nhóm sản phẩm đã nhận; thiếu 4 nhóm
 │   │   ├── solutions/              # [chờ] Ảnh ứng dụng
 │   │   ├── capabilities/           # [chờ] Ảnh năng lực thực tế
 │   │   ├── projects/               # [chờ] Thành phẩm được phép công bố
-│   │   └── contact/                # [chờ] Ảnh liên hệ
+│   │   └── contact/office-interior.png # Ảnh văn phòng người dùng gửi, chưa render
 │   ├── videos/hero/hero-desktop.mp4 # Video minh họa người dùng chọn
 │   └── licenses/inter-OFL.txt
 ├── src/
@@ -83,7 +84,10 @@ sunflower-website/
 │   │   └── contact/                # [chờ] Composition Liên hệ
 │   ├── content/
 │   │   ├── navigation.ts           # Sitemap và main navigation
-│   │   └── hero.ts                 # Copy, CTA và cấu hình Hero media
+│   │   ├── hero.ts                 # Copy, CTA và cấu hình Hero media
+│   │   ├── product-media.ts        # Ánh xạ 9 ảnh thật: slug, path, kích thước, alt
+│   │   ├── company-media.ts        # 5 ảnh minh họa: path, kích thước, alt, caption, credit
+│   │   └── contact-media.ts        # officeMedia dùng chung cho Liên hệ/Giới thiệu
 │   ├── lib/                        # [chờ] Validation/adapters/utilities
 │   ├── hooks/                      # [chờ] Hooks khi có nhu cầu tái sử dụng
 │   └── types/                      # [chờ] Models dùng chung
@@ -104,13 +108,16 @@ app/layout.tsx
 ```
 
 - `Header`: Client Component. Theo dõi pathname và scroll; desktop navigation; menu dialog trên màn hình nhỏ; khóa cuộn nền; vòng Tab/Shift+Tab; Escape và trả focus; đóng khi chọn link hoặc chuyển sang desktop.
-- `VideoHero`: Client Component. Theo dõi reduced motion, mobile và trạng thái mạng; chọn nguồn desktop/mobile; giữ poster khi thiếu nguồn, mạng hạn chế hoặc lỗi; có trạng thái playback và pause/play.
+- `VideoHero`: Client Component. Theo dõi reduced motion, mobile và trạng thái mạng; server render poster, chỉ mount nguồn video sau khi kiểm tra tùy chọn người dùng. Hàm nội bộ `HeroPlayback` quản lý play/pause, lỗi media và autoplay bị chặn; remount khi đổi nguồn để reset trạng thái. Poster chỉ được video che khi `playing`; gradient và caption có lớp riêng. Không tạo component/engine video bên ngoài.
 - `heroMedia.poster` và `desktopSrc` đã trỏ tới poster/video iStock preview do người dùng cung cấp; `mobileSrc` là `null` và fallback cùng nguồn desktop. Caption ghi rõ footage minh họa ngành in. Video 768×432, 21,81 giây và có watermark, chưa có xác nhận giấy phép công khai; chưa phải footage Sunflower thực tế.
 - `app/layout.tsx` và các route là Server Components theo mặc định. `Container`, `Arrow` là UI dùng chung không có state trình duyệt.
 - Design tokens ở `globals.css`, ánh xạ vào Tailwind. Không có nguồn màu độc lập khác.
 - Navigation có bảy route; main navigation có năm mục, CTA Header dẫn `/lien-he`.
+- `content/product-media.ts` đã đăng ký 9 ảnh người dùng gửi trong `public/images/products/`. Đây là đầu vào G0, chưa được import/render trên các route. Trang chủ và Sản phẩm sẽ dùng chung các đường dẫn này, không tạo bản sao theo trang. Nguồn, chất lượng và bốn nhóm còn thiếu được quản lý tại [MEDIA_BRIEF.md](MEDIA_BRIEF.md).
+- `content/company-media.ts` đã đăng ký 5 ảnh Unsplash người dùng gửi trong `public/images/company/`, giữ kích thước JPG gốc và credit từ tên nguồn. Đây là ảnh minh họa ngành in, không phải bằng chứng cơ sở/nhân sự Sunflower; caption và loại stock được ghi rõ. Phân bổ section dự kiến tại MEDIA_BRIEF.md, chưa render các section hoặc tối ưu biến thể responsive. Các trang tái sử dụng cùng đường dẫn, không sao chép sang thư mục năng lực.
+- `content/contact-media.ts` đăng ký ảnh văn phòng 638×480 tại `public/images/contact/office-interior.png`. Liên hệ/Giới thiệu sẽ dùng chung `officeMedia`; chưa render và không suy ra địa chỉ từ ảnh. Bộ 15 ảnh cùng video/poster là đầu vào tạm để tiếp tục thiết kế theo chỉ định người dùng, không cần chờ thêm ảnh; phần xác thực trước công khai vẫn được quản lý trong MEDIA_BRIEF.md.
 
-Video Hero đã được kiểm tra trong trình duyệt tại 390×844, 768×1024, 1024×768, 1440×900 và 1920×1080: tải/playback, muted, loop, pause/play, poster tải được và không tràn ngang. Lint/typecheck/build đạt. Reduced motion và Save-Data được giữ trong logic nhưng chưa kiểm tra qua emulation trình duyệt. Ảnh kiểm tra lưu tạm ngoài source; không tái tạo thư mục QA/demo.
+Bản trước G1 đã được kiểm tra trong trình duyệt tại 390×844, 768×1024, 1024×768, 1440×900 và 1920×1080. Kết quả đó không xác nhận layout/playback của lần sửa G1. Lượt G1 mới đã đạt lint/typecheck/build và kiểm tra HTTP/static output; chưa có screenshot hoặc kiểm tra tương tác trong trình duyệt do công cụ lỗi khởi tạo. Reduced motion/Save-Data, menu, pause/play và overflow mới vẫn cần browser QA. Báo cáo G1 tại IMPLEMENTATION_PLAN.md; không tái tạo thư mục test/demo hoặc lưu ảnh QA vào public.
 
 ## 4. Vai trò từng tầng
 
@@ -139,7 +146,7 @@ Component chỉ được viết khi đến slice triển khai hoặc có nhu c�
 | `/du-an` | Route + tiêu đề + metadata | Gallery thành phẩm/dự án và bộ lọc khi có dữ liệu thật |
 | `/lien-he` | Route + tiêu đề + metadata | Liên hệ được xác nhận và intake/báo giá có endpoint thật |
 
-Danh mục 13 nhóm trong STRUCTURE là danh sách làm việc chờ xác nhận, chưa phải catalogue công bố. Context link tương lai dùng slug đã kiểm tra; không dùng ID nội bộ. Không có checkout, login, API route, form gửi hoặc database trong source hiện tại.
+Danh mục 13 nhóm trong STRUCTURE đã được chủ doanh nghiệp xác nhận; thông số/model còn chờ. Đã nhận ảnh minh họa cho 9 nhóm, còn thiếu 4 nhóm; chưa triển khai catalogue trên UI. Copy G0 được quản lý tại CONTENT.md, chưa triển khai toàn bộ trên UI. Dữ liệu liên hệ minh họa được phép dùng cho bản xem với nhãn rõ ràng, chưa tạo kênh nhận yêu cầu thật. Context link tương lai dùng slug đã kiểm tra; không dùng ID nội bộ. Không có checkout, login, API route, form gửi hoặc database trong source hiện tại.
 
 ## 6. Điều kiện để triển khai tiếp
 

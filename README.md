@@ -4,6 +4,8 @@ Chỉ dẫn làm việc dùng một file duy nhất ở gốc workspace: `../AGE
 
 Phạm vi hiện tại: Header và Hero trang chủ. Giữ sitemap 7 trang theo `docs/STRUCTURE.md`; 6 trang con hiện chỉ có tiêu đề và metadata, chưa triển khai nội dung/chức năng.
 
+G1 đã cập nhật source: headline ba dòng theo cụm nghĩa, mô tả theo copy G0, media ngang trên mobile, Header/menu ở breakpoint 1200px, giữ poster đến khi video phát và xử lý autoplay bị chặn/lỗi media. Lint/typecheck/build và HTTP/static export đã đạt. Chưa có screenshot G1 hoặc kiểm tra tương tác mới vì công cụ browser/Windows automation lỗi khởi tạo; chưa nghiệm thu chất lượng responsive. Xem báo cáo cụ thể trong [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
+
 Stack: Next.js App Router, React, TypeScript, Tailwind CSS. Font Inter được self-host từ gói Fontsource, có Vietnamese subset, không phụ thuộc tải font khi build.
 
 ## Chạy
@@ -33,11 +35,19 @@ Theo yêu cầu xem thử, Header + Hero đang dùng accent vàng hổ phách/ca
 
 Kế hoạch triển khai theo module, đầu vào và tiêu chí nghiệm thu: [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
 
+Copy G0 cho bảy trang được quản lý tại [docs/CONTENT.md](docs/CONTENT.md): mô hình thương mại kết hợp thiết kế/gia công/sản xuất, 13 nhóm sản phẩm đã xác nhận, quy trình theo overview và địa bàn do chủ doanh nghiệp cung cấp. Dữ liệu liên hệ hiện là minh họa có nhãn để thay bằng thông tin chính thức sau.
+
 ## Cây thư mục và kiến trúc
 
 Đã khởi tạo thư mục section cho bảy trang, các nhóm component, thư mục hỗ trợ và media theo `docs/STRUCTURE.md`. Xem `docs/ARCHITECTURE.md` để biết cây thư mục thực tế, luồng render, vai trò từng tầng và trạng thái triển khai. `.gitkeep` giữ các thư mục chờ trong Git; chưa có nội dung/functionality ở những thư mục này.
 
 ## Media cần bổ sung
+
+Người dùng đã chỉ định tận dụng bộ hiện có trước: **15 ảnh nội dung + video/poster Hero**, ảnh bổ sung/chỉnh sửa sau. Bộ đầu vào tạm cho bản xem đã được chốt trong [docs/MEDIA_BRIEF.md](docs/MEDIA_BRIEF.md), không chờ đủ 35 ảnh để tiếp tục module giao diện. Ảnh văn phòng mới nằm tại [public/images/contact/office-interior.png](public/images/contact/office-interior.png), khai báo dùng chung trong [src/content/contact-media.ts](src/content/contact-media.ts); chưa render section Liên hệ/Giới thiệu.
+
+G0 đã nhận 5 JPG Unsplash minh họa ngành in trong [public/images/company/](public/images/company/), đăng ký tại [src/content/company-media.ts](src/content/company-media.ts). Giữ kích thước gốc, alt, caption minh họa và credit; mỗi ảnh lưu một lần để tái sử dụng. Vị trí section dự kiến nằm trong MEDIA_BRIEF.md. Các section chưa render; cần tối ưu kích thước web trước khi dùng. Bộ ảnh này không xác thực xưởng/nhân viên Sunflower.
+
+G0 đã nhận 9 ảnh sản phẩm trong [public/images/products/](public/images/products/). Bảng ánh xạ dùng chung cho Trang chủ/Sản phẩm tại [src/content/product-media.ts](src/content/product-media.ts), gồm slug, đường dẫn, kích thước gốc và alt. Ảnh giữ nguyên nguồn PNG, chưa render catalogue hoặc xuất biến thể tối ưu trên web. Còn thiếu ảnh Máy quét, Hộp, Tem vải nilon và Satin. Nguồn/trạng thái sử dụng và lưu ý ảnh nhỏ được ghi tại [docs/MEDIA_BRIEF.md](docs/MEDIA_BRIEF.md).
 
 Header dùng tên thương hiệu dạng chữ, chưa có logo gốc. Hero đã tích hợp video iStock preview do người dùng cung cấp (768×432, 21,81 giây, có watermark), kèm poster trích từ video. Đây là footage minh họa ngành in, không phải hình ảnh xưởng Sunflower. Desktop/mobile dùng chung nguồn; chưa có bản mobile riêng. Xem nguồn và trạng thái quyền sử dụng tại `docs/MEDIA_BRIEF.md`. Cần thay bằng bản HD được cấp phép trước khi công khai. Không có tài nguyên Sonoco trong `public/`.
 

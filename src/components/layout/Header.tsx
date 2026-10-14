@@ -19,6 +19,8 @@ export function Header() {
   const solid = pathname !== '/' || scrolled;
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const wordmarkRef = useRef<HTMLAnchorElement>(null);
+  const restoreFocusRef = useRef(true);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -29,13 +31,28 @@ export function Header() {
   }, [menuOpen]);
 
   useEffect(() => {
-    const media = window.matchMedia('(min-width: 1100px)');
+    const media = window.matchMedia('(min-width: 1200px)');
     const onChange = () => { if (media.matches) dialogRef.current?.close(); };
     media.addEventListener('change', onChange);
     return () => media.removeEventListener('change', onChange);
   }, []);
 
-  function closeMenu() { dialogRef.current?.close(); }
+  useEffect(() => { dialogRef.current?.close(); }, [pathname]);
+
+  function closeMenu(restoreFocus = true) {
+    restoreFocusRef.current = restoreFocus;
+    dialogRef.current?.close();
+  }
+
+  function handleMenuClose() {
+    setMenuOpen(false);
+    if (restoreFocusRef.current) {
+      const target = window.matchMedia('(min-width: 1200px)').matches
+        ? wordmarkRef.current : triggerRef.current;
+      target?.focus();
+    }
+    restoreFocusRef.current = true;
+  }
 
   function keepMenuFocus(event: KeyboardEvent<HTMLDialogElement>) {
     if (event.key !== 'Tab') return;
@@ -57,27 +74,27 @@ export function Header() {
     <>
       <header className="site-header" data-variant={solid ? 'solid' : 'over-hero'}>
         <Container className="header-inner">
-          <Link href="/" className="wordmark" aria-label="Sunflower — Trang chủ">
+          <Link ref={wordmarkRef} href="/" className="wordmark" aria-label="Sunflower — Trang chủ">
             <span>SUNFLOWER<span className="wordmark-dot" aria-hidden="true">.</span></span>
-            <small>TEM NHÃN & BAO BÌ IN</small>
+            <small>TEM NHÃN · BAO BÌ · VẬT TƯ IN</small>
           </Link>
           <nav className="desktop-navigation" aria-label="Điều hướng chính">
             {mainNavigation.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</Link>)}
           </nav>
           <Link href="/lien-he" className="button button-primary header-cta">Yêu cầu báo giá <Arrow diagonal /></Link>
-          <button ref={triggerRef} className="menu-trigger" aria-label="Mở menu" aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={() => { dialogRef.current?.showModal(); setMenuOpen(true); }}>
+          <button ref={triggerRef} type="button" className="menu-trigger" aria-label="Mở menu" aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={() => { restoreFocusRef.current = true; dialogRef.current?.showModal(); setMenuOpen(true); }}>
             <span aria-hidden="true" /><span aria-hidden="true" />
           </button>
         </Container>
       </header>
-      <dialog ref={dialogRef} id="mobile-navigation" className="mobile-menu" aria-labelledby="menu-title" onKeyDown={keepMenuFocus} onClose={() => { setMenuOpen(false); triggerRef.current?.focus(); }}>
+      <dialog ref={dialogRef} id="mobile-navigation" className="mobile-menu" aria-labelledby="menu-title" onKeyDown={keepMenuFocus} onClose={handleMenuClose}>
         <div className="mobile-menu-top">
           <span className="wordmark" id="menu-title">SUNFLOWER<span className="wordmark-dot" aria-hidden="true">.</span></span>
-          <button className="menu-close" aria-label="Đóng menu" onClick={closeMenu} autoFocus><span aria-hidden="true">×</span></button>
+          <button type="button" className="menu-close" aria-label="Đóng menu" onClick={() => closeMenu()} autoFocus><span aria-hidden="true">×</span></button>
         </div>
         <nav aria-label="Điều hướng trên điện thoại">
-          {siteRoutes.slice(0, 6).map(item => <Link href={item.href} key={item.href} aria-current={pathname === item.href ? 'page' : undefined} onClick={closeMenu}>{item.label}<Arrow /></Link>)}
-          <Link href="/lien-he" className="button button-primary mobile-menu-cta" onClick={closeMenu}>Yêu cầu báo giá <Arrow diagonal /></Link>
+          {siteRoutes.slice(0, 6).map(item => <Link href={item.href} key={item.href} aria-current={pathname === item.href ? 'page' : undefined} onClick={() => closeMenu(pathname === item.href)}>{item.label}<Arrow /></Link>)}
+          <Link href="/lien-he" className="button button-primary mobile-menu-cta" onClick={() => closeMenu(pathname === '/lien-he')}>Yêu cầu báo giá <Arrow diagonal /></Link>
         </nav>
       </dialog>
     </>

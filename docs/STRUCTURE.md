@@ -118,7 +118,7 @@
 5. `ProductInquiryCTA`: link to `/lien-he` with selected category context.
 6. `CommonQuestions` (optional, only real approved FAQs).
 
-### Working 13-group product list — verify before publication
+### Confirmed 13-group product list — specifications still need verification
 
 | Slug suggestion | Display group |
 |---|---|
@@ -136,7 +136,7 @@
 | `satin` | Satin |
 | `bang-dinh` | Băng dính |
 
-These names originate from previously discussed Sunflower product groups. **They are an editorial starting catalogue, NOT a claim that all 13 are confirmed current public offerings.**
+The owner confirmed all 13 product groups on 14/10/2026. **Names may be used in the catalogue; material/specification/model details, availability and product photographs still require confirmation.** Public-facing copy is maintained in CONTENT.md; do not infer that Sunflower manufactures every item in-house.
 
 **Each item data:** `slug`, `name`, `shortDescription`, `image`, `applications[]`, `specifications[]` (only verified), `inquiryLink`.
 
@@ -318,6 +318,8 @@ sunflower-website/
 │   ├── REFERENCE_GUIDE.md              # Reference principles and links
 │   ├── ARCHITECTURE.md                 # Actual source architecture
 │   ├── IMPLEMENTATION_PLAN.md          # Delivery modules and acceptance
+│   ├── MEDIA_BRIEF.md                  # G0 media preparation
+│   ├── CONTENT.md                      # G0 public-facing copy
 │   └── PROJECT_OVERVIEW.md             # Original ERP context, not website specs
 ├── public/
 │   ├── images/{brand,hero,company,products,solutions,capabilities,projects,contact}/
@@ -438,7 +440,7 @@ Do not claim all phases complete if the project lacks real images, video, conten
 
 1. Actual Sunflower logo and brand-use requirements.
 2. Hero desktop footage and poster (plus mobile version if provided).
-3. Product categories/specifications and publishable product photos.
+3. Product specifications/models and publishable product photos; the 13 category names are owner-confirmed.
 4. Exact manufacturing claims, process steps and approved factory photos.
 5. Approved use cases and project photos with customer permissions.
 6. Real phone/email/address plus destination for quote form.
