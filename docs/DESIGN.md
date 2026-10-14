@@ -79,6 +79,22 @@ If the repo already uses Tailwind/shadcn tokens, **map these values into the exi
 
 **Brand mark caveat:** If Sunflower's official yellow is essential in the logo, leave it in the mark and use sparingly as a decorative brand accent. Do not replace official brand assets with a Sonoco-colored logo.
 
+### Color preview requested 14/10/2026 — warm accent
+
+The user requested a preview of navy/white with yellow–orange accents on Header + Hero. This is an active review variant, not final approval of new corporate brand colors. It retains the layout, typography, media and seven-page scope. The baseline palette above remains available; runtime activates the variant through `data-accent="warm"` on the root html element.
+
+| Preview token | Value | Role |
+|---|---|---|
+| `--brand-amber` | `#E9AD3D` | Primary CTA background |
+| `--brand-orange` | `#D97732` | CTA hover, keyboard focus, navigation underline and small arrow/wordmark details |
+| `--surface-warm` | `#F7F5EF` | Light corner outside the Home navy Hero curve |
+
+Shared UI consumes semantic tokens `--action-accent`, `--action-hover`, `--focus-accent`, `--detail-accent`, `--mark-accent` and `--hero-base`. Default values map to the baseline green/gold/light-blue palette; the warm variant maps these to amber/orange/ivory. Do not hardcode palette values in individual components or create a separate demo source tree.
+
+Calculated contrast: deep-navy `#092746` text on amber is 7.56:1, and on orange hover is 4.77:1. Orange on white is 3.16:1 and on Hero navy `#12345F` is 3.94:1; these pairings are for focus outlines/non-text details, not small orange body text. Headings/body text remain white/navy as before.
+
+To return to the baseline, remove the root `data-accent="warm"` attribute. Choose the final accent direction after reviewing the desktop/mobile preview; keep other design rules unchanged.
+
 ## 3. Typography & hierarchy
 
 - **Recommended font:** `Inter` (via `next/font/google`), with Vietnamese coverage. Prefer provided official font if available; do not add several unrelated families.

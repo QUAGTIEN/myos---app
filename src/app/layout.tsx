@@ -12,5 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="vi"><body><a className="skip-link" href="#main-content">Đến nội dung chính</a><Header />{children}</body></html>;
+  return <html lang="vi" data-accent="warm"><body><a className="skip-link" href="#main-content">Đến nội dung chính</a><Header />{children}</body></html>;
 }
