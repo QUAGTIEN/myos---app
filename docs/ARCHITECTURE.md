@@ -71,7 +71,10 @@ sunflower-website/
 │   │   ├── ui/{Arrow,ActionLink}.tsx
 │   │   ├── media/{VideoHero,CompanyPhoto}.tsx
 │   │   ├── editorial/SectionHeading.tsx
-│   │   ├── products/ProductGallery.tsx # Gallery Home; lọc/catalogue G3 chờ
+│   │   ├── motion/MotionController.tsx # Reveal progressive-enhancement dùng chung
+│   │   ├── products/
+│   │   │   ├── ProductGallery.tsx      # Gallery Home; lọc/catalogue G3 chờ
+│   │   │   └── ProductDepthScene.tsx   # CSS 3D scene cho G2.Motion
 │   │   ├── capabilities/           # [chờ] UI quy trình/năng lực
 │   │   ├── projects/               # [chờ] UI thư viện thành phẩm
 │   │   └── contact/ContactCTA.tsx   # InquiryForm G5 chờ
@@ -105,6 +108,7 @@ sunflower-website/
 ```text
 app/layout.tsx
   ├── Inter + globals.css + metadata/noindex
+  ├── MotionController → IntersectionObserver / reduced-motion fallback
   ├── Header ← content/navigation.ts
   ├── route page
        ├── / → VideoHero + BrandIntroduction + FeaturedProductCategories + WhySunflower + ContactCTA
@@ -113,6 +117,8 @@ app/layout.tsx
 ```
 
 - `Header`: Client Component. Theo dõi pathname và scroll; desktop navigation; menu dialog trên màn hình nhỏ; khóa cuộn nền; vòng Tab/Shift+Tab; Escape và trả focus; đóng khi chọn link hoặc chuyển sang desktop.
+- `MotionController`: Client Component nhỏ đặt ở layout, quan sát các phần tử `data-reveal`, chạy một lần khi vào viewport và giữ nội dung server-rendered hiển thị khi JavaScript/IntersectionObserver/reduced-motion không phù hợp. Không chứa copy hoặc dữ liệu trang.
+- `ProductDepthScene`: Client Component trong section sản phẩm nổi bật. Markup dựng cuộn tem, lớp giấy và dải nhãn; CSS chịu trách nhiệm perspective/độ dày. JavaScript chỉ cập nhật tilt con trỏ và scroll offset giới hạn khi scene nằm trong viewport; touch/reduced-motion dùng trạng thái tĩnh.
 - `VideoHero`: Client Component. Theo dõi reduced motion, mobile và trạng thái mạng; server render poster, chỉ mount nguồn video sau khi kiểm tra tùy chọn người dùng. Hàm nội bộ `HeroPlayback` quản lý play/pause, lỗi media và autoplay bị chặn; remount khi đổi nguồn để reset trạng thái. Poster chỉ được video che khi `playing`; gradient và caption có lớp riêng. Không tạo component/engine video bên ngoài.
 - `heroMedia.poster` và `desktopSrc` đã trỏ tới poster/video iStock preview do người dùng cung cấp; `mobileSrc` là `null` và fallback cùng nguồn desktop. Caption ghi rõ footage minh họa ngành in. Video 768×432, 21,81 giây và có watermark, chưa có xác nhận giấy phép công khai; chưa phải footage Sunflower thực tế.
 - `app/layout.tsx` và các route là Server Components theo mặc định. `Container`, `Arrow` là UI dùng chung không có state trình duyệt.
@@ -127,6 +133,17 @@ G1 đã hoàn tất code và QA production static preview: screenshot thực t�
 G2 đã triển khai code các section và Footer, dùng Server Components/typed content. Theo yêu cầu người dùng, không chạy lại bộ kiểm thử hoặc screenshot G2; chỉ build để cập nhật bản xem. Không lấy QA G1 làm bằng chứng nghiệm thu UI G2.
 
 ## 4. Vai trò từng tầng
+
+### Motion/3D — kiến trúc G2.Motion đã triển khai
+
+Hướng thiết kế mới yêu cầu giao diện hiện đại/mạnh mẽ/bắt mắt, nhiều animation phối hợp và khối sản phẩm có chiều sâu; contract tại DESIGN.md mục 8, kết quả tại G2.Motion trong IMPLEMENTATION_PLAN.md.
+
+- Source hiện có reveal controller, phrase/media Hero choreography, image-mask, gallery/card stagger, menu/CTA feedback và scene CSS 3D có parallax/tilt giới hạn. Không có model viewer hoặc WebGL.
+- Native CSS + IntersectionObserver + JavaScript nhẹ chỉ nằm ở controller/scene cần DOM, scroll và pointer. Copy, metadata và composition tiếp tục là Server Components. Không thêm repo ngoài hoặc animation dependency.
+- Motion/depth tokens nằm cùng globals.css, không tạo theme/source song song. Scene nằm trong `components/products/` vì gắn trực tiếp với ngữ nghĩa tem nhãn.
+- Server HTML và no-JS phải đọc/bấm được, asset lỗi có fallback; reduced motion vẫn giữ bố cục mạnh và chiều sâu tĩnh. Không làm form/backend hoặc bảy route phụ thuộc animation init.
+
+G2.Motion không sửa package hoặc media. TypeScript/build và browser QA tập trung được ghi tại IMPLEMENTATION_PLAN.md; chưa lặp toàn bộ kiểm thử G1.
 
 | Tầng | Trách nhiệm | Không đặt vào đây |
 |---|---|---|
@@ -145,7 +162,7 @@ Component chỉ được viết khi đến slice triển khai hoặc có nhu c�
 
 | Route | Trạng thái hiện tại | Chức năng theo STRUCTURE, chưa triển khai đầy đủ |
 |---|---|---|
-| `/` | Header + Hero | Introduction, nhóm sản phẩm, năng lực, giải pháp, dự án, quy trình và CTA |
+| `/` | Header/Hero + section G2 + Footer + G2.Motion/scene 3D | Năng lực, giải pháp, dự án, quy trình và phần còn lại ở G6 |
 | `/gioi-thieu` | Route + tiêu đề + metadata | Company story, giá trị, con người và liên kết liên quan |
 | `/san-pham` | Route + tiêu đề + metadata | Catalogue, category navigation/filter và inquiry context |
 | `/giai-phap` | Route + tiêu đề + metadata | Bài toán → giải pháp → sản phẩm liên quan → liên hệ |
@@ -164,4 +181,4 @@ Danh mục 13 nhóm trong STRUCTURE đã được chủ doanh nghiệp xác nh�
 
 ## 7. Trạng thái sau khi dọn source
 
-Cây thư mục bảy trang và design tokens được giữ. Đã loại bỏ demo HTML cũ, ảnh/báo cáo QA, poster minh hoạ, component PendingPage và thông báo bản thử trong menu. Sáu trang con chỉ giữ cấu trúc semantic, tiêu đề và metadata; chưa triển khai catalogue, Footer hoặc biểu mẫu. `scripts/preview.mjs` là công cụ phục vụ static export thực tế, được giữ cùng các script lint/typecheck/build.
+Cây thư mục bảy trang và design tokens được giữ. Đã loại bỏ demo HTML cũ, ảnh/báo cáo QA, poster minh hoạ, component PendingPage và thông báo bản thử trong menu. Sau G2, Footer đã dùng chung; sáu trang con vẫn chỉ có cấu trúc semantic, tiêu đề và metadata, chưa có catalogue/nội dung chi tiết/biểu mẫu. `scripts/preview.mjs` phục vụ static export; không tạo lại source demo để thử hướng motion/3D.

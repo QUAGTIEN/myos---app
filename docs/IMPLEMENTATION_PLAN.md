@@ -1,6 +1,6 @@
 # Sunflower — Kế hoạch triển khai website
 
-Ngày lập: 14/10/2026. Trạng thái: đã chốt bộ đầu vào G0 tạm cho bản xem theo chỉ định người dùng — copy bảy trang, 9 ảnh sản phẩm, 5 ảnh Unsplash minh họa doanh nghiệp, 1 ảnh văn phòng và video/poster Hero. Tiếp tục bằng bộ này; người dùng bổ sung/chỉnh sửa ảnh sau, không chờ đủ bộ media. Chủ doanh nghiệp xác nhận đủ 13 nhóm sản phẩm và cho phép dữ liệu liên hệ minh họa để xem bố cục. Đầu vào chính thức vẫn cần hoàn thiện trước công khai; chưa nghiệm thu G1 hoặc triển khai các trang còn lại.
+Ngày lập/cập nhật: 14/10/2026. G0 bản xem đã chốt; G1 đã code/QA; G2 đã triển khai section Trang chủ, Footer và hoàn tất lượt G2.Motion bằng CSS/browser APIs. Nội dung sáu trang con và đầu vào phát hành công khai vẫn chưa hoàn tất.
 
 Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, REFERENCE_GUIDE.md, ARCHITECTURE.md và source hiện tại. Kế hoạch này tổ chức công việc, không thay thế design tokens hoặc bổ sung sitemap/chức năng ngoài tài liệu đã duyệt.
 
@@ -14,8 +14,8 @@ Hiện có:
 
 - Next.js App Router, React, TypeScript, Tailwind và font Inter self-host.
 - Bảy route đã tạo, design tokens trong globals.css, Container và Header có menu mobile.
-- VideoHero có nguồn video iStock preview do người dùng chọn và poster tương ứng. Đã kiểm tra playback/pause/play trên trình duyệt; logic reduced motion và mạng hạn chế giữ poster, chưa kiểm tra các tùy chọn này bằng emulation.
-- Sáu trang con chỉ có tiêu đề và metadata; chưa có catalogue, gallery, Footer hay form.
+- VideoHero dùng iStock preview/poster. Kết quả QA G1 được ghi ở báo cáo G1; không dùng chúng để xác nhận motion/3D chưa triển khai hoặc giao diện G2 chưa kiểm tra.
+- Trang chủ đã có section G2; Footer dùng chung cả bảy route. Sáu trang con vẫn chỉ có tiêu đề/metadata cùng Footer; catalogue, giải pháp, nội dung chi tiết và form chưa triển khai.
 - Static export ra out/; đang giữ noindex. Chưa có backend gửi yêu cầu báo giá.
 - Tám ảnh Sonoco tại reference/desktop/ ở gốc workspace. Đây là tài liệu nghiên cứu, không phải media của website.
 
@@ -28,7 +28,7 @@ Hiện thiếu logo chính thức, bản Hero HD được cấp phép, ảnh Sun
 3. Mỗi đợt chỉ xử lý một module hoặc 2–3 section có quan hệ rõ. Thiết kế và kiểm tra desktop/mobile ngay trong đợt đó.
 4. Tái sử dụng source đang có. Chỉ tạo component chung khi có hai cách dùng có ý nghĩa hoặc cần tách logic phức tạp; không tạo trước hàng loạt component rỗng.
 5. Nội dung sản phẩm, giải pháp và dự án có một nguồn dữ liệu dùng chung cho trang chủ và trang con. Chỉ render dữ liệu được phép công bố.
-6. Animation chỉ bổ sung khi có tác dụng rõ. Không dùng hiệu ứng để che ảnh yếu, bố cục thiếu cân đối hoặc nội dung mỏng.
+6. Animation và khối 3D là yêu cầu thiết kế chính theo chỉ định mới. Phải có nhiều kiểu chuyển động phối hợp và điểm nhấn sản phẩm có chiều sâu; giao diện truyền thống/tĩnh hoặc chỉ fade-in không đạt. Áp dụng contract tại DESIGN.md mục 8; không dùng hiệu ứng để che ảnh yếu, nội dung mỏng hoặc bố cục kém.
 7. Sau khi một hướng đã được duyệt, không tự thay font, palette hoặc ngôn ngữ bố cục ở module tiếp theo. Nếu cần thay đổi lớn, trình bày phương án cụ thể và ảnh hưởng trước.
 8. Có thể tiếp tục công việc độc lập khi thiếu một đầu vào, nhưng không nghiệm thu phần phụ thuộc đầu vào đó. Ví dụ: thiếu video vẫn chuẩn hóa tokens được; Hero cinematic vẫn chưa hoàn thành.
 
@@ -39,6 +39,7 @@ Hiện thiếu logo chính thức, bản Hero HD được cấp phép, ảnh Sun
 | G0 | Chốt nội dung và media | Danh mục đầu vào, nội dung từng trang, media ưu tiên | Có đầu vào tối thiểu để thiết kế màn hình đầu bằng tài sản thật |
 | G1 | Nền tảng + Header + Hero | Màn hình đầu desktop/mobile, menu và video hoạt động | Duyệt chất lượng Header/Hero; sửa xong lỗi đọc chữ, bố cục, crop và responsive |
 | G2 | Ngôn ngữ section + khung dùng chung | Giới thiệu ngắn, nhóm sản phẩm nổi bật, một section navy, ContactCTA/Footer | Chốt được nhịp sáng/tối, tỷ lệ ảnh/chữ và component dùng chung |
+| G2.Motion | Hoàn thiện hướng hiện đại trên G1–G2 | Reveal/choreography, interaction và điểm nhấn khối 3D sản phẩm | Có khác biệt thị giác rõ, nhiều loại motion phối hợp, static fallback mạnh; trạng thái kiểm tra được báo đúng |
 | G3 | Sản phẩm + Giải pháp | Hai trang nội dung và hành trình chọn nhu cầu → liên hệ | Catalogue chính xác; điều hướng/lọc có tác dụng; liên kết ngữ cảnh đúng |
 | G4 | Giới thiệu + Năng lực + Dự án | Ba trang chứng minh doanh nghiệp bằng nội dung/ảnh được duyệt | Mỗi trang có mục đích riêng; mọi bằng chứng có nguồn và quyền công bố |
 | G5 | Liên hệ + báo giá | Trang liên hệ, form và luồng gửi thật | Endpoint nhận được yêu cầu; xử lý lỗi đúng; thông tin liên hệ đã xác nhận |
@@ -144,6 +145,24 @@ File/module dự kiến: src/sections/home/, components/editorial/, components/p
 
 Nghiệm thu: khi cuộn từ Hero xuống, bố cục có nhịp và chuyển màu hợp lý; ảnh là điểm nhấn; tiêu đề, nội dung và CTA thẳng hàng theo grid. Không lặp liên tiếp nhiều grid card giống nhau. Đây là mốc duyệt ngôn ngữ giao diện trước khi triển khai rộng các trang con.
 
+### G2.Motion — Animation, chiều sâu và khối 3D (đã hoàn tất)
+
+Hướng này đã được người dùng chấp thuận và đã được triển khai trên G1/G2 trước khi mở rộng pattern sang G3. Không dựng lại website hoặc thay đổi sitemap. Contract duy nhất về timing, token, 3D và fallback ở [DESIGN.md mục 8](DESIGN.md#8-motion--interaction-system).
+
+Chia ba phần để triển khai rõ ràng:
+
+1. **Choreography và interaction:** tokens dùng chung; phrase reveal cho Hero, sequencing mô tả/CTA, image-mask reveal cho giới thiệu, stagger cho sản phẩm/WhySunflower, chuyển động link/nút/menu. Không nhân cùng một fade-in lên mọi phần tử.
+2. **Điểm nhấn 3D:** scene khối tem/giấy/bao bì tự tạo bằng CSS perspective/layered geometry, cân nhắc vị trí chuyển tiếp Hero–Giới thiệu hoặc trong gallery có sẵn. Packshot tách nền hỗ trợ chiều sâu; asset/credit/fallback theo MEDIA_BRIEF.md. Không thay video Hero hoặc tạo section/route thứ tám. Không dùng ảnh phẳng có shadow như bằng chứng đã hoàn tất toàn bộ yêu cầu 3D.
+3. **Mở rộng và tinh chỉnh:** áp dụng pattern phù hợp cho G3–G6; mobile giảm biên độ/số hiệu ứng đồng thời, touch không phụ thuộc hover, reduced motion giữ bố cục và chiều sâu tĩnh.
+
+Triển khai mặc định bằng CSS + IntersectionObserver + JavaScript nhẹ trên source hiện tại, không cần repo ngoài. Chỉ thêm client controller/hook khi logic browser thực sự cần; chưa cài animation engine/WebGL. Không thêm file demo/mock, không tạo thêm tài liệu motion song song.
+
+File có thể thay đổi trong lượt code sau: globals.css, Header/VideoHero, section Home và một lớp reveal/scene dùng chung nếu cần. Đây là dự kiến; ARCHITECTURE.md vẫn phản ánh source thực tế. Bàn giao phải có chuyển động nhìn thấy được và tối thiểu một spatial/3D scene mang ngữ nghĩa sản phẩm. Giữ tính đọc được của CTA/caption trong mọi trạng thái.
+
+Kết quả: `MotionController` điều phối reveal theo viewport nhưng giữ server HTML hiển thị khi no-JS/reduced-motion; Hero vào theo cụm chữ/media, ảnh giới thiệu dùng mask, product/Why dùng stagger, menu và CTA có feedback. `ProductDepthScene` dựng cuộn tem, chồng tờ in và dải nhãn bằng CSS perspective/layered geometry; desktop có tilt theo con trỏ và scroll offset giới hạn, mobile dùng bố cục tĩnh đơn giản hơn.
+
+Kiểm tra tập trung: TypeScript và production build đạt. Chromium production preview tại 1440×900 và 390×844 không tràn ngang, toàn bộ reveal đi đến trạng thái hiển thị, scene có mặt ở cả hai breakpoint, tilt desktop thay đổi transform, menu mobile mở/đóng và không có page error. Reduced-motion không mount video, không để nội dung opacity 0. Đã xem lại screenshot desktop/mobile và scene. Theo yêu cầu tiết kiệm thời gian, không lặp toàn bộ ma trận năm viewport, kiểm tra mạng/video của G1 hoặc lint.
+
 ### G3 — Sản phẩm và Giải pháp
 
 Đợt G3.1 — Sản phẩm:
@@ -242,7 +261,7 @@ Không dừng để xin duyệt từng thay đổi spacing nhỏ. Các mốc c�
 - Media: ảnh/video thật, sắc nét, ánh sáng nhất quán, crop đúng chủ thể; sản phẩm và chất liệu thể hiện rõ.
 - Responsive: thứ tự và kích thước được thiết kế riêng; không tràn ngang, CTA dễ bấm, ảnh không méo và menu không che mất thao tác.
 - Nội dung: cụ thể, đáng tin, phù hợp người mua B2B; không dùng slogan hoặc số liệu không có bằng chứng.
-- Tương tác: nút/link/filter/form có kết quả thật; focus và trạng thái rõ; chuyển động tiết chế.
+- Tương tác: nút/link/filter/form có kết quả thật; focus rõ; nhiều animation phối hợp và chiều sâu sản phẩm theo DESIGN.md. Không nghiệm thu một giao diện truyền thống/cũ kỹ hoặc chỉ có fade-in cơ bản.
 
 Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá do thiếu đầu vào” theo các tiêu chí trên. Không tự chấm một điểm số đẹp tổng quát để thay thế việc chỉ ra và sửa khác biệt cụ thể.
 
@@ -252,6 +271,7 @@ Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá
 - [ ] G0 công khai: hoàn thiện dữ liệu chính thức, media phù hợp và trạng thái quyền sử dụng.
 - [x] G1 code/QA: Header/Hero hoàn tất với footage/poster G0, screenshot và tương tác đã kiểm tra; chủ dự án duyệt bản xem trước G2.
 - [x] G2 code: section sáng/tối và component chung đã triển khai; bỏ kiểm thử theo yêu cầu người dùng, UI chờ duyệt qua bản xem.
+- [x] G2.Motion: choreography, interaction, CSS 3D scene và reduced-motion/no-JS fallback đã code; kiểm tra tập trung desktop/mobile đạt.
 - [ ] G3.1: Sản phẩm hoàn thiện.
 - [ ] G3.2: Giải pháp hoàn thiện.
 - [ ] G4.1: Giới thiệu hoàn thiện.

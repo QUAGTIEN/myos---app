@@ -130,8 +130,8 @@ export function VideoHero() {
 
   return (
     <section className="video-hero" aria-labelledby="hero-title">
-      <div className="hero-brand-arc" aria-hidden="true" />
-      {(heroMedia.poster || source) && <div className="hero-media">
+      <div className="hero-brand-arc" data-reveal="hero-panel" aria-hidden="true" />
+      {(heroMedia.poster || source) && <div className="hero-media" data-reveal="hero-media">
         {heroMedia.poster && <Image
           src={heroMedia.poster}
           alt=""
@@ -146,12 +146,12 @@ export function VideoHero() {
       </div>}
       <Container className="hero-content">
         <div className="hero-copy">
-          <p className="hero-eyebrow">{heroContent.eyebrow}</p>
+          <p className="hero-eyebrow" data-reveal="hero-copy">{heroContent.eyebrow}</p>
           <h1 id="hero-title">{heroContent.title.map((line, index) => (
-            <span className="hero-title-line" key={line}>{index > 0 && ' '}{line}</span>
+            <span className="hero-title-line" data-reveal="hero-title" data-reveal-delay={index + 1} key={line}>{index > 0 && ' '}{line}</span>
           ))}</h1>
-          <p className="hero-description">{heroContent.description}</p>
-          <div className="hero-actions">
+          <p className="hero-description" data-reveal="hero-copy" data-reveal-delay="4">{heroContent.description}</p>
+          <div className="hero-actions" data-reveal="hero-copy" data-reveal-delay="5">
             <Link href={heroContent.primaryCta.href} className="button button-primary">{heroContent.primaryCta.label}<Arrow /></Link>
             <Link href={heroContent.secondaryCta.href} className="hero-secondary">{heroContent.secondaryCta.label}<Arrow diagonal /></Link>
           </div>

@@ -21,7 +21,9 @@ export function Header() {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const wordmarkRef = useRef<HTMLAnchorElement>(null);
   const restoreFocusRef = useRef(true);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuClosing, setMenuClosing] = useState(false);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -39,13 +41,28 @@ export function Header() {
 
   useEffect(() => { dialogRef.current?.close(); }, [pathname]);
 
+  useEffect(() => () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+  }, []);
+
+  function openMenu() {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    setMenuClosing(false);
+    setMenuOpen(true);
+    dialogRef.current?.showModal();
+  }
+
   function closeMenu(restoreFocus = true) {
     restoreFocusRef.current = restoreFocus;
-    dialogRef.current?.close();
+    if (!dialogRef.current?.open) return;
+    setMenuClosing(true);
+    closeTimerRef.current = setTimeout(() => dialogRef.current?.close(), 240);
   }
 
   function handleMenuClose() {
     setMenuOpen(false);
+    setMenuClosing(false);
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
     if (restoreFocusRef.current) {
       const target = window.matchMedia('(min-width: 1200px)').matches
         ? wordmarkRef.current : triggerRef.current;
@@ -82,12 +99,12 @@ export function Header() {
             {mainNavigation.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</Link>)}
           </nav>
           <Link href="/lien-he" className="button button-primary header-cta" aria-current={pathname === '/lien-he' ? 'page' : undefined}>Yêu cầu báo giá <Arrow diagonal /></Link>
-          <button ref={triggerRef} type="button" className="menu-trigger" aria-label="Mở menu" aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={() => { restoreFocusRef.current = true; dialogRef.current?.showModal(); setMenuOpen(true); }}>
+          <button ref={triggerRef} type="button" className="menu-trigger" aria-label="Mở menu" aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={openMenu}>
             <span aria-hidden="true" /><span aria-hidden="true" />
           </button>
         </Container>
       </header>
-      <dialog ref={dialogRef} id="mobile-navigation" className="mobile-menu" aria-labelledby="menu-title" onKeyDown={keepMenuFocus} onClose={handleMenuClose}>
+      <dialog ref={dialogRef} id="mobile-navigation" className={`mobile-menu${menuClosing ? ' is-closing' : ''}`} aria-labelledby="menu-title" onKeyDown={keepMenuFocus} onCancel={event => { event.preventDefault(); closeMenu(); }} onClose={handleMenuClose}>
         <div className="mobile-menu-top">
           <span className="wordmark" id="menu-title">SUNFLOWER<span className="wordmark-dot" aria-hidden="true">.</span></span>
           <button type="button" className="menu-close" aria-label="Đóng menu" onClick={() => closeMenu()} autoFocus><span aria-hidden="true">×</span></button>

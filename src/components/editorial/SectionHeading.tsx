@@ -5,7 +5,7 @@ export function SectionHeading({ id, eyebrow, title, description, className = ''
   description?: string;
   className?: string;
 }) {
-  return <div className={`section-heading ${className}`.trim()}>
+  return <div className={`section-heading ${className}`.trim()} data-reveal="up">
     <p className="section-eyebrow">{eyebrow}</p>
     <h2 id={id}>{title}</h2>
     {description && <p className="section-description">{description}</p>}

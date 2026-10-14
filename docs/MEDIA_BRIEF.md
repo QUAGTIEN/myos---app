@@ -2,6 +2,17 @@
 
 Ngày lập: 14/10/2026. Trạng thái: đã nhận và tích hợp video Hero minh họa người dùng chọn; đã nhận 9 ảnh catalogue, 5 ảnh Unsplash minh họa doanh nghiệp/ngành in và 1 ảnh văn phòng, đưa vào source G0. Người dùng chỉ định tiếp tục bằng bộ hiện có, bổ sung/chỉnh sửa ảnh sau; không chờ đủ bộ 35 ảnh để làm bản xem. Logo và ảnh xác thực cơ sở/nhân sự Sunflower vẫn đang chờ. Tài liệu này chi tiết hóa các vị trí ảnh trong [STRUCTURE.md](STRUCTURE.md) theo art direction của [DESIGN.md](DESIGN.md), không bổ sung trang/section.
 
+### Đầu vào chiều sâu/3D theo hướng mới — CSS scene đã triển khai, chưa có asset 3D ngoài
+
+Yêu cầu hiện đại/mạnh mẽ với animation và khối 3D được chốt ở [DESIGN.md mục 8](DESIGN.md#8-motion--interaction-system); MWDT là tham chiếu phụ về sản phẩm vượt ranh giới section. Những tài nguyên sau phục vụ lượt G2.Motion, không tăng số route hoặc mặc định tăng bộ ảnh G0:
+
+- **Scene 3D tự tạo:** cuộn tem, khối hộp hoặc các lớp giấy có chiều dày, perspective và artwork nguyên bản. Có thể dựng bằng CSS/layered geometry trong source, không đòi thêm repo, ảnh hay model mới để bắt đầu. Đây là minh họa hình khối sản phẩm, không chứng minh quy cách/năng lực thực tế.
+- **Packshot hỗ trợ 2.5D:** khi có ảnh đủ lớn/tách nền được phép dùng, tái sử dụng một đường dẫn cho các layer; giữ hình dáng/nhãn gốc, không phóng lớn ảnh 218px làm điểm nhấn. Đánh giá từng ảnh hiện có trước khi yêu cầu bổ sung. Tách nền/biến thể là công việc asset riêng chưa thực hiện ở lượt docs này.
+- **Nếu cần model WebGL về sau:** xác nhận model nguồn, quyền sử dụng, artwork, kích thước/phần nào là minh họa, bản tối ưu và poster tĩnh. Không tự coi ảnh packshot là model 3D hoặc tuyên bố asset đã tồn tại. Không lấy model/render từ MWDT hay Sonoco.
+- **Fallback và nguồn:** mỗi scene phải có trạng thái tĩnh khi giảm chuyển động/touch/asset lỗi. Model/texture nếu được bổ sung phải ghi nguồn/quyền và dùng chung, không sao chép theo từng trang. Minh họa 3D không thay ảnh bằng chứng nhà xưởng hoặc dự án thật.
+
+Source chưa có model hoặc packshot tách nền mới. G2.Motion đã triển khai scene cuộn tem/lớp giấy/dải nhãn bằng CSS geometry, có caption minh họa và không cần thêm asset. Packshot hoặc model thật vẫn là lựa chọn tương lai khi có quyền sử dụng và nhu cầu cụ thể.
+
 ### Tài nguyên Hero đã nhận
 
 - Nguồn: `istockphoto-1139033230-640_adpp_is.mp4`, do người dùng cung cấp và yêu cầu sử dụng làm Hero.

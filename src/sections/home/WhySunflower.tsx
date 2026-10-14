@@ -17,7 +17,7 @@ export function WhySunflower() {
         {copy.items.map((item, index) => {
           const media = companyMedia.find(photo => photo.id === item.mediaId);
           if (!media) return null;
-          return <article className="collaboration-feature" key={item.title}>
+          return <article className="collaboration-feature" data-reveal="depth-card" data-reveal-delay={(index % 4) + 1} key={item.title}>
             <CompanyPhoto media={media} sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1199px) 45vw, 30vw" />
             <div className="collaboration-feature-copy">
               <span className="feature-number" aria-hidden="true">0{index + 1}</span>

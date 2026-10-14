@@ -1,17 +1,25 @@
 # SUNFLOWER — DESIGN SYSTEM
-> **Version:** 2.0 · 2026-10-13  
+> **Version:** 2.2 · 2026-10-14
 > **Status:** Approved *design direction*; exact legal Sunflower brand colors, logo, video footage and content still require source verification.  
 > **Primary reference:** https://www.sonoco.com/na  
-> **Visual DNA:** Sonoco-inspired · Modern Industrial Corporate · Cinematic · Trustworthy · Structured · Editorial  
+> **Visual DNA:** Sonoco-inspired · Modern Industrial Corporate · Powerful · Cinematic · Expressive motion · Product depth · Clean editorial
 > **Authority:** Defines visual presentation. Functions and routes are defined in `STRUCTURE.md`.
 
 ## 1. Design intent / What to borrow from Sonoco
+
+### Latest approved brief — modern, powerful, dimensional
+
+The owner's instruction on 14/10/2026 supersedes the earlier restrained-motion direction: **Sunflower must be professional and clean, yet visibly modern, powerful and eye-catching, with multiple purposeful effects, animation and 3D blocks. Traditional/dated corporate styling is unacceptable.** Motion and depth are part of the visual identity and acceptance criteria, not an optional polish pass.
+
+Keep Sonoco's editorial clarity, strong typography, large media, controlled whitespace and section rhythm. Use MWDT as a secondary reference for prominent product objects and depth across section boundaries. Keep Sunflower's brighter blue/orange palette, Inter, cinematic video Hero, content and seven-page structure. This direction authorizes richer movement and spatial composition without copying either reference's assets or exact layouts. Detailed effects below are Sunflower proposals, not assertions about animations observed on those sites.
+
+The static composition must also feel contemporary: confident scale contrast, intentional overlaps, open galleries, dimensional product/packaging forms and varied image/text arrangements. A conventional stack of centered headings, equal cards and basic fades is insufficient. Visual energy must come from the design as well as movement.
 
 1. **Large-scale corporate color blocks:** deep navy/blue creates identity; white/off-white preserves readability.
 2. **Strong hero:** a bold industrial video area, prominent headline, one dominant action.
 3. **Editorial sequencing:** Hero → clear message → products/markets → differentiators → capabilities/proof → project imagery → contact.
 4. **Full-bleed media + strong information hierarchy:** large product/manufacturing photographs instead of random decorative icons.
-5. **Controlled green accent:** a clear action color that stands out against blue and neutral sections.
+5. **Controlled action accent:** use the active orange CTA tokens against bright blue and neutral sections; baseline green remains inactive.
 6. **Strong typography:** large, confident, concise Vietnamese headings with real B2B meaning.
 7. **High production value, low visual clutter.** Each section earns its place.
 
@@ -231,15 +239,60 @@ No random icon illustrations where good imagery or text tells the story better.
 
 ## 8. Motion & interaction system
 
-- Principle: **video carries cinematic energy; UI motion is restrained**.
-- First entrance: headline reveal + CTA delay, ~350–700ms; do not over-animate each word.
-- Standard hover: 160–260ms; section reveal: 400–750ms.
-- Motion easing: `cubic-bezier(0.22, 1, 0.36, 1)`; use reusable durations.
-- Scroll reveal: max one primary reveal per section; never hide essential text if JS fails.
-- Hero scroll: optional subtle shift/fade, no scroll locking or forced transitions.
-- `prefers-reduced-motion`: disable decorative transforms and auto-playing video.
-- Use CSS for small interactions; Motion/GSAP only with clear need. Avoid mixing several large motion libraries.
-- Maintain 60fps as a practical ambition, not a guaranteed claim. Animate transform/opacity rather than layout where possible.
+### 8.1 Required motion language
+
+**Expressive, precise, industrial.** Combine several complementary effects through the page: typographic entrances, image reveals, staggered galleries, short scroll-linked movement, interaction feedback and dimensional product staging. A single global fade-in is not an adequate implementation. Each section has a dominant motion idea and supporting interactions; vary the choreography while sharing timing/easing tokens. The video remains an important focal point, with the UI and 3D composition contributing their own energy.
+
+| Area | Required design treatment | Behavior |
+|---|---|---|
+| Header / menu | Animated underline, responsive opening/closing | Short transitions; clear active/focus states; no delayed navigation |
+| Video Hero | Phrase-level title reveal, sequenced copy/CTA, controlled blue-panel/media reveal | One coordinated entrance, roughly 600–900ms; keep video/controls readable and preserve the existing Hero |
+| BrandIntroduction | Image revealed through a mask, text entering with a distinct offset | Trigger on entry; do not split every paragraph into animated words |
+| Featured products | Staggered presentation, image depth and linked hover/focus feedback | Product remains identifiable; no decorative hover suggesting clickability on a non-link |
+| WhySunflower | Staggered photo blocks and depth between foreground/background | Animate the composition's existing offsets; retain illustration captions and credits |
+| Product/packaging signature | Original dimensional object overlapping an existing image/color boundary | A required visual anchor inside an approved section, not a new route or replacement for the video Hero |
+| ContactCTA | Confident heading entrance, responsive button/arrow interaction | CTA stays available immediately; no continuously flashing or bouncing button |
+
+Entrances normally play once per page visit. Longer decorative motion belongs to the signature object, not every card; stop it offscreen and provide a stop/static option if it runs continuously. Preserve native scroll speed and reading order. No forced scroll snapping, hijacking, custom cursor or blocking transition screens.
+
+### 8.2 3D and dimensional composition
+
+**3D blocks are explicitly approved and required in the visual direction.** Prioritize Sunflower-related forms: a label roll with visible thickness, layered printed sheets, an extruded packaging box or a material/sample stack. Model depth, perspective, lighting and a consistent contact shadow so the object has believable volume. Use blue/orange/neutral tokens and original generic artwork; avoid unrelated cubes/orbs or copied MWDT component geometry.
+
+- First implementation: native CSS perspective/3D transforms and layered geometry for a product-related scene. A cut-out packshot can support a 2.5D layer, but a flat image with a shadow alone does not satisfy the full dimensional brief.
+- Proposed placement: the Hero-to-BrandIntroduction boundary or FeaturedProductCategories composition, preserving section order and safe zones for title/CTA. At least one prominent dimensional scene is required on the final Home design; the pattern may then be reused selectively on inner pages.
+- Pointer tilt may use modest rotation and translateZ on fine-pointer desktop. Scroll-linked translation/rotation should have a short bounded range. Keep labels/text readable; no endless fast spinning.
+- Photographic packshots need sufficient resolution and authorized backgrounds/artwork. Interactive WebGL is an optional later technical route if a real model/viewer need emerges; it is not necessary for CSS-built 3D forms.
+- Generic 3D forms are brand/product illustrations, not proof of a real Sunflower machine, factory, client project or exact product specification. The G2 CSS scene is explicitly captioned as an illustration; no external model or packshot asset is implied.
+
+### 8.3 Motion/depth tokens — implemented centrally in G2.Motion
+
+These canonical targets are now present in `globals.css`. Keep existing palette/spacing tokens and update this contract when tuning rather than scattering numbers across components.
+
+| Token | Initial value | Purpose |
+|---|---|---|
+| `--motion-fast` | `180ms` | Links/arrows/underline |
+| `--motion-ui` | `240ms` | Buttons and menu interaction |
+| `--motion-reveal` | `600ms` | Section/image reveal |
+| `--motion-hero` | `800ms` | Hero entrance sequence |
+| `--motion-stagger` | `80ms` | Neighboring blocks/phrase offsets |
+| `--motion-distance` | `24px` | Standard entrance translation |
+| `--motion-hover-distance` | `4px` | Linked arrow translation |
+| `--motion-hover-scale` | `1.03` | Product image hover |
+| `--motion-scroll-range` | `48px` | Maximum initial desktop parallax travel |
+| `--depth-perspective` | `1000px` | Scene perspective |
+| `--depth-layer` | `24px` | Supporting layer depth |
+| `--depth-feature` | `64px` | Foreground product depth |
+| `--depth-tilt-max` | `8deg` | Initial desktop pointer tilt bound |
+| `--ease-standard` | Existing `cubic-bezier(0.22, 1, 0.36, 1)` | Shared movement easing |
+
+### 8.4 Implementation and accessible fallbacks
+
+Default to self-authored CSS/keyframes, IntersectionObserver and lightweight browser JavaScript. No external repo is required. Add a shared reveal/scene controller only when it serves real usages; preserve Server Components for copy/page composition. Consider at most one motion engine only when native tools cannot cleanly deliver the agreed choreography; do not install multiple libraries or a 3D renderer automatically.
+
+Use progressive enhancement: essential content and CTA are visible in server HTML/no-JS mode, before observer/scene initialization and if an asset fails. Never leave text at opacity zero because a script has not loaded. Animate transform/opacity where possible; avoid scroll-driven layout recalculation, oversized compositing layers and a permanent will-change on every element. Performance targets must be measured, not described as guaranteed.
+
+Mobile uses the same confident composition with shorter offsets, fewer simultaneous effects and a static or simplified dimensional scene. Disable pointer tilt on touch. Under prefers-reduced-motion, remove reveals/parallax/tilt/continuous motion and use the Hero poster, keeping the strong type, spacing and static product depth. Caption, focus outline, video controls, forms and navigation stay operable throughout animations.
 
 ## 9. Imagery & media art direction
 
@@ -295,6 +348,12 @@ The new Home slice applies existing recipes: pale-blue/white editorial introduct
 
 Per the owner’s explicit G2 request, no new browser/screenshot or separate lint/typecheck QA is run in this slice. Responsive styling is implemented but visual acceptance remains pending. G1 screenshots do not certify G2.
 
+### G2.Motion implementation — 14/10/2026
+
+G2.Motion adds a shared IntersectionObserver controller with progressive enhancement; phrase/media Hero reveal, introduction image mask, staggered product and collaboration compositions, responsive menu transitions, and button/arrow feedback. The featured-products section now contains a CSS-built label-roll, printed-sheet and label-web scene with real perspective/layer thickness, bounded desktop scroll movement and pointer tilt. It is captioned as a 3D illustration, not a technical specification or factory claim. No animation dependency, WebGL renderer, model asset or new route was added.
+
+At 1440×900 and 390×844, production-preview screenshots confirm the intended composition, complete content and no horizontal overflow. Motion state was inspected in-browser; desktop tilt changes the 3D transform, mobile menu opens/closes, and no page errors occurred. Reduced-motion keeps all reveal content visible, removes the scene movement and uses the existing static Hero poster. TypeScript and production build pass; the full G1 five-viewport/media/network test matrix and lint were not repeated for this slice.
+
 ## 11. EXAMPLE SECTION SEQUENCE / COLOR MAP
 
 | Home sequence | Visual recipe | Background |
@@ -314,7 +373,10 @@ Per the owner’s explicit G2 request, no new browser/screenshot or separate lin
 
 ## 12. Design system acceptance criteria
 
-- [ ] Sonoco-inspired **blue/white/light-neutral + controlled green** hierarchy is immediately recognizable without copying their trademark.
+- [ ] Sonoco-inspired **blue/white/light-neutral + active orange** hierarchy is recognizable, with original Sunflower identity.
+- [ ] The result feels modern, powerful and eye-catching; traditional/dated corporate composition is rejected even if its spacing is clean.
+- [x] Multiple complementary motion patterns and a prominent product-related dimensional/3D scene are implemented; a generic fade-only page is insufficient.
+- [x] Motion/depth follow section 8, with usable touch, reduced-motion and no-JS states; the CSS illustration requires no external 3D asset.
 - [ ] Hero has cinematic video, safe overlay, distinctive large typography, accessible fallback.
 - [ ] Pages feel like a substantial B2B corporate website, not a generic three-card landing page.
 - [ ] Design tokens/spacing/type are consistent across pages.

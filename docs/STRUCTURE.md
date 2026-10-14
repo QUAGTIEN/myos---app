@@ -1,5 +1,5 @@
 # SUNFLOWER — WEBSITE STRUCTURE & FUNCTIONAL SPECIFICATION
-> **Version:** 2.0 · 2026-10-13  
+> **Version:** 2.1 · 2026-10-14
 > **Status:** Seven public routes approved. Internal page sections are implementation specifications subject to real content/media and user review.  
 > **Visual reference:** Sonoco homepage section storytelling + Sunflower business context  
 > **Related:** `../../AGENTS.md` (working rules at workspace root) · `DESIGN.md` (UI/UX and media)
@@ -11,6 +11,12 @@
 **This document does not replace:** `AGENTS.md` for agent behavior, `DESIGN.md` for colors/typography/motion, verified company facts or existing production code.
 
 **Project type:** Public corporate website + showcase + lead generation for Sunflower. **Do not confuse with the internal Sunflower ERP/CRM.**
+
+### Modern presentation contract — no change to information architecture
+
+The owner's latest direction requires a modern, powerful, eye-catching interface with expressive animation and product-related 3D/depth, while preserving clean Sonoco-inspired hierarchy. [DESIGN.md section 8](DESIGN.md#8-motion--interaction-system) is the single motion specification; [REFERENCE_GUIDE.md](REFERENCE_GUIDE.md) distinguishes Sonoco's primary role from MWDT's secondary depth reference.
+
+Integrate reveals, staggered movement and dimensional objects **inside the approved sections below**. A signature product/packaging scene may overlap an existing section boundary while keeping copy, CTA and reading order intact. Do not add a new top-level page, mandatory standalone 3D section, route transition screen or product configurator. Keep the cinematic video Hero on Home. Navigation, catalogue and inquiry journeys retain the same destinations and meaning; motion cannot replace functionality. Mobile/reduced-motion/no-JS presentations remain complete and contemporary.
 
 ### Approved seven-page information architecture
 

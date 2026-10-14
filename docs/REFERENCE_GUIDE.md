@@ -1,6 +1,6 @@
 # SUNFLOWER — VISUAL REFERENCE GUIDE
 
-> **Version:** 1.0 · 14/10/2026  
+> **Version:** 1.1 · 14/10/2026
 > **Primary reference:** https://www.sonoco.com/na  
 > **Source material:** 8 desktop screenshots **provided by the project owner** and included in `../reference/desktop/`.\
 > **Purpose:** Map the **observable visual design principles** of Sonoco to the approved 7-page Sunflower corporate website.  
@@ -20,6 +20,18 @@ Read in this order:
 **Priority:** Latest user-approved instructions > true Sunflower business identity/assets > `AGENTS.md`, `DESIGN.md`, `STRUCTURE.md` > this guide > subjective inference. If a reference screenshot conflicts with a fixed design token, **report the conflict and propose a change for approval**. Do not silently rewrite design colors or copy Sonoco exactly.
 
 **Reference policy:** Screenshots are for internal study, not website assets. No copying Sonoco logos, actual imagery, proprietary video, text, symbols, customer claims or pixel-exact layout. Use original/authorized Sunflower assets and brand wording. Adapt the *principles* (composition, hierarchy, color rhythm, image treatment, responsive strategy), not the content.
+
+### Latest reference hierarchy — modernity, animation and 3D
+
+The owner explicitly requests a professional/clean site with a modern, powerful, eye-catching presentation, many purposeful effects and 3D blocks. A traditional/static corporate brochure is unacceptable. This supersedes the earlier restrained-motion interpretation. The canonical motion/depth contract is [DESIGN.md section 8](DESIGN.md#8-motion--interaction-system); link to it instead of creating another motion specification.
+
+| Reference | Role for Sunflower | Boundary |
+|---|---|---|
+| Sonoco — eight supplied screenshots | Primary: color balance, editorial rhythm, image/text proportions, typography and spacing | Preserve the active Sunflower blue/orange tokens; do not reproduce assets or exact compositions |
+| [MWDT](https://mwdtinc.com/) — owner-supplied homepage screenshot | Secondary: prominent dimensional product, overlap between dark/light fields, bold industrial scale | In the screenshot the metal component crosses the Hero/next-section boundary. A still does not establish whether it rotates, follows scroll, uses a 3D model or a flat render |
+| Sunflower-specific design | Product-related 3D forms, reveal choreography, stagger, parallax and interaction feedback | These effects are approved design proposals for Sunflower; their runtime behavior still requires implementation |
+
+Translate MWDT's product prominence into a label roll, layered sheets or packaging volume. Keep Sonoco-inspired editorial order, the existing cinematic video Hero and the seven routes. Do not replace the palette with MWDT black/white, copy its component render/logo/outline emblem, or import its source. The next motion slice should make the new direction visibly present in the existing G1/G2 sections.
 
 **Evidence limits:** All eight supplied images are **desktop stills**. They do **not** demonstrate the real animation timing, hover states, video transitions, mobile design, implementation technology or exact CSS values. Motion and mobile behavior below are **Sunflower design proposals** informed by those stills, not observations of Sonoco. Obtain screen recordings/mobile screenshots before asserting a match in those areas.
 
@@ -285,8 +297,8 @@ Paths in code spans are relative to the sunflower-website repository root. Markd
 1. Make a Home wireframe based on `STRUCTURE.md`, **not an exact 8-screenshot paste-up**.
 2. Design a desktop visual mock at 1440px and a mobile mock at 390px for Header + Hero + 1–2 representative sections.
 3. Include actual Sunflower-approved copy/assets when available; otherwise explicitly mark placeholders and use safe generic visual shapes.
-4. Show how navy arc, video right focal area, green CTA and white editorial rhythm translate into Sunflower's brand.
-5. Request approval **before** building all seven pages. If mock requires code to show motion, build a clearly scoped throwaway/iterative prototype, not full backend features.
+4. Show how the original blue arc, video focal area, active orange CTA, white editorial rhythm and product depth translate into Sunflower's brand.
+5. Iterate the approved motion/depth brief on the existing source in a bounded slice; do not create a throwaway parallel demo. The seven-page IA and animation/3D direction are already authorized. Review major new compositions at the planned design milestone without repeatedly asking to reapprove individual effects.
 
 ### Stage 3 — Component architecture and implementation
 

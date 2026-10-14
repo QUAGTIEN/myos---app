@@ -8,7 +8,7 @@ export function ContactCTA() {
   return <section className="contact-cta section-space" aria-labelledby="contact-cta-title">
     <Container className="contact-cta-layout">
       <SectionHeading id="contact-cta-title" {...copy} />
-      <ActionLink {...copy.link} variant="button" />
+      <div data-reveal="right" data-reveal-delay="2"><ActionLink {...copy.link} variant="button" /></div>
     </Container>
   </section>;
 }

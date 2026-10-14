@@ -2,9 +2,9 @@
 
 Chỉ dẫn làm việc dùng một file duy nhất ở gốc workspace: `../AGENTS.md`. File này áp dụng cho toàn bộ source trong `sunflower-website/`.
 
-Phạm vi hiện tại: G1 Header/VideoHero và G2 các section Trang chủ + Footer dùng chung. Giữ sitemap 7 trang; sáu trang con vẫn chỉ có tiêu đề/metadata và Footer, chưa triển khai nội dung/chức năng G3–G5.
+Phạm vi hiện tại: G1 Header/VideoHero và G2 các section Trang chủ + Footer dùng chung, gồm lượt hoàn thiện motion/3D. Giữ sitemap 7 trang; sáu trang con vẫn chỉ có tiêu đề/metadata và Footer, chưa triển khai nội dung/chức năng G3–G5.
 
-G1 đã hoàn tất code và QA: Header/menu responsive, Hero xanh tươi/nút cam, poster và Pause/Play/Retry hoạt động. Đã chụp và xem lại đủ năm viewport, sửa media gây cuộn ngang/cắt chữ rồi kiểm tra lại. Lint/typecheck/build đạt. QA Chromium headless có menu/focus, reduced motion, tín hiệu tiết kiệm dữ liệu và lỗi media; bằng chứng/giới hạn tại [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md). G2 đã bắt đầu theo chỉ định tiếp theo của chủ dự án.
+G1 đã hoàn tất code và QA: Header/menu responsive, Hero xanh tươi/nút cam, poster và Pause/Play/Retry hoạt động. Đã chụp và xem lại đủ năm viewport, sửa media gây cuộn ngang/cắt chữ rồi kiểm tra lại. Lint/typecheck/build đạt. QA Chromium headless có menu/focus, reduced motion, tín hiệu tiết kiệm dữ liệu và lỗi media; bằng chứng/giới hạn tại [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md). G2 và lượt G2.Motion đã hoàn tất trên Trang chủ.
 
 Stack: Next.js App Router, React, TypeScript, Tailwind CSS. Font Inter được self-host từ gói Fontsource, có Vietnamese subset, không phụ thuộc tải font khi build.
 
@@ -28,6 +28,8 @@ npm run build
 ```
 
 ## Thiết kế
+
+Hướng mới đã được chốt: **chuyên nghiệp/sạch sẽ nhưng phải hiện đại, mạnh mẽ, bắt mắt với nhiều animation và khối 3D; không dùng thiết kế truyền thống/cũ kỹ**. Sonoco là tham chiếu chính về bố cục, MWDT bổ sung chiều sâu và cách làm nổi bật sản phẩm. Giữ xanh tươi/cam, video Hero và bảy route. Contract effect duy nhất ở [DESIGN.md mục 8](docs/DESIGN.md#8-motion--interaction-system); kết quả G2.Motion được ghi trong [IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md). Hệ thống hiện dùng CSS, IntersectionObserver và JavaScript nhẹ, không có repo/thư viện animation hoặc WebGL mới.
 
 Tài liệu được quản lý tại một nơi: [docs/INDEX.md](docs/INDEX.md). Khi cập nhật, sửa file chính và dùng liên kết từ nơi khác; không tạo thêm bản sao tài liệu.
 

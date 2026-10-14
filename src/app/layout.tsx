@@ -3,6 +3,7 @@ import '@fontsource-variable/inter';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { MotionController } from '@/components/motion/MotionController';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sunflower-print-demo-tien.quangtienpham4705.chatgpt.site'),
@@ -13,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="vi" data-accent="warm"><body><a className="skip-link" href="#main-content">Đến nội dung chính</a><Header />{children}<Footer /></body></html>;
+  return <html lang="vi" data-accent="warm"><body><a className="skip-link" href="#main-content">Đến nội dung chính</a><MotionController /><Header />{children}<Footer /></body></html>;
 }

@@ -5,9 +5,9 @@
 | Tài liệu | Vai trò |
 |---|---|
 | [AGENTS.md](../../AGENTS.md) | Chỉ dẫn làm việc duy nhất ở gốc workspace, áp dụng cho website bên dưới |
-| [DESIGN.md](DESIGN.md) | Design tokens, typography, màu, grid, hình ảnh và responsive |
+| [DESIGN.md](DESIGN.md) | Design tokens, typography, màu, grid, motion/3D bắt buộc và responsive; mục 8 là contract duy nhất về effect |
 | [STRUCTURE.md](STRUCTURE.md) | Bảy trang đã duyệt, section, chức năng và hành trình B2B |
-| [REFERENCE_GUIDE.md](REFERENCE_GUIDE.md) | Cách áp dụng tám ảnh Sonoco; không phải tài sản hình ảnh của Sunflower |
+| [REFERENCE_GUIDE.md](REFERENCE_GUIDE.md) | Sonoco tham chiếu chính về bố cục; MWDT tham chiếu phụ về chiều sâu/sản phẩm; không phải tài sản của Sunflower |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Cấu trúc source và trạng thái hệ thống thực tế |
 | [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) | Kế hoạch triển khai theo module, đầu vào và tiêu chí nghiệm thu |
 | [MEDIA_BRIEF.md](MEDIA_BRIEF.md) | G0: danh sách chụp ảnh/video, vị trí sử dụng và bộ tài nguyên ưu tiên |
@@ -19,6 +19,8 @@ Thứ tự và thẩm quyền làm việc được quy định trong AGENTS.md. 
 Tài liệu ERP được giữ nguyên nội dung. Các tên source, tài liệu phụ trợ và quy trình trong đó thuộc hệ thống ERP gốc; không diễn giải chúng thành đường dẫn hoặc tính năng của website này. Nội dung và số liệu đưa lên website vẫn cần Sunflower xác nhận.
 
 ## Ảnh tham chiếu
+
+Hướng cập nhật 14/10/2026: sạch sẽ/chuyên nghiệp, đồng thời hiện đại/mạnh mẽ/bắt mắt với nhiều animation và khối 3D. Quy định nằm trong DESIGN.md mục 1 và 8; G2.Motion đã được triển khai và ghi nhận trong IMPLEMENTATION_PLAN.md. Không tạo thêm file motion/design hoặc bản sao AGENTS.
 
 Tám ảnh Sonoco chỉ có một bộ tại [reference/desktop/](../../reference/desktop/) ở gốc workspace. REFERENCE_GUIDE.md trỏ tới bộ ảnh này; không sao chép vào thư mục tài liệu, public/ hoặc output website.
 
