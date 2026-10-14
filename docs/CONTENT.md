@@ -33,7 +33,7 @@ Ngày soạn: 14/10/2026. Trạng thái: đã viết bản nội dung G0 theo th
 
 - Tên thương hiệu: **SUNFLOWER**.
 - Dòng mô tả: **TEM NHÃN · BAO BÌ · VẬT TƯ IN**.
-- Điều hướng: Giới thiệu / Sản phẩm / Giải pháp / Năng lực / Dự án.
+- Điều hướng: Trang chủ / Giới thiệu / Sản phẩm / Giải pháp / Năng lực / Dự án.
 - CTA chính: **Yêu cầu báo giá** → `/lien-he`.
 - Logo/tên thương hiệu → `/`.
 

@@ -206,7 +206,7 @@ The JSX example illustrates markup only: complete implementation must include mo
 
 ## 6. Header & navigation
 
-- Desktop: logo left, 5 core navigation links, quote CTA right; header height about 76–88px.
+- Desktop: logo left, `Trang chủ` followed by 5 core navigation links, quote CTA right; header height about 76–88px. The explicit Home link was requested by the owner on 14/10/2026 and uses the existing active underline/focus treatment.
 - At the very top of Home Hero: transparent over navy/video if readable. Scrolled state: white or navy solid background with clear border. No translucent glass blur by default.
 - The CTA should be compact and legible; do not duplicate a floating CTA widget.
 - Mobile: accessible menu trigger, large-enough touch target, non-overlapping full menu, close on route change, no hidden horizontal links.

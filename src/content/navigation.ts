@@ -8,4 +8,4 @@ export const siteRoutes = [
   { href: '/lien-he', label: 'Liên hệ', description: 'Trao đổi nhu cầu và yêu cầu báo giá với Sunflower.' },
 ] as const;
 
-export const mainNavigation = siteRoutes.slice(1, 6);
+export const mainNavigation = siteRoutes.slice(0, 6);

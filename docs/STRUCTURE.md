@@ -31,7 +31,7 @@
 ### Header
 
 - Logo linked to `/`.
-- Main navigation (desktop): `Giới thiệu`, `Sản phẩm`, `Giải pháp`, `Năng lực`, `Dự án`.
+- Main navigation (desktop): `Trang chủ`, `Giới thiệu`, `Sản phẩm`, `Giải pháp`, `Năng lực`, `Dự án`. Trang chủ links to `/` and shows the active state, as requested by the owner on 14/10/2026.
 - Primary Header CTA: `Yêu cầu báo giá` → `/lien-he`.
 - Header on home Hero initially transparent/light-on-dark; after scroll solid high-contrast background; on interior pages use stable blue/white style.
 - Mobile hamburger menu with working focus/close states.
