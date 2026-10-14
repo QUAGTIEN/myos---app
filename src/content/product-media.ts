@@ -1,6 +1,7 @@
 export type ProductMedia = {
   slug: string;
   src: `/images/products/${string}`;
+  webSrc?: `/images/products/${string}`;
   width: number;
   height: number;
   alt: string;
@@ -13,6 +14,7 @@ export const productMedia = [
   {
     slug: 'tem-trang-cuon',
     src: '/images/products/tem-trang-cuon.png',
+    webSrc: '/images/products/tem-trang-cuon.webp',
     width: 550,
     height: 413,
     alt: 'Hai cuộn tem trắng, một cuộn mở dải nhãn để thấy bề mặt và đường bế.',
@@ -20,6 +22,7 @@ export const productMedia = [
   {
     slug: 'tem-mau-cuon',
     src: '/images/products/tem-mau-cuon.png',
+    webSrc: '/images/products/tem-mau-cuon.webp',
     width: 635,
     height: 322,
     alt: 'Các cuộn tem in màu với dải nhãn mở, minh họa nhiều hình dáng và mẫu in.',
@@ -41,6 +44,7 @@ export const productMedia = [
   {
     slug: 'muc-in',
     src: '/images/products/muc-in.png',
+    webSrc: '/images/products/muc-in.webp',
     width: 1200,
     height: 900,
     alt: 'Bốn cuộn ribbon mực in chuyển nhiệt với bao bọc màu trắng và vàng.',
@@ -62,6 +66,7 @@ export const productMedia = [
   {
     slug: 'tem-det',
     src: '/images/products/tem-det.png',
+    webSrc: '/images/products/tem-det.webp',
     width: 1086,
     height: 815,
     alt: 'Các mẫu nhãn dệt nền đen với chữ trắng và đường nét xanh, thể hiện rõ sợi dệt.',

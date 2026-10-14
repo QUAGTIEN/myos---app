@@ -16,7 +16,7 @@ Build là static export: `output: 'export'`, `trailingSlash: true`; kết quả 
 
 ## 2. Cây thư mục đã khởi tạo
 
-`[chờ]` là thư mục đã tạo với `.gitkeep`, chưa có chức năng triển khai. Các component như Footer, ProductGallery, InquiryForm sẽ được bổ sung khi đến giai đoạn tương ứng; không tạo file component rỗng hoặc khai báo đã hoàn thiện.
+`[chờ]` là thư mục đã tạo với `.gitkeep`, chưa có chức năng triển khai. G2 đã bổ sung Footer, ProductGallery và các component editorial/CTA; InquiryForm còn chờ. Không tạo component rỗng.
 
 ```text
 sunflower-website/
@@ -44,8 +44,8 @@ sunflower-website/
 │   ├── images/
 │   │   ├── brand/                  # [chờ] Logo gốc
 │   │   ├── hero/hero-poster.webp    # Poster trích từ video người dùng cung cấp
-│   │   ├── company/                # 5 JPG Unsplash minh họa ngành in, chưa render
-│   │   ├── products/               # 9 PNG nhóm sản phẩm đã nhận; thiếu 4 nhóm
+│   │   ├── company/                # 5 JPG gốc + 5 WebP delivery, G2 render với caption/credit
+│   │   ├── products/               # 9 PNG gốc + 4 WebP delivery; thiếu ảnh 4 nhóm
 │   │   ├── solutions/              # [chờ] Ảnh ứng dụng
 │   │   ├── capabilities/           # [chờ] Ảnh năng lực thực tế
 │   │   ├── projects/               # [chờ] Thành phẩm được phép công bố
@@ -54,9 +54,9 @@ sunflower-website/
 │   └── licenses/inter-OFL.txt
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx              # Font, metadata, Header, skip link
+│   │   ├── layout.tsx              # Font, metadata, Header/Footer, skip link
 │   │   ├── globals.css             # Tokens và styles responsive
-│   │   ├── page.tsx                # Trang chủ: VideoHero
+│   │   ├── page.tsx                # Trang chủ: Hero + 4 section G2
 │   │   ├── gioi-thieu/page.tsx
 │   │   ├── san-pham/page.tsx
 │   │   ├── giai-phap/page.tsx
@@ -66,16 +66,17 @@ sunflower-website/
 │   ├── components/
 │   │   ├── layout/
 │   │   │   ├── Header.tsx
-│   │   │   └── Container.tsx
-│   │   ├── ui/Arrow.tsx
-│   │   ├── media/VideoHero.tsx
-│   │   ├── editorial/              # [chờ] UI editorial dùng chung
-│   │   ├── products/               # [chờ] UI danh mục/lọc
+│   │   │   ├── Container.tsx
+│   │   │   └── Footer.tsx
+│   │   ├── ui/{Arrow,ActionLink}.tsx
+│   │   ├── media/{VideoHero,CompanyPhoto}.tsx
+│   │   ├── editorial/SectionHeading.tsx
+│   │   ├── products/ProductGallery.tsx # Gallery Home; lọc/catalogue G3 chờ
 │   │   ├── capabilities/           # [chờ] UI quy trình/năng lực
 │   │   ├── projects/               # [chờ] UI thư viện thành phẩm
-│   │   └── contact/                # [chờ] UI biểu mẫu
+│   │   └── contact/ContactCTA.tsx   # InquiryForm G5 chờ
 │   ├── sections/
-│   │   ├── home/                   # [chờ] Composition Trang chủ
+│   │   ├── home/                   # BrandIntroduction, FeaturedProductCategories, WhySunflower
 │   │   ├── about/                  # [chờ] Composition Giới thiệu
 │   │   ├── products/               # [chờ] Composition Sản phẩm
 │   │   ├── solutions/              # [chờ] Composition Giải pháp
@@ -87,7 +88,10 @@ sunflower-website/
 │   │   ├── hero.ts                 # Copy, CTA và cấu hình Hero media
 │   │   ├── product-media.ts        # Ánh xạ 9 ảnh thật: slug, path, kích thước, alt
 │   │   ├── company-media.ts        # 5 ảnh minh họa: path, kích thước, alt, caption, credit
-│   │   └── contact-media.ts        # officeMedia dùng chung cho Liên hệ/Giới thiệu
+│   │   ├── contact-media.ts        # officeMedia dùng chung cho Liên hệ/Giới thiệu
+│   │   ├── products.ts             # Copy 13 nhóm dùng chung Home/G3
+│   │   ├── home.ts                 # Copy/selection/IDs ảnh của section Home
+│   │   └── company.ts              # Brand/CTA/contact minh họa dùng chung
 │   ├── lib/                        # [chờ] Validation/adapters/utilities
 │   ├── hooks/                      # [chờ] Hooks khi có nhu cầu tái sử dụng
 │   └── types/                      # [chờ] Models dùng chung
@@ -102,9 +106,10 @@ sunflower-website/
 app/layout.tsx
   ├── Inter + globals.css + metadata/noindex
   ├── Header ← content/navigation.ts
-  └── route page
-       ├── / → VideoHero ← content/hero.ts → public/images|videos/hero
+  ├── route page
+       ├── / → VideoHero + BrandIntroduction + FeaturedProductCategories + WhySunflower + ContactCTA
        └── 6 route còn lại → main + Container + H1 (chưa có nội dung chi tiết)
+  └── Footer ← company.ts + navigation.ts
 ```
 
 - `Header`: Client Component. Theo dõi pathname và scroll; desktop navigation; menu dialog trên màn hình nhỏ; khóa cuộn nền; vòng Tab/Shift+Tab; Escape và trả focus; đóng khi chọn link hoặc chuyển sang desktop.
@@ -112,12 +117,14 @@ app/layout.tsx
 - `heroMedia.poster` và `desktopSrc` đã trỏ tới poster/video iStock preview do người dùng cung cấp; `mobileSrc` là `null` và fallback cùng nguồn desktop. Caption ghi rõ footage minh họa ngành in. Video 768×432, 21,81 giây và có watermark, chưa có xác nhận giấy phép công khai; chưa phải footage Sunflower thực tế.
 - `app/layout.tsx` và các route là Server Components theo mặc định. `Container`, `Arrow` là UI dùng chung không có state trình duyệt.
 - Design tokens ở `globals.css`, ánh xạ vào Tailwind. Không có nguồn màu độc lập khác.
-- Navigation có bảy route; main navigation có năm mục, CTA Header dẫn `/lien-he`.
-- `content/product-media.ts` đã đăng ký 9 ảnh người dùng gửi trong `public/images/products/`. Đây là đầu vào G0, chưa được import/render trên các route. Trang chủ và Sản phẩm sẽ dùng chung các đường dẫn này, không tạo bản sao theo trang. Nguồn, chất lượng và bốn nhóm còn thiếu được quản lý tại [MEDIA_BRIEF.md](MEDIA_BRIEF.md).
-- `content/company-media.ts` đã đăng ký 5 ảnh Unsplash người dùng gửi trong `public/images/company/`, giữ kích thước JPG gốc và credit từ tên nguồn. Đây là ảnh minh họa ngành in, không phải bằng chứng cơ sở/nhân sự Sunflower; caption và loại stock được ghi rõ. Phân bổ section dự kiến tại MEDIA_BRIEF.md, chưa render các section hoặc tối ưu biến thể responsive. Các trang tái sử dụng cùng đường dẫn, không sao chép sang thư mục năng lực.
+- Navigation có bảy route; main navigation có sáu mục, gồm Trang chủ, CTA Header dẫn `/lien-he`.
+- `content/product-media.ts` đã đăng ký 9 ảnh người dùng gửi trong `public/images/products/`. G2 dùng bốn ảnh WebP trong ProductGallery Trang chủ. Catalogue G3 sẽ dùng chung registry, không tạo bản sao theo trang. Nguồn, chất lượng và bốn nhóm còn thiếu được quản lý tại [MEDIA_BRIEF.md](MEDIA_BRIEF.md).
+- `content/company-media.ts` đã đăng ký 5 ảnh Unsplash người dùng gửi trong `public/images/company/`, giữ kích thước JPG gốc và credit từ tên nguồn. Đây là ảnh minh họa ngành in, không phải bằng chứng cơ sở/nhân sự Sunflower; caption và loại stock được ghi rõ. G2 render qua webSrc ở BrandIntroduction/WhySunflower; phân bổ và derivatives tại MEDIA_BRIEF.md. Các trang tái sử dụng cùng đường dẫn, không sao chép sang thư mục năng lực.
 - `content/contact-media.ts` đăng ký ảnh văn phòng 638×480 tại `public/images/contact/office-interior.png`. Liên hệ/Giới thiệu sẽ dùng chung `officeMedia`; chưa render và không suy ra địa chỉ từ ảnh. Bộ 15 ảnh cùng video/poster là đầu vào tạm để tiếp tục thiết kế theo chỉ định người dùng, không cần chờ thêm ảnh; phần xác thực trước công khai vẫn được quản lý trong MEDIA_BRIEF.md.
 
 G1 đã hoàn tất code và QA production static preview: screenshot thực tế tại đủ năm viewport, kiểm tra thêm 320px. Đã sửa media vượt chiều ngang sau focus, xác nhận menu/keyboard/scroll Header/Pause/Play/loop/Retry và poster fallback. Reduced motion dùng browser preference; Save-Data/2G dùng tín hiệu mô phỏng. Lint/typecheck/build đạt. scripts/preview.mjs hỗ trợ Content-Length, HEAD và byte range cho playback/seek local. Bằng chứng/giới hạn tại IMPLEMENTATION_PLAN.md; ảnh QA ngoài source/public, không tạo lại thư mục test/demo.
+
+G2 đã triển khai code các section và Footer, dùng Server Components/typed content. Theo yêu cầu người dùng, không chạy lại bộ kiểm thử hoặc screenshot G2; chỉ build để cập nhật bản xem. Không lấy QA G1 làm bằng chứng nghiệm thu UI G2.
 
 ## 4. Vai trò từng tầng
 

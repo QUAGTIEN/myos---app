@@ -124,6 +124,14 @@ G1 hoàn tất cho bản xem theo bộ G0 đã duyệt. Wordmark còn tạm; vid
 
 ### G2 — Các section đại diện và component chung
 
+**Trạng thái lượt G2:** đã triển khai BrandIntroduction, FeaturedProductCategories (4 nhóm có ảnh đủ lớn), WhySunflower với thông tin mô hình/phối hợp đã xác nhận, ContactCTA và Footer dùng chung. Giữ Header/Hero, bảy route và màu xanh tươi/cam. Người dùng yêu cầu không chạy lại kiểm thử để tiết kiệm thời gian: bỏ lint/typecheck riêng và browser/screenshot QA; chỉ build static output phục vụ bản xem. Build production/static export đã đạt; chưa nghiệm thu trực quan G2.
+
+Áp dụng REF-08 cho ảnh–chữ giới thiệu, REF-06 cho gallery mở hai cột, REF-02 cho bố cục ba cột lệch nhịp trên nền xanh. Bốn ảnh minh họa trong WhySunflower có caption/credit, không phải bằng chứng xưởng/nhân sự. Không có metrics/chứng chỉ/client/project giả. Mobile được viết CSS xếp dọc nhưng chưa kiểm tra trong browser ở lượt này.
+
+Component dùng chung: SectionHeading, ActionLink, CompanyPhoto, ProductGallery, ContactCTA, Footer. Tất cả là Server Components; chỉ Header và VideoHero cũ cần client. Dữ liệu 13 nhóm từ CONTENT.md vào products.ts dùng chung cho selection Home và G3 sau này; không dựng catalogue/filter/form trong G2. Footer dùng company.ts, contact minh họa có nhãn, không tel/mailto/map/form.
+
+Tài nguyên G2: 5 WebP từ ảnh company + 4 WebP từ ảnh sản phẩm đã có; giữ originals/provenance, không upsize hoặc sao chép ảnh theo trang. Xem MEDIA_BRIEF.md.
+
 Chia ba đợt:
 
 1. BrandIntroduction và FeaturedProductCategories: đoạn giới thiệu ngắn trên nền sáng, 4–6 nhóm sản phẩm với ảnh lớn và thứ tự rõ.
@@ -243,7 +251,7 @@ Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá
 - [x] G0 bản xem: content/media map và bộ ảnh tạm đã chốt theo chỉ định người dùng.
 - [ ] G0 công khai: hoàn thiện dữ liệu chính thức, media phù hợp và trạng thái quyền sử dụng.
 - [x] G1 code/QA: Header/Hero hoàn tất với footage/poster G0, screenshot và tương tác đã kiểm tra; chủ dự án duyệt bản xem trước G2.
-- [ ] G2: section sáng/tối và component chung đã duyệt.
+- [x] G2 code: section sáng/tối và component chung đã triển khai; bỏ kiểm thử theo yêu cầu người dùng, UI chờ duyệt qua bản xem.
 - [ ] G3.1: Sản phẩm hoàn thiện.
 - [ ] G3.2: Giải pháp hoàn thiện.
 - [ ] G4.1: Giới thiệu hoàn thiện.

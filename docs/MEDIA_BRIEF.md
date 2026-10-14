@@ -238,3 +238,10 @@ Mỗi tài nguyên cần ghi: mã ảnh, mô tả chủ thể thật, người c
 - Không đưa ảnh tham chiếu Sonoco, ảnh QA hoặc dữ liệu ERP vào public/.
 
 G0 đã có danh sách media và bộ copy tại [CONTENT.md](CONTENT.md), với 13 nhóm sản phẩm được chủ doanh nghiệp xác nhận. Cần tiếp tục nhận tài nguyên, đối chiếu thông số/model và xác nhận ảnh/nội dung được phép công bố trước khi nghiệm thu đầu vào các module liên quan.
+
+
+## G2 — Delivery derivatives
+
+G2 giữ các originals đã nhận và xuất bản WebP web từ cùng ảnh, không thêm ảnh mới hoặc sao chép theo trang. Registries company-media.ts/product-media.ts thêm webSrc; nguồn, alt, caption và credit vẫn ở một nơi. Company: cả 5 JPG có WebP, workshop rộng 1000px, bốn ảnh landscape rộng 1200px. Products: Tem trắng cuộn, Tem màu cuộn, Mực in, Tem dệt có WebP tối đa 1000px, không phóng lớn ảnh nhỏ. Render lazy dưới Hero; không đổi video/poster.
+
+BrandIntroduction dùng workshop; WhySunflower dùng large-format-printing, print-color-samples, press-operators, printing-press — tất cả caption Ảnh minh họa ngành in + credit. ProductGallery dùng bốn ảnh đủ kích thước trên; không dùng ảnh 218px làm ảnh lớn. Chưa có visual/crop QA mới do người dùng yêu cầu bỏ kiểm thử lượt G2.

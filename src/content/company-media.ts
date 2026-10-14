@@ -1,6 +1,7 @@
 export type CompanyMedia = {
   id: string;
   src: `/images/company/${string}`;
+  webSrc?: `/images/company/${string}`;
   width: number;
   height: number;
   alt: string;
@@ -21,6 +22,7 @@ export const companyMedia = [
   {
     id: 'printing-workshop',
     src: '/images/company/printing-workshop-unsplash.jpg',
+    webSrc: '/images/company/printing-workshop-unsplash.webp',
     width: 3168,
     height: 4752,
     alt: 'Máy in với các trục lăn trong không gian xưởng, chụp theo khung dọc.',
@@ -36,6 +38,7 @@ export const companyMedia = [
   {
     id: 'printing-press',
     src: '/images/company/printing-press-unsplash.jpg',
+    webSrc: '/images/company/printing-press-unsplash.webp',
     width: 6016,
     height: 4016,
     alt: 'Cận cảnh trục lăn và các tờ giấy đang chạy qua máy in.',
@@ -51,6 +54,7 @@ export const companyMedia = [
   {
     id: 'press-operators',
     src: '/images/company/press-operators-unsplash.jpg',
+    webSrc: '/images/company/press-operators-unsplash.webp',
     width: 6000,
     height: 4000,
     alt: 'Hai người làm việc bên thiết bị in và bảng điều khiển.',
@@ -66,6 +70,7 @@ export const companyMedia = [
   {
     id: 'large-format-printing',
     src: '/images/company/large-format-printing-unsplash.jpg',
+    webSrc: '/images/company/large-format-printing-unsplash.webp',
     width: 5184,
     height: 3456,
     alt: 'Máy in khổ lớn với cụm cấp mực và vật liệu cuộn đang in màu.',
@@ -81,6 +86,7 @@ export const companyMedia = [
   {
     id: 'print-color-samples',
     src: '/images/company/print-color-samples-unsplash.jpg',
+    webSrc: '/images/company/print-color-samples-unsplash.webp',
     width: 5472,
     height: 3648,
     alt: 'Các tờ mẫu in xếp lớp với ô màu và dải màu, chụp cận cảnh.',

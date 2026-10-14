@@ -289,6 +289,12 @@ Test breakpoints at viewport widths `390`, `768`, `1024`, `1440`, `1920` px (als
 - Inspect text contrast against multiple Hero frames, not only poster.
 - Check loading fallback, autoplay blocked, paused state and reduced motion.
 
+### G2 section implementation
+
+The new Home slice applies existing recipes: pale-blue/white editorial introduction (REF-08), an open two-column selection of four products (REF-06), and four photographic collaboration statements staggered across three columns on bright brand-blue (REF-02). Portrait/mobile layouts stack in reading order. One primary section action links to the approved route. ContactCTA uses a pale-blue relief section before the deep-blue shared Footer. Tokens add only aliases for section padding/H2/H3 sizing from the existing spacing/type contract; no new palette, animation engine or decoration. Photos retain illustration/credit text.
+
+Per the owner’s explicit G2 request, no new browser/screenshot or separate lint/typecheck QA is run in this slice. Responsive styling is implemented but visual acceptance remains pending. G1 screenshots do not certify G2.
+
 ## 11. EXAMPLE SECTION SEQUENCE / COLOR MAP
 
 | Home sequence | Visual recipe | Background |
