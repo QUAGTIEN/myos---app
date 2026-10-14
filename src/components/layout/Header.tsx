@@ -81,7 +81,7 @@ export function Header() {
           <nav className="desktop-navigation" aria-label="Điều hướng chính">
             {mainNavigation.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</Link>)}
           </nav>
-          <Link href="/lien-he" className="button button-primary header-cta">Yêu cầu báo giá <Arrow diagonal /></Link>
+          <Link href="/lien-he" className="button button-primary header-cta" aria-current={pathname === '/lien-he' ? 'page' : undefined}>Yêu cầu báo giá <Arrow diagonal /></Link>
           <button ref={triggerRef} type="button" className="menu-trigger" aria-label="Mở menu" aria-haspopup="dialog" aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={() => { restoreFocusRef.current = true; dialogRef.current?.showModal(); setMenuOpen(true); }}>
             <span aria-hidden="true" /><span aria-hidden="true" />
           </button>
@@ -94,7 +94,7 @@ export function Header() {
         </div>
         <nav aria-label="Điều hướng trên điện thoại">
           {siteRoutes.slice(0, 6).map(item => <Link href={item.href} key={item.href} aria-current={pathname === item.href ? 'page' : undefined} onClick={() => closeMenu(pathname === item.href)}>{item.label}<Arrow /></Link>)}
-          <Link href="/lien-he" className="button button-primary mobile-menu-cta" onClick={() => closeMenu(pathname === '/lien-he')}>Yêu cầu báo giá <Arrow diagonal /></Link>
+          <Link href="/lien-he" className="button button-primary mobile-menu-cta" aria-current={pathname === '/lien-he' ? 'page' : undefined} onClick={() => closeMenu(pathname === '/lien-he')}>Yêu cầu báo giá <Arrow diagonal /></Link>
         </nav>
       </dialog>
     </>

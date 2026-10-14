@@ -75,7 +75,7 @@ Nghiệm thu: biết rõ tài nguyên nào dùng cho section nào, phần nào c
 
 ### G1 — Nền tảng và màn hình đầu
 
-**Trạng thái 14/10/2026:** đã cập nhật source G1 Header/VideoHero, giữ palette warm và media G0. Lint/typecheck/build cùng kiểm tra HTTP/static export đạt; chưa nghiệm thu UI vì browser automation không khởi tạo được. Không triển khai G2 hoặc các trang còn lại trong lượt này.
+**Trạng thái 14/10/2026:** hoàn tất code và QA G1 trên production local, screenshot đủ năm viewport. Giữ xanh tươi/cam và media G0. Bản xem riêng tư để chủ dự án duyệt thiết kế; chưa triển khai G2 hoặc nội dung sáu trang con.
 
 Công việc:
 
@@ -91,31 +91,36 @@ Nghiệm thu: H1 và CTA chính đọc được ngay; Header không xung đột 
 
 #### Báo cáo G1 — 14/10/2026
 
-Đã đọc các tài liệu theo contract và mở đủ tám ảnh tham chiếu. REF-01 định hướng Hero; REF-02/06/08 bổ sung ngữ cảnh Header nền trắng. Các pattern khác vẫn thuộc module tương ứng, không ghép thành section mới trong G1.
+Hoàn tất code và QA Header, Container/tokens/font, VideoHero trong phạm vi G1. Giữ bảy route; sáu trang con vẫn chỉ có tiêu đề/metadata. Không thêm Footer, section dưới Hero, form, dependency hoặc thư mục test/demo. Đã mở đủ tám ảnh Sonoco; REF-01 là đối chiếu chính, pattern khác giữ cho module tương ứng.
 
-Files thay đổi: `src/components/layout/Header.tsx`, `src/components/media/VideoHero.tsx`, `src/content/hero.ts`, `src/app/globals.css`; copy/tài liệu canonical được cập nhật tại chỗ.
+Files lượt hoàn thiện: `src/app/globals.css`, `src/components/layout/Header.tsx`, `src/components/media/VideoHero.tsx`, bảy `app/**/page.tsx` (focus main cho skip link), `src/content/navigation.ts` (bỏ mô tả năng lực chưa xác minh), `scripts/preview.mjs` (HTTP byte range cho video). Tài liệu canonical cập nhật tại chỗ.
 
-| Tiêu chí | Đối chiếu định hướng với reference, từ source | Trạng thái |
+| Tiêu chí | Đối chiếu screenshot thực tế với REF-01 | Kết quả / khác biệt chủ đích |
 |---|---|---|
-| Bố cục | Giữ đường cong navy nguyên bản, chữ lớn bên trái và media từ 40% chiều rộng; khung dựa trên 16:9 thay cho chiều cao cố định cắt mạnh footage | Đã sửa source; chưa so screenshot kết quả |
-| Màu | Theo phản hồi ảnh mới của người dùng: xanh chính tươi hơn và nút cam theo DESIGN.md, thay bản navy/vàng trước. Bỏ lớp tối dưới video, rút ngắn vùng fade ngang; caption vẫn có nền deep navy nhỏ | Đã cập nhật source theo yêu cầu; cần xem ảnh kết quả mới |
-| Typography | Inter tiếng Việt, câu đầy đủ chia ba cụm; bỏ dòng riêng “cho”. Giữ clamp desktop và cân lại cỡ chữ mobile | Đã sửa source; chưa đo text wrap thực tế |
-| Spacing | Đưa copy lên 35svh có giới hạn; gutters 64/40/32/20px theo breakpoint, giảm khoảng trống mobile; Header 88/76px | Cần kiểm tra trực quan trên các viewport |
-| Responsive | Header dưới 1200px dùng dialog. Mobile/tablet dọc xếp chữ trước, video 16:9 phía dưới; không có reference mobile nên đây là adaptation Sunflower | Chưa xác nhận overflow/crop bằng trình duyệt |
-| Tương tác | Focus/menu đóng theo route/breakpoint; autoplay promise được xử lý, poster giữ đến `playing`; reduced-motion và Save-Data ngăn mount video | Đã sửa logic; cần kiểm tra runtime |
+| Bố cục | Media desktop bắt đầu ở 40% chiều rộng; H1 bên trái vượt nhẹ ranh giới ảnh/xanh, đường cong nguyên bản | 1440: media x=576, rộng 800, cao 520; 1920: x=768, rộng 992, cao 558. Sunflower có paragraph và hai CTA, không thêm badge tròn/utility links của Sonoco |
+| Màu | Xanh tươi tương ứng sắc xanh quan sát trong ảnh tham chiếu | Computed RGB(0,72,142), CTA RGB(245,138,43). Cam thay xanh lá theo yêu cầu; góc trắng ngà thay vùng xanh nhạt của reference. Caption/control deep navy nhỏ |
+| Typography | Chữ trắng đậm, ba dòng rõ thứ bậc | Inter tiếng Việt, sentence case; 77,76px ở 1440 và 96px ở 1920, mobile 40,17px. Không sao chép font/all-caps tiếng Anh của Sonoco |
+| Spacing | Cùng hệ gutter, chữ/CTA thẳng hàng; media rộng bên phải | Header 88px desktop/tablet, 76px mobile; gutters 64/40/32/20px. Header một hàng gọn hơn reference; nút radius 6px theo DESIGN, không dùng pill Sonoco |
+| Responsive | Desktop arc/split; 390 và tablet dọc xếp chữ trước, video sau | Không có reference mobile để tuyên bố giống Sonoco. Adaptation Sunflower: video 16:9 do chưa có nguồn portrait, menu dialog dưới 1200px; CTA trong màn hình đầu |
+| Media | Đã xem poster và frame 1/8/16 giây | Chữ không mất trên các frame đã xem, footage còn nhìn rõ. Nguồn 768×432 chưa sắc nét tương đương footage HD của reference; không upscale file để giả độ nét |
 
-Kiểm tra đã thực hiện:
+Vòng điều chỉnh từ screenshot: `aspect-ratio + min-height` khiến chiều rộng media vượt viewport. Khi focus/click Pause, vùng Hero bị cuộn ngang và cắt chữ ở 1024px. Đã giới hạn width theo gutter/breakpoint, chụp lại đủ năm viewport: document và vùng Hero không cuộn ngang, H1/CTA/media không bị cắt. Caption giới hạn cả hai bên, nút giữ 44×44px; video lỗi có nút Retry và poster đến khi phát thành công. Main nhận focus từ skip link; CTA báo giá có aria-current tại Liên hệ.
 
-- `npm run lint`, `npm run typecheck`, `npm run build`: đạt.
-- Dev HTTP 200; static preview kiểm tra đủ 7 route HTTP 200, title riêng, mỗi trang một H1 và noindex. Hero chỉ xuất hiện ở Trang chủ; SSR có poster, chưa có thẻ video trước khi kiểm tra tùy chọn người dùng. Poster/video trả đúng MIME và số byte.
-- Contrast sau chỉnh màu theo phản hồi: chữ deep navy trên cam 6,15:1, trên hover cam đậm 4,77:1; caption trắng/deep navy 15,11:1, chữ trắng/xanh chính 9,06:1. Trắng trên lớp xanh 86% phủ nền trắng là 6,36:1; đây là phép tính cho màu overlay, không thay thế kiểm tra toàn bộ video frame. Focus trắng trên Hero và xanh trên nền sáng.
-- Không thêm dependency, thư mục test/demo, ảnh tham chiếu vào public hoặc asset trùng; media Hero giữ nguyên, video 2.925.394 byte và poster 24.172 byte.
+Kiểm tra đạt:
 
-Giới hạn: CUA và Windows computer-use/node runtime đều trả `failed to write kernel assets: The system cannot find the path specified. (os error 3)`. Chưa có screenshot 1440×900/390×844, chưa kiểm tra trực quan 768/1024/1920, keyboard/menu/video mới, autoplay blocked, reduced-motion/Save-Data hoặc console trong trình duyệt. Không dùng kết quả browser QA của phiên bản cũ để nghiệm thu phiên bản này. Bản xem riêng tư có thể tiếp tục cập nhật; G1 vẫn cần vòng screenshot → điều chỉnh → kiểm tra lại khi công cụ hoạt động.
+- `npm run lint`, `npm run typecheck`, `npm run build`; production export đủ bảy route.
+- Chrome headless qua Playwright có sẵn, phiên độc lập: 390×844, 768×1024, 1024×768, 1440×900, 1920×1080; bổ sung 320×720. Không có pageerror trên các trang/trạng thái bình thường đã kiểm tra.
+- Autoplay muted/loop/playsInline, Pause/Play bằng chuột và Space, tua video, loop thực khi tới cuối. Local server trả byte range 206 đúng, 416 khi range vượt kích thước; video 2.925.394 byte, poster 24.172 byte.
+- Menu: Tab/Shift+Tab focus trap, Escape trả focus về trigger, đóng theo route/breakpoint, trả focus về wordmark khi sang desktop, khóa/mở body scroll. Header nền trắng sau cuộn >24px.
+- Skip link Enter focus main; bảy route HTTP 200, một H1/route và noindex, CTA đúng đích. Không tải/render Hero video ở trang con. SSR poster-only trước khi kiểm tra preference.
+- Reduced motion: poster, không có video request ban đầu, đổi preference trực tiếp mount/unmount đúng. Save-Data/2G: mô phỏng tín hiệu browser, poster và không có video request. Abort media request: poster + Retry; bỏ chặn rồi bấm Retry khôi phục playback thật.
+- Contrast tokens: deep navy/cam 6,15:1, hover 4,77:1; trắng/xanh 9,06:1; trắng/deep navy 15,11:1. Trắng trên overlay xanh 86% phủ nền trắng 6,36:1. Đã xem poster và ba frame; không tuyên bố đo pixel mọi frame.
 
-Logo vẫn là wordmark tạm; video iStock preview có watermark và độ phân giải 768×432. Đây là đầu vào G0 đã chốt cho bản xem, chưa phải media phát hành công khai.
+Ảnh QA và JSON ngoài source/public: `C:/Users/pham quang tien/.codex/visualizations/2026/10/14/sunflower-g1/`, gồm `hero-1440x900.png`, `hero-390x844.png` và ba viewport còn lại; thêm ảnh menu/fallback/frame. Không tạo bản sao tài liệu/reference, không lưu credential vào source.
 
-Phản hồi màu 14/10/2026: đã đối chiếu hai ảnh người dùng gửi (Sonoco và Sunflower); nền trước sẫm hơn ảnh tham chiếu và các CTA còn vàng. Điều chỉnh chỉ ở tokens/focus/overlay trong globals.css và tài liệu canonical, giữ bố cục, typography, video cùng chức năng G1. Bản màu đang hoạt động được quy định tại DESIGN.md, không tạo theme hoặc bộ source mới. CUA vẫn lỗi khởi tạo khi thử lại ở lượt này; ảnh người dùng là bằng chứng cho bản trước chỉnh màu, không thay thế screenshot/QA của bản mới.
+Giới hạn: QA Chromium desktop với viewport/device emulation, chưa kiểm tra mobile thật/Safari/Firefox. Save-Data/2G là tín hiệu mô phỏng, chưa đo mạng di động thực. Chưa tái hiện chính sách chặn autoplay gốc; code xử lý promise rejection và giữ nút Play. CUA vẫn lỗi khởi tạo; Playwright có sẵn đã cung cấp QA thật của phiên bản mới.
+
+G1 hoàn tất cho bản xem theo bộ G0 đã duyệt. Wordmark còn tạm; video iStock preview có watermark/768×432, cần logo và footage HD được cấp phép trước phát hành công khai. Không tuyên bố website hoàn chỉnh hoặc production-ready. Chủ dự án duyệt bản xem trước khi chuyển ngôn ngữ thiết kế sang G2.
 
 ### G2 — Các section đại diện và component chung
 
@@ -237,7 +242,7 @@ Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá
 
 - [x] G0 bản xem: content/media map và bộ ảnh tạm đã chốt theo chỉ định người dùng.
 - [ ] G0 công khai: hoàn thiện dữ liệu chính thức, media phù hợp và trạng thái quyền sử dụng.
-- [ ] G1: Header/Hero đã duyệt và kiểm tra với footage/poster thật.
+- [x] G1 code/QA: Header/Hero hoàn tất với footage/poster G0, screenshot và tương tác đã kiểm tra; chủ dự án duyệt bản xem trước G2.
 - [ ] G2: section sáng/tối và component chung đã duyệt.
 - [ ] G3.1: Sản phẩm hoàn thiện.
 - [ ] G3.2: Giải pháp hoàn thiện.

@@ -275,7 +275,7 @@ Hero uses the same three phrase groups on desktop/mobile: `Giải pháp` / `tem 
 
 Poster stays behind the video until the `playing` event. The desktop gradient has an explicit layer above both assets and protects the left text zone, fading to clear sooner at 62%; the dark bottom gradient is removed. On mobile/portrait tablet, text is outside the footage so no media overlay is needed. Caption/status remain on small deep-navy backplates to keep text legible. Autoplay rejection leaves a manual Play action. Reduced motion and supported Save-Data/2G signals prevent mounting the video/source; errors return to the poster.
 
-These are source refinements pending fresh visual review. Browser/Windows automation currently fails to initialize with `failed to write kernel assets: The system cannot find the path specified. (os error 3)`; no G1 screenshots at 1440×900/390×844 or fresh responsive certification have been produced. Validation status is tracked in IMPLEMENTATION_PLAN.md.
+Fresh production-browser review is complete at all five required viewport sizes using bundled Playwright and Chrome headless. Screenshots exposed aspect-ratio/min-height expanding the absolute media width, causing internal horizontal scrolling after focus; explicit breakpoint width constraints now keep media inside its gutter. Screenshots were retaken and inspected after the fix. Caption/control width is constrained; error fallback offers manual retry. See IMPLEMENTATION_PLAN.md for measured geometry, reference comparison, interaction evidence and browser/device limitations. No separate mobile Sonoco reference exists.
 
 Test breakpoints at viewport widths `390`, `768`, `1024`, `1440`, `1920` px (also test unusually narrow ~320px if relevant).
 

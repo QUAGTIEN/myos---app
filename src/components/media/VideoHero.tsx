@@ -32,9 +32,10 @@ function getPreferences() {
   return `${motion ? 1 : 0}:${mobile ? 1 : 0}:${constrained ? 1 : 0}`;
 }
 
-function MediaControls({ status, playing = false, onToggle }: {
+function MediaControls({ status, playing = false, retry = false, onToggle }: {
   status: string;
   playing?: boolean;
+  retry?: boolean;
   onToggle?: () => void;
 }) {
   return (
@@ -48,7 +49,7 @@ function MediaControls({ status, playing = false, onToggle }: {
         type="button"
         onClick={onToggle}
         disabled={!onToggle}
-        aria-label={playing ? 'Tạm dừng video' : 'Phát video'}
+        aria-label={retry ? 'Thử phát lại video' : playing ? 'Tạm dừng video' : 'Phát video'}
         aria-describedby="hero-media-status"
         aria-controls={onToggle ? 'hero-video' : undefined}
       >
@@ -82,31 +83,38 @@ function HeroPlayback({ source }: { source: string }) {
 
   async function toggleVideo() {
     const video = videoRef.current;
-    if (!video || failed) return;
+    if (!video) return;
+    if (failed) {
+      // Retry only from a user gesture. Keep the poster until playing succeeds.
+      setFailed(false);
+      setHasPlayed(false);
+      setPlayBlocked(false);
+      video.load();
+    }
     if (!video.paused) { video.pause(); return; }
     try { await video.play(); setPlayBlocked(false); }
     catch { setPlayBlocked(true); }
   }
 
-  const status = failed ? 'Video không khả dụng · Đang hiển thị ảnh tĩnh'
+  const status = failed ? 'Ảnh tĩnh · Có thể thử phát lại video'
     : playBlocked ? 'Nhấn Phát để xem video'
     : playing ? 'Video đang phát'
     : hasPlayed ? 'Video đã tạm dừng' : 'Đang tải video';
 
   return (
     <>
-      {!failed && <video
+      <video
         id="hero-video"
         ref={videoRef}
         src={source}
         poster={heroMedia.poster ?? undefined}
-        className={`hero-video${hasPlayed ? ' is-ready' : ''}`}
+        className={`hero-video${hasPlayed && !failed ? ' is-ready' : ''}`}
         autoPlay muted loop playsInline preload="none" aria-hidden="true"
-        onPlaying={() => { setPlaying(true); setHasPlayed(true); setPlayBlocked(false); }}
+        onPlaying={() => { setPlaying(true); setHasPlayed(true); setPlayBlocked(false); setFailed(false); }}
         onPause={() => setPlaying(false)}
         onError={() => { setFailed(true); setPlaying(false); }}
-      />}
-      <MediaControls status={status} playing={playing} onToggle={failed ? undefined : toggleVideo} />
+      />
+      <MediaControls status={status} playing={playing} retry={failed} onToggle={toggleVideo} />
     </>
   );
 }

@@ -4,7 +4,7 @@ Chỉ dẫn làm việc dùng một file duy nhất ở gốc workspace: `../AGE
 
 Phạm vi hiện tại: Header và Hero trang chủ. Giữ sitemap 7 trang theo `docs/STRUCTURE.md`; 6 trang con hiện chỉ có tiêu đề và metadata, chưa triển khai nội dung/chức năng.
 
-G1 đã cập nhật source: headline ba dòng theo cụm nghĩa, mô tả theo copy G0, media ngang trên mobile, Header/menu ở breakpoint 1200px, giữ poster đến khi video phát và xử lý autoplay bị chặn/lỗi media. Lint/typecheck/build và HTTP/static export đã đạt. Chưa có screenshot G1 hoặc kiểm tra tương tác mới vì công cụ browser/Windows automation lỗi khởi tạo; chưa nghiệm thu chất lượng responsive. Xem báo cáo cụ thể trong [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
+G1 đã hoàn tất code và QA: Header/menu responsive, Hero xanh tươi/nút cam, poster và Pause/Play/Retry hoạt động. Đã chụp và xem lại đủ năm viewport, sửa media gây cuộn ngang/cắt chữ rồi kiểm tra lại. Lint/typecheck/build đạt. QA Chromium headless có menu/focus, reduced motion, tín hiệu tiết kiệm dữ liệu và lỗi media; bằng chứng/giới hạn tại [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md). Chủ dự án duyệt cảm nhận thiết kế trước G2.
 
 Stack: Next.js App Router, React, TypeScript, Tailwind CSS. Font Inter được self-host từ gói Fontsource, có Vietnamese subset, không phụ thuộc tải font khi build.
 
