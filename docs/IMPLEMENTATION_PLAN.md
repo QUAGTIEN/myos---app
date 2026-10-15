@@ -1,6 +1,6 @@
 # Sunflower — Kế hoạch triển khai website
 
-Ngày cập nhật: 15/10/2026. G0 bản xem đã chốt; G1/G2 và G2.Motion đã triển khai; G3/G4 có nội dung các trang con; G5.1 có giao diện Liên hệ/xem lại yêu cầu. G5.2 gửi thật, G6 phần Trang chủ còn lại và đầu vào phát hành công khai chưa hoàn tất.
+Ngày cập nhật: 15/10/2026. G0 bản xem đã chốt; G1/G2 và G2.Motion đã triển khai; G3/G4 có nội dung các trang con; G5.1 có giao diện Liên hệ/xem lại yêu cầu; G6 đã ghép đủ nội dung Trang chủ. G5.2 gửi thật và G7 kiểm tra tổng thể/đầu vào phát hành công khai chưa hoàn tất.
 
 Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, REFERENCE_GUIDE.md, ARCHITECTURE.md và source hiện tại. Kế hoạch này tổ chức công việc, không thay thế design tokens hoặc bổ sung sitemap/chức năng ngoài tài liệu đã duyệt.
 
@@ -244,6 +244,22 @@ Nghiệm thu: yêu cầu từ mỗi hành trình B2B tới đúng nơi tiếp nh
 
 ### G6 — Hoàn thiện câu chuyện Trang chủ
 
+**Đã triển khai ngày 15/10/2026:** bốn section Server Components mới trong `sections/home/`, composition và metadata riêng ở `app/page.tsx`; bổ sung copy mở đầu/slugs chọn lọc ở `content/home.ts`. Không thêm dependency, client engine, asset, backend hoặc route. `ProcessTimeline` có variant compact và `ContactCTA` có tone brand chỉ bật trên Home.
+
+CapabilitiesFeature dùng ảnh panorama minh họa ngành in, ba hình thức từ supplyModels trong Năng lực. SolutionsByIndustry lấy ba mục từ solutions.ts và dẫn tới anchor thật. FeaturedProjects hiển thị ba mẫu catalogue từ projects.ts, có nhãn minh họa và link mẫu tới form G5.1. ProcessPreview dùng productionSteps, link tới `/nang-luc/#quy-trinh`. Những section G1/G2, scene 3D và Hero/video được giữ nguyên chức năng; CTA cuối chuyển sang nền xanh tươi/nút cam theo DESIGN.md.
+
+**Đối chiếu và điều chỉnh:** đã mở đủ tám ảnh tham chiếu. REF-08 định hướng tỷ lệ media/khối chữ Năng lực, REF-06 định hướng ảnh sản phẩm thoáng, REF-04 định hướng sức nặng ảnh trong gallery mẫu. Không dùng vòng tròn số liệu REF-03 vì chưa có metrics xác thực. Khác biệt chủ đích: panorama và panel ba phần chồng nhẹ thay split lịch sử; ba hàng giải pháp có intro sticky desktop; gallery bất đối xứng thay hàng news cards; Inter/xanh–cam Sunflower và quy trình số thứ tự thay nội dung/brand Sonoco. Desktop dùng gutter/grid/type tokens hiện có; mobile bỏ sticky/overlap, đưa ảnh–chữ thành luồng đọc dọc và quy trình thành danh sách một cột.
+
+Đã xem ảnh desktop 1440×900/mobile 390×844, toàn trang và bốn section mới. QA phát hiện dịch chuyển ngang 24px lớn hơn gutter mobile 20px khi reveal đang chờ; điều chỉnh token mobile `--motion-distance` còn 12px, desktop giữ 24px. Chụp lại và kiểm tra tại năm viewport không còn tràn ngang. Không che lỗi bằng overflow hidden trên toàn trang. Caption minh họa/credit đặt trên vùng ảnh phía trên, tránh bị panel chồng ở đáy che.
+
+**Kiểm tra G6 đạt:** lint, typecheck, production build/static export đủ bảy route và 7 payload aliases. Chrome headless production preview tại 390×844, 768×1024, 1024×768, 1440×900, 1920×1080: một H1, đủ chín section, không ID trùng/anchor nội trang hỏng/ảnh thiếu/tràn ngang, không page error hoặc response lỗi. Quy trình Home có 6 bước, số cột desktop/tablet/mobile là 3/2/1. Các link nhu cầu và mẫu được đối chiếu registry dùng chung.
+
+14 kiểm tra chức năng đạt: ba link giải pháp tới đúng anchor, ba link mẫu điền được product/sample context ở Liên hệ, quy trình tới đúng anchor và giữ timeline dọc trang Năng lực, CTA cuối tới form có thông báo chưa tiếp nhận, video autoplay muted/loop/playsInline và Pause/Play, menu mobile mở và đóng bằng Escape sau transition. Reduced-motion/no-JS tại 390px giữ nội dung, đủ link/quy trình/scene tĩnh, không tải video. Không lặp kiểm thử gửi form G5 vì chưa có backend.
+
+Bổ sung 320px/390px: theo dõi chiều rộng khi cuộn qua reveal, không vượt viewport; sau ghé từng vùng có motion, không còn reveal pending. Lượt quét nhanh đầu tiên có khối chưa được observer đánh dấu; không dùng ảnh toàn trang của lượt đó để chứng nhận nội dung đã hiển thị. Bằng chứng cuối ở `C:/Users/pham quang tien/.codex/visualizations/2026/10/15/sunflower-g6/`: report.json, motion.json, home-1440/390-full.png và ảnh `*-viewport.png`. Các ảnh crop phần tử ban đầu có fixed Header nằm giữa khung chụp; đối chiếu cuối dùng ảnh viewport thật. Không đưa script/ảnh QA vào source/public.
+
+**Giới hạn:** Chrome desktop emulation; chưa kiểm tra Safari/Firefox hoặc thiết bị thật, chưa audit hiệu năng/WCAG toàn site và không tái kiểm tương phản mọi frame video. Media G0 vẫn mang tính minh họa/preview, chưa có hồ sơ dự án khách hàng; G5.2 gửi thật và đầu vào công khai vẫn chờ. Giữ owner-private/noindex. G6 hoàn tất phần giao diện/nội dung đã chốt, G7 và chủ dự án duyệt chất lượng tổng thể còn tiếp theo.
+
 Ghép đủ nội dung theo thứ tự STRUCTURE.md:
 
 Hero → BrandIntroduction → FeaturedProductCategories → WhySunflower → CapabilitiesFeature → SolutionsByIndustry → FeaturedProjects → ProcessPreview → ContactCTA → Footer.
@@ -311,7 +327,7 @@ Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá
 - [x] G4.3 code: Mẫu thành phẩm minh họa, bộ lọc và inquiry links; chưa có case khách hàng được phép công bố.
 - [x] G5.1: Giao diện Liên hệ/context/validation/xem lại tại chỗ; QA tập trung đạt, chưa gửi dữ liệu.
 - [ ] G5.2 / G5 đầy đủ: Liên hệ chính thức và báo giá gửi thật; chờ đích nhận/chính sách được duyệt.
-- [ ] G6: Trang chủ đầy đủ, dữ liệu nhất quán với trang con.
+- [x] G6 code/QA tập trung: Trang chủ đủ chín section, dùng chung dữ liệu trang con; chủ dự án duyệt bản xem, G7 kiểm tra tổng thể tiếp theo.
 - [ ] G7: UI/functional QA, build, nội dung, media, SEO và phát hành đạt yêu cầu.
 
 Điểm bắt đầu sau khi kế hoạch được duyệt: G0 để chuẩn bị đầu vào tối thiểu, rồi G1 trên Header/VideoHero hiện tại. Không xây lại từ đầu và không triển khai đồng loạt bảy trang.

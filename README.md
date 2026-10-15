@@ -2,7 +2,9 @@
 
 Chỉ dẫn làm việc dùng một file duy nhất ở gốc workspace: `../AGENTS.md`. File này áp dụng cho toàn bộ source trong `sunflower-website/`.
 
-Phạm vi hiện tại: G1 Header/VideoHero, G2 các section Trang chủ + motion/3D, G3 Sản phẩm/Giải pháp, G4 Giới thiệu/Năng lực/Mẫu thành phẩm và G5.1 giao diện Liên hệ/xem lại yêu cầu. Giữ sitemap 7 trang; G5.2 tiếp nhận báo giá thật còn chờ kênh nhận và thông tin chính thức, các section Trang chủ còn lại ở G6.
+Phạm vi hiện tại: G1 Header/VideoHero, G2 các section Trang chủ + motion/3D, G3 Sản phẩm/Giải pháp, G4 Giới thiệu/Năng lực/Mẫu thành phẩm, G5.1 giao diện Liên hệ/xem lại yêu cầu và G6 đủ nội dung Trang chủ. Giữ sitemap 7 trang; G5.2 tiếp nhận báo giá thật còn chờ kênh nhận/thông tin chính thức; G7 là vòng kiểm tra tổng thể và đầu vào phát hành.
+
+G6 nối CapabilitiesFeature → SolutionsByIndustry → FeaturedProjects → ProcessPreview trước ContactCTA. Trang chủ có chín section và Footer chung: ảnh panorama ngành in với ba hình thức cung ứng/thực hiện, ba nhu cầu chọn lọc, ba mẫu catalogue minh họa và sáu bước phối hợp. Các section mới là Server Components, dùng lại supplyModels/solutions/projectSamples/productionSteps và media registries; home.ts chỉ giữ copy mở đầu và slug chọn lọc. Không có bộ catalogue hoặc asset song song. CTA cuối Trang chủ dùng nền xanh/nút cam; các trang con giữ variant sáng. Motion tái sử dụng hệ thống đã có, mobile giảm khoảng dịch chuyển còn 12px.
 
 G5.1 có ba mục đích trao đổi, thông tin liên hệ, 13 lựa chọn sản phẩm, 5 nhu cầu và trường báo giá theo mục đích. URL từ catalogue/giải pháp/mẫu được đối chiếu dữ liệu trước khi điền; giá trị sai hoặc trùng không được hiển thị như lựa chọn hợp lệ. Form kiểm tra thông tin và cho xem lại ngay trên trang, giữ nội dung khi quay lại sửa. Theo lựa chọn của chủ dự án ngày 15/10/2026, chưa kết nối endpoint: không gửi, không lưu vào trình duyệt và không báo tiếp nhận thành công. Nút gửi thật ở trạng thái khóa. Lint/typecheck/build và QA tập trung đã đạt; bằng chứng/giới hạn ở IMPLEMENTATION_PLAN.md.
 

@@ -1,4 +1,8 @@
-// G2 copy from docs/CONTENT.md; references existing media IDs rather than copying assets.
+import type { SolutionSlug } from './solutions';
+import type { ProjectSampleSlug } from './projects';
+
+// Home editorial copy/selections from CONTENT.md. Catalogue, workflow and media
+// remain in their canonical registries; do not copy them into a second catalogue.
 export const homeContent = {
   introduction: {
     eyebrow: 'VỀ SUNFLOWER',
@@ -41,5 +45,33 @@ export const homeContent = {
         mediaId: 'printing-press',
       },
     ],
+  },
+  capabilities: {
+    eyebrow: 'NĂNG LỰC & HÌNH THỨC THỰC HIỆN',
+    title: 'Từ yêu cầu ban đầu đến phương án thực hiện.',
+    description: 'Một đơn hàng có thể cần thiết kế mới, gia công từ vật liệu hoặc cung ứng sản phẩm, vật tư. Phần việc được làm rõ trước khi chuẩn bị hàng hóa và triển khai.',
+    mediaId: 'printing-press',
+    link: { href: '/nang-luc', label: 'Xem năng lực và quy trình' },
+  },
+  solutions: {
+    eyebrow: 'GIẢI PHÁP THEO NHU CẦU',
+    title: 'Bắt đầu từ cách sản phẩm được sử dụng.',
+    description: 'Nội dung cần thể hiện, vị trí gắn và cách đóng gói là cơ sở để lựa chọn nhóm tem nhãn, vật liệu và hình thức thực hiện.',
+    featuredSlugs: ['nhan-dien-san-pham', 'nhan-may-mac', 'bao-bi-thuong-hieu'] satisfies readonly SolutionSlug[],
+    link: { href: '/giai-phap', label: 'Khám phá các giải pháp' },
+  },
+  samples: {
+    eyebrow: 'MẪU THÀNH PHẨM',
+    title: 'Nhìn gần hơn vào thành phẩm.',
+    description: 'Quan sát hình thức, bề mặt và chi tiết để có thêm cơ sở trao đổi về sản phẩm bạn cần.',
+    featuredSlugs: ['mau-bang-dinh', 'mau-tem-trang-to', 'mau-tem-det'] satisfies readonly ProjectSampleSlug[],
+    note: 'Hình ảnh sản phẩm minh họa từ bộ catalogue, không phải hồ sơ dự án khách hàng của Sunflower.',
+    link: { href: '/du-an', label: 'Xem các mẫu thành phẩm' },
+  },
+  process: {
+    eyebrow: 'QUY TRÌNH PHỐI HỢP',
+    title: 'Các bước phối hợp cùng Sunflower.',
+    description: 'Từng đơn hàng đi theo các bước phù hợp với mặt hàng và hình thức thực hiện. Đơn cung ứng vật tư không cần qua toàn bộ công đoạn của một đơn thiết kế, sản xuất mới.',
+    link: { href: '/nang-luc/#quy-trinh', label: 'Xem quy trình chi tiết' },
   },
 } as const;

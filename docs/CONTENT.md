@@ -95,7 +95,7 @@ Sunflower vừa cung ứng hàng hóa, nguyên vật liệu, vừa thực hiện
 
 Từ tem cuộn, tem tờ đến nhãn may mặc, hộp, mực in và thiết bị, mỗi nhóm được giới thiệu cùng mục đích sử dụng để bạn bắt đầu trao đổi về quy cách.
 
-**Bộ nhóm nổi bật đề xuất:** Tem trắng cuộn / Tem màu cuộn / Tem màu tờ / Hộp / Thẻ bài / Mực in. Dùng tên và mô tả từ catalogue ở P03, không viết lại một bộ dữ liệu khác cho Trang chủ.
+**Bộ nhóm nổi bật đang dùng:** Tem trắng cuộn / Tem màu cuộn / Mực in / Tem dệt, chọn theo ảnh G0 đủ kích thước. Dùng tên và mô tả từ catalogue ở P03, không viết lại một bộ dữ liệu khác cho Trang chủ.
 
 **Link:** Xem toàn bộ sản phẩm → `/san-pham`.
 
@@ -121,6 +121,8 @@ Một đơn hàng có thể cần thiết kế mới, gia công từ vật liệ
 
 **Link:** Xem năng lực và quy trình → `/nang-luc`.
 
+**G6:** dùng ảnh printing-press từ registry companyMedia, giữ nhãn minh họa/credit; ba hình thức thực hiện lấy trực tiếp từ supplyModels của trang Năng lực. Không diễn giải ảnh thành máy/xưởng Sunflower.
+
 ### 06. SolutionsByIndustry
 
 **H2:** Bắt đầu từ cách sản phẩm được sử dụng.
@@ -133,6 +135,8 @@ Một đơn hàng có thể cần thiết kế mới, gia công từ vật liệ
 
 **Link:** Khám phá giải pháp → `/giai-phap`.
 
+**G6:** ba mục lấy tên/problem/media trực tiếp từ solutions.ts: `nhan-dien-san-pham`, `nhan-may-mac`, `bao-bi-thuong-hieu`; link tới anchor tương ứng ở Giải pháp. Đây là nhu cầu có thể trao đổi, không phải portfolio ngành đã phục vụ.
+
 ### 07. FeaturedProjects
 
 **H2:** Nhìn gần hơn vào thành phẩm.
@@ -143,6 +147,8 @@ Quan sát tổng thể, chất liệu và chi tiết hoàn thiện để có th�
 
 **Ghi chú triển khai:** Chỉ hiển thị cùng các ảnh được phép công bố. Chưa có ảnh/brief thực tế thì chưa tạo ba dự án, tên khách hàng hoặc kết quả giả để lấp section.
 
+**G6 bản xem:** dùng lại ba mẫu catalogue `mau-bang-dinh`, `mau-tem-trang-to`, `mau-tem-det` từ projects.ts, không tạo hồ sơ dự án thật. Nhãn chung: “Hình ảnh sản phẩm minh họa từ bộ catalogue, không phải hồ sơ dự án khách hàng của Sunflower.” CTA từng mẫu tới Liên hệ kèm slug mẫu hợp lệ; tên/mô tả từ registry dùng chung.
+
 ### 08. ProcessPreview
 
 **H2:** Các bước phối hợp cùng Sunflower.
@@ -152,6 +158,8 @@ Quan sát tổng thể, chất liệu và chi tiết hoàn thiện để có th�
 Từng đơn hàng có các bước phù hợp với mặt hàng và hình thức thực hiện. Đơn mua vật tư không cần đi qua toàn bộ các công đoạn của một đơn thiết kế và sản xuất mới.
 
 **Link:** Xem quy trình chi tiết → `/nang-luc`.
+
+**G6:** danh sách sáu bước lấy trực tiếp từ productionSteps, tên và nội dung đồng bộ trang Năng lực. Link dẫn thẳng `/nang-luc/#quy-trinh`.
 
 ### 09–10. ContactCTA và Footer
 

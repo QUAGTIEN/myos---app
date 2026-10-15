@@ -13,6 +13,10 @@ Yêu cầu hiện đại/mạnh mẽ với animation và khối 3D được ch�
 
 Source chưa có model hoặc packshot tách nền mới. G2.Motion đã triển khai scene cuộn tem/lớp giấy/dải nhãn bằng CSS geometry, có caption minh họa và không cần thêm asset. Packshot hoặc model thật vẫn là lựa chọn tương lai khi có quyền sử dụng và nhu cầu cụ thể.
 
+### G6 — tái sử dụng bộ ảnh hiện có
+
+Không thêm hoặc nhân bản media. CapabilitiesFeature dùng `printing-press` qua CompanyPhoto, giữ caption minh họa và credit trên ảnh. SolutionsByIndustry dùng ảnh đã ánh xạ cho ba nhu cầu nhận diện sản phẩm, may mặc và bao bì. FeaturedProjects dùng `bang-dinh`, `tem-trang-to`, `tem-det` qua ProductImage với contain/giới hạn kích thước nguồn. Bộ ba này được gọi là mẫu catalogue minh họa, không phải dự án khách hàng; không đưa ảnh 218px vào gallery lớn. Những giới hạn nguồn/quyền công khai hiện có vẫn áp dụng khi dùng lại trên Trang chủ.
+
 ### Tài nguyên Hero đã nhận
 
 - Nguồn: `istockphoto-1139033230-640_adpp_is.mp4`, do người dùng cung cấp và yêu cầu sử dụng làm Hero.

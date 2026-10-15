@@ -58,7 +58,7 @@ sunflower-website/
 │   ├── app/
 │   │   ├── layout.tsx              # Font, metadata, Header/Footer, skip link
 │   │   ├── globals.css             # Tokens và styles responsive
-│   │   ├── page.tsx                # Trang chủ: Hero + 4 section G2
+│   │   ├── page.tsx                # Trang chủ: 9 section G1/G2/G6 + metadata riêng
 │   │   ├── gioi-thieu/page.tsx
 │   │   ├── san-pham/page.tsx
 │   │   ├── giai-phap/page.tsx
@@ -78,11 +78,12 @@ sunflower-website/
 │   │   │   ├── ProductGallery.tsx      # Gallery Home
 │   │   │   ├── ProductImage.tsx        # Ảnh catalogue/use case, giới hạn kích thước nguồn
 │   │   │   └── ProductDepthScene.tsx   # CSS 3D Home + compact ProductsHero
-│   │   ├── capabilities/ProcessTimeline.tsx # Quy trình sáu bước Server Component
+│   │   ├── capabilities/ProcessTimeline.tsx # Sáu bước; variant compact dùng tại Home
 │   │   ├── projects/ProjectGallery.tsx # Client filter, count, empty/reset và CTA
 │   │   └── contact/                # ContactCTA, InquiryForm, InquiryFields, InquiryReview
 │   ├── sections/
-│   │   ├── home/                   # BrandIntroduction, FeaturedProductCategories, WhySunflower
+│   │   ├── home/                   # BrandIntroduction, FeaturedProductCategories, WhySunflower,
+│   │   │                           # CapabilitiesFeature, SolutionsByIndustry, FeaturedProjects, ProcessPreview
 │   │   ├── about/                  # CompanyOverview, WorkingStory, WorkingPrinciples, DepartmentCollaboration
 │   │   ├── products/               # ProductsHero, ProductCatalogue, SpecificationsGuide
 │   │   ├── solutions/              # SolutionsHero, SolutionsOverview, UseCaseSections, RelatedProducts
@@ -99,7 +100,7 @@ sunflower-website/
 │   │   ├── solutions.ts            # 5 nhu cầu G0, product slugs và media references
 │   │   ├── capabilities.ts         # Ba hình thức, sáu bước và khu vực hoạt động
 │   │   ├── projects.ts             # Sáu mẫu minh họa, nhóm filter, product/solution slugs
-│   │   ├── home.ts                 # Copy/selection/IDs ảnh của section Home
+│   │   ├── home.ts                 # Copy/selection/IDs ảnh Home, không nhân bản dữ liệu trang con
 │   │   ├── company.ts              # Brand/CTA/contact minh họa dùng chung
 │   │   └── contact.ts              # Chế độ preview, nhãn/mục đích/giới hạn form
 │   ├── lib/                        # inquiry-context.ts, inquiry-validation.ts; không có adapter gửi
@@ -118,7 +119,8 @@ app/layout.tsx
   ├── MotionController → IntersectionObserver / reduced-motion fallback
   ├── Header ← content/navigation.ts
   ├── route page
-       ├── / → VideoHero + BrandIntroduction + FeaturedProductCategories + WhySunflower + ContactCTA
+       ├── / → VideoHero + BrandIntroduction + FeaturedProductCategories + WhySunflower
+       │       + CapabilitiesFeature + SolutionsByIndustry + FeaturedProjects + ProcessPreview + ContactCTA
        ├── /san-pham → ProductsHero + ProductCatalogue + SpecificationsGuide + ContactCTA
        ├── /giai-phap → SolutionsHero + SolutionsOverview + UseCaseSections + RelatedProducts + ContactCTA
        ├── /gioi-thieu → EditorialHero + overview/story/principles/departments + RouteLinks + ContactCTA
@@ -138,6 +140,7 @@ app/layout.tsx
 - `inquiry-context.ts` chỉ nhận `san-pham`, `nhu-cau`, `du-an`, đối chiếu slug công khai; bỏ giá trị lạ, sai định dạng hoặc lặp, không echo dữ liệu URL thô. Mẫu hợp lệ điền sản phẩm/nhu cầu liên quan; giá trị hợp lệ được chỉ định trực tiếp ưu tiên hơn mặc định của mẫu. Thay context trên cùng route khởi tạo lại draft tương ứng.
 - `InquiryForm` chỉ giữ draft trong React state. `inquiry-validation.ts` kiểm tra tên, ít nhất một phone/email, định dạng kênh đã điền, nội dung và độ dài; `InquiryReview` hiển thị nội dung chuẩn hóa/escape dưới dạng văn bản. Quay lại sửa giữ dữ liệu. Nút gửi khóa; không có fetch, storage hay gửi thông tin tới dữ liệu liên hệ minh họa. Đồng ý liên hệ hiện là lựa chọn dự thảo, không bắt buộc để xem lại tại chỗ.
 - Design tokens ở `globals.css`, ánh xạ vào Tailwind. Không có nguồn màu độc lập khác.
+- G6 dùng bốn section Home Server Components. `home.ts` giữ tiêu đề/copy dẫn và slug chọn lọc; phần cung ứng, ba giải pháp, ba mẫu, sáu bước và ảnh đều lấy từ registry đang dùng ở trang con. `ProcessTimeline compact` chỉ đổi bố cục Home, giữ quy trình dọc mặc định trên Năng lực. `ContactCTA tone="brand"` chỉ bật ở Home; không thay đổi các CTA sáng của trang con. Không thêm Client Component, dependency, media hoặc route.
 - Navigation có bảy route; main navigation có sáu mục, gồm Trang chủ, CTA Header dẫn `/lien-he`.
 - `content/product-media.ts` đăng ký 9 ảnh người dùng gửi và WebP delivery. ProductCatalogue và UseCaseSections dùng chung registry; ProductImage giữ ảnh trong khung contain, giới hạn theo kích thước nguồn. Không tạo bản sao theo trang. Nguồn, chất lượng và bốn nhóm còn thiếu được quản lý tại [MEDIA_BRIEF.md](MEDIA_BRIEF.md).
 - `content/company-media.ts` đã đăng ký 5 ảnh Unsplash người dùng gửi trong `public/images/company/`, giữ kích thước JPG gốc và credit từ tên nguồn. Đây là ảnh minh họa ngành in, không phải bằng chứng cơ sở/nhân sự Sunflower; caption và loại stock được ghi rõ. G2 render qua webSrc ở BrandIntroduction/WhySunflower; phân bổ và derivatives tại MEDIA_BRIEF.md. Các trang tái sử dụng cùng đường dẫn, không sao chép sang thư mục năng lực.
@@ -177,7 +180,7 @@ Component chỉ được viết khi đến slice triển khai hoặc có nhu c�
 
 | Route | Trạng thái hiện tại | Chức năng theo STRUCTURE, chưa triển khai đầy đủ |
 |---|---|---|
-| `/` | Header/Hero + section G2 + Footer + G2.Motion/scene 3D | Năng lực, giải pháp, dự án, quy trình và phần còn lại ở G6 |
+| `/` | G6 đủ 9 section theo thứ tự STRUCTURE; 3 hình thức, 3 giải pháp, 3 mẫu minh họa, 6 bước, CTA; giữ Hero/3D | G7 kiểm tra tổng thể; ảnh/video/thông tin doanh nghiệp công khai còn chờ xác nhận |
 | `/gioi-thieu` | G4: Hero cong, overview/story/principles/departments, liên kết và CTA | Lịch sử, ảnh đội ngũ thật và thương hiệu chính thức còn chờ |
 | `/san-pham` | G3 code: Hero/3D, 13 nhóm, anchor, hướng dẫn quy cách, CTA slug, metadata | UI G3 chờ duyệt; G5.1 đã nhận/prefill context |
 | `/giai-phap` | G3 code: Hero ảnh, 5 nhu cầu, product cross-links, CTA slug, metadata | UI G3 chờ duyệt; G5.1 đã nhận/prefill context |

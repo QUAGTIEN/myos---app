@@ -28,6 +28,8 @@ G4 đã code Giới thiệu, Năng lực và Mẫu thành phẩm; tái sử dụ
 
 G5.1 đã code giao diện Liên hệ, nhận ngữ cảnh catalogue/giải pháp/mẫu, kiểm tra dữ liệu và xem lại nội dung tại chỗ. Chủ dự án chọn hoàn thiện giao diện trước vì chưa có đích nhận. G5.2 gửi thật còn chờ; không coi toàn bộ G5 đã hoàn tất. Source và QA được cập nhật trong ARCHITECTURE.md/IMPLEMENTATION_PLAN.md.
 
+G6 đã ghép đủ câu chuyện Trang chủ theo STRUCTURE.md: năng lực, giải pháp chọn lọc, mẫu thành phẩm minh họa và quy trình nằm sau WhySunflower, trước CTA cuối. Dùng chung dữ liệu/ảnh với trang con; không có tài liệu hoặc catalogue Home thứ hai. Kết quả đối chiếu/QA ghi ở IMPLEMENTATION_PLAN.md.
+
 Tám ảnh Sonoco chỉ có một bộ tại [reference/desktop/](../../reference/desktop/) ở gốc workspace. REFERENCE_GUIDE.md trỏ tới bộ ảnh này; không sao chép vào thư mục tài liệu, public/ hoặc output website.
 
 ## Quy ước đường dẫn

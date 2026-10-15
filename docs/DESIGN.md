@@ -292,7 +292,7 @@ Default to self-authored CSS/keyframes, IntersectionObserver and lightweight bro
 
 Use progressive enhancement: essential content and CTA are visible in server HTML/no-JS mode, before observer/scene initialization and if an asset fails. Never leave text at opacity zero because a script has not loaded. Animate transform/opacity where possible; avoid scroll-driven layout recalculation, oversized compositing layers and a permanent will-change on every element. Performance targets must be measured, not described as guaranteed.
 
-Mobile uses the same confident composition with shorter offsets, fewer simultaneous effects and a static or simplified dimensional scene. Disable pointer tilt on touch. Under prefers-reduced-motion, remove reveals/parallax/tilt/continuous motion and use the Hero poster, keeping the strong type, spacing and static product depth. Caption, focus outline, video controls, forms and navigation stay operable throughout animations.
+Mobile uses the same confident composition with shorter offsets, fewer simultaneous effects and a static or simplified dimensional scene. At widths below 768px, G6 maps `--motion-distance` to `--space-3` (12px), keeping horizontal entrances within the 20px viewport gutter. Desktop remains 24px. Disable pointer tilt on touch. Under prefers-reduced-motion, remove reveals/parallax/tilt/continuous motion and use the Hero poster, keeping the strong type, spacing and static product depth. Caption, focus outline, video controls, forms and navigation stay operable throughout animations.
 
 ## 9. Imagery & media art direction
 
@@ -376,6 +376,14 @@ Contact keeps the bright-blue/orange, Inter and spacing system. A typographic bl
 
 Mobile puts the inquiry before the supplementary contact details, stacks fields and keeps a normal page scroll. Desktop/mobile screenshots and five-width layout checks confirm the composition without overflow. The clear preview notice and disabled send action reflect the owner's decision to defer live intake. Error summary/review focus, query prefill and no-JS/reduced-motion limits are recorded in IMPLEMENTATION_PLAN.md; this does not certify a connected form or full accessibility audit.
 
+### G6 Home continuation — 15/10/2026
+
+Home now follows all nine sections in STRUCTURE.md before the shared Footer. After the existing blue collaboration gallery, CapabilitiesFeature returns to white with a panoramic 21:8 stock print photograph and an inset white three-part supply-model panel crossing its lower edge. Illustration/credit stays visible at the top of the photograph. This extends REF-08's editorial media emphasis with original geometry; the image does not assert machine ownership.
+
+Solutions uses a pale-blue field, a desktop sticky introduction and three open image/text rows linking to the correct use-case anchors. The sticky text becomes a normal block at tablet widths. FeaturedProjects is titled Mẫu thành phẩm and uses one large photograph beside two smaller entries, taking REF-04's image prominence without news cards or invented client attribution. ProductImage retains contain/native-size bounds. ProcessPreview reuses the six canonical steps: three columns/two rows on desktop, two columns on tablet and a numbered vertical list on mobile. The closing ContactCTA has a Home-only blue tone and orange action; inner-page variants stay light.
+
+Image masks, numbered reveal sequences, depth-card entrances and link image/arrow feedback reuse section 8. The existing Home CSS 3D scene remains the signature object; G6 adds no engine, continuous motion or scroll hijacking. Desktop/mobile adaptations and QA limits are recorded in IMPLEMENTATION_PLAN.md. The source stock/preview media still needs public-release verification.
+
 ## 11. EXAMPLE SECTION SEQUENCE / COLOR MAP
 
 | Home sequence | Visual recipe | Background |
@@ -388,7 +396,7 @@ Mobile puts the inquiry before the supplementary contact details, stacks fields 
 | 06 Solutions/Industries | Image-first vertical editorial | Light surface |
 | 07 Projects | Large gallery | White |
 | 08 Process/quality | Timeline, proof-oriented | Blue-tinted / white |
-| 09 Contact CTA | Strong closing action | Deep navy |
+| 09 Contact CTA | Strong closing action | Active brand blue; orange button |
 | 10 Footer | Site-wide navigation/contact | Deep navy |
 
 **This sequence is for the Home page.** Seven top-level routes and exact functions are governed by `docs/STRUCTURE.md`.
