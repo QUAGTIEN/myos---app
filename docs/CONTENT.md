@@ -83,6 +83,8 @@ Thiết kế, gia công, sản xuất tem nhãn và bao bì; cung cấp vật t�
 
 **Nhãn bổ sung:** Thiết kế / Gia công / Sản xuất; “Tem cuộn / Minh họa sản phẩm” cho hình vector nguyên bản; “Tem nhãn. Bao bì. Vật tư in.” và liên kết “Câu chuyện Sunflower” → `#introduction-title`.
 
+**Điều khiển lượt 2:** “Hiệu ứng: Bật” / “Hiệu ứng: Tắt”, tên truy cập “Chuyển động sản phẩm”, điều khiển cảnh minh họa độc lập video. Mobile bỏ câu “Tem nhãn. Bao bì. Vật tư in.” trùng nội dung; giữ caption sản phẩm và liên kết câu chuyện.
+
 ### 02. BrandIntroduction
 
 **Eyebrow:** VỀ SUNFLOWER.

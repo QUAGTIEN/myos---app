@@ -6,7 +6,25 @@ Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, R
 
 ## 1. Mục tiêu và điểm xuất phát
 
-### Cập nhật hiện hành — chỉnh giao diện lượt 1, 15/10/2026
+### Cập nhật hiện hành — chỉnh giao diện lượt 2, 15/10/2026
+
+Đã bổ sung chuyển động cho Home Hero trên bố cục lượt 1. `HeroLabelSculpture` progressive enhancement từ SVG server; `lib/hero-motion.ts` điều phối mở cuộn đầu vào và scroll tự nhiên để xoay cuộn, kéo dải nền, nâng nhãn cam và dịch phần in cuối độc lập. Đây là minh họa SVG có chiều sâu, không phải mô hình cơ khí/WebGL hay quy cách kỹ thuật. Cảnh vẫn nằm trong Hero. Không thêm dependency, media, route hoặc claim doanh nghiệp.
+
+VideoHero có nút “Hiệu ứng: Bật/Tắt”, tách khỏi Pause/Play video. Cảnh chỉ chạy khi figure trong vùng nhìn và tài liệu đang hiển thị; sau intro không có rAF liên tục khi đứng yên. Cleanup hủy frame/listener/observer và trả hình tĩnh. Resize và quay lại cảnh không phát lại intro đã bắt đầu. Mobile giảm biên độ còn 40%; reduced-motion, Save-Data/mạng hạn chế hoặc thiếu IntersectionObserver giữ hình tĩnh. H1 pending vẫn đọc được, bỏ mask cắt chữ/dấu; CTA không phụ thuộc intro. Token/contract tại DESIGN.md mục 8.
+
+**Đã kiểm tra trên source lượt 2:**
+
+- `npm run lint`, `npx tsc --noEmit`, `npm run build`: đạt; export đủ bảy route và 404, postbuild alias payload hoàn tất.
+- Controller thật qua Node/DOM mô phỏng: 14 ca đạt, gồm intro có kết thúc, không rAF ngoài vùng nhìn, coalescing scroll, biến đổi từng phần, suspend khi ẩn, reduced-motion đầu vào/thay đổi, mobile, stale observer sau resize, cleanup và thiếu IntersectionObserver. Đây là mô phỏng lifecycle, không phải kiểm thử media preference thật trong browser.
+- Production local IAB: chụp và xem Hero tại 390×844, 768×1024, 1024×768, 1440×900, 1920×1080, thêm 320×740. Không tràn ngang; logo tải được, H1/CTA giữ bố cục; nút hiệu ứng cao 44px. Đối chiếu pose đầu/cuộn trên desktop và mobile: dải nền/nhãn/roll thay đổi riêng, mobile có biên độ thấp hơn.
+- Bật/tắt bằng click và Enter trả hình tĩnh/tiếp tục theo scroll. Video vẫn phát khi tắt riêng cảnh; Pause/Play video hoạt động. Anchor câu chuyện tới giới thiệu và scene chuyển `suspended` khi ra khỏi vùng nhìn. CTA Sản phẩm điều hướng đúng, trang đích không có Hero video/cảnh mới. Console browser không có error trong phiên kiểm tra.
+- HTTP bảy route đều 200, một H1 mỗi route. HTML Home có SVG/poster/copy và nút hiệu ứng hidden trước hydration, không có thẻ video; sáu route khác không có Hero scene/video. Đây là kiểm tra HTML fallback, chưa duyệt một phiên browser tắt JavaScript hoàn toàn.
+
+**Bằng chứng lượt 2:** `C:/Users/pham quang tien/.codex/visualizations/2026/10/15/sunflower-interface-pass2/`: ảnh Hero sáu kích thước, hero-1440-start/scroll.jpg, hero-390-scroll.jpg, layout-report.json, motion-report.json, lifecycle-report.json, http-report.json và harness check-motion.mjs. Chỉ lưu ngoài source/public.
+
+**Còn lại:** gallery, kính lúp chất liệu và rollout chữ/màu/hình học sang các section/trang con. Không đánh dấu toàn bộ M1 hoặc toàn site đã hoàn tất. Chưa kiểm native reduced-motion browser, Safari/Firefox/thiết bị thật, audit WCAG/hiệu năng mới hoặc backend form. Footage preview vẫn có watermark; bản HD được cấp phép, ảnh macro/packshot và dữ liệu công khai còn chờ. Giữ quyền truy cập demo riêng tư hiện có.
+
+### Báo cáo trước — chỉnh giao diện lượt 1, 15/10/2026
 
 Chủ dự án yêu cầu bắt đầu lượt 1 trong kế hoạch sáu lượt, bổ sung logo đính kèm và commit/push đúng source. Đã làm lại Home Hero về màu, chữ và hình sản phẩm; Header/menu/Footer có BrandMark dùng file PNG chủ dự án cung cấp, metadata favicon/apple icon cùng URL. Giữ nguyên byte/màu logo, bảy route, variant xanh–cam, trạng thái noindex và form chưa tiếp nhận.
 

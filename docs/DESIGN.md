@@ -252,6 +252,17 @@ No random icon illustrations where good imagery or text tells the story better.
 
 ## 8. Motion & interaction system
 
+### Interface revision, pass 2 — 15/10/2026
+
+Home now progressively enhances the original Hero SVG with `src/lib/hero-motion.ts`. Its one-second entrance rotates the roll into position and opens the ribbon. A short native scroll range then changes roll rotation, ribbon length, the orange label's lift and the end print independently. This is an original dimensional SVG illustration, not a physical simulation or WebGL model. The scene stays inside Hero; the Hero–introduction crossing and material loupe remain pending. Earlier pass-1 notes describe the static starting point.
+
+- **Lifecycle:** IntersectionObserver gates work to the visible figure; hidden documents suspend it. Passive scroll events coalesce into one requestAnimationFrame, with no idle animation loop after entrance. Returning to the figure or resizing does not replay a started entrance. Cleanup cancels frames, removes listeners and restores server-rendered geometry.
+- **Control/fallback:** “Hiệu ứng: Bật/Tắt” controls product movement separately from video Pause/Play. Reduced-motion, Save-Data/constrained connection, unavailable IntersectionObserver or no JavaScript preserve the static illustration. The product control is hidden when motion cannot run. Essential copy/CTA never wait for the illustration; pending H1 phrases remain readable without a clipping mask that could cut Vietnamese marks.
+- **Responsive:** below 768px the movement factor is `.4`. Mobile places the 44px control in the blue Hero footer alongside the story link and omits its redundant category sentence. Copy and media keep their separate rows.
+- **Central tokens:** `--hero-scene-duration: 1000ms`, `--hero-scene-scroll-span: .65` (fraction of Hero height), `--hero-scene-factor: 1` (mobile `.4`), `--hero-scene-drift: 32`, `--hero-scene-turn: 12`, `--hero-scene-unwind: 72`, `--hero-scene-peel: 48`, `--hero-scene-entry: 44`. Distances use the original 720×620 SVG coordinate system; turn uses degrees. No new palette, media or motion dependency.
+
+Actual QA and limits are recorded in IMPLEMENTATION_PLAN.md; the controller's lifecycle simulation is not native browser preference emulation.
+
 ### 8.1 Required motion language
 
 **Expressive, precise, industrial.** Combine several complementary effects through the page: typographic entrances, image reveals, staggered galleries, short scroll-linked movement, interaction feedback and dimensional product staging. A single global fade-in is not an adequate implementation. Each section has a dominant motion idea and supporting interactions; vary the choreography while sharing timing/easing tokens. The video remains an important focal point, with the UI and 3D composition contributing their own energy.

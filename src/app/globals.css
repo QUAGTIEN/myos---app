@@ -63,6 +63,14 @@
   --hero-paper-edge: #d9d8ce;
   --hero-paper-line: #b8bcba;
   --hero-core-rim: #bcaa89;
+  --hero-scene-duration: 1000ms;
+  --hero-scene-scroll-span: .65;
+  --hero-scene-factor: 1;
+  --hero-scene-drift: 32;
+  --hero-scene-turn: 12;
+  --hero-scene-unwind: 72;
+  --hero-scene-peel: 48;
+  --hero-scene-entry: 44;
   --section-padding: var(--space-12);
   --section-title-size: clamp(2.1rem, 3.4vw, 3.8rem);
   --feature-title-size: clamp(1.35rem, 2vw, 2rem);
@@ -176,6 +184,10 @@ button:disabled { cursor: not-allowed; }
 .hero-bottom-inner p { margin: 0; font-size: 11px; letter-spacing: .06em; color: var(--muted); }
 .hero-bottom-inner a { --focus-accent: var(--on-dark); display: inline-flex; align-items: center; gap: var(--space-4); min-height: 44px; color: var(--on-dark); font-size: 12px; }
 .hero-bottom-inner svg { width: 18px; }
+.hero-motion-toggle { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 44px; padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-control); background: var(--hero-base); color: var(--brand-blue); font-size: 11px; line-height: 1.4; }
+.hero-motion-toggle[hidden] { display: none; }
+.hero-motion-toggle:hover { background: var(--surface-blue); }
+.hero-motion-toggle svg { width: 14px; }
 
 @keyframes menu-enter { from { opacity: 0; transform: translate3d(0, -24px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 @keyframes menu-exit { from { opacity: 1; transform: translate3d(0, 0, 0); } to { opacity: 0; transform: translate3d(0, -18px, 0); } }
@@ -213,7 +225,7 @@ html[data-motion='enabled'] [data-reveal='hero-media'] { transition-duration: va
 html[data-motion='enabled'] [data-reveal='hero-media'][data-reveal-state='pending'] { transform: none; clip-path: inset(0 0 0 96%); }
 html[data-motion='enabled'] [data-reveal='hero-media'][data-reveal-state='visible'] { clip-path: inset(0 0 0 0); }
 html[data-motion='enabled'] [data-reveal='hero-title'] { transition-duration: var(--motion-hero); }
-html[data-motion='enabled'] [data-reveal='hero-title'][data-reveal-state='pending'] { transform: translate3d(0, 72%, 0); clip-path: inset(0 0 90% 0); }
+html[data-motion='enabled'] [data-reveal='hero-title'][data-reveal-state='pending'] { opacity: 1; transform: translate3d(0, 18%, 0); clip-path: none; }
 html[data-motion='enabled'] [data-reveal='hero-title'][data-reveal-state='visible'] { clip-path: inset(0 0 0 0); }
 html[data-motion='enabled'] [data-reveal='hero-copy'] { transition-duration: var(--motion-hero); }
 html[data-motion='enabled'] [data-reveal='product-gallery'][data-reveal-state='pending'] { opacity: 1; transform: none; }
@@ -344,7 +356,7 @@ html[data-motion='enabled'] [data-reveal='scene'][data-reveal-state='pending'] {
   .footer-brand > p { max-width: 680px; }
 }
 @media (max-width: 767px) {
-  :root { --section-padding: var(--space-9); --motion-distance: var(--space-3); }
+  :root { --section-padding: var(--space-9); --motion-distance: var(--space-3); --hero-scene-factor: .4; }
   /* Pending content adopts the mobile offset immediately when the viewport changes. */
   html[data-motion='enabled'] [data-reveal][data-reveal-state='pending'] { transition: none; }
   .introduction-layout { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
@@ -441,7 +453,9 @@ html[data-motion='enabled'] [data-reveal='scene'][data-reveal-state='pending'] {
   .hero-sculpture figcaption { font-size: 9px; right: 10%; }
   .hero-bottom-line { position: relative; order: 3; background: var(--brand-blue); }
   .hero-bottom-inner { gap: var(--space-3); padding-block: var(--space-3); }
-  .hero-bottom-inner p { max-width: 120px; font-size: 9px; line-height: 1.6; color: var(--on-dark); }
+  .hero-bottom-inner p { display: none; }
+  .hero-motion-toggle { --focus-accent: var(--on-dark); background: transparent; border-color: color-mix(in srgb, var(--on-dark) 40%, transparent); color: var(--on-dark); margin-right: auto; }
+  .hero-motion-toggle:hover { background: var(--brand-navy-deep); }
   .hero-bottom-inner a { font-size: 10px; gap: var(--space-2); }
   .media-controls { top: var(--space-4); bottom: auto; left: var(--space-4); right: var(--space-4); gap: var(--space-3); }
   .media-status { font-size: 11px; }

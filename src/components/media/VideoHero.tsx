@@ -121,11 +121,13 @@ function HeroPlayback({ source }: { source: string }) {
 }
 
 export function VideoHero() {
+  const [scenePaused, setScenePaused] = useState(false);
   // Server render is poster-only; check user preferences before setting any src.
   const preferences = useSyncExternalStore(subscribePreferences, getPreferences, () => 'pending');
   const [reducedMotion, mobile, constrained] = preferences.split(':').map(value => value === '1');
   const source = mobile ? heroMedia.mobileSrc ?? heroMedia.desktopSrc : heroMedia.desktopSrc;
   const canPlay = Boolean(preferences !== 'pending' && source && !reducedMotion && !constrained);
+  const canAnimate = preferences !== 'pending' && !reducedMotion && !constrained && 'IntersectionObserver' in window;
   const fallbackStatus = reducedMotion ? 'Ảnh tĩnh · Chuyển động đã tắt'
     : constrained ? 'Ảnh tĩnh · Tiết kiệm dữ liệu' : 'Đang hiển thị ảnh tĩnh';
 
@@ -159,8 +161,15 @@ export function VideoHero() {
           <ul className="hero-disciplines" aria-label="Hình thức thực hiện">{heroContent.disciplines.map(label => <li key={label}>{label}</li>)}</ul>
         </div>
       </Container>
-      <HeroLabelSculpture />
-      <div className="hero-bottom-line"><Container className="hero-bottom-inner"><p>Tem nhãn. Bao bì. Vật tư in.</p><a href={heroContent.discovery.href}>{heroContent.discovery.label}<Arrow diagonal /></a></Container></div>
+      <HeroLabelSculpture animate={canAnimate && !scenePaused} />
+      <div className="hero-bottom-line"><Container className="hero-bottom-inner">
+        <p>Tem nhãn. Bao bì. Vật tư in.</p>
+        <button type="button" className="hero-motion-toggle" hidden={!canAnimate} aria-pressed={!scenePaused} aria-controls="hero-product-scene" aria-label="Chuyển động sản phẩm" onClick={() => setScenePaused(value => !value)}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">{scenePaused ? <path d="m8 5 11 7-11 7V5Z" fill="currentColor" /> : <path d="M8 5v14M16 5v14" stroke="currentColor" strokeWidth="3" />}</svg>
+          Hiệu ứng: {scenePaused ? 'Tắt' : 'Bật'}
+        </button>
+        <a href={heroContent.discovery.href}>{heroContent.discovery.label}<Arrow diagonal /></a>
+      </Container></div>
     </section>
   );
 }

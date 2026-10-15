@@ -8,7 +8,7 @@ Tài liệu có một nguồn duy nhất tại `sunflower-website/docs/`; xem [I
 
 ## 1. Phạm vi hệ thống
 
-Lượt chỉnh giao diện 1 (15/10/2026) bổ sung `components/layout/BrandMark.tsx` cho Header/menu/Footer và một nguồn logo tại `public/images/brand/sunflower-logo.png`, dùng chung với metadata icons. `components/products/HeroLabelSculpture.tsx` là component minh họa vector tĩnh, không có browser API, model hoặc dependency mới; được VideoHero ghép cùng media/copy. Chuyển động scroll/unwind mới và kính lúp chưa triển khai. Các section dưới Hero và cấu trúc bảy trang được giữ. Tokens/cách dàn dựng mới ở DESIGN.md, kết quả kiểm tra ở IMPLEMENTATION_PLAN.md.
+Lượt chỉnh giao diện 1 (15/10/2026) bổ sung `components/layout/BrandMark.tsx` cho Header/menu/Footer và một nguồn logo tại `public/images/brand/sunflower-logo.png`, dùng chung với metadata icons. Lượt 2 chuyển `components/products/HeroLabelSculpture.tsx` thành Client Component có HTML/SVG tĩnh từ server và effect gọi `lib/hero-motion.ts` khi VideoHero cho phép. Controller điều khiển riêng cuộn/dải nền/nhãn bóc/phần in cuối, quản lý IntersectionObserver, scroll/rAF, resize, reduced-motion và document visibility; cleanup trả geometry gốc. VideoHero giữ trạng thái bật/tắt cảnh độc lập video và kiểm tra mạng/preference trước khi bật chuyển động. Không có model, media hoặc dependency mới. Kính lúp, section dưới Hero và cấu trúc bảy trang chưa đổi ở lượt 2. Tokens/cách dàn dựng ở DESIGN.md, QA ở IMPLEMENTATION_PLAN.md.
 
 Website thương hiệu Sunflower: corporate website, giới thiệu sản phẩm/giải pháp, tạo cơ hội liên hệ B2B. Đây là ứng dụng Next.js riêng; chưa kết nối Sunflower ERP, Firebase, CMS hoặc cơ sở dữ liệu.
 
@@ -46,7 +46,7 @@ sunflower-website/
 │   └── INDEX.md                    # Bản đồ tài liệu
 ├── public/
 │   ├── images/
-│   │   ├── brand/                  # [chờ] Logo gốc
+│   │   ├── brand/sunflower-logo.png # Logo chủ dự án cung cấp, Header/menu/Footer/icons dùng chung
 │   │   ├── hero/hero-poster.webp    # Poster trích từ video người dùng cung cấp
 │   │   ├── company/                # 5 JPG gốc + 5 WebP delivery, G2 render với caption/credit
 │   │   ├── products/               # 9 PNG gốc + 9 WebP delivery; thiếu ảnh 4 nhóm
@@ -78,6 +78,7 @@ sunflower-website/
 │   │   ├── editorial/{SectionHeading,EditorialHero,RouteLinks}.tsx
 │   │   ├── motion/MotionController.tsx # Reveal progressive-enhancement dùng chung
 │   │   ├── products/
+│   │   │   ├── HeroLabelSculpture.tsx # SVG gốc, progressive enhancement cho Home Hero
 │   │   │   ├── ProductGallery.tsx      # Gallery Home
 │   │   │   ├── ProductImage.tsx        # Ảnh catalogue/use case, giới hạn kích thước nguồn
 │   │   │   └── ProductDepthScene.tsx   # CSS 3D Home + compact ProductsHero
