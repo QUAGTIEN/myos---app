@@ -68,7 +68,7 @@ Nguồn: 5 JPG người dùng cung cấp từ thư mục OneDrive và yêu cầu
 
 - Nguồn: người dùng đính kèm `codex-clipboard-e84f3c31-4790-4d16-b35d-bfcb0e7740fd.png`, mô tả là ảnh văn phòng và chỉ định tận dụng bộ ảnh hiện có trước.
 - File duy nhất: [office-interior.png](../public/images/contact/office-interior.png); giữ nguyên PNG **638×480**, 390.521 byte. Bản đính kèm gốc được giữ nguyên, không crop/upscale hoặc tạo bản sao ở `company/`.
-- Ánh xạ: [contact-media.ts](../src/content/contact-media.ts) → `officeMedia`, với đường dẫn, kích thước, alt và nguồn. Dùng chính ở trang Liên hệ; trang Giới thiệu có thể tham chiếu cùng đối tượng khi bố cục phù hợp. Chưa render lên UI.
+- Ánh xạ: [contact-media.ts](../src/content/contact-media.ts) → `officeMedia`, với đường dẫn, kích thước, alt và nguồn. G4 đã dùng tại Giới thiệu; G5.1 dùng lại cạnh thông tin Liên hệ, caption “Không gian văn phòng”. Giữ cùng một file/registry; không suy ra địa chỉ, diện tích hoặc cơ sở pháp lý từ ảnh.
 - Nội dung: bàn làm việc, ghế, vách ngăn xanh và cây xanh trong không gian văn phòng. Caption trung tính “Không gian văn phòng”; chưa có địa chỉ hoặc thông tin nguồn chụp để liên kết ảnh với một địa điểm Sunflower cụ thể. Không suy ra địa chỉ, diện tích hay đội ngũ từ ảnh.
 - Ảnh vừa đủ minh họa nhỏ; tránh Hero full-bleed hoặc kéo giãn trên desktop. Khi dựng section, chọn kích thước hiển thị theo nguồn; người dùng sẽ bổ sung bản tốt hơn sau.
 

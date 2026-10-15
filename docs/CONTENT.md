@@ -489,7 +489,7 @@ Bạn có thể tham khảo hình thức sản phẩm, cách bố trí thông ti
 
 ### 04. SelectedProjectStories
 
-**Nhãn mẫu dùng ở bản xem G4:** Các tên sau mô tả ảnh catalogue, không phải tên dự án hoặc xác nhận do Sunflower thực hiện. Bộ lọc chỉ gồm nhóm có ảnh. Source dùng slug ở projects.ts để chuyển ngữ cảnh tham khảo, G5 mới nhận/prefill.
+**Nhãn mẫu dùng ở bản xem G4:** Các tên sau mô tả ảnh catalogue, không phải tên dự án hoặc xác nhận do Sunflower thực hiện. Bộ lọc chỉ gồm nhóm có ảnh. Source dùng slug ở projects.ts để chuyển ngữ cảnh tham khảo; G5.1 đã nhận/prefill tại Liên hệ.
 
 | Slug mẫu minh họa | Tiêu đề | Nhóm ảnh |
 |---|---|---|
@@ -578,6 +578,10 @@ Bạn chưa có quy cách hoàn chỉnh vẫn có thể bắt đầu bằng mộ
 **Ghi chú quyền riêng tư:** Câu đồng ý trên là microcopy dự thảo cho mục đích liên hệ, không thay thế chính sách xử lý dữ liệu. Nội dung chính sách và đích tiếp nhận phải được xác nhận trước khi bật form thật.
 
 ### Microcopy trạng thái
+
+**Chế độ G5.1 do chủ dự án chọn ngày 15/10/2026:** hoàn thiện giao diện trước, chưa có đích nhận. Nút chính là “Xem lại yêu cầu”; panel “Yêu cầu của bạn — chưa gửi”, giải thích “Thông tin dưới đây chỉ được xem lại trên trang. Sunflower chưa tiếp nhận yêu cầu này.” Nút “Chỉnh sửa nội dung” giữ thông tin đã nhập; “Gửi yêu cầu — chưa mở” bị khóa. Thông báo đầu form: “Bản minh họa — biểu mẫu chưa tiếp nhận yêu cầu.” và “Bạn có thể nhập và xem lại nội dung ngay trên trang. Thông tin chưa được gửi đến Sunflower.” Không hiển thị trạng thái gửi/thành công khi chỉ xem lại.
+
+Sản phẩm/nhu cầu/mẫu minh họa hợp lệ được điền từ link; cho phép chọn lại và bỏ mẫu. Lựa chọn sai hoặc tham số lặp hiển thị thông báo chung, không chép dữ liệu URL thô vào UI. Thêm trường “Nhu cầu sử dụng” từ năm nhu cầu đã có; không thêm nhóm kinh doanh mới. Câu đồng ý liên hệ hiện không bắt buộc cho thao tác xem lại tại chỗ, không được coi là chính sách dữ liệu được duyệt. Không lưu hoặc gửi draft.
 
 | Trạng thái | Nội dung hiển thị |
 |---|---|

@@ -1,6 +1,6 @@
 # Sunflower — Kế hoạch triển khai website
 
-Ngày lập/cập nhật: 14/10/2026. G0 bản xem đã chốt; G1 đã code/QA; G2 đã triển khai section Trang chủ, Footer và hoàn tất lượt G2.Motion bằng CSS/browser APIs. Nội dung sáu trang con và đầu vào phát hành công khai vẫn chưa hoàn tất.
+Ngày cập nhật: 15/10/2026. G0 bản xem đã chốt; G1/G2 và G2.Motion đã triển khai; G3/G4 có nội dung các trang con; G5.1 có giao diện Liên hệ/xem lại yêu cầu. G5.2 gửi thật, G6 phần Trang chủ còn lại và đầu vào phát hành công khai chưa hoàn tất.
 
 Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, REFERENCE_GUIDE.md, ARCHITECTURE.md và source hiện tại. Kế hoạch này tổ chức công việc, không thay thế design tokens hoặc bổ sung sitemap/chức năng ngoài tài liệu đã duyệt.
 
@@ -169,7 +169,7 @@ Kiểm tra tập trung: TypeScript và production build đạt. Chromium product
 
 Không thêm filter/search, trang chi tiết, backend hoặc animation dependency. Dữ liệu sản phẩm dùng chung với Home; solutions.ts lấy từ CONTENT.md. Bốn nhóm thiếu ảnh dùng bố cục chữ; 9 ảnh có WebP delivery, không upscale ảnh nhỏ. Ảnh công đoạn có caption/credit, các nhu cầu không được trình bày thành portfolio khách hàng. Giữ xanh tươi/cam, Header solid, responsive CSS và reduced-motion của hệ thống G2.
 
-**Giới hạn nghiệm thu:** người dùng yêu cầu “không cần chạy kiểm lại”; không chạy lint, typecheck riêng, browser/functional tests hay screenshot. Chỉ build để đóng gói triển khai; không coi build là bằng chứng UI/responsive/anchor đã được QA. Trang Liên hệ chưa nhận/prefill URL; phần đó và gửi yêu cầu thật ở G5. Đánh giá trực quan G3 chờ chủ dự án xem bản demo.
+**Giới hạn nghiệm thu trong lượt G3:** người dùng yêu cầu “không cần chạy kiểm lại”; không chạy lint, typecheck riêng, browser/functional tests hay screenshot. Chỉ build để đóng gói triển khai; không coi build là bằng chứng UI/responsive/anchor đã được QA. G5.1 sau đó đã nhận/prefill URL và kiểm tra các hành trình liên quan; gửi thật ở G5.2. Đánh giá trực quan toàn trang G3 vẫn chờ chủ dự án xem bản demo.
 
 Build triển khai hoàn tất ngày 15/10/2026: biên dịch, TypeScript tích hợp trong Next build và static export đủ bảy route đạt. Đã sửa cách đọc media registry để WebP có fallback theo kiểu ProductMedia, tránh nhánh TypeScript `never` khi tất cả ảnh đều có webSrc. Npm được gọi bằng đường dẫn CLI có sẵn do shim Windows của bước build helper lỗi phân giải đường dẫn; không thay package hoặc kiến trúc hosting.
 
@@ -214,6 +214,20 @@ File/module dự kiến: app/gioi-thieu/, app/nang-luc/, app/du-an/, sections/ab
 Nghiệm thu: mỗi trang bổ sung thông tin riêng, không chép lại giới thiệu chung; mọi thông số, máy móc, chứng nhận và khách hàng có nguồn. Không triển khai vòng tròn thống kê REF-03 khi chưa có số liệu được xác nhận. Gallery/filter nếu có phải hoạt động; ảnh dự án và tên khách hàng có quyền công bố.
 
 ### G5 — Liên hệ và gửi yêu cầu báo giá
+
+**Phạm vi đã chốt ngày 15/10/2026:** chủ dự án trả lời “Chưa có — hoàn thiện giao diện trước” khi được hỏi đích nhận. Tách G5.1 giao diện/xem lại tại chỗ và G5.2 tiếp nhận thật. Không cần chờ email/endpoint để triển khai G5.1, nhưng không đánh dấu toàn bộ G5 hoàn tất.
+
+**G5.1 đã triển khai:** ContactHero → ContactInquiry (ContactDetails + InquiryForm) → ServiceArea; metadata riêng; ảnh văn phòng dùng lại registry. Form có ba mục đích, tên/công ty/phone/email, 13 nhóm sản phẩm, 5 nhu cầu, quy cách/số lượng/thời điểm khi hỏi báo giá và mô tả. Kiểm tra rồi xem lại, chỉnh sửa giữ draft; nút gửi thật khóa. Thông báo chưa tiếp nhận hiển thị rõ ở đầu form và phần xem lại. Không lưu trình duyệt hoặc gọi mạng để gửi dữ liệu. Đồng ý liên hệ là microcopy dự thảo, không phải điều kiện của thao tác xem lại tại chỗ.
+
+URL `san-pham`/`nhu-cau`/`du-an` được đối chiếu registry. Mẫu điền nhóm/nhu cầu liên quan, lựa chọn hợp lệ chỉ định trực tiếp được ưu tiên. Giá trị sai/lặp bị bỏ qua và có thông báo chọn lại; không echo giá trị thô. Context thay đổi trên cùng route sẽ khởi tạo draft theo lựa chọn mới. Nội dung review hiển thị dưới dạng text, bỏ các trường báo giá khỏi bản xem khi đổi sang mục đích khác; đổi lại vẫn giữ giá trị đã nhập trong draft.
+
+**QA G5.1:** `npm run lint`, `npm run typecheck`, `npm run build` đạt (gọi npm CLI trực tiếp do shim Windows). Build static đủ bảy route; postbuild giữ alias payload cho router. Chrome headless production preview tại 390×844, 768×1024, 1024×768, 1440×900, 1920×1080: không tràn ngang, mỗi trang một H1, ảnh tải đủ, không video trên Liên hệ, nhãn field đầy đủ và không có tel/mailto/bản đồ dùng dữ liệu minh họa. Đã xem ảnh desktop/mobile và phần review: giữ xanh–cam, Inter, lề/grid thống nhất; Hero dùng typography thay video trang chủ, desktop chia thông tin/form và mobile đưa form lên trước. Đây là điều chỉnh theo nhiệm vụ Liên hệ, không sao chép nguyên composition Sonoco.
+
+33 tình huống chức năng đạt: các luồng catalogue/giải pháp/mẫu; prefill/ưu tiên context; URL sai/trùng; required/email/phone; chỉ phone hoặc email; focus lỗi/review và quay lại sửa; trường theo mục đích; text nguy hiểm không thực thi; đổi query cùng route; không lưu storage. Không page error hoặc request ghi dữ liệu trong lần kiểm tra. Reduced-motion giữ nội dung; no-JS giữ nội dung liên hệ/tiêu đề và thông báo cần JavaScript cho form. Đây là Chrome emulation, chưa kiểm tra thiết bị Safari/iOS/Android thật, chưa audit WCAG đầy đủ; không coi là nghiệm thu gửi thật.
+
+Bằng chứng ngoài source: `C:/Users/pham quang tien/.codex/visualizations/2026/10/15/sunflower-g5/` gồm report.json, contact-390-hero/full.png, contact-1440-hero/full.png và inquiry-review-1440.png. Không thêm thư mục test/mock/demo vào dự án.
+
+**G5.2 còn chờ:** thông tin liên hệ chính thức, endpoint được duyệt, chính sách dữ liệu/đồng ý, validation server và kiểm tra tiếp nhận thực tế. Chưa triển khai loading/network/server errors, chống gửi lặp hoặc success thật vì chưa có backend. Các hạng mục đầy đủ dưới đây vẫn là điều kiện cho G5 gửi thật.
 
 Công việc:
 
@@ -291,11 +305,12 @@ Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá
 - [x] G2 code: section sáng/tối và component chung đã triển khai; bỏ kiểm thử theo yêu cầu người dùng, UI chờ duyệt qua bản xem.
 - [x] G2.Motion: choreography, interaction, CSS 3D scene và reduced-motion/no-JS fallback đã code; kiểm tra tập trung desktop/mobile đạt.
 - [x] G3.1 code: Sản phẩm đủ 13 nhóm/anchor/CTA; chờ nghiệm thu UI, không chạy kiểm lại theo yêu cầu.
-- [x] G3.2 code: Giải pháp đủ 5 nhu cầu/cross-link/CTA; chờ nghiệm thu UI, prefill Liên hệ thuộc G5.
+- [x] G3.2 code: Giải pháp đủ 5 nhu cầu/cross-link/CTA; chờ nghiệm thu UI, G5.1 đã nhận prefill Liên hệ.
 - [x] G4.1 code: Giới thiệu theo mô hình/phối hợp G0, ảnh minh họa có nguồn; chưa có lịch sử/ảnh đội ngũ thật.
 - [x] G4.2 code: Ba hình thức, quy trình, đối chiếu mẫu và giao nhận; thiết bị/ảnh bằng chứng còn chờ.
 - [x] G4.3 code: Mẫu thành phẩm minh họa, bộ lọc và inquiry links; chưa có case khách hàng được phép công bố.
-- [ ] G5: Liên hệ và báo giá gửi thật, giữ đúng ngữ cảnh.
+- [x] G5.1: Giao diện Liên hệ/context/validation/xem lại tại chỗ; QA tập trung đạt, chưa gửi dữ liệu.
+- [ ] G5.2 / G5 đầy đủ: Liên hệ chính thức và báo giá gửi thật; chờ đích nhận/chính sách được duyệt.
 - [ ] G6: Trang chủ đầy đủ, dữ liệu nhất quán với trang con.
 - [ ] G7: UI/functional QA, build, nội dung, media, SEO và phát hành đạt yêu cầu.
 

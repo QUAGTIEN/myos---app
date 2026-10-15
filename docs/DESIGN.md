@@ -370,6 +370,12 @@ Capabilities uses a light editorial Hero, a three-part scope overview, the exist
 
 Blue/orange, Inter, spacing and motion tokens remain unchanged. Mobile stacks by reading order; filters wrap as visible touch targets, process becomes a normal vertical list and the shared menu bars cannot flex-shrink to zero. There is no continuous motion or new library. Final browser review covers the three routes at 390/768/1024/1440/1920 widths. Desktop/mobile screenshots were inspected and the identified title/menu issues corrected; functional and verification limits are recorded in IMPLEMENTATION_PLAN.md.
 
+### G5.1 contact interface — 15/10/2026
+
+Contact keeps the bright-blue/orange, Inter and spacing system. A typographic blue Hero leads into a white two-column contact/form composition, followed by the pale-blue service-area section. The existing office photograph is reused with a neutral caption. Native radio/select/input controls have visible labels, touch-friendly heights, focus/error states and a local review panel. Existing reveal and CTA feedback apply; no new 3D object or continuous animation is introduced inside the form.
+
+Mobile puts the inquiry before the supplementary contact details, stacks fields and keeps a normal page scroll. Desktop/mobile screenshots and five-width layout checks confirm the composition without overflow. The clear preview notice and disabled send action reflect the owner's decision to defer live intake. Error summary/review focus, query prefill and no-JS/reduced-motion limits are recorded in IMPLEMENTATION_PLAN.md; this does not certify a connected form or full accessibility audit.
+
 ## 11. EXAMPLE SECTION SEQUENCE / COLOR MAP
 
 | Home sequence | Visual recipe | Background |

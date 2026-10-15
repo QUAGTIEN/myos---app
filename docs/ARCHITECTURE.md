@@ -18,7 +18,7 @@ Sau Next build, npm postbuild chạy `scripts/finalize-export.mjs`: tạo alias 
 
 ## 2. Cây thư mục đã khởi tạo
 
-`[chờ]` là thư mục đã tạo với `.gitkeep`, chưa có chức năng triển khai. G2 đã bổ sung Footer, ProductGallery và các component editorial/CTA; InquiryForm còn chờ. Không tạo component rỗng.
+`[chờ]` là thư mục đã tạo với `.gitkeep`, chưa có chức năng triển khai. G5.1 đã bổ sung InquiryForm và các section Liên hệ; chưa có adapter/backend gửi thật. Không tạo component rỗng.
 
 ```text
 sunflower-website/
@@ -51,7 +51,7 @@ sunflower-website/
 │   │   ├── solutions/              # [chờ] Ảnh ứng dụng
 │   │   ├── capabilities/           # [chờ] Ảnh năng lực thực tế
 │   │   ├── projects/               # [chờ] Thành phẩm được phép công bố
-│   │   └── contact/office-interior.png # Ảnh văn phòng dùng tại Giới thiệu
+│   │   └── contact/office-interior.png # Ảnh văn phòng dùng tại Giới thiệu/Liên hệ
 │   ├── videos/hero/hero-desktop.mp4 # Video minh họa người dùng chọn
 │   └── licenses/inter-OFL.txt
 ├── src/
@@ -80,7 +80,7 @@ sunflower-website/
 │   │   │   └── ProductDepthScene.tsx   # CSS 3D Home + compact ProductsHero
 │   │   ├── capabilities/ProcessTimeline.tsx # Quy trình sáu bước Server Component
 │   │   ├── projects/ProjectGallery.tsx # Client filter, count, empty/reset và CTA
-│   │   └── contact/ContactCTA.tsx   # InquiryForm G5 chờ
+│   │   └── contact/                # ContactCTA, InquiryForm, InquiryFields, InquiryReview
 │   ├── sections/
 │   │   ├── home/                   # BrandIntroduction, FeaturedProductCategories, WhySunflower
 │   │   ├── about/                  # CompanyOverview, WorkingStory, WorkingPrinciples, DepartmentCollaboration
@@ -88,7 +88,7 @@ sunflower-website/
 │   │   ├── solutions/              # SolutionsHero, SolutionsOverview, UseCaseSections, RelatedProducts
 │   │   ├── capabilities/           # CapabilityOverview, WorkPreparation, ProductionProcess, QualityControl, CollaborationDelivery
 │   │   ├── projects/               # ProjectsHero, ProjectShowcase
-│   │   └── contact/                # [chờ] Composition Liên hệ
+│   │   └── contact/                # ContactHero, ContactInquiry, ContactDetails, ServiceArea
 │   ├── content/
 │   │   ├── navigation.ts           # Sitemap và main navigation
 │   │   ├── hero.ts                 # Copy, CTA và cấu hình Hero media
@@ -100,10 +100,11 @@ sunflower-website/
 │   │   ├── capabilities.ts         # Ba hình thức, sáu bước và khu vực hoạt động
 │   │   ├── projects.ts             # Sáu mẫu minh họa, nhóm filter, product/solution slugs
 │   │   ├── home.ts                 # Copy/selection/IDs ảnh của section Home
-│   │   └── company.ts              # Brand/CTA/contact minh họa dùng chung
-│   ├── lib/                        # [chờ] Validation/adapters/utilities
+│   │   ├── company.ts              # Brand/CTA/contact minh họa dùng chung
+│   │   └── contact.ts              # Chế độ preview, nhãn/mục đích/giới hạn form
+│   ├── lib/                        # inquiry-context.ts, inquiry-validation.ts; không có adapter gửi
 │   ├── hooks/                      # [chờ] Hooks khi có nhu cầu tái sử dụng
-│   └── types/                      # [chờ] Models dùng chung
+│   └── types/inquiry.ts            # Draft/context/errors dùng chung trong G5.1
 └── scripts/{preview,finalize-export}.mjs
 ```
 
@@ -123,7 +124,7 @@ app/layout.tsx
        ├── /gioi-thieu → EditorialHero + overview/story/principles/departments + RouteLinks + ContactCTA
        ├── /nang-luc → EditorialHero + scope/preparation/process/QC/delivery + ContactCTA
        ├── /du-an → ProjectsHero + ProjectShowcase/ProjectGallery + RouteLinks + ContactCTA
-       └── /lien-he → main + Container + H1 (chờ G5)
+       └── /lien-he → ContactHero + ContactInquiry/ContactDetails/InquiryForm + ServiceArea
   └── Footer ← company.ts + navigation.ts
 ```
 
@@ -133,6 +134,9 @@ app/layout.tsx
 - `VideoHero`: Client Component. Theo dõi reduced motion, mobile và trạng thái mạng; server render poster, chỉ mount nguồn video sau khi kiểm tra tùy chọn người dùng. Hàm nội bộ `HeroPlayback` quản lý play/pause, lỗi media và autoplay bị chặn; remount khi đổi nguồn để reset trạng thái. Poster chỉ được video che khi `playing`; gradient và caption có lớp riêng. Không tạo component/engine video bên ngoài.
 - `heroMedia.poster` và `desktopSrc` đã trỏ tới poster/video iStock preview do người dùng cung cấp; `mobileSrc` là `null` và fallback cùng nguồn desktop. Caption ghi rõ footage minh họa ngành in. Video 768×432, 21,81 giây và có watermark, chưa có xác nhận giấy phép công khai; chưa phải footage Sunflower thực tế.
 - `app/layout.tsx` và các route là Server Components theo mặc định. `Container`, `Arrow` là UI dùng chung không có state trình duyệt.
+- `ContactInquiry` là Server Component, cô lập `InquiryForm` Client Component trong Suspense để static export vẫn nhận query sau hydration. Không có JavaScript thì tiêu đề/thông tin liên hệ vẫn hiển thị, form có thông báo cần JavaScript; không khẳng định form hoạt động khi no-JS.
+- `inquiry-context.ts` chỉ nhận `san-pham`, `nhu-cau`, `du-an`, đối chiếu slug công khai; bỏ giá trị lạ, sai định dạng hoặc lặp, không echo dữ liệu URL thô. Mẫu hợp lệ điền sản phẩm/nhu cầu liên quan; giá trị hợp lệ được chỉ định trực tiếp ưu tiên hơn mặc định của mẫu. Thay context trên cùng route khởi tạo lại draft tương ứng.
+- `InquiryForm` chỉ giữ draft trong React state. `inquiry-validation.ts` kiểm tra tên, ít nhất một phone/email, định dạng kênh đã điền, nội dung và độ dài; `InquiryReview` hiển thị nội dung chuẩn hóa/escape dưới dạng văn bản. Quay lại sửa giữ dữ liệu. Nút gửi khóa; không có fetch, storage hay gửi thông tin tới dữ liệu liên hệ minh họa. Đồng ý liên hệ hiện là lựa chọn dự thảo, không bắt buộc để xem lại tại chỗ.
 - Design tokens ở `globals.css`, ánh xạ vào Tailwind. Không có nguồn màu độc lập khác.
 - Navigation có bảy route; main navigation có sáu mục, gồm Trang chủ, CTA Header dẫn `/lien-he`.
 - `content/product-media.ts` đăng ký 9 ảnh người dùng gửi và WebP delivery. ProductCatalogue và UseCaseSections dùng chung registry; ProductImage giữ ảnh trong khung contain, giới hạn theo kích thước nguồn. Không tạo bản sao theo trang. Nguồn, chất lượng và bốn nhóm còn thiếu được quản lý tại [MEDIA_BRIEF.md](MEDIA_BRIEF.md).
@@ -175,13 +179,13 @@ Component chỉ được viết khi đến slice triển khai hoặc có nhu c�
 |---|---|---|
 | `/` | Header/Hero + section G2 + Footer + G2.Motion/scene 3D | Năng lực, giải pháp, dự án, quy trình và phần còn lại ở G6 |
 | `/gioi-thieu` | G4: Hero cong, overview/story/principles/departments, liên kết và CTA | Lịch sử, ảnh đội ngũ thật và thương hiệu chính thức còn chờ |
-| `/san-pham` | G3 code: Hero/3D, 13 nhóm, anchor, hướng dẫn quy cách, CTA slug, metadata | Chờ QA trực quan; nhận/prefill context tại G5 |
-| `/giai-phap` | G3 code: Hero ảnh, 5 nhu cầu, product cross-links, CTA slug, metadata | Chờ QA trực quan; nhận/prefill context tại G5 |
+| `/san-pham` | G3 code: Hero/3D, 13 nhóm, anchor, hướng dẫn quy cách, CTA slug, metadata | UI G3 chờ duyệt; G5.1 đã nhận/prefill context |
+| `/giai-phap` | G3 code: Hero ảnh, 5 nhu cầu, product cross-links, CTA slug, metadata | UI G3 chờ duyệt; G5.1 đã nhận/prefill context |
 | `/nang-luc` | G4: Ba hình thức, scene 3D, sáu bước, QC và giao nhận | Không công bố model/công suất hoặc gallery nhà máy khi thiếu bằng chứng |
-| `/du-an` | G4: Sáu mẫu minh họa, bộ lọc, count/reset, product links và context CTA | Chưa có case/khách hàng được phép công bố; G5 mới nhận/prefill query |
-| `/lien-he` | Route + tiêu đề + metadata | Liên hệ được xác nhận và intake/báo giá có endpoint thật |
+| `/du-an` | G4: Sáu mẫu minh họa, bộ lọc, count/reset, product links và context CTA | Chưa có case/khách hàng được phép công bố; G5.1 đã nhận/prefill query |
+| `/lien-he` | G5.1: Hero, thông tin/ảnh, form có context/validation/xem lại, khu vực hoạt động, metadata | G5.2 còn chờ thông tin liên hệ, đích nhận và chính sách xử lý dữ liệu thật |
 
-Danh mục 13 nhóm trong STRUCTURE đã được chủ doanh nghiệp xác nhận; thông số/model còn chờ. Catalogue G3 có 9 ảnh và 4 nhóm trình bày bằng chữ; dữ liệu/slugs từ products.ts dùng chung Home và solutions.ts. Các CTA G3 tạo context từ slug catalogue/nhu cầu, không có ID nội bộ; G5 mới nhận/prefill ở Liên hệ. Copy G0 được quản lý tại CONTENT.md. Không có checkout, login, API route, form gửi hoặc database trong source hiện tại.
+Danh mục 13 nhóm trong STRUCTURE đã được chủ doanh nghiệp xác nhận; thông số/model còn chờ. Catalogue G3 có 9 ảnh và 4 nhóm trình bày bằng chữ; dữ liệu/slugs từ products.ts dùng chung Home và solutions.ts. Các CTA G3/G4 tạo context từ slug công khai; G5.1 nhận/prefill tại Liên hệ. Copy G0 được quản lý tại CONTENT.md. Không có checkout, login, API route, form gửi hoặc database trong source hiện tại.
 
 ## 6. Điều kiện để triển khai tiếp
 
@@ -192,4 +196,4 @@ Danh mục 13 nhóm trong STRUCTURE đã được chủ doanh nghiệp xác nh�
 
 ## 7. Trạng thái sau khi dọn source
 
-Cây thư mục bảy trang và design tokens được giữ. Đã loại bỏ demo HTML cũ, ảnh/báo cáo QA, poster minh hoạ, component PendingPage và thông báo bản thử trong menu. G4 bổ sung Giới thiệu/Năng lực/Mẫu thành phẩm trên source chính; Liên hệ còn chờ G5. Ảnh QA nằm ngoài source/public. `scripts/preview.mjs` phục vụ static export; không tạo source demo song song.
+Cây thư mục bảy trang và design tokens được giữ. Đã loại bỏ demo HTML cũ, ảnh/báo cáo QA, poster minh hoạ, component PendingPage và thông báo bản thử trong menu. G4 bổ sung Giới thiệu/Năng lực/Mẫu thành phẩm; G5.1 bổ sung Liên hệ trên source chính theo chỉ định hoàn thiện giao diện trước của chủ dự án. G5.2 chưa gửi thật. Ảnh QA nằm ngoài source/public. `scripts/preview.mjs` phục vụ static export; không tạo source demo song song.

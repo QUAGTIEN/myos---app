@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
-import { Container } from '@/components/layout/Container';
+import { ContactHero } from '@/sections/contact/ContactHero';
+import { ContactInquiry } from '@/sections/contact/ContactInquiry';
+import { ServiceArea } from '@/sections/contact/ServiceArea';
 
-export const metadata: Metadata = { title: 'Liên hệ & Yêu cầu báo giá', description: 'Trao đổi nhu cầu và yêu cầu báo giá với Sunflower.' };
+const title = 'Liên hệ & yêu cầu báo giá tem nhãn, bao bì';
+const description = 'Trao đổi nhu cầu tem nhãn, bao bì, vật tư và thiết bị in với Sunflower. Cung cấp quy cách, số lượng và địa điểm giao nhận để cùng xác định phương án.';
+export const metadata: Metadata = { title, description, openGraph: { title, description, url: '/lien-he/' } };
 
 export default function Page() {
-  return <main id="main-content" tabIndex={-1} className="content-page"><Container><h1>Liên hệ & Yêu cầu báo giá</h1></Container></main>;
+  return <main id="main-content" tabIndex={-1} className="interior-page"><ContactHero /><ContactInquiry /><ServiceArea /></main>;
 }
 

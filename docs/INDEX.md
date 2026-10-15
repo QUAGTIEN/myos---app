@@ -26,6 +26,8 @@ G3 đã code Sản phẩm/Giải pháp trên hai route hiện có; trạng thái
 
 G4 đã code Giới thiệu, Năng lực và Mẫu thành phẩm; tái sử dụng dữ liệu/ảnh hiện có. Phạm vi nội dung và tình trạng QA nằm trong IMPLEMENTATION_PLAN.md; không tạo file mô tả G4 riêng.
 
+G5.1 đã code giao diện Liên hệ, nhận ngữ cảnh catalogue/giải pháp/mẫu, kiểm tra dữ liệu và xem lại nội dung tại chỗ. Chủ dự án chọn hoàn thiện giao diện trước vì chưa có đích nhận. G5.2 gửi thật còn chờ; không coi toàn bộ G5 đã hoàn tất. Source và QA được cập nhật trong ARCHITECTURE.md/IMPLEMENTATION_PLAN.md.
+
 Tám ảnh Sonoco chỉ có một bộ tại [reference/desktop/](../../reference/desktop/) ở gốc workspace. REFERENCE_GUIDE.md trỏ tới bộ ảnh này; không sao chép vào thư mục tài liệu, public/ hoặc output website.
 
 ## Quy ước đường dẫn
