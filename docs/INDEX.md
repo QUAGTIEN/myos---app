@@ -10,6 +10,7 @@
 | [REFERENCE_GUIDE.md](REFERENCE_GUIDE.md) | Sonoco tham chiếu chính về bố cục; MWDT tham chiếu phụ về chiều sâu/sản phẩm; không phải tài sản của Sunflower |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Cấu trúc source và trạng thái hệ thống thực tế |
 | [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) | Kế hoạch triển khai theo module, đầu vào và tiêu chí nghiệm thu |
+| [CHINH_SUA_GIAO_DIEN.md](CHINH_SUA_GIAO_DIEN.md) | Kế hoạch chỉnh sửa theo phản hồi 15/10/2026: bốn module về hiệu ứng, phối màu, hình khối và typography; chưa triển khai, không thay thế DESIGN/STRUCTURE |
 | [MEDIA_BRIEF.md](MEDIA_BRIEF.md) | G0: danh sách chụp ảnh/video, vị trí sử dụng và bộ tài nguyên ưu tiên |
 | [CONTENT.md](CONTENT.md) | G0: copy bảy trang, catalogue đã xác nhận, CTA, microcopy và dữ liệu liên hệ minh họa |
 | [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) | Tài liệu ERP gốc để hiểu bối cảnh doanh nghiệp; không phải đặc tả website |
@@ -20,7 +21,7 @@ Tài liệu ERP được giữ nguyên nội dung. Các tên source, tài liệu
 
 ## Ảnh tham chiếu
 
-Hướng cập nhật 14/10/2026: sạch sẽ/chuyên nghiệp, đồng thời hiện đại/mạnh mẽ/bắt mắt với nhiều animation và khối 3D. Quy định nằm trong DESIGN.md mục 1 và 8; G2.Motion đã được triển khai và ghi nhận trong IMPLEMENTATION_PLAN.md. Không tạo thêm file motion/design hoặc bản sao AGENTS.
+Hướng cập nhật 14/10/2026: sạch sẽ/chuyên nghiệp, đồng thời hiện đại/mạnh mẽ/bắt mắt với nhiều animation và khối 3D. Quy định nằm trong DESIGN.md mục 1 và 8; G2.Motion đã được triển khai và ghi nhận trong IMPLEMENTATION_PLAN.md. Theo yêu cầu trực tiếp ngày 15/10/2026, CHINH_SUA_GIAO_DIEN.md tổ chức bốn module khắc phục phản hồi mới; contract thiết kế vẫn ở DESIGN.md, tiến độ/QA vẫn ở IMPLEMENTATION_PLAN.md. Không tạo bản sao AGENTS hoặc các bộ đặc tả song song.
 
 G3 đã code Sản phẩm/Giải pháp trên hai route hiện có; trạng thái và giới hạn kiểm tra nằm trong IMPLEMENTATION_PLAN.md, source thực tế tại ARCHITECTURE.md. Không tạo tài liệu G3 riêng hoặc bản catalogue/copy song song.
 
