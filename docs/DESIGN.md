@@ -252,6 +252,18 @@ No random icon illustrations where good imagery or text tells the story better.
 
 ## 8. Motion & interaction system
 
+### Interface revision, pass 3 — 15/10/2026
+
+Home's four featured products now use an open asymmetric 1.2:1 grid, an 80px offset on even items, original paper-edge outlines and varied curved ivory/pale-blue fields. Below 768px they stack without the offset. Names link directly to the existing catalogue anchors. Home sample imagery gains curved corners and a deliberate full-width mobile layout. The existing dimensional scene, Hero, seven routes and active palette remain intact.
+
+`ProductImage` opts into a shared `ImageInspection` only for originals at least 1000×700px: ribbon ink, woven labels and packaging tape. It is enabled for Home products/samples and `/du-an` gallery, not globally on every photo. Other photos keep their native-size bounds and receive no misleading zoom control.
+
+- **Desktop loupe:** a local circular lens samples the original source beneath the pointer; the cursor stays native. Zoom is capped by both source dimensions and `--inspection-zoom: 2.2`, with `--inspection-lens-size: 176px`. A small stage or an image already at source size uses the ordinary photo/viewer instead. Geometry clamps the lens to its stage and ignores letterbox space. Pointer events schedule one frame, with no continuous loop. Scroll, resize, visibility/preference changes and unmount hide/cancel it.
+- **Loading:** keep WebP gallery images; fetch original PNG only after pointer interaction or opening the viewer. Do not show a blank lens while the source loads or fails. Dialog original-image failure exposes a real original-file link. No new media or dependency.
+- **Touch/keyboard:** “Xem cận cảnh” opens a native modal with Close, a fixed-label “Kích thước gốc” toggle and a focusable scroll region. Default fits the photo; original mode shows native source pixels and allows horizontal/vertical panning. Enter, Tab/Shift+Tab wrapping, Escape, backdrop/close and focus return are supported; cleanup restores the page's prior overflow. No automatic popup.
+- **Fallback:** reduced-motion and coarse/no-hover input disable the moving lens while preserving the manual viewer. Server HTML/no-JS exposes “Xem ảnh gốc” links and hides inert JS buttons. Images, copy and inquiry links remain available. No native browser preference emulation or full no-JS browsing is implied by this contract; actual test limits are in IMPLEMENTATION_PLAN.md.
+- **Shape tokens:** `--gallery-curve: 160px` (96px mobile), `--gallery-offset: var(--space-10)`. The static product-photo cap uses `--inspection-photo-max: 550px` alongside the existing per-source bounds. Clipped media uses `overflow: clip` so focus cannot pan a hidden internal scroll area. Explicit sample-media width prevents aspect-ratio/min-height expansion on narrow screens.
+
 ### Interface revision, pass 2 — 15/10/2026
 
 Home now progressively enhances the original Hero SVG with `src/lib/hero-motion.ts`. Its one-second entrance rotates the roll into position and opens the ribbon. A short native scroll range then changes roll rotation, ribbon length, the orange label's lift and the end print independently. This is an original dimensional SVG illustration, not a physical simulation or WebGL model. The scene stays inside Hero; the Hero–introduction crossing and material loupe remain pending. Earlier pass-1 notes describe the static starting point.

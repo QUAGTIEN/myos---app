@@ -1,7 +1,7 @@
 # Sunflower — Kế hoạch chỉnh sửa giao diện
 
 > Ngày lập: 15/10/2026.  
-> Trạng thái: Đang triển khai. Lượt 1 đã làm bố cục Hero thuộc M2/M3/M4 và thêm logo. Lượt 2 bổ sung M1 cho Hero: mở cuộn, kéo dải nhãn, bóc lớp in theo scroll và bật/tắt chuyển động. Kính lúp và rollout các section/trang con còn chờ; các module chưa hoàn tất toàn site.
+> Trạng thái: Đang triển khai. Lượt 1 làm bố cục Hero M2/M3/M4 và logo; lượt 2 làm choreography Hero M1. Lượt 3 bổ sung gallery sản phẩm lệch/nền cong và kính lúp + viewer tại Home/Mẫu thành phẩm cho ảnh đủ độ phân giải. Rollout màu/chữ/hình học sang các section/trang con khác còn chờ; các module chưa hoàn tất toàn site.
 > Mục tiêu: Hiện đại, nhiều hiệu ứng, bắt mắt, chuyên nghiệp và đột phá; không nghiệm thu một giao diện vẫn quá an toàn.
 
 Tài liệu này tổ chức công việc khắc phục bốn vấn đề của bản demo hiện tại. Đây không phải bản sao hoặc tài liệu thay thế [DESIGN.md](DESIGN.md), [STRUCTURE.md](STRUCTURE.md) và [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md). Khi triển khai, cập nhật token/contract thiết kế tại DESIGN.md, tiến độ và kết quả kiểm tra tại IMPLEMENTATION_PLAN.md; file này giữ phạm vi và checklist của đợt chỉnh sửa.
@@ -17,9 +17,9 @@ Tài liệu này tổ chức công việc khắc phục bốn vấn đề của 
 
 | Module | Vấn đề cần sửa | Kết quả cần thấy | Trạng thái |
 |---|---|---|---|
-| M1 | Ít hiệu ứng | Chuyển động có diễn biến, có tương tác và gắn với sản phẩm | Đã có choreography Hero lượt 2; loupe/rollout còn chờ |
-| M2 | Phối màu dễ đoán | Màu phối theo lớp và điểm nhấn, giảm nhịp xanh–trắng lặp lại | Đã áp dụng Hero lượt 1; còn lại chờ |
-| M3 | Khối vuông nhiều | Sản phẩm thoát khung, bố cục bất đối xứng và có chiều sâu | Đã có minh họa Hero lượt 1 và chuyển động lượt 2; gallery còn chờ |
+| M1 | Ít hiệu ứng | Chuyển động có diễn biến, có tương tác và gắn với sản phẩm | Hero lượt 2; loupe/viewer chọn lọc Home và Mẫu thành phẩm lượt 3; rollout còn chờ |
+| M2 | Phối màu dễ đoán | Màu phối theo lớp và điểm nhấn, giảm nhịp xanh–trắng lặp lại | Hero lượt 1; gallery ngà/xanh nhạt cục bộ lượt 3; nhịp toàn trang còn chờ |
+| M3 | Khối vuông nhiều | Sản phẩm thoát khung, bố cục bất đối xứng và có chiều sâu | Hero lượt 1–2; gallery lệch/nền cong lượt 3; nối qua section còn chờ |
 | M4 | Chữ an toàn, nhạt nhẽo | Chữ trở thành thành phần thiết kế có cá tính và nhịp điệu | Đã áp dụng Hero lượt 1; còn lại chờ |
 
 ## Module M1 — Tăng hiệu ứng và tương tác có chủ đích
@@ -53,11 +53,13 @@ Bản hiện tại đã có video, reveal, phản hồi hover và cảnh tem CSS
 
 - [ ] Hero, cảnh vật liệu và vùng khám phá sản phẩm có ba trải nghiệm khác nhau, nhìn thấy rõ khi duyệt trang bình thường.
 - [x] Cảnh tem Hero có biến đổi tương đối giữa cuộn, dải nền, nhãn bóc và phần in cuối; đã kiểm tra trên desktop/mobile ở lượt 2.
-- [ ] Kính lúp hiển thị chi tiết thực từ ảnh đủ nét; có thao tác tương đương trên touch và bàn phím.
+- [x] Kính lúp hiển thị chi tiết có sẵn từ PNG gốc đủ độ phân giải; viewer thủ công với ảnh gốc/cuộn ảnh cho touch và bàn phím. Đã kiểm chứng click/keyboard và kích thước mobile, chưa thiết bị touch thật.
 - [ ] Không scroll hijacking, ép chờ reveal hoặc che CTA; chuyển động dừng ngoài vùng nhìn.
 - [ ] Reduced-motion/no-JS giữ nội dung, bố cục có chiều sâu và đường đi thiết yếu; tương tác cần JS có fallback rõ ràng.
 
 **Kiểm chứng lượt 2:** riêng Hero đã có bật/tắt bằng chuột và Enter, dừng ngoài vùng nhìn, không khóa scroll/CTA; SSR giữ hình/copy/poster. Vòng đời reduced-motion được mô phỏng bằng Node, chưa giả lập media preference thật trong trình duyệt hiện tại. Không đánh dấu các tiêu chí toàn module bằng kết quả Hero. Xem báo cáo hiện hành trong IMPLEMENTATION_PLAN.md.
+
+**Kiểm chứng lượt 3:** viewer chung tại Home (Mực in, Tem dệt, Băng dính) và `/du-an` (Tem dệt, Băng dính); ảnh nhỏ không có zoom giả. Lens giữ con trỏ gốc, bị chặn khi reduced-motion/coarse/no-hover, không chạy vòng lặp liên tục. Đã kiểm hình học nguồn/clamp, modal/focus/scroll, filter/CTA và sáu viewport. Giới hạn kiểm tra native preference, no-JS và ảnh macro ở IMPLEMENTATION_PLAN.md.
 
 ## Module M2 — Phá nhịp phối màu dễ đoán
 

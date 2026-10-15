@@ -270,6 +270,8 @@ BrandIntroduction dùng workshop; WhySunflower dùng large-format-printing, prin
 
 ## G3 — Tái sử dụng media trên Sản phẩm/Giải pháp
 
+**Cập nhật chỉnh giao diện lượt 3 (15/10/2026):** dùng PNG gốc của Mực in (1200×900), Tem dệt (1086×815), Băng dính (1980×1080) cho kính lúp/viewer ở Home và gallery Mẫu thành phẩm. Gallery tiếp tục WebP; chỉ tải PNG khi tương tác, tái dùng URL/registry này, không tạo crop hoặc asset mới. Kính lúp không vượt số pixel nguồn; chế độ gốc hiển thị 1 pixel ảnh trên 1 CSS pixel. Các nguồn còn lại, đặc biệt ảnh 218px, không bật viewer ở lượt này. Đây là xem gần chi tiết có sẵn, không phải ảnh macro mới hoặc bằng chứng chất lượng Sunflower. Bản công khai vẫn cần quyền/ảnh thực được xác nhận.
+
 Bổ sung WebP delivery cho Tem màu tờ, Tem trắng tờ, Máy in, Thẻ bài và Băng dính: tối đa 1600px, quality 86, không upscale. Cả 9 PNG nguồn được giữ; product-media.ts là registry chung. ProductImage giữ object-contain và không vượt kích thước nguồn; hai ảnh 218px không được kéo thành ảnh lớn. Bốn nhóm Máy quét/Hộp/Tem vải nilon/Satin dùng bố cục chữ có hướng dẫn inquiry, không có ảnh giả hoặc ảnh nhóm khác.
 
 SolutionsHero tái dùng Băng dính làm ảnh bao bì minh họa. Các use case lần lượt dùng Tem màu cuộn, Tem trắng cuộn, Printing press (Bank Phrom/Unsplash), Tem dệt và Băng dính. Đây là hình minh họa sản phẩm/ngành in, không phải bằng chứng dự án hoặc nhà máy Sunflower. Chưa có ảnh ứng dụng chuyên biệt trong solutions/ và không sao chép registry sang thư mục đó. Theo yêu cầu người dùng, chưa chạy crop/visual QA G3.

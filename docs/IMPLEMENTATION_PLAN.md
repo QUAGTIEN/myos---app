@@ -6,7 +6,28 @@ Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, R
 
 ## 1. Mục tiêu và điểm xuất phát
 
-### Cập nhật hiện hành — chỉnh giao diện lượt 2, 15/10/2026
+### Cập nhật hiện hành — chỉnh giao diện lượt 3, 15/10/2026
+
+Đã đổi gallery bốn nhóm sản phẩm Home thành grid lệch 1.2:1, offset theo cột, nền ngà/xanh nhạt với cung cong và đường mép giấy. Tên nhóm có số thứ tự và liên kết tới catalogue anchor. Mobile xếp một cột; khu Mẫu thành phẩm Home giữ một mẫu lớn/hai mẫu phụ trên desktop và media toàn chiều rộng trên mobile. Hero/logo/scene cũ và bảy route được giữ.
+
+`ImageInspection` và `lib/image-inspection.ts` bổ sung kính lúp theo chuột + dialog ảnh gốc dùng chung. Chỉ bật cho Mực in, Tem dệt, Băng dính đủ 1000×700px ở Home và gallery `/du-an` theo media hiện có. Nguồn nhỏ giữ hiển thị cũ. Lens lấy PNG gốc, cap theo pixel thực và 2.2×, không thay con trỏ, không chạy idle loop; scroll/resize/visibility/preference/unmount hủy trạng thái/frame. Chỉ tải original sau tương tác, giữ ảnh gallery khi original chưa sẵn sàng. Viewer có fitted/native-size modes, vùng pan focus được, explicit Tab/Shift+Tab wrap, Enter, Escape, close/backdrop, trả focus và khôi phục overflow. SSR có link ảnh gốc, JS control hidden. Không thêm ảnh, thư viện, backend hay thông tin doanh nghiệp.
+
+**Đã sửa qua browser QA:** focus trong modal từng làm khung `overflow: hidden` tự cuộn do lớp giấy tràn; chuyển sang `overflow: clip`. Thu nhỏ cung ở góc chứa nút tránh che control. Đặt width rõ cho media mẫu để aspect-ratio + min-height không nở ngang ở 320/768px. Thêm vòng focus chủ động để Tab không rời modal. Contract hiện hành ở DESIGN.md mục 8.
+
+**Kiểm tra thực tế lượt 3:**
+
+- `npm run lint`, `npx tsc --noEmit`, `npm run build`: đạt trên source JS cuối; CSS sửa overflow cũng đã build lại. Export bảy route/404 và bảy alias payload hoàn tất.
+- 10 ca hình học bằng Node trên hàm thật đạt: điểm lấy mẫu giữa/vị trí lẻ, cap chiều rộng/chiều cao nguồn, max zoom, nguồn không còn dư pixel, vùng letterbox, góc sát mép, stage quá nhỏ và kích thước ảnh chưa tải. Đây là unit harness ngoài repo, không phải browser media emulation.
+- Production IAB: Home gallery + viewer và gallery `/du-an` tại 390×844, 768×1024, 1024×768, 1440×900, 1920×1080, thêm 320×740. Đã chụp và xem lại screenshot; bản cuối không tràn ngang, media không có scroll nội bộ sau đóng, control modal cao 44px, hình/CTA giữ bố cục. Mẫu Home xem thêm desktop/mobile và chế độ ảnh gốc 390px.
+- Lens desktop thực lấy chi tiết từ ảnh Tem dệt, có khác biệt hình ảnh nhìn thấy được và tắt khi scroll. Viewer mở bằng Enter/click, Tab/Shift+Tab ở trong modal, Escape/close/backdrop đóng và trả focus đúng trigger; body overflow được khôi phục. Ảnh Băng dính gốc hiển thị 1980px và pan bằng phím trong vùng scroll ở mobile viewport, không kéo rộng trang.
+- Filter `/du-an` trả đúng Tem nhãn 3 / Nhãn may mặc 1 / Bao bì 1 / Thẻ bài 1 / Tất cả 6; số control inspector tương ứng 0/1/1/0/2. Trao đổi mẫu Nhãn dệt vẫn tới `/lien-he/?du-an=mau-tem-det`; tên Tem trắng cuộn trên Home tới `/san-pham/#tem-trang-cuon`. Console phiên production không có error.
+- HTTP bảy route 200, một H1/route, không ID trùng. SSR có bốn viewer fallback ở Home và hai tại `/du-an`, nút JS hidden, link ảnh gốc thật; không preload PNG sản phẩm gốc. Đây là đối chiếu HTML, không phải phiên browser tắt JS.
+
+**Bằng chứng lượt 3:** `C:/Users/pham quang tien/.codex/visualizations/2026/10/15/sunflower-interface-pass3/`: gallery/viewer/project-gallery ở sáu kích thước, samples-1440/390.jpg, loupe-1440.jpg, original-390.jpg, layout-report.json, project-layout-report.json, interaction-report.json, geometry-report.json và check-geometry.mjs. Giữ ngoài source/public.
+
+**Còn lại/giới hạn:** các section/trang con khác chưa rollout hệ màu/chữ/hình học mới. Ảnh đang là catalogue minh họa, chưa phải bộ macro/ảnh thành phẩm có chứng cứ Sunflower. Chưa native reduced-motion/Save-Data browser, thiết bị touch thật, Safari/Firefox, audit WCAG/hiệu năng đầy đủ hoặc giả lập mạng lỗi; nhánh reduced-motion/failure được triển khai và rà source, không báo là đã E2E. No-JS chỉ đối chiếu HTML fallback, chưa phiên duyệt tắt JS hoàn toàn. Footage HD được cấp phép, nội dung công khai và endpoint form vẫn chờ; giữ demo riêng tư.
+
+### Báo cáo trước — chỉnh giao diện lượt 2, 15/10/2026
 
 Đã bổ sung chuyển động cho Home Hero trên bố cục lượt 1. `HeroLabelSculpture` progressive enhancement từ SVG server; `lib/hero-motion.ts` điều phối mở cuộn đầu vào và scroll tự nhiên để xoay cuộn, kéo dải nền, nâng nhãn cam và dịch phần in cuối độc lập. Đây là minh họa SVG có chiều sâu, không phải mô hình cơ khí/WebGL hay quy cách kỹ thuật. Cảnh vẫn nằm trong Hero. Không thêm dependency, media, route hoặc claim doanh nghiệp.
 

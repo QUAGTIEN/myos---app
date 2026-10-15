@@ -8,6 +8,8 @@ Tài liệu có một nguồn duy nhất tại `sunflower-website/docs/`; xem [I
 
 ## 1. Phạm vi hệ thống
 
+Lượt chỉnh giao diện 3 bổ sung `components/products/ImageInspection.tsx` (client: lens, native dialog, focus/pan/loading/cleanup) và hàm hình học thuần `lib/image-inspection.ts`. `ProductImage` vẫn là lớp chọn media dùng chung: prop `inspect` mặc định tắt, chỉ cấp viewer cho nguồn đủ 1000×700px. ProductGallery và FeaturedProjects trên Home, ProjectGallery tại `/du-an` opt in; các cách dùng ảnh khác giữ nguyên. Chỉ ảnh gallery có trong SSR, PNG gốc được tải khi tương tác; no-JS giữ liên kết mở file gốc. Không thêm dependency/backend/asset; filter mẫu, slug và inquiry giữ cùng registry cũ.
+
 Lượt chỉnh giao diện 1 (15/10/2026) bổ sung `components/layout/BrandMark.tsx` cho Header/menu/Footer và một nguồn logo tại `public/images/brand/sunflower-logo.png`, dùng chung với metadata icons. Lượt 2 chuyển `components/products/HeroLabelSculpture.tsx` thành Client Component có HTML/SVG tĩnh từ server và effect gọi `lib/hero-motion.ts` khi VideoHero cho phép. Controller điều khiển riêng cuộn/dải nền/nhãn bóc/phần in cuối, quản lý IntersectionObserver, scroll/rAF, resize, reduced-motion và document visibility; cleanup trả geometry gốc. VideoHero giữ trạng thái bật/tắt cảnh độc lập video và kiểm tra mạng/preference trước khi bật chuyển động. Không có model, media hoặc dependency mới. Kính lúp, section dưới Hero và cấu trúc bảy trang chưa đổi ở lượt 2. Tokens/cách dàn dựng ở DESIGN.md, QA ở IMPLEMENTATION_PLAN.md.
 
 Website thương hiệu Sunflower: corporate website, giới thiệu sản phẩm/giải pháp, tạo cơ hội liên hệ B2B. Đây là ứng dụng Next.js riêng; chưa kết nối Sunflower ERP, Firebase, CMS hoặc cơ sở dữ liệu.
@@ -79,6 +81,7 @@ sunflower-website/
 │   │   ├── motion/MotionController.tsx # Reveal progressive-enhancement dùng chung
 │   │   ├── products/
 │   │   │   ├── HeroLabelSculpture.tsx # SVG gốc, progressive enhancement cho Home Hero
+│   │   │   ├── ImageInspection.tsx    # Lens từ nguồn thật + dialog/pan/focus dùng chung
 │   │   │   ├── ProductGallery.tsx      # Gallery Home
 │   │   │   ├── ProductImage.tsx        # Ảnh catalogue/use case, giới hạn kích thước nguồn
 │   │   │   └── ProductDepthScene.tsx   # CSS 3D Home + compact ProductsHero
@@ -107,7 +110,7 @@ sunflower-website/
 │   │   ├── home.ts                 # Copy/selection/IDs ảnh Home, không nhân bản dữ liệu trang con
 │   │   ├── company.ts              # Brand/CTA/contact minh họa dùng chung
 │   │   └── contact.ts              # Chế độ preview, nhãn/mục đích/giới hạn form
-│   ├── lib/                        # inquiry-context.ts, inquiry-validation.ts, page-metadata.ts; không có adapter gửi
+│   ├── lib/                        # inquiry-context/validation, page-metadata, hero-motion, image-inspection; chưa adapter gửi
 │   ├── hooks/                      # [chờ] Hooks khi có nhu cầu tái sử dụng
 │   └── types/inquiry.ts            # Draft/context/errors dùng chung trong G5.1
 └── scripts/{preview,finalize-export}.mjs

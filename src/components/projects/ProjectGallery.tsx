@@ -20,7 +20,7 @@ export function ProjectGallery() {
     <div id="sample-results">
       {visible.length ? <ul className="sample-gallery" aria-label="Hình ảnh mẫu sản phẩm">{visible.map(sample => <li key={sample.slug} className={`sample-gallery-item sample-gallery-${sample.category}`}>
         <article aria-labelledby={`${sample.slug}-title`}>
-          <div className="sample-gallery-media"><ProductImage slug={sample.productSlug} sizes="(max-width: 767px) calc(100vw - 72px), (max-width: 1199px) 45vw, 40vw" /><span className="sample-category-label">{sampleCategories.find(category => category.id === sample.category)!.label}</span></div>
+          <div className="sample-gallery-media"><ProductImage slug={sample.productSlug} inspect sizes="(max-width: 767px) calc(100vw - 72px), (max-width: 1199px) 45vw, 40vw" /><span className="sample-category-label">{sampleCategories.find(category => category.id === sample.category)!.label}</span></div>
           <div className="sample-gallery-copy"><p className="sample-illustration-label">HÌNH ẢNH SẢN PHẨM MINH HỌA</p><h3 id={`${sample.slug}-title`}>{sample.title}</h3><p>{sample.description}</p>
             <div className="sample-gallery-actions"><Link className="text-link" href={`/lien-he?du-an=${sample.slug}`}>Trao đổi mẫu tương tự<Arrow diagonal /></Link><Link href={`/san-pham/#${sample.productSlug}`} className="sample-product-link">Xem nhóm sản phẩm<Arrow /></Link></div>
           </div>

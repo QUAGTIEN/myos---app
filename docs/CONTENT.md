@@ -103,6 +103,8 @@ Từ tem cuộn, tem tờ đến nhãn may mặc, hộp, mực in và thiết b�
 
 **Bộ nhóm nổi bật đang dùng:** Tem trắng cuộn / Tem màu cuộn / Mực in / Tem dệt, chọn theo ảnh G0 đủ kích thước. Dùng tên và mô tả từ catalogue ở P03, không viết lại một bộ dữ liệu khác cho Trang chủ.
 
+**Giao diện lượt 3:** tên bốn nhóm liên kết tới anchor tương ứng tại Sản phẩm. Ảnh đủ độ phân giải có “Xem cận cảnh”; no-JS là “Xem ảnh gốc” (mở thẻ mới). Áp dụng cùng nhãn tại Mẫu thành phẩm. Viewer dùng “ẢNH SẢN PHẨM MINH HỌA”, tên nhóm, “Đóng ảnh cận cảnh”, “Kích thước gốc”, hướng dẫn “Chọn Kích thước gốc để xem ảnh ở độ phân giải nguồn.” / “Cuộn trong vùng ảnh để xem các chi tiết.” và caption “Ảnh catalogue minh họa · Không phải hồ sơ dự án khách hàng Sunflower.”. Khi lỗi: “Chưa tải được ảnh cận cảnh.” cùng liên kết “Mở ảnh gốc trong thẻ mới ↗”. Không diễn đạt ảnh catalogue là mẫu do Sunflower sản xuất cho khách hàng đã xác nhận.
+
 **Link:** Xem toàn bộ sản phẩm → `/san-pham`.
 
 ### 04. WhySunflower
