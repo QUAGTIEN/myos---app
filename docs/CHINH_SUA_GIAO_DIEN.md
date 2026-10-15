@@ -1,7 +1,7 @@
 # Sunflower — Kế hoạch chỉnh sửa giao diện
 
 > Ngày lập: 15/10/2026.  
-> Trạng thái: Đề xuất chỉnh sửa theo phản hồi của chủ dự án; cả bốn module chưa triển khai.  
+> Trạng thái: Đang triển khai. Lượt 1 đã làm bố cục Hero thuộc M2/M3/M4 và thêm logo; M1 mới giữ hiệu ứng hiện có, chưa có choreography/loupe mới. Các module chưa hoàn tất toàn site.
 > Mục tiêu: Hiện đại, nhiều hiệu ứng, bắt mắt, chuyên nghiệp và đột phá; không nghiệm thu một giao diện vẫn quá an toàn.
 
 Tài liệu này tổ chức công việc khắc phục bốn vấn đề của bản demo hiện tại. Đây không phải bản sao hoặc tài liệu thay thế [DESIGN.md](DESIGN.md), [STRUCTURE.md](STRUCTURE.md) và [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md). Khi triển khai, cập nhật token/contract thiết kế tại DESIGN.md, tiến độ và kết quả kiểm tra tại IMPLEMENTATION_PLAN.md; file này giữ phạm vi và checklist của đợt chỉnh sửa.
@@ -18,9 +18,9 @@ Tài liệu này tổ chức công việc khắc phục bốn vấn đề của 
 | Module | Vấn đề cần sửa | Kết quả cần thấy | Trạng thái |
 |---|---|---|---|
 | M1 | Ít hiệu ứng | Chuyển động có diễn biến, có tương tác và gắn với sản phẩm | Chưa triển khai |
-| M2 | Phối màu dễ đoán | Màu phối theo lớp và điểm nhấn, giảm nhịp xanh–trắng lặp lại | Chưa triển khai |
-| M3 | Khối vuông nhiều | Sản phẩm thoát khung, bố cục bất đối xứng và có chiều sâu | Chưa triển khai |
-| M4 | Chữ an toàn, nhạt nhẽo | Chữ trở thành thành phần thiết kế có cá tính và nhịp điệu | Chưa triển khai |
+| M2 | Phối màu dễ đoán | Màu phối theo lớp và điểm nhấn, giảm nhịp xanh–trắng lặp lại | Đã áp dụng Hero lượt 1; còn lại chờ |
+| M3 | Khối vuông nhiều | Sản phẩm thoát khung, bố cục bất đối xứng và có chiều sâu | Đã có minh họa Hero lượt 1; gallery/cảnh động còn chờ |
+| M4 | Chữ an toàn, nhạt nhẽo | Chữ trở thành thành phần thiết kế có cá tính và nhịp điệu | Đã áp dụng Hero lượt 1; còn lại chờ |
 
 ## Module M1 — Tăng hiệu ứng và tương tác có chủ đích
 

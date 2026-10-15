@@ -7,6 +7,7 @@ import type { KeyboardEvent } from 'react';
 import { mainNavigation, siteRoutes } from '@/content/navigation';
 import { Container } from './Container';
 import { Arrow } from '../ui/Arrow';
+import { BrandMark } from './BrandMark';
 
 function subscribeScroll(callback: () => void) {
   window.addEventListener('scroll', callback, { passive: true });
@@ -91,9 +92,8 @@ export function Header() {
     <>
       <header className="site-header" data-variant={solid ? 'solid' : 'over-hero'}>
         <Container className="header-inner">
-          <Link ref={wordmarkRef} href="/" className="wordmark" aria-label="Sunflower — Trang chủ">
-            <span>SUNFLOWER<span className="wordmark-dot" aria-hidden="true">.</span></span>
-            <small>TEM NHÃN · BAO BÌ · VẬT TƯ IN</small>
+          <Link ref={wordmarkRef} href="/" className="brand-home" aria-label="Sunflower — Trang chủ">
+            <BrandMark />
           </Link>
           <nav className="desktop-navigation" aria-label="Điều hướng chính">
             {mainNavigation.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</Link>)}
@@ -106,7 +106,7 @@ export function Header() {
       </header>
       <dialog ref={dialogRef} id="mobile-navigation" className={`mobile-menu${menuClosing ? ' is-closing' : ''}`} aria-labelledby="menu-title" onKeyDown={keepMenuFocus} onCancel={event => { event.preventDefault(); closeMenu(); }} onClose={handleMenuClose}>
         <div className="mobile-menu-top">
-          <span className="wordmark" id="menu-title">SUNFLOWER<span className="wordmark-dot" aria-hidden="true">.</span></span>
+          <span id="menu-title"><BrandMark /></span>
           <button type="button" className="menu-close" aria-label="Đóng menu" onClick={() => closeMenu()} autoFocus><span aria-hidden="true">×</span></button>
         </div>
         <nav aria-label="Điều hướng trên điện thoại">

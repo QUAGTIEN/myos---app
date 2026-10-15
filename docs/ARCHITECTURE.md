@@ -8,6 +8,8 @@ Tài liệu có một nguồn duy nhất tại `sunflower-website/docs/`; xem [I
 
 ## 1. Phạm vi hệ thống
 
+Lượt chỉnh giao diện 1 (15/10/2026) bổ sung `components/layout/BrandMark.tsx` cho Header/menu/Footer và một nguồn logo tại `public/images/brand/sunflower-logo.png`, dùng chung với metadata icons. `components/products/HeroLabelSculpture.tsx` là component minh họa vector tĩnh, không có browser API, model hoặc dependency mới; được VideoHero ghép cùng media/copy. Chuyển động scroll/unwind mới và kính lúp chưa triển khai. Các section dưới Hero và cấu trúc bảy trang được giữ. Tokens/cách dàn dựng mới ở DESIGN.md, kết quả kiểm tra ở IMPLEMENTATION_PLAN.md.
+
 Website thương hiệu Sunflower: corporate website, giới thiệu sản phẩm/giải pháp, tạo cơ hội liên hệ B2B. Đây là ứng dụng Next.js riêng; chưa kết nối Sunflower ERP, Firebase, CMS hoặc cơ sở dữ liệu.
 
 Stack hiện tại: Next.js 16.4.0 App Router, React 19.3.0, TypeScript, Tailwind CSS 4.3.3. Inter Variable self-host qua Fontsource; license được lưu tại `public/licenses/inter-OFL.txt`.

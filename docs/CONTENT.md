@@ -67,9 +67,11 @@ Cho Sunflower biết sản phẩm cần làm, quy cách, số lượng và đị
 
 ### 01. VideoHero
 
-**Eyebrow:** SUNFLOWER / TEM NHÃN & IN ẤN.
+**Eyebrow:** SUNFLOWER / GIẢI PHÁP IN ẤN.
 
-**H1:** Giải pháp tem nhãn cho từng sản phẩm.
+**H1:** Tem nhãn. Tạo dấu ấn.
+
+Lượt chỉnh giao diện 1, 15/10/2026: chia hai cụm, “Tem nhãn.” nét vừa và “Tạo dấu ấn.” nét đậm. Đây là câu dẫn thương hiệu cho bản xem theo phương án được chủ dự án cho triển khai, không phải cam kết chất lượng hoặc thông số kỹ thuật.
 
 Thiết kế, gia công, sản xuất tem nhãn và bao bì; cung cấp vật tư in ấn cho doanh nghiệp tại Hà Nội và khu vực lân cận.
 
@@ -78,6 +80,8 @@ Thiết kế, gia công, sản xuất tem nhãn và bao bì; cung cấp vật t�
 **CTA phụ:** Yêu cầu báo giá → `/lien-he`.
 
 **Ghi chú media:** Video hiện tại phải giữ caption “Video minh họa ngành in”; không diễn đạt đó là footage xưởng Sunflower.
+
+**Nhãn bổ sung:** Thiết kế / Gia công / Sản xuất; “Tem cuộn / Minh họa sản phẩm” cho hình vector nguyên bản; “Tem nhãn. Bao bì. Vật tư in.” và liên kết “Câu chuyện Sunflower” → `#introduction-title`.
 
 ### 02. BrandIntroduction
 

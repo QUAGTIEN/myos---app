@@ -1,6 +1,6 @@
 # SUNFLOWER — DESIGN SYSTEM
 > **Version:** 2.2 · 2026-10-14
-> **Status:** Approved *design direction*; exact legal Sunflower brand colors, logo, video footage and content still require source verification.  
+> **Status:** Approved *design direction*; owner supplied the Sunflower mark on 15/10/2026. Exact legal brand-color guidelines, final video footage and remaining content still require verification.
 > **Primary reference:** https://www.sonoco.com/na  
 > **Visual DNA:** Sonoco-inspired · Modern Industrial Corporate · Powerful · Cinematic · Expressive motion · Product depth · Clean editorial
 > **Authority:** Defines visual presentation. Functions and routes are defined in `STRUCTURE.md`.
@@ -106,6 +106,19 @@ Calculated contrast: deep-navy `#092746` text on orange is 6.15:1 and on hover i
 Removing the root `data-accent="warm"` attribute restores the original baseline. Do not remove it during routine implementation: the active brighter-blue/orange direction is explicitly requested by the user.
 
 ## 3. Typography & hierarchy
+
+### Interface revision, pass 1 — 15/10/2026
+
+The owner authorized the refinement plan in CHINH_SUA_GIAO_DIEN.md and supplied a transparent PNG mark. Pass 1 changes only the Home Hero composition and shared brand presentation. It preserves the seven routes and bright-blue/orange variant. This supersedes earlier Hero geometry/type values for Home; interior-page typography remains unchanged.
+
+- **Brand:** one untouched source at `public/images/brand/sunflower-logo.png`, used by BrandMark in Header/mobile menu/Footer and metadata icons. Keep its original navy/yellow/white. The accompanying SUNFLOWER text is interface typography, not an asserted official logo lockup. A light circular backplate preserves the navy mark on the dark Footer.
+- **Home composition:** ivory copy area, bright-blue right field with an original curved upper edge, industrial video in an asymmetric curved crop and an original vector label-roll illustration in the foreground. The roll overlaps the video/blue boundary inside Hero; crossing the Hero–introduction boundary is not implemented in pass 1. Native HTML5 video behavior is retained.
+- **Home type:** `--hero-title-size: clamp(5rem, 7.6vw, 8.5rem)`, line-height 1.12, tracking -.065em; first phrase weight 450, second 750. Wide desktop uses 116px; tablet landscape uses `clamp(4rem, 7.7vw, 6rem)`, portrait tablet 88px, mobile `clamp(2.8rem, 12.6vw, 5.8rem)`. Phrases can wrap under text scaling. CONTENT.md owns the new copy.
+- **Material tokens:** `--hero-paper-edge: #D9D8CE`, `--hero-paper-line: #B8BCBA`, `--hero-core-rim: #BCAA89` describe only the illustration, not brand colors or verified specifications. Highlights, ink and shadows consume the existing palette.
+- **Responsive:** desktop keeps copy and media in separate safe zones; at 768–900px media/illustration move below copy; mobile uses separate content/media rows. Narrow-screen height follows content so CTA/text are not cropped. The product is a static vector illustration with depth, not a WebGL model or completed pass-2 mechanical animation.
+- **Motion:** retain phrase/media entrances and video controls. The media mask reveals without translating its full-width container beyond the page edge. Copy, CTA, caption and illustration are in server HTML. Scroll-driven roll choreography, unwinding and the material loupe remain later work.
+
+QA and known limitations belong to IMPLEMENTATION_PLAN.md. The original hierarchy and recipes below continue to govern unaffected sections.
 
 - **Recommended font:** `Inter` (via `next/font/google`), with Vietnamese coverage. Prefer provided official font if available; do not add several unrelated families.
 - Headings: semibold/bold `650–750`, slightly tight tracking, controlled line breaks.

@@ -6,6 +6,28 @@ Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, R
 
 ## 1. Mục tiêu và điểm xuất phát
 
+### Cập nhật hiện hành — chỉnh giao diện lượt 1, 15/10/2026
+
+Chủ dự án yêu cầu bắt đầu lượt 1 trong kế hoạch sáu lượt, bổ sung logo đính kèm và commit/push đúng source. Đã làm lại Home Hero về màu, chữ và hình sản phẩm; Header/menu/Footer có BrandMark dùng file PNG chủ dự án cung cấp, metadata favicon/apple icon cùng URL. Giữ nguyên byte/màu logo, bảy route, variant xanh–cam, trạng thái noindex và form chưa tiếp nhận.
+
+Hero có vùng chữ nền ngà, hai cụm “Tem nhãn. Tạo dấu ấn.” với tương phản weight, video có cạnh cong và cuộn tem vector nguyên bản nổi trước video/mảng xanh. Caption phân biệt minh họa. Hình vector có chiều sâu tĩnh, không phải model WebGL hoặc cảnh mở/tách lớp mới. Hai CTA giữ đích cũ; “Câu chuyện Sunflower” tới heading giới thiệu. Các section dưới Hero chưa thiết kế lại ở lượt này. Contract hiện hành nằm trong DESIGN.md; trạng thái bốn module ở CHINH_SUA_GIAO_DIEN.md.
+
+**Đã sửa qua đối chiếu:** bỏ offset âm của hình sản phẩm gây tràn ở 1024px; sửa descriptor logo trong dialog; media reveal dùng mask mà không dịch container ra ngoài viewport. Khi đổi desktop sang mobile, pending reveal ở các section cũ nhận offset mobile ngay, tránh khoảng tràn 4px trong quá trình chuyển breakpoint. Dải chân Hero mobile dùng nền xanh/chữ trắng để copy không chạy qua hai nền có tương phản khác nhau.
+
+**Kiểm tra thực tế:**
+
+- `npm run lint`, `npx tsc --noEmit`, `npm run build` đạt; static export đủ bảy route và bảy payload aliases. Helper build Sites lỗi đường dẫn npm của runtime Windows; chạy script npm trực tiếp thành công, không thêm dependency hoặc sửa cấu hình dự án để né lỗi helper.
+- IAB trên production local: Home tại 390×844, 768×1024, 1024×768, 1440×900, 1920×1080 và thêm 320×720. Bản cuối không tràn ngang, một H1, không tràn dòng H1, logo tải được và cả hai CTA ở màn hình đầu. Đã xem screenshot desktop/mobile, các viewport tablet/màn hình lớn; rà lại dải chân Hero mobile sau chỉnh tương phản.
+- Video muted/loop/playsInline, Pause/Play thực; menu mobile có logo, Escape đóng và trả focus về trigger; điều hướng từ menu tới Sản phẩm đóng dialog và không tải Hero video ở trang đó. Anchor câu chuyện tới đúng heading. Footer nền tối đã xem trên mobile, logo tải được.
+- HTTP/HTML cả bảy route trả 200, một H1, không ID trùng, đủ ba instance logo và icon đúng URL. SSR Home có poster, copy, CTA và SVG, không có video tag trước kiểm tra preference. Hash logo khớp file người dùng gửi. Đây là kiểm tra SSR, không phải phiên duyệt no-JS đầy đủ.
+- Không có log console mức error ở lượt production đã đọc. Không cài animation engine; giữ nhánh reduced-motion/Save-Data hiện có nhưng chưa tái kiểm bằng phiên browser giả lập các preference này.
+
+**Bằng chứng:** `C:/Users/pham quang tien/.codex/visualizations/2026/10/15/sunflower-interface-pass1/`, gồm layout-report.json, http-report.json, ảnh Hero các kích thước, hero-390-full.jpg, menu-390.jpg và footer-390.jpg. Ảnh/report ở ngoài source/public.
+
+**Còn lại:** lượt 2 cho chuyển động mở nhãn/scroll của Hero; gallery, kính lúp và mở rộng typography/màu sang phần khác ở lượt tiếp theo. Chưa nghiệm thu cả bốn module hoặc toàn bộ bảy trang theo ngôn ngữ mới. Footage preview vẫn 768×432/có watermark; logo đã nhận nhưng footage HD, ảnh macro/packshot lớn và thông tin công khai còn chờ. Chưa Safari/Firefox/thiết bị thật, audit WCAG/hiệu năng đầy đủ hoặc thử lại gửi form/backend. Bản demo giữ quyền truy cập riêng tư hiện có.
+
+Các ghi nhận G0–G7 bên dưới là lịch sử từng module; trạng thái “thiếu logo”, “trang con chưa triển khai” trong các đoạn lịch sử không mô tả bản hiện hành.
+
 Website giới thiệu doanh nghiệp Sunflower, sản phẩm tem nhãn/bao bì và giải pháp cho khách hàng B2B. Khách cần hiểu doanh nghiệp làm gì, xem sản phẩm, đánh giá năng lực thực tế và gửi nhu cầu báo giá.
 
 Chất lượng thị giác là điều kiện hoàn thành của từng module. Việc có đủ section hoặc build thành công chưa đủ để nghiệm thu giao diện.

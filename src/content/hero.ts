@@ -1,9 +1,11 @@
 export const heroContent = {
-  eyebrow: 'SUNFLOWER / TEM NHÃN & IN ẤN',
-  title: ['Giải pháp', 'tem nhãn cho', 'từng sản phẩm.'],
+  eyebrow: 'SUNFLOWER / GIẢI PHÁP IN ẤN',
+  title: ['Tem nhãn.', 'Tạo dấu ấn.'],
   description: 'Thiết kế, gia công, sản xuất tem nhãn và bao bì; cung cấp vật tư in ấn cho doanh nghiệp tại Hà Nội và khu vực lân cận.',
   primaryCta: { label: 'Khám phá sản phẩm', href: '/san-pham' },
   secondaryCta: { label: 'Yêu cầu báo giá', href: '/lien-he' },
+  disciplines: ['Thiết kế', 'Gia công', 'Sản xuất'],
+  discovery: { label: 'Câu chuyện Sunflower', href: '#introduction-title' },
 } as const;
 
 // User-selected iStock preview, retained with its watermark; see docs/MEDIA_BRIEF.md.

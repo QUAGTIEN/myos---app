@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { heroContent, heroMedia } from '@/content/hero';
 import { Container } from '../layout/Container';
 import { Arrow } from '../ui/Arrow';
+import { HeroLabelSculpture } from '../products/HeroLabelSculpture';
 
 type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
 type NetworkNavigator = Navigator & { connection?: Connection };
@@ -130,13 +131,13 @@ export function VideoHero() {
 
   return (
     <section className="video-hero" aria-labelledby="hero-title">
-      <div className="hero-brand-arc" data-reveal="hero-panel" aria-hidden="true" />
+      <div className="hero-brand-arc" aria-hidden="true" />
       {(heroMedia.poster || source) && <div className="hero-media" data-reveal="hero-media">
         {heroMedia.poster && <Image
           src={heroMedia.poster}
           alt=""
           fill priority
-          sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 900px) calc(100vw - 64px), 60vw"
+          sizes="(max-width: 900px) 100vw, 55vw"
           className="hero-poster"
         />}
         <div className="media-overlay" aria-hidden="true" />
@@ -146,17 +147,20 @@ export function VideoHero() {
       </div>}
       <Container className="hero-content">
         <div className="hero-copy">
-          <p className="hero-eyebrow" data-reveal="hero-copy">{heroContent.eyebrow}</p>
+          <p className="hero-eyebrow"><span aria-hidden="true" />{heroContent.eyebrow}</p>
           <h1 id="hero-title">{heroContent.title.map((line, index) => (
-            <span className="hero-title-line" data-reveal="hero-title" data-reveal-delay={index + 1} key={line}>{index > 0 && ' '}{line}</span>
+            <span className={`hero-title-line${index === 1 ? ' hero-title-accent' : ''}`} data-reveal="hero-title" data-reveal-delay={index + 1} key={line}>{index > 0 && ' '}{line}</span>
           ))}</h1>
-          <p className="hero-description" data-reveal="hero-copy" data-reveal-delay="4">{heroContent.description}</p>
-          <div className="hero-actions" data-reveal="hero-copy" data-reveal-delay="5">
+          <p className="hero-description">{heroContent.description}</p>
+          <div className="hero-actions">
             <Link href={heroContent.primaryCta.href} className="button button-primary">{heroContent.primaryCta.label}<Arrow /></Link>
             <Link href={heroContent.secondaryCta.href} className="hero-secondary">{heroContent.secondaryCta.label}<Arrow diagonal /></Link>
           </div>
+          <ul className="hero-disciplines" aria-label="Hình thức thực hiện">{heroContent.disciplines.map(label => <li key={label}>{label}</li>)}</ul>
         </div>
       </Container>
+      <HeroLabelSculpture />
+      <div className="hero-bottom-line"><Container className="hero-bottom-inner"><p>Tem nhãn. Bao bì. Vật tư in.</p><a href={heroContent.discovery.href}>{heroContent.discovery.label}<Arrow diagonal /></a></Container></div>
     </section>
   );
 }

@@ -2,6 +2,13 @@
 
 Ngày lập: 14/10/2026. Trạng thái: đã nhận và tích hợp video Hero minh họa người dùng chọn; đã nhận 9 ảnh catalogue, 5 ảnh Unsplash minh họa doanh nghiệp/ngành in và 1 ảnh văn phòng, đưa vào source G0. Người dùng chỉ định tiếp tục bằng bộ hiện có, bổ sung/chỉnh sửa ảnh sau; không chờ đủ bộ 35 ảnh để làm bản xem. Logo và ảnh xác thực cơ sở/nhân sự Sunflower vẫn đang chờ. Tài liệu này chi tiết hóa các vị trí ảnh trong [STRUCTURE.md](STRUCTURE.md) theo art direction của [DESIGN.md](DESIGN.md), không bổ sung trang/section.
 
+### Cập nhật logo và minh họa Hero — 15/10/2026, lượt chỉnh giao diện 1
+
+- Chủ dự án cung cấp `sunflower-favicon.png` và yêu cầu thêm logo vào lượt 1. File RGBA 1254×1254 có nền trong suốt, 474.918 byte; giữ nguyên tại `public/images/brand/sunflower-logo.png`. Không đổi màu, vẽ lại hoặc di chuyển file nguồn của người dùng.
+- BrandMark dùng cùng tài nguyên trong Header, menu mobile và Footer; metadata favicon/apple icon trỏ cùng URL. Giữ nguyên xanh đậm, vàng và trắng trong biểu tượng; màu CTA xanh–cam đã duyệt không đổi. Cập nhật này thay trạng thái “chưa có logo” trong các ghi nhận G0/G7 trước đó; chưa có bộ quy chuẩn nhận diện hoặc logo vector riêng.
+- HeroLabelSculpture là minh họa vector nguyên bản trong source, không dùng packshot thumbnail, model hoặc tài sản từ trang tham chiếu. Caption: “Tem cuộn / Minh họa sản phẩm”. Đây là hình có chiều sâu tĩnh của lượt 1; không xác nhận cấu tạo kỹ thuật và không thay thế cảnh 3D CSS đang có ở khu sản phẩm.
+- Footage/poster và các ảnh hiện có tiếp tục dùng với caption/quyền như đã ghi; không có footage HD hoặc ảnh cơ sở mới ở lượt này.
+
 ### Đầu vào chiều sâu/3D theo hướng mới — CSS scene đã triển khai, chưa có asset 3D ngoài
 
 Yêu cầu hiện đại/mạnh mẽ với animation và khối 3D được chốt ở [DESIGN.md mục 8](DESIGN.md#8-motion--interaction-system); MWDT là tham chiếu phụ về sản phẩm vượt ranh giới section. Những tài nguyên sau phục vụ lượt G2.Motion, không tăng số route hoặc mặc định tăng bộ ảnh G0:

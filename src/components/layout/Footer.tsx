@@ -2,15 +2,15 @@ import Link from 'next/link';
 import { Container } from './Container';
 import { companyContent as company } from '@/content/company';
 import { siteRoutes } from '@/content/navigation';
+import { BrandMark } from './BrandMark';
 
 export function Footer() {
   return <footer className="site-footer">
     <Container>
       <div className="footer-layout">
         <div className="footer-brand">
-          <Link href="/" className="wordmark" aria-label="Sunflower — Trang chủ">
-            <span>{company.name}<span className="wordmark-dot" aria-hidden="true">.</span></span>
-            <small>{company.descriptor}</small>
+          <Link href="/" className="brand-home" aria-label="Sunflower — Trang chủ">
+            <BrandMark />
           </Link>
           <p>{company.description}</p>
           <h2 className="footer-heading">Khu vực hoạt động</h2>
