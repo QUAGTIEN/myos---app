@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/page-metadata';
 import { ProjectsHero } from '@/sections/projects/ProjectsHero';
 import { ProjectShowcase } from '@/sections/projects/ProjectShowcase';
 import { RouteLinks } from '@/components/editorial/RouteLinks';
@@ -6,7 +6,7 @@ import { ContactCTA } from '@/components/contact/ContactCTA';
 
 const title = 'Mẫu thành phẩm tem nhãn & bao bì';
 const description = 'Quan sát tem nhãn, bao bì và các hạng mục hoàn thiện qua hình ảnh tổng thể, chi tiết vật liệu, nội dung in và gia công để trao đổi yêu cầu với Sunflower.';
-export const metadata: Metadata = { title, description, openGraph: { title, description, url: '/du-an/' } };
+export const metadata = pageMetadata(title, description, '/du-an/');
 
 export default function Page() {
   return <main id="main-content" tabIndex={-1} className="interior-page">

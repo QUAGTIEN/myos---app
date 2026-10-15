@@ -30,6 +30,8 @@ G5.1 đã code giao diện Liên hệ, nhận ngữ cảnh catalogue/giải phá
 
 G6 đã ghép đủ câu chuyện Trang chủ theo STRUCTURE.md: năng lực, giải pháp chọn lọc, mẫu thành phẩm minh họa và quy trình nằm sau WhySunflower, trước CTA cuối. Dùng chung dữ liệu/ảnh với trang con; không có tài liệu hoặc catalogue Home thứ hai. Kết quả đối chiếu/QA ghi ở IMPLEMENTATION_PLAN.md.
 
+G7.1 đã rà bảy trang và sửa lỗi keyboard/motion/fallback, thêm 404 tiếng Việt và metadata dùng chung. Báo cáo QA, giới hạn đo hiệu năng/a11y và các đầu vào phát hành công khai được quản lý trong IMPLEMENTATION_PLAN.md. G5.2 gửi thật được chủ dự án tiếp tục hoãn; không tạo file báo cáo/spec trùng trong source.
+
 Tám ảnh Sonoco chỉ có một bộ tại [reference/desktop/](../../reference/desktop/) ở gốc workspace. REFERENCE_GUIDE.md trỏ tới bộ ảnh này; không sao chép vào thư mục tài liệu, public/ hoặc output website.
 
 ## Quy ước đường dẫn

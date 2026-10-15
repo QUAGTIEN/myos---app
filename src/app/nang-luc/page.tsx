@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/page-metadata';
 import { EditorialHero } from '@/components/editorial/EditorialHero';
 import { CapabilityOverview } from '@/sections/capabilities/CapabilityOverview';
 import { WorkPreparation } from '@/sections/capabilities/WorkPreparation';
@@ -9,7 +9,7 @@ import { ContactCTA } from '@/components/contact/ContactCTA';
 
 const title = 'Năng lực & quy trình làm việc';
 const description = 'Tìm hiểu cách Sunflower kết hợp cung ứng vật tư, thiết kế, gia công và sản xuất; phối hợp từ yêu cầu, duyệt mẫu đến kiểm tra, giao nhận và chứng từ.';
-export const metadata: Metadata = { title, description, openGraph: { title, description, url: '/nang-luc/' } };
+export const metadata = pageMetadata(title, description, '/nang-luc/');
 
 export default function Page() {
   return <main id="main-content" tabIndex={-1} className="interior-page">

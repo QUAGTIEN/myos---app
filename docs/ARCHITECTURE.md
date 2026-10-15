@@ -59,6 +59,7 @@ sunflower-website/
 │   │   ├── layout.tsx              # Font, metadata, Header/Footer, skip link
 │   │   ├── globals.css             # Tokens và styles responsive
 │   │   ├── page.tsx                # Trang chủ: 9 section G1/G2/G6 + metadata riêng
+│   │   ├── not-found.tsx           # 404 tiếng Việt; không thêm trang nghiệp vụ
 │   │   ├── gioi-thieu/page.tsx
 │   │   ├── san-pham/page.tsx
 │   │   ├── giai-phap/page.tsx
@@ -103,7 +104,7 @@ sunflower-website/
 │   │   ├── home.ts                 # Copy/selection/IDs ảnh Home, không nhân bản dữ liệu trang con
 │   │   ├── company.ts              # Brand/CTA/contact minh họa dùng chung
 │   │   └── contact.ts              # Chế độ preview, nhãn/mục đích/giới hạn form
-│   ├── lib/                        # inquiry-context.ts, inquiry-validation.ts; không có adapter gửi
+│   ├── lib/                        # inquiry-context.ts, inquiry-validation.ts, page-metadata.ts; không có adapter gửi
 │   ├── hooks/                      # [chờ] Hooks khi có nhu cầu tái sử dụng
 │   └── types/inquiry.ts            # Draft/context/errors dùng chung trong G5.1
 └── scripts/{preview,finalize-export}.mjs
@@ -131,8 +132,8 @@ app/layout.tsx
 ```
 
 - `Header`: Client Component. Theo dõi pathname và scroll; desktop navigation; menu dialog trên màn hình nhỏ; khóa cuộn nền; vòng Tab/Shift+Tab; Escape và trả focus; đóng khi chọn link hoặc chuyển sang desktop.
-- `MotionController`: Client Component nhỏ đặt ở layout, quan sát các phần tử `data-reveal`, chạy một lần khi vào viewport và giữ nội dung server-rendered hiển thị khi JavaScript/IntersectionObserver/reduced-motion không phù hợp. Không chứa copy hoặc dữ liệu trang.
-- `ProductDepthScene`: Client Component ở Home và ProductsHero (compact). Markup dựng cuộn tem, lớp giấy và dải nhãn; CSS chịu trách nhiệm perspective/độ dày. JavaScript chỉ cập nhật tilt con trỏ và scroll offset giới hạn khi scene nằm trong viewport; touch/reduced-motion dùng trạng thái tĩnh.
+- `MotionController`: Client Component nhỏ đặt ở layout, quan sát các phần tử `data-reveal`. G7 thêm Set các khối pending và rAF scroll/resize để khối đã cuộn qua không bị giữ ẩn khi observer chưa kịp báo; focus bàn phím cũng hiện ancestor tương ứng. Khi hết pending hoặc giảm chuyển động, dọn listener/frame/observer. Server HTML/no-JS và fallback thiếu IntersectionObserver vẫn hiển thị; không chứa copy hoặc dữ liệu trang.
+- `ProductDepthScene`: Client Component ở Home và ProductsHero (compact). Markup dựng cuộn tem, lớp giấy và dải nhãn; CSS chịu trách nhiệm perspective/độ dày. JavaScript chỉ cập nhật tilt con trỏ và scroll offset giới hạn khi scene nằm trong viewport. G7 đọc giới hạn từ tokens và theo dõi thay đổi reduced-motion/mobile để hủy frame/listener, reset inline transforms; thiếu IntersectionObserver giữ hình khối tĩnh thay vì gây lỗi.
 - `VideoHero`: Client Component. Theo dõi reduced motion, mobile và trạng thái mạng; server render poster, chỉ mount nguồn video sau khi kiểm tra tùy chọn người dùng. Hàm nội bộ `HeroPlayback` quản lý play/pause, lỗi media và autoplay bị chặn; remount khi đổi nguồn để reset trạng thái. Poster chỉ được video che khi `playing`; gradient và caption có lớp riêng. Không tạo component/engine video bên ngoài.
 - `heroMedia.poster` và `desktopSrc` đã trỏ tới poster/video iStock preview do người dùng cung cấp; `mobileSrc` là `null` và fallback cùng nguồn desktop. Caption ghi rõ footage minh họa ngành in. Video 768×432, 21,81 giây và có watermark, chưa có xác nhận giấy phép công khai; chưa phải footage Sunflower thực tế.
 - `app/layout.tsx` và các route là Server Components theo mặc định. `Container`, `Arrow` là UI dùng chung không có state trình duyệt.
@@ -140,6 +141,7 @@ app/layout.tsx
 - `inquiry-context.ts` chỉ nhận `san-pham`, `nhu-cau`, `du-an`, đối chiếu slug công khai; bỏ giá trị lạ, sai định dạng hoặc lặp, không echo dữ liệu URL thô. Mẫu hợp lệ điền sản phẩm/nhu cầu liên quan; giá trị hợp lệ được chỉ định trực tiếp ưu tiên hơn mặc định của mẫu. Thay context trên cùng route khởi tạo lại draft tương ứng.
 - `InquiryForm` chỉ giữ draft trong React state. `inquiry-validation.ts` kiểm tra tên, ít nhất một phone/email, định dạng kênh đã điền, nội dung và độ dài; `InquiryReview` hiển thị nội dung chuẩn hóa/escape dưới dạng văn bản. Quay lại sửa giữ dữ liệu. Nút gửi khóa; không có fetch, storage hay gửi thông tin tới dữ liệu liên hệ minh họa. Đồng ý liên hệ hiện là lựa chọn dự thảo, không bắt buộc để xem lại tại chỗ.
 - Design tokens ở `globals.css`, ánh xạ vào Tailwind. Không có nguồn màu độc lập khác.
+- `lib/page-metadata.ts` tạo metadata bảy route từ title/description/path hiện có, dùng metadataBase của layout cho canonical/og:url và khai báo locale/type/siteName thống nhất. Noindex và quyền riêng tư không đổi. `app/not-found.tsx` cung cấp main/H1/CTA cho URL không tồn tại; static server trả 404 thực.
 - G6 dùng bốn section Home Server Components. `home.ts` giữ tiêu đề/copy dẫn và slug chọn lọc; phần cung ứng, ba giải pháp, ba mẫu, sáu bước và ảnh đều lấy từ registry đang dùng ở trang con. `ProcessTimeline compact` chỉ đổi bố cục Home, giữ quy trình dọc mặc định trên Năng lực. `ContactCTA tone="brand"` chỉ bật ở Home; không thay đổi các CTA sáng của trang con. Không thêm Client Component, dependency, media hoặc route.
 - Navigation có bảy route; main navigation có sáu mục, gồm Trang chủ, CTA Header dẫn `/lien-he`.
 - `content/product-media.ts` đăng ký 9 ảnh người dùng gửi và WebP delivery. ProductCatalogue và UseCaseSections dùng chung registry; ProductImage giữ ảnh trong khung contain, giới hạn theo kích thước nguồn. Không tạo bản sao theo trang. Nguồn, chất lượng và bốn nhóm còn thiếu được quản lý tại [MEDIA_BRIEF.md](MEDIA_BRIEF.md).
@@ -195,6 +197,7 @@ Danh mục 13 nhóm trong STRUCTURE đã được chủ doanh nghiệp xác nh�
 - Logo gốc, video/poster được cấp phép, nội dung và ảnh thực tế theo media inventory.
 - Xác nhận dữ liệu sản phẩm, năng lực, dự án và kênh liên hệ.
 - Vì app hiện xuất static, xử lý intake server cần endpoint/backend được duyệt hoặc thay đổi deployment architecture có chủ đích. Không tự thêm API route động vào static export hoặc giả trạng thái đã gửi.
+- G7.1 kiểm tra bản xem đã đạt trong phạm vi ghi ở IMPLEMENTATION_PLAN.md. Chủ dự án tiếp tục hoãn gửi thật; quyết định này không ngăn bàn giao UI nhưng không được diễn giải là hệ thống đã tiếp nhận yêu cầu thực tế.
 - Sitemap/robots công khai, trang chi tiết và biểu mẫu/backend sẽ được thêm theo phạm vi được duyệt; website đang phát triển hiện giữ noindex.
 
 ## 7. Trạng thái sau khi dọn source

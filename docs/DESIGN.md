@@ -384,6 +384,14 @@ Solutions uses a pale-blue field, a desktop sticky introduction and three open i
 
 Image masks, numbered reveal sequences, depth-card entrances and link image/arrow feedback reuse section 8. The existing Home CSS 3D scene remains the signature object; G6 adds no engine, continuous motion or scroll hijacking. Desktop/mobile adaptations and QA limits are recorded in IMPLEMENTATION_PLAN.md. The source stock/preview media still needs public-release verification.
 
+### G7.1 quality pass — 15/10/2026
+
+The approved palette, section geometry, typography and media are preserved. The utility 404 now uses the same pale-blue surface, 700-weight interior H1, orange primary action and blue secondary link. It is a recovery state, not an additional top-level marketing page. Mobile at 319px remains readable without horizontal overflow.
+
+Motion now reveals any pending region already passed during rapid scroll, and reveals ancestors when a keyboard user focuses a contained control. The pending set and scroll/resize/focus listeners are removed once no targets remain. The dimensional scene observes live mobile/reduced-motion changes, reads the existing movement limits from tokens and stops listeners/frames when disabled or offscreen. Without IntersectionObserver it remains static. No new animation language or dependency is introduced.
+
+The seven-page five-viewport review, extra reflow/text-spacing states, keyboard/form checks and sampled contrast review are recorded in IMPLEMENTATION_PLAN.md. Layered blue Hero/pseudo-element/photo compositions were inspected visually, including video frames at 1/8/16 seconds; the computed-color script does not certify those image-backed regions or WCAG conformance as a whole. Shipping publicly still depends on approved final media/company information.
+
 ## 11. EXAMPLE SECTION SEQUENCE / COLOR MAP
 
 | Home sequence | Visual recipe | Background |

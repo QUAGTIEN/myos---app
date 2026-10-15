@@ -111,7 +111,7 @@ function InquiryFormContent({ context }: { context: InquiryContext }) {
       <label className="inquiry-consent" htmlFor="inquiry-privacyConsent"><input type="checkbox" id="inquiry-privacyConsent" name="privacyConsent" checked={draft.privacyConsent} onChange={event => updateField('privacyConsent', event.target.checked)} /><span>Tôi đồng ý để Sunflower liên hệ về yêu cầu này.</span></label>
     </fieldset>
 
-    <div className="inquiry-form-action"><button type="button" className="button button-primary" onClick={reviewRequest}>{contactPresentation.reviewLabel}<Arrow diagonal /></button><p>Chỉ xem lại nội dung. Chưa gửi yêu cầu.</p></div>
+    <div className="inquiry-form-action"><button type="submit" className="button button-primary">{contactPresentation.reviewLabel}<Arrow diagonal /></button><p>Chỉ xem lại nội dung. Chưa gửi yêu cầu.</p></div>
     {review && <InquiryReview draft={review} reviewRef={reviewRef} onEdit={() => { setReview(null); focusField('fullName'); }} />}
   </form>;
 }

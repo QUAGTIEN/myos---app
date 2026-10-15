@@ -589,6 +589,8 @@ Bạn chưa có quy cách hoàn chỉnh vẫn có thể bắt đầu bằng mộ
 
 **Chế độ G5.1 do chủ dự án chọn ngày 15/10/2026:** hoàn thiện giao diện trước, chưa có đích nhận. Nút chính là “Xem lại yêu cầu”; panel “Yêu cầu của bạn — chưa gửi”, giải thích “Thông tin dưới đây chỉ được xem lại trên trang. Sunflower chưa tiếp nhận yêu cầu này.” Nút “Chỉnh sửa nội dung” giữ thông tin đã nhập; “Gửi yêu cầu — chưa mở” bị khóa. Thông báo đầu form: “Bản minh họa — biểu mẫu chưa tiếp nhận yêu cầu.” và “Bạn có thể nhập và xem lại nội dung ngay trên trang. Thông tin chưa được gửi đến Sunflower.” Không hiển thị trạng thái gửi/thành công khi chỉ xem lại.
 
+**G7:** chủ dự án tiếp tục hoãn gửi thật. Nhấn Enter trong ô nhập hoặc nút “Xem lại yêu cầu” đều chỉ kiểm tra/xem lại tại chỗ; không đổi thành gửi yêu cầu. Không lưu/gửi draft và không gắn dữ liệu liên hệ minh họa vào kênh tiếp nhận.
+
 Sản phẩm/nhu cầu/mẫu minh họa hợp lệ được điền từ link; cho phép chọn lại và bỏ mẫu. Lựa chọn sai hoặc tham số lặp hiển thị thông báo chung, không chép dữ liệu URL thô vào UI. Thêm trường “Nhu cầu sử dụng” từ năm nhu cầu đã có; không thêm nhóm kinh doanh mới. Câu đồng ý liên hệ hiện không bắt buộc cho thao tác xem lại tại chỗ, không được coi là chính sách dữ liệu được duyệt. Không lưu hoặc gửi draft.
 
 | Trạng thái | Nội dung hiển thị |

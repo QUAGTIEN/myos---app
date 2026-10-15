@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/page-metadata';
 import { EditorialHero } from '@/components/editorial/EditorialHero';
 import { CompanyOverview } from '@/sections/about/CompanyOverview';
 import { WorkingStory } from '@/sections/about/WorkingStory';
@@ -9,7 +9,7 @@ import { ContactCTA } from '@/components/contact/ContactCTA';
 
 const title = 'Giới thiệu — Thương mại & sản xuất tem nhãn';
 const description = 'Tìm hiểu Sunflower, mô hình thương mại kết hợp thiết kế, gia công, sản xuất tem nhãn, bao bì và cách phối hợp với doanh nghiệp tại Hà Nội, khu vực lân cận.';
-export const metadata: Metadata = { title, description, openGraph: { title, description, url: '/gioi-thieu/' } };
+export const metadata = pageMetadata(title, description, '/gioi-thieu/');
 
 export default function Page() {
   return <main id="main-content" tabIndex={-1} className="interior-page">

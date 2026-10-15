@@ -1,6 +1,6 @@
 # Sunflower — Kế hoạch triển khai website
 
-Ngày cập nhật: 15/10/2026. G0 bản xem đã chốt; G1/G2 và G2.Motion đã triển khai; G3/G4 có nội dung các trang con; G5.1 có giao diện Liên hệ/xem lại yêu cầu; G6 đã ghép đủ nội dung Trang chủ. G5.2 gửi thật và G7 kiểm tra tổng thể/đầu vào phát hành công khai chưa hoàn tất.
+Ngày cập nhật: 15/10/2026. G0 bản xem đã chốt; G1–G6 đã có đủ giao diện/nội dung; G7.1 đã kiểm tra tổng thể và sửa lỗi cho bản xem riêng tư. Chủ dự án tiếp tục hoãn G5.2 gửi thật. G7.2 phát hành công khai và các đầu vào chính thức chưa hoàn tất.
 
 Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, REFERENCE_GUIDE.md, ARCHITECTURE.md và source hiện tại. Kế hoạch này tổ chức công việc, không thay thế design tokens hoặc bổ sung sitemap/chức năng ngoài tài liệu đã duyệt.
 
@@ -275,6 +275,46 @@ Nghiệm thu: trang chủ vừa tạo ấn tượng vừa giúp khách hiểu v�
 
 ### G7 — Kiểm tra cuối và phát hành
 
+#### G7.1 — QA và sửa lỗi bản xem riêng tư (đã thực hiện)
+
+**Phạm vi chốt:** người dùng yêu cầu bắt đầu G7 và sẽ bổ sung gửi báo giá thật sau. Rà toàn bộ bảy trang hiện có, không nối endpoint hoặc đưa form vào tiếp nhận. Giữ owner-private/noindex và bộ media G0 theo chỉ định tiếp tục dùng trước.
+
+**Lỗi đã sửa:**
+
+- `InquiryForm`: nút xem lại trở thành submit của form có preventDefault; Enter trong ô nhập thực hiện cùng validation/review với bấm nút, vẫn không gửi dữ liệu.
+- `MotionController`: khối cuộn nhanh qua không còn bị giữ pending; rAF chỉ kiểm tra Set pending, focus bàn phím hiện ancestor và dọn listeners khi hết việc. Fallback thiếu observer/no-JS/reduced-motion giữ nội dung.
+- `ProductDepthScene`: thiếu IntersectionObserver không còn throw; đổi reduced-motion/mobile trực tiếp dừng observer/scroll/frame, reset tilt/offset. Giới hạn chuyển động đọc từ tokens, không có dependency mới.
+- `not-found.tsx`: trạng thái 404 tiếng Việt, main/H1/skip-link và hai lối quay về; trả HTTP 404. Đã tăng H1 về weight 700 sau đối chiếu, xem lại trong IAB tại chiều rộng thực 319px không tràn.
+- `page-metadata.ts`: một helper cho title/description/canonical/og:url/locale/type/siteName; bảy trang dùng path riêng, Home dùng absolute title. Canonical bỏ query tham khảo ở Liên hệ. Root vẫn noindex; không dựng structured company data, sitemap công khai hoặc OG ảnh từ media chưa chốt quyền.
+
+**Kết quả kiểm tra sau sửa:**
+
+| Hạng mục | Phạm vi thực tế | Kết quả |
+|---|---|---|
+| Build/source | npm lint, typecheck, production build/static export, git diff --check | Đạt; đủ bảy route và 7 segment aliases. Bản build cuối chỉ thêm weight 700 riêng cho H1 404, đã xem lại trong IAB |
+| Responsive | 7 route × 5 viewport: 390×844, 768×1024, 1024×768, 1440×900, 1920×1080 | 35 layout: một H1, không tràn ngang, pending/ảnh thiếu/ID trùng/aria reference hỏng/heading bỏ cấp hoặc lỗi JS/resource trong trạng thái bình thường |
+| Reflow/text spacing | Mỗi route tại 320px; thêm 720px với line-height 1.5, letter-spacing .12em, word-spacing .16em và paragraph spacing 2em | 14 trạng thái: không tràn ngang hoặc text/control vượt mép. Đây là viewport/text-spacing emulation, không thay kiểm tra browser zoom thật |
+| Điều hướng | 39 đích nội bộ duy nhất và anchor qua HTTP/HTML; context form qua kiểm tra G5 | Tất cả đích/anchor hợp lệ; URL không tồn tại trả 404 có UI phục hồi |
+| Tương tác | 26 trường hợp skip-link, menu trap/Escape/focus/route, catalogue anchor/details, năm filter, Enter/review/edit, tilt, đổi reduced-motion, Save-Data, no-observer, autoplay rejection mô phỏng | Đạt; không page error trong lượt cuối. Chặn autoplay mô phỏng promise rejection + bỏ autoplay ở fixture, không đại diện chính sách mọi trình duyệt |
+| Form tại chỗ | Chạy lại 33 trường hợp chức năng G5, bỏ lặp layout vì đã có ma trận G7 | Đạt; không request ghi dữ liệu, không lưu storage, không success giả. Không kiểm tra backend/server error/thành công gửi thật vì chủ dự án hoãn |
+| Fallback | 7 route × reduced-motion/no-JS tại 390px | 14 trạng thái: nội dung/reveal hiện, không tràn; không request MP4; Footer có đủ 7 link. Form cần JS; filter no-JS giữ toàn bộ mẫu, không khẳng định có lọc khi thiếu JS |
+| SEO/content | Title/description/OG riêng, canonical theo route, html vi/noindex; ảnh/caption và mock contact | Đạt cho bản xem; không có tel/mailto/map trỏ giá trị minh họa hoặc video ở trang con |
+| A11y tập trung | Nhãn field/control, aria ID, heading, Tab/focus và 817 đoạn chữ trên nền phẳng | Không phát hiện contrast dưới ngưỡng tính được, control thiếu tên, tabindex dương hoặc target dưới 24px trong phần được đo. Kiểm tra target không gồm inline links trong paragraph; không phải chứng nhận WCAG |
+
+**Đối chiếu hình ảnh:** đã xem màn hình đầu desktop/mobile của bảy route, các bố cục toàn trang và Hero tại frame 1/8/16 giây. Giữ nguyên xanh–cam, Inter, nhịp ảnh lớn/section sáng–xanh, scene 3D và caption minh họa. So với Sonoco: curve/grid/typography theo nguyên tắc đã duyệt; chữ Việt sentence case, cam thay xanh lá, gallery/mẫu và nội dung Sunflower nguyên bản. Không có tham chiếu mobile Sonoco để tuyên bố pixel match. Vùng ảnh/gradient/pseudo-element Hero được xem trực quan và đối chiếu token; script contrast đã loại các vùng đó vì không thể tính nền từ ancestor color, không gọi kết quả này là audit WCAG đầy đủ.
+
+**Hiệu năng đo ở local, chưa phải field metrics:** cold contexts 1440px trên static server không nén/mạng không throttle ghi tổng resource transfer khoảng 4,20 MB ở Home (MP4 khoảng 2,93 MB), trang con khoảng 1,10–1,49 MB; bao gồm JS/CSS/font, ảnh và prefetch. LCP ghi nhận khoảng 128–320ms, CLS dưới 0,001 trong các lượt local này. Các số chỉ phục vụ chẩn đoán, không suy ra tốc độ mạng di động/deploy thực hoặc cam kết Core Web Vitals. Ảnh delivery WebP được dùng lại; ảnh văn phòng nguồn PNG khoảng 391KB và footage preview vẫn là các đầu vào có thể tối ưu/thay khi nhận bộ chính thức. Không tự nén/thay nội dung để giả rằng có footage HD hoặc bằng chứng nhà máy mới.
+
+**Bằng chứng:** `C:/Users/pham quang tien/.codex/visualizations/2026/10/15/sunflower-g7/`, gồm layout-report.json, interaction-report.json, a11y-report.json, reflow-report.json, form/report.json; ảnh hero/full cho bảy trang ở 390/1440 và ba frame video. IAB xác nhận H1 404 đã weight 700, no overflow tại 319px sau build cuối. Script/ảnh đều ở ngoài source/public; không tạo thêm thư mục test/mock/demo hoặc bản sao specs.
+
+**Giới hạn:** kiểm tra trình duyệt Chrome emulation và IAB, chưa Safari/Firefox/thiết bị thật, screen reader hoặc mạng throttle thực. Không audit bảo mật toàn hệ thống hay kiểm mọi frame video. Metadata/canonical đã sẵn cho tên miền demo, phải cập nhật metadataBase khi chốt tên miền khác. Kết quả triển khai và kiểm tra nhanh bản online được xác nhận ở bước bàn giao; QA local không tự chứng minh chất lượng mọi môi trường.
+
+#### G7.2 — Điều kiện phát hành công khai (còn chờ)
+
+Theo yêu cầu hiện tại, G5.2 được hoãn và không ngăn bàn giao bản giao diện. Để công khai như website doanh nghiệp hoàn chỉnh còn cần thông tin liên hệ/pháp lý, logo/media được chốt quyền và nội dung/ảnh bằng chứng được xác nhận; chỉ sau quyết định phát hành mới bật index/sitemap/robots/canonical tên miền chính thức. Không coi placeholder contact, footage iStock preview hoặc catalogue mẫu là nội dung doanh nghiệp đã được xác thực. Kiểm tra gửi thật/policy/backend khi chủ dự án bổ sung đích nhận.
+
+Các hạng mục đầy đủ của G7:
+
 - Rà toàn bộ bảy trang và đường đi thực tế; kiểm tra lỗi console, tài nguyên mất, anchor, menu, filter, form, loading/error/empty states và 404.
 - Kiểm tra tại 390×844, 768×1024, 1024×768, 1440×900 và 1920×1080. Rà thêm màn hình hẹp/zoom để phát hiện text bị cắt và tràn ngang.
 - Kiểm tra ảnh/video tối ưu, loading priority, kích thước để tránh layout shift và media ở từng breakpoint. Static export đang dùng images.unoptimized; phải xuất media tối ưu trước hoặc chốt cơ chế tối ưu ảnh thật, không mặc định next/image đã xử lý.
@@ -328,6 +368,7 @@ Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá
 - [x] G5.1: Giao diện Liên hệ/context/validation/xem lại tại chỗ; QA tập trung đạt, chưa gửi dữ liệu.
 - [ ] G5.2 / G5 đầy đủ: Liên hệ chính thức và báo giá gửi thật; chờ đích nhận/chính sách được duyệt.
 - [x] G6 code/QA tập trung: Trang chủ đủ chín section, dùng chung dữ liệu trang con; chủ dự án duyệt bản xem, G7 kiểm tra tổng thể tiếp theo.
-- [ ] G7: UI/functional QA, build, nội dung, media, SEO và phát hành đạt yêu cầu.
+- [x] G7.1: QA/sửa lỗi giao diện bảy trang, responsive/keyboard/form local/motion/SEO và build; hoàn tất cho bản xem riêng tư.
+- [ ] G7.2 phát hành công khai: nội dung/media/thông tin chính thức và quyết định index; G5.2 gửi thật được người dùng tiếp tục hoãn.
 
 Điểm bắt đầu sau khi kế hoạch được duyệt: G0 để chuẩn bị đầu vào tối thiểu, rồi G1 trên Header/VideoHero hiện tại. Không xây lại từ đầu và không triển khai đồng loạt bảy trang.

@@ -2,7 +2,9 @@
 
 Chỉ dẫn làm việc dùng một file duy nhất ở gốc workspace: `../AGENTS.md`. File này áp dụng cho toàn bộ source trong `sunflower-website/`.
 
-Phạm vi hiện tại: G1 Header/VideoHero, G2 các section Trang chủ + motion/3D, G3 Sản phẩm/Giải pháp, G4 Giới thiệu/Năng lực/Mẫu thành phẩm, G5.1 giao diện Liên hệ/xem lại yêu cầu và G6 đủ nội dung Trang chủ. Giữ sitemap 7 trang; G5.2 tiếp nhận báo giá thật còn chờ kênh nhận/thông tin chính thức; G7 là vòng kiểm tra tổng thể và đầu vào phát hành.
+Phạm vi hiện tại: G1–G6 đã có đủ giao diện/nội dung bảy trang; G7.1 đã rà và sửa lỗi cho bản xem riêng tư. Giữ sitemap 7 trang. Chủ dự án tiếp tục hoãn G5.2 gửi báo giá thật; thông tin doanh nghiệp/media chính thức và điều kiện phát hành công khai vẫn chờ bổ sung.
+
+G7.1 sửa thao tác Enter để xem lại form, bảo đảm reveal hiển thị sau cuộn nhanh/focus bàn phím, dừng JavaScript scene khi đổi sang reduced-motion/mobile và giữ scene tĩnh khi thiếu IntersectionObserver. Trang 404 tiếng Việt có lối về Trang chủ/Sản phẩm; không phải trang thứ tám trong sitemap. Metadata bảy trang dùng chung helper page-metadata.ts (canonical, OG Việt Nam, title/description riêng), tiếp tục noindex. Lint/typecheck/build đạt; kiểm tra 35 layout, 39 link nội bộ, 26 tương tác và 33 trường hợp form. Bằng chứng/giới hạn và các mục chờ công khai ở IMPLEMENTATION_PLAN.md.
 
 G6 nối CapabilitiesFeature → SolutionsByIndustry → FeaturedProjects → ProcessPreview trước ContactCTA. Trang chủ có chín section và Footer chung: ảnh panorama ngành in với ba hình thức cung ứng/thực hiện, ba nhu cầu chọn lọc, ba mẫu catalogue minh họa và sáu bước phối hợp. Các section mới là Server Components, dùng lại supplyModels/solutions/projectSamples/productionSteps và media registries; home.ts chỉ giữ copy mở đầu và slug chọn lọc. Không có bộ catalogue hoặc asset song song. CTA cuối Trang chủ dùng nền xanh/nút cam; các trang con giữ variant sáng. Motion tái sử dụng hệ thống đã có, mobile giảm khoảng dịch chuyển còn 12px.
 
