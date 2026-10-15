@@ -24,6 +24,8 @@ Hướng cập nhật 14/10/2026: sạch sẽ/chuyên nghiệp, đồng thời h
 
 G3 đã code Sản phẩm/Giải pháp trên hai route hiện có; trạng thái và giới hạn kiểm tra nằm trong IMPLEMENTATION_PLAN.md, source thực tế tại ARCHITECTURE.md. Không tạo tài liệu G3 riêng hoặc bản catalogue/copy song song.
 
+G4 đã code Giới thiệu, Năng lực và Mẫu thành phẩm; tái sử dụng dữ liệu/ảnh hiện có. Phạm vi nội dung và tình trạng QA nằm trong IMPLEMENTATION_PLAN.md; không tạo file mô tả G4 riêng.
+
 Tám ảnh Sonoco chỉ có một bộ tại [reference/desktop/](../../reference/desktop/) ở gốc workspace. REFERENCE_GUIDE.md trỏ tới bộ ảnh này; không sao chép vào thư mục tài liệu, public/ hoặc output website.
 
 ## Quy ước đường dẫn

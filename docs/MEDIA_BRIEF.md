@@ -262,3 +262,11 @@ BrandIntroduction dùng workshop; WhySunflower dùng large-format-printing, prin
 Bổ sung WebP delivery cho Tem màu tờ, Tem trắng tờ, Máy in, Thẻ bài và Băng dính: tối đa 1600px, quality 86, không upscale. Cả 9 PNG nguồn được giữ; product-media.ts là registry chung. ProductImage giữ object-contain và không vượt kích thước nguồn; hai ảnh 218px không được kéo thành ảnh lớn. Bốn nhóm Máy quét/Hộp/Tem vải nilon/Satin dùng bố cục chữ có hướng dẫn inquiry, không có ảnh giả hoặc ảnh nhóm khác.
 
 SolutionsHero tái dùng Băng dính làm ảnh bao bì minh họa. Các use case lần lượt dùng Tem màu cuộn, Tem trắng cuộn, Printing press (Bank Phrom/Unsplash), Tem dệt và Băng dính. Đây là hình minh họa sản phẩm/ngành in, không phải bằng chứng dự án hoặc nhà máy Sunflower. Chưa có ảnh ứng dụng chuyên biệt trong solutions/ và không sao chép registry sang thư mục đó. Theo yêu cầu người dùng, chưa chạy crop/visual QA G3.
+
+## G4 — Giới thiệu, Năng lực và Mẫu thành phẩm
+
+Giới thiệu tái dùng printing-press cho Hero, printing-workshop cho WorkingStory và officeMedia cho phần phối hợp bộ phận. Ảnh stock có caption/credit; ảnh văn phòng giữ caption trung tính, không xác nhận địa chỉ hoặc diện tích. Năng lực dùng print-color-samples ở Hero và press-operators ở phần giao nhận như ảnh minh họa ngành in; scene vật liệu/tem là CSS illustration cũ, không thêm model hoặc packshot.
+
+Mẫu thành phẩm chọn sáu ảnh catalogue: Tem màu cuộn, Tem dệt, Băng dính, Tem trắng cuộn, Thẻ bài và Tem trắng tờ. Hero tái dùng Tem dệt/Băng dính, không sao chép sang projects/. ProductImage giữ contain và cap kích thước nguồn, đặc biệt thẻ bài 218px. Cả trang và từng mẫu ghi Hình ảnh sản phẩm minh họa; chưa công bố khách hàng, brief hoặc vai trò Sunflower trên các mẫu này.
+
+Không có ảnh nhà máy/thiết bị thật, case khách hàng hoặc nguồn mới trong G4. Các hạng mục bằng chứng vẫn chờ đầu vào. Bộ hiện tại đã được xem trong screenshot desktop/mobile G4; không coi việc duyệt bố cục là xác minh giấy phép công khai của từng ảnh.

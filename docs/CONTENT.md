@@ -489,6 +489,19 @@ Bạn có thể tham khảo hình thức sản phẩm, cách bố trí thông ti
 
 ### 04. SelectedProjectStories
 
+**Nhãn mẫu dùng ở bản xem G4:** Các tên sau mô tả ảnh catalogue, không phải tên dự án hoặc xác nhận do Sunflower thực hiện. Bộ lọc chỉ gồm nhóm có ảnh. Source dùng slug ở projects.ts để chuyển ngữ cảnh tham khảo, G5 mới nhận/prefill.
+
+| Slug mẫu minh họa | Tiêu đề | Nhóm ảnh |
+|---|---|---|
+| mau-tem-mau-cuon | Tem màu dạng cuộn | Tem nhãn |
+| mau-tem-det | Chi tiết bề mặt nhãn dệt | Nhãn may mặc |
+| mau-bang-dinh | Băng dính in dùng đóng gói | Bao bì |
+| mau-tem-trang-cuon | Tem trắng dạng cuộn | Tem nhãn |
+| mau-the-bai | Hình dáng & nội dung thẻ bài | Thẻ bài |
+| mau-tem-trang-to | Đường bế trên tem dạng tờ | Tem nhãn |
+
+**Caption chung:** Hình ảnh sản phẩm minh họa, không phải hồ sơ dự án khách hàng của Sunflower. Mẫu, vật liệu và quy cách sẽ được trao đổi theo yêu cầu của bạn.
+
 **H2:** Từ yêu cầu đến phần việc hoàn thiện.
 
 Mỗi nội dung giới thiệu mẫu sẽ nêu nhu cầu ban đầu, phần việc Sunflower thực hiện và thành phẩm được phép công bố để khách hàng hiểu rõ bối cảnh.

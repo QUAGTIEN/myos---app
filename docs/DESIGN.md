@@ -362,6 +362,14 @@ Solutions applies REF-05 with the supplied packaging photograph, centered white 
 
 The owner requested no repeated checks in G3. Responsive styles are implemented, but no new browser/screenshot, interaction or contrast QA has been performed. Build is for demo packaging only; it does not certify visual acceptance.
 
+### G4 editorial implementation — 15/10/2026
+
+About uses REF-07's blue/image narrative with an original narrower pale arc beside the text safe zone; the shared solid Header stays readable. WorkingStory borrows REF-08's pale-blue/white split and portrait-photo hierarchy. The content is a working-method story, not an invented company history. Principles use open ruled columns; office/department content alternates back to white. Images keep neutral captions or stock credits.
+
+Capabilities uses a light editorial Hero, a three-part scope overview, the existing compact product-depth scene, a numbered vertical process, a blue QC section and a delivery split. Desktop Hero H1 is capped at 4rem to keep the final Vietnamese phrase together; the photograph is 4:3 so both action and image remain balanced. Samples use REF-04's image prominence in an asymmetric open gallery rather than copying news cards; the packaging image spans two columns, and small source images stay at native size. The layered photo Hero adds depth without inventing a new model or factory evidence.
+
+Blue/orange, Inter, spacing and motion tokens remain unchanged. Mobile stacks by reading order; filters wrap as visible touch targets, process becomes a normal vertical list and the shared menu bars cannot flex-shrink to zero. There is no continuous motion or new library. Final browser review covers the three routes at 390/768/1024/1440/1920 widths. Desktop/mobile screenshots were inspected and the identified title/menu issues corrected; functional and verification limits are recorded in IMPLEMENTATION_PLAN.md.
+
 ## 11. EXAMPLE SECTION SEQUENCE / COLOR MAP
 
 | Home sequence | Visual recipe | Background |

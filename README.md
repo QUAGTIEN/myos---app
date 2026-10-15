@@ -2,7 +2,9 @@
 
 Chỉ dẫn làm việc dùng một file duy nhất ở gốc workspace: `../AGENTS.md`. File này áp dụng cho toàn bộ source trong `sunflower-website/`.
 
-Phạm vi hiện tại: G1 Header/VideoHero, G2 các section Trang chủ + motion/3D và G3 Sản phẩm/Giải pháp. Giữ sitemap 7 trang; Giới thiệu, Năng lực, Dự án và Liên hệ còn chờ G4–G5.
+Phạm vi hiện tại: G1 Header/VideoHero, G2 các section Trang chủ + motion/3D, G3 Sản phẩm/Giải pháp và G4 Giới thiệu/Năng lực/Mẫu thành phẩm. Giữ sitemap 7 trang; Liên hệ và chức năng tiếp nhận báo giá còn chờ G5, các section Trang chủ còn lại ở G6.
+
+G4 dùng EditorialHero/RouteLinks chung và các section Server Components. Giới thiệu trình bày mô hình, cách làm việc, nguyên tắc và bốn bộ phận; Năng lực có ba hình thức thực hiện, scene 3D, quy trình sáu bước, đối chiếu mẫu và phối hợp giao nhận. `/du-an` mang tiêu đề Mẫu thành phẩm, dùng sáu hình catalogue minh họa với bộ lọc thật, product/solution links và context CTA. Không dựng dự án khách hàng, lịch sử, model máy hay chứng chỉ khi thiếu dữ liệu. Trạng thái QA/bằng chứng tại IMPLEMENTATION_PLAN.md.
 
 G3 đã triển khai `/san-pham` với Hero có CSS 3D scene, mục lục anchor, 13 nhóm trong 4 cụm, thông tin ứng dụng, disclosure hướng dẫn hỏi hàng và CTA theo slug. `/giai-phap` có Hero ảnh, 5 nhu cầu, các đoạn ảnh–chữ xen kẽ và liên kết tới đúng sản phẩm. Source dùng lại tokens/reveal controller; không cài dependency mới. Theo yêu cầu người dùng, không chạy lint, typecheck riêng, browser tests hoặc screenshot G3; build chỉ phục vụ đóng gói bản demo. Việc nhận/prefill ngữ cảnh tại Liên hệ vẫn thuộc G5.
 
@@ -19,7 +21,7 @@ npm install
 npm run dev
 ```
 
-Mở http://127.0.0.1:3000. Bản production: `npm run build`, `npm run preview`, mở http://127.0.0.1:4173.
+Mở http://127.0.0.1:3000. Bản production: `npm run build`, `npm run preview`, mở http://127.0.0.1:4173. `postbuild` chạy `scripts/finalize-export.mjs` để thêm alias tệp segment payload khi export trên Windows; nội dung điều hướng tĩnh được phục vụ đúng trên cả preview và Sites. Alias chỉ nằm trong output, không tạo source hoặc tài liệu trùng.
 
 ## Kiểm tra
 
@@ -49,7 +51,7 @@ Copy G0 cho bảy trang được quản lý tại [docs/CONTENT.md](docs/CONTENT
 
 ## Media cần bổ sung
 
-Người dùng đã chỉ định tận dụng bộ hiện có trước: **15 ảnh nội dung + video/poster Hero**, ảnh bổ sung/chỉnh sửa sau. Bộ đầu vào tạm cho bản xem đã được chốt trong [docs/MEDIA_BRIEF.md](docs/MEDIA_BRIEF.md), không chờ đủ 35 ảnh để tiếp tục module giao diện. Ảnh văn phòng mới nằm tại [public/images/contact/office-interior.png](public/images/contact/office-interior.png), khai báo dùng chung trong [src/content/contact-media.ts](src/content/contact-media.ts); chưa render section Liên hệ/Giới thiệu.
+Người dùng đã chỉ định tận dụng bộ hiện có trước: **15 ảnh nội dung + video/poster Hero**, ảnh bổ sung/chỉnh sửa sau. Bộ đầu vào tạm cho bản xem đã được chốt trong [docs/MEDIA_BRIEF.md](docs/MEDIA_BRIEF.md), không chờ đủ 35 ảnh để tiếp tục module giao diện. Ảnh văn phòng nằm tại [public/images/contact/office-interior.png](public/images/contact/office-interior.png), khai báo dùng chung trong [src/content/contact-media.ts](src/content/contact-media.ts) và được dùng ở phần phối hợp bộ phận của Giới thiệu với caption trung tính.
 
 G0 đã nhận 5 JPG Unsplash minh họa ngành in trong [public/images/company/](public/images/company/), đăng ký tại [src/content/company-media.ts](src/content/company-media.ts). Giữ kích thước gốc, alt, caption minh họa và credit; mỗi ảnh lưu một lần để tái sử dụng. Vị trí section dự kiến nằm trong MEDIA_BRIEF.md. G2 render các ảnh qua WebP delivery derivatives, kèm caption/credit; JPG gốc giữ để quản lý nguồn. Bộ ảnh này không xác thực xưởng/nhân viên Sunflower.
 

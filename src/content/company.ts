@@ -19,3 +19,17 @@ export const companyContent = {
     link: { href: '/lien-he', label: 'Yêu cầu báo giá' },
   },
 } as const;
+
+// Owner-confirmed operating model and departments; no headcount or history claims.
+export const companyPrinciples = [
+  { title: 'Hiểu đúng nhu cầu', description: 'Làm rõ sản phẩm, quy cách và mục đích sử dụng trước khi lựa chọn phương án.' },
+  { title: 'Phối hợp theo mẫu', description: 'Nội dung thiết kế, yêu cầu chỉnh sửa và quy cách đã thống nhất là cơ sở cho các bước tiếp theo.' },
+  { title: 'Duy trì thông tin theo đơn', description: 'Các bộ phận tiếp nối yêu cầu, mẫu và thông tin giao nhận trong quá trình xử lý.' },
+] as const;
+
+export const companyDepartments = [
+  { name: 'Sale', description: 'Tiếp nhận nhu cầu, trao đổi phương án và duy trì liên hệ với khách hàng.' },
+  { name: 'Thiết kế', description: 'Tiếp nhận nội dung, thực hiện mẫu và phối hợp chỉnh sửa, duyệt mẫu cho các hạng mục cần thiết kế.' },
+  { name: 'Bán hàng', description: 'Làm rõ thông tin đặt hàng, phối hợp phần việc cung ứng, thực hiện và giao nhận theo đơn.' },
+  { name: 'Kế toán', description: 'Phối hợp chứng từ, hóa đơn, công nợ và thanh toán theo điều khoản đã thống nhất.' },
+] as const;

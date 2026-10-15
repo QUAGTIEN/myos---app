@@ -193,6 +193,16 @@ Nghiệm thu: khách phân biệt được sản phẩm với ứng dụng; ản
 
 ### G4 — Giới thiệu, Năng lực và Dự án
 
+**Triển khai G4 — 15/10/2026:** cả ba route có nội dung trên source chính. Giới thiệu dùng EditorialHero xanh cong (REF-07), CompanyOverview, WorkingStory split (REF-08), WorkingPrinciples, DepartmentCollaboration và RouteLinks. Năng lực dùng Hero sáng/ảnh mẫu in, CapabilityOverview với ba hình thức đã xác nhận, WorkPreparation có CSS 3D scene tái sử dụng, ProductionProcess/ProcessTimeline sáu bước, QualityControl và CollaborationDelivery. Không công bố equipment list/model, gallery nhà máy thật, mốc lịch sử hoặc chứng chỉ vì chưa có đầu vào.
+
+`/du-an` giữ tên menu Dự án nhưng dùng tiêu đề Mẫu thành phẩm. ProjectsHero có hai lớp ảnh sản phẩm, ProjectShowcase/ProjectGallery có sáu hình minh họa, bộ lọc Tất cả/Tem nhãn/Nhãn may mặc/Bao bì/Thẻ bài, số kết quả, empty/reset và CTA query `du-an` bằng slug mẫu công khai. Mỗi mẫu có product anchor; liên kết cuối trang đưa tới Giải pháp/Sản phẩm. Không tạo case study hoặc vai trò Sunflower giả cho những ảnh catalogue.
+
+Tái sử dụng tokens, CSS reveal/mask/sequence/3D, shared media registries và Footer/ContactCTA. Chỉ ProjectGallery mới cần Client Component để lọc; không cài dependency. Đã sửa nét menu mobile co về 0px do flex-shrink, chỉnh H1/ảnh Hero Năng lực để bỏ từ rơi dòng, và thêm postbuild cho payload segment của static export Windows. Alias phục vụ output tĩnh, không tạo bản sao source.
+
+**Kiểm tra G4:** lint và typecheck riêng đạt; production build/static export đạt, postbuild tạo 7 payload aliases. Chromium production preview kiểm tra cả ba trang tại 390×844, 768×1024, 1024×768, 1440×900, 1920×1080 (15 layout). Sau chỉnh sửa không tràn ngang, mỗi trang một H1, không ID trùng/anchor nội trang hỏng/ảnh thiếu/reveal bị giữ ẩn, không video trên trang con, không page error hoặc request lỗi. Bộ lọc kiểm tra 10 lượt bằng Enter ở desktop/mobile: số kết quả 3/1/1/1/6, chỉ một nút aria-pressed. Menu mobile mở/đóng bằng Escape, hai nét giữ 2px; CTA mẫu tới `/lien-he/?du-an=mau-tem-mau-cuon`. Reduced-motion và no-JS ở 3 trang (6 trạng thái) giữ nội dung hiển thị, không tràn ngang; no-JS vẫn có đủ sáu ảnh mẫu trong HTML.
+
+Ảnh desktop/mobile và JSON lưu ngoài source/public tại `C:/Users/pham quang tien/.codex/visualizations/2026/10/15/sunflower-g4/`. Đã xem screenshot Hero/full-page và các section chính, so với REF-07/08/04/02: giữ nhịp sáng/xanh, ảnh lớn và grid; cố ý dùng curve nguyên bản hẹp hơn, Inter/xanh-cam Sunflower, gallery mở và quy trình dọc thay cho nội dung/metrics của Sonoco. Giới hạn: Chromium headless/device emulation, chưa kiểm tra Safari/mobile thật; bộ lọc chỉ kiểm tra các nhóm có dữ liệu, chưa phát sinh empty state bằng dữ liệu production. Chưa có form/intake thật, case khách hàng hoặc bằng chứng máy móc; vẫn giữ riêng tư/noindex.
+
 Ba module bàn giao riêng:
 
 - G4.1 Giới thiệu: Hero theo REF-07, câu chuyện/định hướng được xác nhận và editorial split theo REF-08. Mốc lịch sử, đội ngũ và giá trị chỉ hiện khi có dữ liệu được duyệt.
@@ -282,9 +292,9 @@ Mỗi vòng đối chiếu ghi “đạt / cần sửa / chưa thể đánh giá
 - [x] G2.Motion: choreography, interaction, CSS 3D scene và reduced-motion/no-JS fallback đã code; kiểm tra tập trung desktop/mobile đạt.
 - [x] G3.1 code: Sản phẩm đủ 13 nhóm/anchor/CTA; chờ nghiệm thu UI, không chạy kiểm lại theo yêu cầu.
 - [x] G3.2 code: Giải pháp đủ 5 nhu cầu/cross-link/CTA; chờ nghiệm thu UI, prefill Liên hệ thuộc G5.
-- [ ] G4.1: Giới thiệu hoàn thiện.
-- [ ] G4.2: Năng lực hoàn thiện.
-- [ ] G4.3: Dự án/Mẫu thành phẩm hoàn thiện.
+- [x] G4.1 code: Giới thiệu theo mô hình/phối hợp G0, ảnh minh họa có nguồn; chưa có lịch sử/ảnh đội ngũ thật.
+- [x] G4.2 code: Ba hình thức, quy trình, đối chiếu mẫu và giao nhận; thiết bị/ảnh bằng chứng còn chờ.
+- [x] G4.3 code: Mẫu thành phẩm minh họa, bộ lọc và inquiry links; chưa có case khách hàng được phép công bố.
 - [ ] G5: Liên hệ và báo giá gửi thật, giữ đúng ngữ cảnh.
 - [ ] G6: Trang chủ đầy đủ, dữ liệu nhất quán với trang con.
 - [ ] G7: UI/functional QA, build, nội dung, media, SEO và phát hành đạt yêu cầu.
