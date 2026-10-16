@@ -6,7 +6,7 @@ import type { ProjectSampleSlug } from './projects';
 export const homeContent = {
   introduction: {
     eyebrow: 'VỀ SUNFLOWER',
-    title: 'Một đầu mối cho tem nhãn, bao bì và vật tư.',
+    title: ['Một đầu mối', 'cho tem nhãn,', 'bao bì và vật tư.'],
     description: 'Sunflower vừa cung ứng hàng hóa, nguyên vật liệu, vừa thực hiện thiết kế, gia công và sản xuất. Với từng nhu cầu, chúng tôi làm rõ sản phẩm cần cung cấp, các công đoạn cần thực hiện và quy cách bàn giao để cùng khách hàng thống nhất phương án.',
     approaches: ['Cung ứng nguyên vật liệu', 'Gia công từ vật liệu', 'Thiết kế và sản xuất'],
     link: { href: '/gioi-thieu', label: 'Tìm hiểu Sunflower' },
@@ -21,7 +21,7 @@ export const homeContent = {
   },
   collaboration: {
     eyebrow: 'CÁCH CHÚNG TÔI LÀM VIỆC',
-    title: 'Phối hợp theo từng yêu cầu, theo sát từng đơn hàng.',
+    title: ['Phối hợp theo từng yêu cầu,', 'theo sát từng đơn hàng.'],
     link: { href: '/nang-luc', label: 'Tìm hiểu cách làm việc' },
     items: [
       {
@@ -48,7 +48,7 @@ export const homeContent = {
   },
   capabilities: {
     eyebrow: 'NĂNG LỰC & HÌNH THỨC THỰC HIỆN',
-    title: 'Từ yêu cầu ban đầu đến phương án thực hiện.',
+    title: ['Từ yêu cầu ban đầu', 'đến phương án thực hiện.'],
     description: 'Một đơn hàng có thể cần thiết kế mới, gia công từ vật liệu hoặc cung ứng sản phẩm, vật tư. Phần việc được làm rõ trước khi chuẩn bị hàng hóa và triển khai.',
     mediaId: 'printing-press',
     link: { href: '/nang-luc', label: 'Xem năng lực và quy trình' },

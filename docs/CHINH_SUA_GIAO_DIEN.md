@@ -1,7 +1,7 @@
 # Sunflower — Kế hoạch chỉnh sửa giao diện
 
 > Ngày lập: 15/10/2026.  
-> Trạng thái: Đang triển khai. Lượt 1 làm bố cục Hero M2/M3/M4 và logo; lượt 2 làm choreography Hero M1. Lượt 3 bổ sung gallery sản phẩm lệch/nền cong và kính lúp + viewer tại Home/Mẫu thành phẩm cho ảnh đủ độ phân giải. Rollout màu/chữ/hình học sang các section/trang con khác còn chờ; các module chưa hoàn tất toàn site.
+> Trạng thái: Đang triển khai, cập nhật 16/10/2026. Lượt 1: Hero/logo; lượt 2: chuyển động Hero; lượt 3: gallery/kính lúp; lượt 4: màu/chữ/lớp giấy và reveal tại BrandIntroduction, WhySunflower, CapabilitiesFeature. Các section/trang con còn lại chưa rollout; bốn module chưa hoàn tất toàn site.
 > Mục tiêu: Hiện đại, nhiều hiệu ứng, bắt mắt, chuyên nghiệp và đột phá; không nghiệm thu một giao diện vẫn quá an toàn.
 
 Tài liệu này tổ chức công việc khắc phục bốn vấn đề của bản demo hiện tại. Đây không phải bản sao hoặc tài liệu thay thế [DESIGN.md](DESIGN.md), [STRUCTURE.md](STRUCTURE.md) và [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md). Khi triển khai, cập nhật token/contract thiết kế tại DESIGN.md, tiến độ và kết quả kiểm tra tại IMPLEMENTATION_PLAN.md; file này giữ phạm vi và checklist của đợt chỉnh sửa.
@@ -17,10 +17,12 @@ Tài liệu này tổ chức công việc khắc phục bốn vấn đề của 
 
 | Module | Vấn đề cần sửa | Kết quả cần thấy | Trạng thái |
 |---|---|---|---|
-| M1 | Ít hiệu ứng | Chuyển động có diễn biến, có tương tác và gắn với sản phẩm | Hero lượt 2; loupe/viewer chọn lọc Home và Mẫu thành phẩm lượt 3; rollout còn chờ |
-| M2 | Phối màu dễ đoán | Màu phối theo lớp và điểm nhấn, giảm nhịp xanh–trắng lặp lại | Hero lượt 1; gallery ngà/xanh nhạt cục bộ lượt 3; nhịp toàn trang còn chờ |
-| M3 | Khối vuông nhiều | Sản phẩm thoát khung, bố cục bất đối xứng và có chiều sâu | Hero lượt 1–2; gallery lệch/nền cong lượt 3; nối qua section còn chờ |
-| M4 | Chữ an toàn, nhạt nhẽo | Chữ trở thành thành phần thiết kế có cá tính và nhịp điệu | Đã áp dụng Hero lượt 1; còn lại chờ |
+| M1 | Ít hiệu ứng | Chuyển động có diễn biến, có tương tác và gắn với sản phẩm | Hero; loupe/viewer; lượt 4 thêm phrase/ảnh/đường kẻ tại ba section Home; rollout còn chờ |
+| M2 | Phối màu dễ đoán | Màu phối theo lớp và điểm nhấn, giảm nhịp xanh–trắng lặp lại | Hero/gallery; lượt 4 thêm hai trường xanh, ảnh màu và chuyển tiếp ngà; toàn site còn chờ |
+| M3 | Khối vuông nhiều | Sản phẩm thoát khung, bố cục bất đối xứng và có chiều sâu | Hero/gallery; lượt 4 thêm giấy lệch và bảng chồng ảnh; sản phẩm xuyên section còn chờ |
+| M4 | Chữ an toàn, nhạt nhẽo | Chữ trở thành thành phần thiết kế có cá tính và nhịp điệu | Hero; lượt 4 thêm ba variant và chữ đè mép giấy tại ba section Home; còn lại chờ |
+
+**Kiểm chứng lượt 4:** ba section Home đã có source và QA production local sáu viewport. Token/contract tại DESIGN.md mục 8; bằng chứng/giới hạn tại IMPLEMENTATION_PLAN.md. Không đánh dấu checklist toàn module bằng kết quả ba section.
 
 ## Module M1 — Tăng hiệu ứng và tương tác có chủ đích
 

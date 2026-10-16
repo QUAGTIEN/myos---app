@@ -264,6 +264,19 @@ Home's four featured products now use an open asymmetric 1.2:1 grid, an 80px off
 - **Fallback:** reduced-motion and coarse/no-hover input disable the moving lens while preserving the manual viewer. Server HTML/no-JS exposes “Xem ảnh gốc” links and hides inert JS buttons. Images, copy and inquiry links remain available. No native browser preference emulation or full no-JS browsing is implied by this contract; actual test limits are in IMPLEMENTATION_PLAN.md.
 - **Shape tokens:** `--gallery-curve: 160px` (96px mobile), `--gallery-offset: var(--space-10)`. The static product-photo cap uses `--inspection-photo-max: 550px` alongside the existing per-source bounds. Clipped media uses `overflow: clip` so focus cannot pan a hidden internal scroll area. Explicit sample-media width prevents aspect-ratio/min-height expansion on narrow screens.
 
+### Interface revision, pass 4 — 16/10/2026
+
+Scope: Home `BrandIntroduction`, `WhySunflower` and `CapabilitiesFeature`. Other sections and inner pages retain their existing layouts. Keep the original Vietnamese copy, photo provenance and illustration captions. No new media, palette or dependency.
+
+- **Statement / introduction:** ivory base, curved portrait and a pale-blue turned sheet underneath. On desktop the heading's ivory paper overlaps the photo boundary; body copy aligns with the right column. Mobile reads heading → photo/credit → copy. The first phrase carries emphasis, followed by two quieter lines.
+- **Ribbon / collaboration:** deep navy with a local bright-blue curved field, orange ordinals and CTA; full-color photos and captions outside images. A twelve-column asymmetric gallery alternates large/small photos with bounded offsets. Tablet uses two columns; mobile one. An ivory sweep connects to the following capability section.
+- **Process / capabilities:** emphasized final title phrase; three supply-model rows on an ivory sheet overlap a tall press photograph. A tilted hairline gives a paper edge. At 900px and below photo/credit precede the list without overlap. The image remains illustrative, never factory evidence.
+- **Motion:** phrase-rise leaves essential text opaque; horizontal, diagonal and bottom-up photo reveals give each section its own motion. Rules draw across supply rows. Reuse the existing observer, easing and 800ms duration; no new controller, idle loop or scroll pinning. Clip photos, never letters or credits. Reduced-motion removes the new transforms/masks/transitions; server HTML remains visible before enhancement.
+- **Type API:** server-rendered `SectionHeading` accepts a string or ordered phrase array; variant is `default`, `statement`, `ribbon` or `process`. Default/string consumers retain their appearance. Phrase spans preserve spaces and accessible heading text.
+- **Tokens:** `--editorial-title-size: clamp(3.5rem, 5.2vw, 5.5rem)`, `--editorial-curve: 160px`, `--editorial-paper-turn: -4deg`, `--editorial-line-distance: var(--space-4)`, `--editorial-row-offset: var(--space-10)`. Below 768px: title `clamp(2rem, 9.4vw, 3.5rem)`, curve `96px`, paper turn `-2deg`, line distance `var(--space-3)`. Existing spacing tokens control overlaps, edges and anchor offsets below the fixed header.
+
+This extends M1–M4 within three Home sections; whole-site rollout remains pending. Actual checks and limits are in IMPLEMENTATION_PLAN.md.
+
 ### Interface revision, pass 2 — 15/10/2026
 
 Home now progressively enhances the original Hero SVG with `src/lib/hero-motion.ts`. Its one-second entrance rotates the roll into position and opens the ribbon. A short native scroll range then changes roll rotation, ribbon length, the orange label's lift and the end print independently. This is an original dimensional SVG illustration, not a physical simulation or WebGL model. The scene stays inside Hero; the Hero–introduction crossing and material loupe remain pending. Earlier pass-1 notes describe the static starting point.

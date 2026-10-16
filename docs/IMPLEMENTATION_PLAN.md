@@ -6,7 +6,26 @@ Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, R
 
 ## 1. Mục tiêu và điểm xuất phát
 
-### Cập nhật hiện hành — chỉnh giao diện lượt 3, 15/10/2026
+### Cập nhật hiện hành — chỉnh giao diện lượt 4, 16/10/2026
+
+Đã triển khai `BrandIntroduction`, `WhySunflower`, `CapabilitiesFeature` trên Home. Giới thiệu có tiêu đề theo cụm đè mép ảnh, ảnh cong/lớp giấy xanh nhạt; phần phối hợp dùng ảnh lệch lớn/nhỏ, hai trường xanh và số cam, credit ngoài ảnh; phần năng lực có bảng ba hình thức trên lớp giấy chồng ảnh lớn. Mobile có thứ tự riêng, tablet giảm chồng lớp. Đường cong ngà nối phối hợp sang năng lực. Giữ đúng copy, nguồn ảnh cũ, Hero/logo/gallery/viewer và bảy route.
+
+`SectionHeading` có ba variant/title theo cụm, vẫn là Server Component. CSS cho chữ dịch theo cụm, ba hướng mở ảnh và đường kẻ theo hàng, dùng `MotionController` hiện có. Không thêm JS/controller/library/media. Chữ chính không chờ mask, credit không bị clip; reduced-motion bỏ mask/transform mới. Contract/token tại DESIGN.md mục 8.
+
+**Đối chiếu và sửa:** tham khảo nguyên tắc ảnh lệch/editorial split trong `02-staggered-value-cards.png`, `08-history-editorial-split.png`, không dùng lại asset hoặc bố cục nguyên bản. Bản cuối có màu ảnh rõ hơn, tỷ lệ khối lớn/nhỏ, ba nhịp chữ và lớp giấy tham gia bố cục. Đã chỉnh neo dưới header, giảm độ chồng ở tablet, bỏ chồng ở mobile. Đây là lớp bố cục 2D, không báo thành mô hình 3D mới.
+
+**Kiểm tra thực tế lượt 4:**
+
+- `npm run lint`, `npx tsc --noEmit`, `npm run build`: đạt; static export bảy route/404 và bảy payload aliases.
+- Production local IAB: ba section tại 390×844, 768×1024, 1024×768, 1440×900, 1920×1080, 320×740. Đã lưu screenshot/đo bố cục và xem ảnh đại diện từng kích thước; không tràn ngang hoặc tràn tiêu đề. Rà thêm bảng giấy/caption desktop và ảnh/list mobile. Ảnh năng lực lazy-load ban đầu chưa vào vùng nhìn ở 390px; sau cuộn đã tải đủ nguồn 1200px và hiển thị đúng.
+- Ba CTA dùng Enter tới đúng `/gioi-thieu/` hoặc `/nang-luc/`. Câu chuyện Sunflower tới giới thiệu, eyebrow dưới header. Kiểm hồi quy viewer Mực in: mở, Escape đóng/trả focus. Hero video xuất hiện trạng thái đang phát. Không console error trong phiên production đã đọc; không tái nghiệm thu mọi chức năng cũ.
+- HTTP/HTML bảy route 200, một H1/route, title riêng, không ID trùng. Ba variant chỉ ở Home; ba H2 giữ nguyên nội dung khi bỏ markup. SSR không bật motion ẩn ảnh. Đây là kiểm tra HTML, chưa browser tắt JavaScript đầy đủ.
+
+**Bằng chứng:** `C:/Users/pham quang tien/.codex/visualizations/2026/10/16/sunflower-interface-pass4/`: ảnh ba section/sáu viewport, `capabilities-composition-1440.png`, `capabilities-photo-390.png`, `layout-report.json`, `interaction-report.json`, `http-report.json`, `check-http.mjs`. Giữ ngoài source/public.
+
+**Còn lại/giới hạn:** chưa rollout mọi section/trang con; chưa Safari/Firefox, touch thật, native reduced-motion/Save-Data, text spacing/zoom toàn bộ hoặc audit WCAG/hiệu năng mới. Fallback được rà source/HTML, không coi là E2E preference. Media HD, macro/bằng chứng doanh nghiệp và endpoint form thật vẫn chờ. Giữ demo riêng tư; bàn giao trạng thái deploy theo kết quả Sites, không suy ra từ QA local.
+
+### Báo cáo trước — chỉnh giao diện lượt 3, 15/10/2026
 
 Đã đổi gallery bốn nhóm sản phẩm Home thành grid lệch 1.2:1, offset theo cột, nền ngà/xanh nhạt với cung cong và đường mép giấy. Tên nhóm có số thứ tự và liên kết tới catalogue anchor. Mobile xếp một cột; khu Mẫu thành phẩm Home giữ một mẫu lớn/hai mẫu phụ trên desktop và media toàn chiều rộng trên mobile. Hero/logo/scene cũ và bảy route được giữ.
 
