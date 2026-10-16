@@ -42,7 +42,6 @@ function MediaControls({ status, playing = false, retry = false, onToggle }: {
   return (
     <div className="media-controls">
       <div className="media-label">
-        <p className="media-caption">{heroMedia.caption}</p>
         <p id="hero-media-status" className="media-status" role="status">{status}</p>
       </div>
       <button

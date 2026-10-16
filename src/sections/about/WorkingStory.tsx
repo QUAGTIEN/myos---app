@@ -8,7 +8,7 @@ export function WorkingStory() {
     <Container className="working-story-layout">
       <div data-reveal="image-mask"><CompanyPhoto media={companyMedia.find(item => item.id === 'printing-workshop')!} sizes="(max-width: 767px) calc(100vw - 40px), 44vw" className="working-story-photo" /></div>
       <div>
-        <SectionHeading id="working-story-title" eyebrow="CÁCH CHÚNG TÔI LÀM VIỆC" title="Mỗi phương án bắt đầu từ một yêu cầu cụ thể." />
+        <SectionHeading id="working-story-title" eyebrow="CÁCH CHÚNG TÔI LÀM VIỆC" title={["Mỗi phương án bắt đầu", "từ một yêu cầu cụ thể."]} variant="process" />
         <div className="editorial-prose" data-reveal="right">
           <p>Cùng một loại tem nhãn hoặc bao bì có thể được sử dụng theo những cách khác nhau. Vì vậy, Sunflower bắt đầu bằng việc trao đổi sản phẩm cần làm, nội dung cần thể hiện, quy cách, số lượng và cách sử dụng.</p>
           <p>Từ thông tin đó, các phần việc được xác định: cung cấp hàng hóa, chuẩn bị vật liệu, thiết kế, duyệt mẫu hay triển khai sản xuất, gia công.</p>

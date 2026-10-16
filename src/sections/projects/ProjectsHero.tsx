@@ -14,7 +14,6 @@ export function ProjectsHero() {
       <figure className="sample-composition" data-reveal="scene" aria-label="Mẫu nhãn dệt và băng dính dùng đóng gói">
         <div className="sample-composition-back"><ProductImage slug="tem-det" sizes="(max-width: 767px) 65vw, 360px" priority /></div>
         <div className="sample-composition-front"><ProductImage slug="bang-dinh" sizes="(max-width: 767px) 70vw, 460px" priority /></div>
-        <figcaption>Hình ảnh sản phẩm minh họa</figcaption>
       </figure>
     </Container>
   </section>;

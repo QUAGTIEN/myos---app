@@ -55,7 +55,7 @@ export const homeContent = {
   },
   solutions: {
     eyebrow: 'GIẢI PHÁP THEO NHU CẦU',
-    title: 'Bắt đầu từ cách sản phẩm được sử dụng.',
+    title: ['Bắt đầu từ cách', 'sản phẩm được sử dụng.'],
     description: 'Nội dung cần thể hiện, vị trí gắn và cách đóng gói là cơ sở để lựa chọn nhóm tem nhãn, vật liệu và hình thức thực hiện.',
     featuredSlugs: ['nhan-dien-san-pham', 'nhan-may-mac', 'bao-bi-thuong-hieu'] satisfies readonly SolutionSlug[],
     link: { href: '/giai-phap', label: 'Khám phá các giải pháp' },
@@ -65,12 +65,11 @@ export const homeContent = {
     title: 'Nhìn gần hơn vào thành phẩm.',
     description: 'Quan sát hình thức, bề mặt và chi tiết để có thêm cơ sở trao đổi về sản phẩm bạn cần.',
     featuredSlugs: ['mau-bang-dinh', 'mau-tem-trang-to', 'mau-tem-det'] satisfies readonly ProjectSampleSlug[],
-    note: 'Hình ảnh sản phẩm minh họa từ bộ catalogue, không phải hồ sơ dự án khách hàng của Sunflower.',
     link: { href: '/du-an', label: 'Xem các mẫu thành phẩm' },
   },
   process: {
     eyebrow: 'QUY TRÌNH PHỐI HỢP',
-    title: 'Các bước phối hợp cùng Sunflower.',
+    title: ['Các bước phối hợp', 'cùng Sunflower.'],
     description: 'Từng đơn hàng đi theo các bước phù hợp với mặt hàng và hình thức thực hiện. Đơn cung ứng vật tư không cần qua toàn bộ công đoạn của một đơn thiết kế, sản xuất mới.',
     link: { href: '/nang-luc/#quy-trinh', label: 'Xem quy trình chi tiết' },
   },

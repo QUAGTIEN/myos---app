@@ -15,7 +15,6 @@ export function FeaturedProductCategories() {
       </div>
       <ProductDepthScene />
       <ProductGallery slugs={copy.featuredSlugs} />
-      <p className="section-media-note">Ảnh minh họa nhóm sản phẩm. Mẫu và quy cách được trao đổi theo từng yêu cầu.</p>
     </Container>
   </section>;
 }

@@ -1,7 +1,7 @@
 // Owner approved interface-only G5 on 15/10/2026. No recipient or endpoint exists.
 export const contactPresentation = {
   mode: 'preview',
-  notice: 'Bản minh họa — biểu mẫu chưa tiếp nhận yêu cầu.',
+  notice: 'Biểu mẫu chưa tiếp nhận yêu cầu.',
   explanation: 'Bạn có thể nhập và xem lại nội dung ngay trên trang. Thông tin chưa được gửi đến Sunflower.',
   reviewLabel: 'Xem lại yêu cầu',
   inactiveSendLabel: 'Gửi yêu cầu — chưa mở',

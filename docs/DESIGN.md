@@ -7,6 +7,10 @@
 
 ## 1. Design intent / What to borrow from Sonoco
 
+### Owner update — passes 5–6, 16/10/2026
+
+The owner explicitly requests removing visible “hình ảnh minh họa”, “sản phẩm minh họa” and similar annotations. This supersedes earlier UI-caption requirements below: product/company/video illustration labels and repeated provenance notices are no longer rendered. Keep provenance, photographer/provider, licenses and preview limitations in MEDIA_BRIEF.md and media registries. Do not relabel stock media as Sunflower factory evidence or customer projects. Remove illustrative contact values from the rendered website rather than presenting them as real. The disconnected form must still state that requests are not sent.
+
 ### Latest approved brief — modern, powerful, dimensional
 
 The owner's instruction on 14/10/2026 supersedes the earlier restrained-motion direction: **Sunflower must be professional and clean, yet visibly modern, powerful and eye-catching, with multiple purposeful effects, animation and 3D blocks. Traditional/dated corporate styling is unacceptable.** Motion and depth are part of the visual identity and acceptance criteria, not an optional polish pass.
@@ -263,6 +267,16 @@ Home's four featured products now use an open asymmetric 1.2:1 grid, an 80px off
 - **Touch/keyboard:** “Xem cận cảnh” opens a native modal with Close, a fixed-label “Kích thước gốc” toggle and a focusable scroll region. Default fits the photo; original mode shows native source pixels and allows horizontal/vertical panning. Enter, Tab/Shift+Tab wrapping, Escape, backdrop/close and focus return are supported; cleanup restores the page's prior overflow. No automatic popup.
 - **Fallback:** reduced-motion and coarse/no-hover input disable the moving lens while preserving the manual viewer. Server HTML/no-JS exposes “Xem ảnh gốc” links and hides inert JS buttons. Images, copy and inquiry links remain available. No native browser preference emulation or full no-JS browsing is implied by this contract; actual test limits are in IMPLEMENTATION_PLAN.md.
 - **Shape tokens:** `--gallery-curve: 160px` (96px mobile), `--gallery-offset: var(--space-10)`. The static product-photo cap uses `--inspection-photo-max: 550px` alongside the existing per-source bounds. Clipped media uses `overflow: clip` so focus cannot pan a hidden internal scroll area. Explicit sample-media width prevents aspect-ratio/min-height expansion on narrow screens.
+
+### Interface revision, passes 5–6 — 16/10/2026
+
+- **Home continuation:** solution entries become open horizontal ribbons with curved product media and oversized ordinals; the introduction spans the grid. The compact process has six numbered steps in two columns on deep navy, with drawing rules; mobile becomes a single ordered path. Preserve source order and readable step text throughout.
+- **Contact finish / Footer:** large phrase-based title, local blue/neutral arc and rounded orange action. An original three-label paper strip crosses the previous section boundary, with a turned final label. It is decorative and pointer-inert CSS geometry, not a new technical model. Footer has inquiry guidance, large decorative Sunflower lettering, seven navigation destinations and a back-to-top link. No sample contacts/development line.
+- **Interior pages:** shared phrase contrast in six H1s with different route compositions. About: two blue fields, curved portraits/story media and staggered principle rows. Products: ivory/blue scene, staggered open catalogue and curved media; retain 13 groups/disclosure. Solutions: left-aligned photo Hero, curved alternating media and paper inquiry goals. Capabilities: ivory photo Hero, stepped supply panels and progressive vertical timeline. Samples: layered photos, pill filters and asymmetric media. Contact: blue-arc heading and paper form panel, preparation guidance in place of fictional contacts.
+- **Motion:** existing observer drives `process-step` rules/state accents and `ribbon-open` clip reveal. Essential step copy stays opaque; the decorative strip preserves its paper angle. Reduced-motion removes new masks/rule transforms; no-JS retains static composition. No new controller, idle loop, media or dependency. Twelve interior section headings now reuse pass-4 server-rendered phrase variants without rewriting their wording.
+- **Tokens:** `--inner-statement-size: clamp(3rem, 4.7vw, 5.4rem)`, `--paper-overlap: var(--space-8)`, `--label-strip-turn: -10deg`, `--process-number-size: clamp(3rem, 5vw, 5rem)`. Below 768px: inner statement `clamp(2.3rem, 10vw, 3.7rem)`, overlap `var(--space-5)`, process number `44px`. Interior section titles use `clamp(2.7rem, 4vw, 4.4rem)` / mobile `clamp(2rem, 8.4vw, 3rem)`. Palette, Inter and timing tokens unchanged.
+
+QA is in IMPLEMENTATION_PLAN.md. Interface delivery across seven routes does not complete outstanding real media, content, form integration or public-release checks.
 
 ### Interface revision, pass 4 — 16/10/2026
 

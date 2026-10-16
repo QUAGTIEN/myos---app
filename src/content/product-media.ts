@@ -25,7 +25,7 @@ export const productMedia = [
     webSrc: '/images/products/tem-mau-cuon.webp',
     width: 635,
     height: 322,
-    alt: 'Các cuộn tem in màu với dải nhãn mở, minh họa nhiều hình dáng và mẫu in.',
+    alt: 'Các cuộn tem in màu với dải nhãn mở, thể hiện nhiều hình dáng và mẫu in.',
   },
   {
     slug: 'tem-mau-to',

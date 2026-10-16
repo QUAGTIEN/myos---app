@@ -15,7 +15,7 @@ export function SolutionsByIndustry() {
   return <section className="home-solutions section-space" aria-labelledby="home-solutions-title">
     <Container className="home-solutions-layout">
       <div className="home-solutions-intro">
-        <SectionHeading id="home-solutions-title" {...copy} />
+        <SectionHeading id="home-solutions-title" {...copy} variant="statement" />
         <ActionLink {...copy.link} />
       </div>
       <ul className="home-solution-list">
@@ -27,7 +27,6 @@ export function SolutionsByIndustry() {
               {media.kind === 'product'
                 ? <ProductImage slug={media.slug} sizes="(max-width: 600px) calc(100vw - 72px), 240px" />
                 : <CompanyPhoto media={companyMedia.find(item => item.id === media.id)!} sizes="240px" />}
-              <span className="home-image-label">Ảnh minh họa</span>
             </div>
             <div className="home-solution-copy"><span className="home-entry-number" aria-hidden="true">0{index + 1}</span><h3 id={`home-solution-${solution.slug}`}>{solution.label}</h3><p>{solution.problem}</p><span className="home-entry-action">Khám phá giải pháp <Arrow diagonal /></span></div>
           </Link>

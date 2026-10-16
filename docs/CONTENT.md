@@ -1,5 +1,15 @@
 # Sunflower — Nội dung website
 
+## Cập nhật hiển thị hiện hành — 16/10/2026, lượt 5–6
+
+Chủ dự án yêu cầu bỏ chữ thừa như “hình ảnh minh họa”, “sản phẩm minh họa”. Quyết định này thay các yêu cầu caption hiển thị trong phần G0/lịch sử bên dưới. Đã gỡ nhãn ở video/scene Hero, ảnh doanh nghiệp, sản phẩm, gallery/viewer, Giải pháp và Mẫu thành phẩm; giữ mô tả ảnh có ích trong alt và nguồn/quyền tại MEDIA_BRIEF.md/media registry. Không biến các ảnh đó thành chứng cứ nhà xưởng hoặc hồ sơ khách hàng.
+
+- Bộ lọc: “{số lượng} mẫu · {nhóm}”. Viewer: “CHI TIẾT SẢN PHẨM”. Ngữ cảnh form: “Mẫu tham khảo”.
+- Bỏ số điện thoại/email/địa chỉ/tên pháp lý giả khỏi Footer/Liên hệ. Footer dùng “Bắt đầu trao đổi” và hướng dẫn sản phẩm, quy cách, số lượng, địa điểm nhận hàng. Liên hệ dùng ba mục chuẩn bị: “Sản phẩm & mục đích sử dụng”, “Mẫu, kích thước & vật liệu”, “Số lượng & địa điểm nhận hàng”. Chưa có thông tin liên hệ chính thức để thay vào.
+- Bỏ “Bản xem website đang phát triển”. Footer có “Tem nhãn · Bao bì · Vật tư in ấn” và “Về đầu trang ↑”. Chữ Sunflower lớn là trang trí, loại khỏi accessibility tree.
+- Giữ “Biểu mẫu chưa tiếp nhận yêu cầu.” và thông tin “chưa gửi”, vì chức năng hiện tại chỉ nhập/xem lại tại chỗ. Không báo thành công hoặc gắn đích gửi giả.
+- Tiêu đề Giải pháp/Quy trình Home, CTA và 12 tiêu đề section trang con tách theo cụm nghĩa; câu đầy đủ/đích CTA vẫn giữ. Scene sản phẩm dùng câu gọn “Vật liệu, bề mặt in và hình thức bàn giao được xem xét cùng nhau trước khi chốt phương án.”.
+
 Ngày soạn: 14/10/2026. Trạng thái: đã viết bản nội dung G0 theo thông tin chủ doanh nghiệp cung cấp; chờ duyệt cách diễn đạt, ảnh thực tế và dữ liệu liên hệ chính thức. Chưa coi toàn bộ website hoặc G0 đã hoàn thành.
 
 Đây là tài liệu nội dung duy nhất để triển khai bảy trang trong [STRUCTURE.md](STRUCTURE.md). [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) được dùng để hiểu nghiệp vụ; không đưa giao diện, dữ liệu khách hàng hoặc thuật ngữ quản trị ERP vào nội dung tiếp thị. Media được quản lý tại [MEDIA_BRIEF.md](MEDIA_BRIEF.md).

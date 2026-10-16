@@ -97,11 +97,10 @@ export function ProductDepthScene({ compact = false }: { compact?: boolean }) {
   }
 
   return <figure className={`product-depth-scene${compact ? ' product-depth-scene-compact' : ''}`} data-reveal="scene" aria-label={compact ? 'Mô phỏng cuộn tem và các lớp vật liệu' : undefined} aria-labelledby={compact ? undefined : 'depth-scene-title'}>
-    {compact ? <figcaption className="depth-scene-compact-caption">Tem cuộn / Tem tờ<span>Minh họa 3D · Không phải quy cách kỹ thuật</span></figcaption> : <figcaption className="depth-scene-copy">
+    {compact ? <figcaption className="depth-scene-compact-caption">Tem cuộn / Tem tờ</figcaption> : <figcaption className="depth-scene-copy">
       <p className="depth-scene-eyebrow">CẤU TRÚC SẢN PHẨM</p>
       <h3 id="depth-scene-title">Từ lớp vật liệu đến cuộn tem hoàn thiện.</h3>
-      <p>Một mô phỏng trực quan cho cách vật liệu, bề mặt in và hình thức bàn giao được xem xét cùng nhau trước khi chốt phương án.</p>
-      <span>Minh họa 3D · Không phải quy cách kỹ thuật</span>
+      <p>Vật liệu, bề mặt in và hình thức bàn giao được xem xét cùng nhau trước khi chốt phương án.</p>
     </figcaption>}
     <div
       ref={stageRef}

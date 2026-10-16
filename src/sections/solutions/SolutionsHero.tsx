@@ -15,7 +15,6 @@ export function SolutionsHero() {
       <h1 id="solutions-title"><span data-reveal="hero-title">Chọn tem nhãn</span>{' '}<span data-reveal="hero-title" data-reveal-delay="1">từ cách bạn sử dụng.</span></h1>
       <p data-reveal="up" data-reveal-delay="2">Thông tin cần thể hiện, vị trí sử dụng và cách vận hành là cơ sở để lựa chọn tem nhãn, vật liệu hoặc thiết bị. Sunflower cùng bạn làm rõ yêu cầu trước khi xác định phương án.</p>
       <div data-reveal="up" data-reveal-delay="3"><ActionLink href="#nhu-cau" label="Tìm theo nhu cầu" variant="button" /></div>
-      <span className="solutions-hero-caption">Ảnh minh họa sản phẩm & đóng gói</span>
     </Container>
   </section>;
 }

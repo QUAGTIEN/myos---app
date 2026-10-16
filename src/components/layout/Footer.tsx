@@ -21,17 +21,13 @@ export function Footer() {
           <ul>{siteRoutes.map(item => <li key={item.href}><Link href={item.href}>{item.label}</Link></li>)}</ul>
         </nav>
         <div className="footer-contact">
-          <h2 className="footer-heading">Thông tin liên hệ</h2>
-          <p className="contact-illustration-notice">{company.contact.notice}</p>
-          <dl>
-            <div><dt>Điện thoại</dt><dd>{company.contact.phone}</dd></div>
-            <div><dt>Email</dt><dd>{company.contact.email}</dd></div>
-            <div><dt>Địa chỉ</dt><dd>{company.contact.address}</dd></div>
-          </dl>
+          <h2 className="footer-heading">Bắt đầu trao đổi</h2>
+          <p>Sản phẩm cần làm, quy cách, số lượng và địa điểm nhận hàng — những thông tin đầu tiên để cùng xác định phương án.</p>
           <Link className="footer-contact-link" href="/lien-he">Đến trang Liên hệ ↗</Link>
         </div>
       </div>
-      <div className="footer-bottom"><p>Sunflower · Tem nhãn, bao bì & vật tư in ấn</p><p>Bản xem website đang phát triển</p></div>
+      <p className="footer-signature" aria-hidden="true">SUNFLOWER<span>.</span></p>
+      <div className="footer-bottom"><p>Tem nhãn · Bao bì · Vật tư in ấn</p><a href="#main-content">Về đầu trang ↑</a></div>
     </Container>
   </footer>;
 }

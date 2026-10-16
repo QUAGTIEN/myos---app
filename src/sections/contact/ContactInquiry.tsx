@@ -11,7 +11,7 @@ export function ContactInquiry() {
       <div className="contact-inquiry-panel">
         <SectionHeading id="inquiry-title" eyebrow="BÁO GIÁ / TƯ VẤN / HỢP TÁC" title="Cho chúng tôi biết bạn cần gì." description="Những thông tin đã có sẽ giúp xác định phần cần trao đổi tiếp theo." />
         <Suspense fallback={<div className="inquiry-loading" aria-busy="true"><p>Đang chuẩn bị biểu mẫu…</p><span /><span /><span /></div>}><InquiryForm /></Suspense>
-        <noscript><p className="inquiry-no-script">Bản minh họa chưa tiếp nhận yêu cầu. Biểu mẫu xem lại thông tin cần JavaScript; thông tin doanh nghiệp ở bên cạnh vẫn có thể đọc trực tiếp.</p></noscript>
+        <noscript><p className="inquiry-no-script">Biểu mẫu chưa tiếp nhận yêu cầu. Cần bật JavaScript để nhập và xem lại thông tin.</p></noscript>
       </div>
     </Container>
   </section>;

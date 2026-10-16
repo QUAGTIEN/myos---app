@@ -128,13 +128,12 @@ export function ImageInspection({ media, name, sizes }: { media: ProductMedia; n
     </button>
     <dialog ref={dialogRef} className="inspection-dialog" aria-labelledby={titleId} aria-describedby={noteId} onKeyDown={keepViewerFocus} onClose={closeViewer} onClick={event => { if (event.target === event.currentTarget) dialogRef.current?.close(); }}>
       <div className="inspection-dialog-inner">
-        <div className="inspection-dialog-header"><div><p className="section-eyebrow">ẢNH SẢN PHẨM MINH HỌA</p><h2 id={titleId}>{name}</h2></div><button type="button" className="inspection-close" autoFocus aria-label="Đóng ảnh cận cảnh" onClick={() => dialogRef.current?.close()}>×</button></div>
+        <div className="inspection-dialog-header"><div><p className="section-eyebrow">CHI TIẾT SẢN PHẨM</p><h2 id={titleId}>{name}</h2></div><button type="button" className="inspection-close" autoFocus aria-label="Đóng ảnh cận cảnh" onClick={() => dialogRef.current?.close()}>×</button></div>
         <div className="inspection-toolbar"><button type="button" aria-pressed={originalSize} onClick={() => setOriginalSize(value => !value)}>Kích thước gốc</button><p id={noteId}>{originalSize ? 'Cuộn trong vùng ảnh để xem các chi tiết.' : 'Chọn Kích thước gốc để xem ảnh ở độ phân giải nguồn.'}</p></div>
         <div className="inspection-viewport" data-original={originalSize || undefined} tabIndex={0} role="region" aria-label={`Vùng ảnh ${name}`}>
           {open && <Image src={media.src} alt={media.alt} width={media.width} height={media.height} className="inspection-original" onError={() => setOriginalFailed(true)} style={originalSize ? { width: media.width, maxWidth: 'none' } : undefined} />}
           {originalFailed && <p role="alert" className="inspection-error">Chưa tải được ảnh cận cảnh. <a href={media.src} target="_blank" rel="noreferrer">Mở ảnh gốc trong thẻ mới ↗</a></p>}
         </div>
-        <p className="inspection-caption">Ảnh catalogue minh họa · Không phải hồ sơ dự án khách hàng Sunflower.</p>
       </div>
     </dialog>
   </div>;

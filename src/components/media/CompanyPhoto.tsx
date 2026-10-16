@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { CompanyMedia } from '@/content/company-media';
 
-// Illustration/credit stays attached to the photo in both editorial and feature layouts.
+// Provenance and credits are maintained in company-media.ts and MEDIA_BRIEF.md.
 export function CompanyPhoto({ media, sizes, className = '', priority = false }: {
   media: CompanyMedia;
   sizes: string;
@@ -12,6 +12,5 @@ export function CompanyPhoto({ media, sizes, className = '', priority = false }:
     <div className="company-photo-frame">
       <Image src={media.webSrc ?? media.src} alt={media.alt} fill sizes={sizes} priority={priority} className="editorial-image" />
     </div>
-    <figcaption>{media.caption} · {media.credit.photographer} / {media.credit.provider}</figcaption>
   </figure>;
 }

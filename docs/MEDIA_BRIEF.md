@@ -1,5 +1,9 @@
 # Sunflower — G0: Danh sách ảnh và video cần chuẩn bị
 
+### Cập nhật hiển thị — lượt 5–6, 16/10/2026
+
+Theo yêu cầu trực tiếp của chủ dự án, caption/nhãn “minh họa” và credit ảnh doanh nghiệp không còn hiển thị trên giao diện. Các yêu cầu caption ở ghi nhận cũ bên dưới là lịch sử. Nguồn, tác giả, quyền và giới hạn vẫn giữ trong tài liệu này và `src/content/company-media.ts`, `product-media.ts`, `hero.ts`; bộ ảnh/video không thay đổi byte hoặc nguồn. Không xác nhận ảnh stock là cơ sở Sunflower hay ảnh catalogue là dự án khách hàng. Watermark nằm trong footage hiện tại không bị chỉnh/xóa; footage HD được cấp phép vẫn là đầu vào cần bổ sung trước phát hành công khai. Dải ba nhãn tại CTA là CSS nguyên bản, không có asset bên ngoài mới.
+
 Ngày lập: 14/10/2026. Trạng thái: đã nhận và tích hợp video Hero minh họa người dùng chọn; đã nhận 9 ảnh catalogue, 5 ảnh Unsplash minh họa doanh nghiệp/ngành in và 1 ảnh văn phòng, đưa vào source G0. Người dùng chỉ định tiếp tục bằng bộ hiện có, bổ sung/chỉnh sửa ảnh sau; không chờ đủ bộ 35 ảnh để làm bản xem. Logo và ảnh xác thực cơ sở/nhân sự Sunflower vẫn đang chờ. Tài liệu này chi tiết hóa các vị trí ảnh trong [STRUCTURE.md](STRUCTURE.md) theo art direction của [DESIGN.md](DESIGN.md), không bổ sung trang/section.
 
 ### Cập nhật logo và minh họa Hero — 15/10/2026, lượt chỉnh giao diện 1

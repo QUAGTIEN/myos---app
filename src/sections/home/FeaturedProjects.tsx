@@ -23,7 +23,6 @@ export function FeaturedProjects() {
           </article>
         </li>)}
       </ul>
-      <p className="section-media-note">{copy.note}</p>
     </Container>
   </section>;
 }

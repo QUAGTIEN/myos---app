@@ -1,5 +1,7 @@
 # Sunflower — Corporate Website
 
+Lượt 5–6 (16/10/2026): hoàn thiện Giải pháp/Quy trình/CTA/Footer Home và triển khai hệ chữ theo cụm, ảnh cong/lớp giấy, bố cục lệch sang sáu trang con. Gỡ nhãn minh họa/credit lặp lại và contact giả khỏi UI theo yêu cầu; nguồn/quyền vẫn ở docs/media registry. Form tiếp tục báo chưa gửi, chưa có endpoint. Không thêm asset/thư viện. Kết quả QA bản production và giới hạn hiện hành tại docs/IMPLEMENTATION_PLAN.md; contract tại docs/DESIGN.md.
+
 Lượt chỉnh giao diện 4 (16/10/2026): làm lại BrandIntroduction, WhySunflower và CapabilitiesFeature trên Trang chủ bằng chữ theo cụm, ảnh lệch, hai trường xanh, mép giấy chồng ảnh và ba kiểu reveal. Giữ copy/media cũ, không thêm thư viện. Lint, TypeScript, build và QA production local sáu viewport đạt trong phạm vi này; ba CTA bằng bàn phím điều hướng đúng. Contract tại docs/DESIGN.md mục 8, bằng chứng/giới hạn tại docs/IMPLEMENTATION_PLAN.md. Các section/trang con còn lại chưa rollout.
 
 Chỉ dẫn làm việc dùng một file duy nhất ở gốc workspace: `../AGENTS.md`. File này áp dụng cho toàn bộ source trong `sunflower-website/`.

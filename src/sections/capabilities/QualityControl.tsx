@@ -4,7 +4,7 @@ import { SectionHeading } from '@/components/editorial/SectionHeading';
 export function QualityControl() {
   return <section className="quality-control section-space" aria-labelledby="quality-title">
     <Container className="quality-control-layout">
-      <SectionHeading id="quality-title" eyebrow="MẪU & THÔNG TIN ĐƠN HÀNG" title="Kiểm tra theo mẫu và thông tin đã thống nhất." />
+      <SectionHeading id="quality-title" eyebrow="MẪU & THÔNG TIN ĐƠN HÀNG" title={["Kiểm tra theo mẫu", "và thông tin đã thống nhất."]} variant="ribbon" />
       <div className="quality-control-copy" data-reveal="right">
         <p>Nội dung, quy cách và mẫu đã duyệt là cơ sở để đối chiếu các hạng mục cần thiết kế hoặc sản xuất.</p>
         <p>Sản phẩm và số lượng bàn giao được kiểm tra theo thông tin đơn hàng; các nội dung cần xử lý được trao đổi trong quá trình phối hợp.</p>

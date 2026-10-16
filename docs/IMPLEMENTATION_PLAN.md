@@ -6,7 +6,29 @@ Cơ sở: AGENTS.md duy nhất tại gốc workspace; DESIGN.md, STRUCTURE.md, R
 
 ## 1. Mục tiêu và điểm xuất phát
 
-### Cập nhật hiện hành — chỉnh giao diện lượt 4, 16/10/2026
+### Cập nhật hiện hành — chỉnh giao diện lượt 5–6, 16/10/2026
+
+Chủ dự án yêu cầu làm cả lượt 5/6 và bỏ các chữ thừa như “hình ảnh minh họa”, “sản phẩm minh họa”. Đã hoàn tất phạm vi code giao diện cho Home và sáu trang con, giữ bảy route/nội dung kinh doanh/hành trình báo giá. Các ghi nhận “chưa rollout” ở lượt trước bên dưới mô tả thời điểm cũ.
+
+**Lượt 5:** SolutionsByIndustry chuyển thành ba dải ảnh–nội dung mở với số lớn, tiêu đề phủ grid; ProcessPreview dùng sáu bước/hai cột trên navy và đường kẻ có diễn biến; mobile một cột. ContactCTA có chữ theo cụm, mảng cong, nút cam bo tròn và dải ba nhãn CSS nổi qua ranh giới section. Footer có chữ Sunflower lớn, hướng dẫn bắt đầu trao đổi và back-to-top thật. Giảm khoảng trắng giữa hai section ngà, sửa neo dưới Header và màu mũi tên trên nền tối qua đối chiếu.
+
+**Lượt 6:** sáu Hero và các section dùng ngôn ngữ chung nhưng bố cục riêng. Giới thiệu có trường xanh/ảnh cong và nhịp nguyên tắc lệch; Sản phẩm có sân khấu ngà–xanh, catalogue lệch/ảnh cong; Giải pháp có Hero ảnh căn trái và mục tiêu trên giấy; Năng lực có ảnh cao, ba hình thức lệch và timeline dọc; Mẫu thành phẩm có ảnh lớp/bộ lọc viên và gallery bất đối xứng; Liên hệ có Hero cung xanh và form trên nền giấy. 12 H2 tách cụm giữ nguyên câu. ProcessTimeline/ContactCTA dùng observer cũ, không thêm JS controller, dependency hoặc media. Contract/token tại DESIGN.md mục 8.
+
+**Dọn copy theo yêu cầu:** gỡ nhãn/video/photo/scene/gallery/viewer và ghi chú minh họa lặp lại; registry nguồn/credit/quyền vẫn giữ. Bỏ contact mẫu và dòng “Bản xem website đang phát triển” khỏi UI. ContactDetails thay bằng ba thông tin nên chuẩn bị, Footer dẫn sang Liên hệ. Không tự tạo dữ liệu liên hệ thật hoặc đổi ảnh stock thành hồ sơ Sunflower. Notice “Biểu mẫu chưa tiếp nhận yêu cầu.”/“chưa gửi” vẫn cần để phản ánh chức năng thực. Quyết định mới thay yêu cầu caption UI cũ, không thay nguồn/quyền media.
+
+**Kiểm tra thực tế:**
+
+- Lint, `npx tsc --noEmit`, production build đạt; đã build lại sau sửa CSS/alt cuối, export bảy route/404 và bảy payload aliases. Không đổi package/dependency.
+- IAB production local: đo/chụp 42 bố cục màn hình đầu (bảy route × 1920×1080, 1440×900, 1024×768, 768×1024, 390×844, 320×740), thêm 22 điểm section ở 1440/390. Không tràn ngang hoặc text overflow tại các điểm kiểm. Đã xem ảnh đại diện desktop/mobile/tablet, catalogue, các hình thức, quy trình, CTA/nhãn và Footer. Ảnh matrix có thể ghi trong lúc reveal/resize; ảnh `*-final-*` được chụp riêng sau quan sát để đối chiếu trạng thái hoàn chỉnh.
+- HTTP/HTML bảy route đều 200, một H1 và title riêng, không ID trùng, giữ noindex; 43 đích nội bộ/anchor hợp lệ. Không có nhãn minh họa hoặc contact giả trong text render. Không có video trong sáu trang con. HTML fallback giữ nội dung/đường dẫn; chưa phiên browser tắt JS hoàn toàn.
+- Bộ lọc Mẫu thành phẩm: Tem nhãn 3 / Nhãn may mặc 1 / Bao bì 1 / Thẻ bài 1 / Tất cả 6. Viewer Tem dệt mở bằng Enter, Escape đóng/trả focus đúng trigger. Luồng mẫu dệt → Liên hệ giữ mẫu/sản phẩm/nhu cầu; catalogue Tem trắng cuộn → Liên hệ đúng prefill; Giải pháp Nhận diện → Liên hệ đúng nhu cầu.
+- Form trống trả ba lỗi; điền dữ liệu kiểm tra tổng hợp thì xem lại đúng, nút gửi thật disabled; quay lại sửa giữ nội dung. Không có gửi thật. Menu mobile mở, Escape kết thúc animation rồi đóng/trả focus đúng. Footer back-to-top đưa hash/focus về main-content. Console production đã đọc không có error.
+
+**Bằng chứng:** `C:/Users/pham quang tien/.codex/visualizations/2026/10/16/sunflower-interface-pass56/`: ảnh route/section và ảnh final, `layout-report.json`, `section-report.json`, `interaction-report.json`, `console-errors.json`, `http-report.json`, harness `check-site.mjs`. Không đưa ảnh/script QA vào source/public.
+
+**Giới hạn/đầu vào còn chờ:** hoàn tất hai lượt giao diện, chưa phải website doanh nghiệp sẵn phát hành công khai. Chưa native reduced-motion/Save-Data/no-JS browser, screen reader, Safari/Firefox, touch thật, text-spacing/zoom toàn site hay audit WCAG/hiệu năng mới. Nhánh mới được rà CSS/HTML, không báo thành E2E preference. Chưa dữ liệu liên hệ thật/endpoint, footage HD có quyền phát hành hoặc hồ sơ doanh nghiệp/dự án thật. Giữ audience riêng tư và noindex; kết quả push/deploy được báo riêng theo SHA thực tế.
+
+### Báo cáo trước — chỉnh giao diện lượt 4, 16/10/2026
 
 Đã triển khai `BrandIntroduction`, `WhySunflower`, `CapabilitiesFeature` trên Home. Giới thiệu có tiêu đề theo cụm đè mép ảnh, ảnh cong/lớp giấy xanh nhạt; phần phối hợp dùng ảnh lệch lớn/nhỏ, hai trường xanh và số cam, credit ngoài ảnh; phần năng lực có bảng ba hình thức trên lớp giấy chồng ảnh lớn. Mobile có thứ tự riêng, tablet giảm chồng lớp. Đường cong ngà nối phối hợp sang năng lực. Giữ đúng copy, nguồn ảnh cũ, Hero/logo/gallery/viewer và bảy route.
 

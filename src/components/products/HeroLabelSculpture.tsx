@@ -13,7 +13,7 @@ export function HeroLabelSculpture({ animate = false }: { animate?: boolean }) {
     return startHeroMotion(figureRef.current, { intro: !introPlayed.current, onIntro: () => { introPlayed.current = true; } });
   }, [animate]);
 
-  return <figure ref={figureRef} id="hero-product-scene" className="hero-sculpture">
+  return <figure ref={figureRef} id="hero-product-scene" className="hero-sculpture" aria-label="Cuộn tem và dải nhãn">
     <svg viewBox="0 0 720 620" fill="none" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="hero-roll-paper" x1="205" y1="230" x2="540" y2="385" gradientUnits="userSpaceOnUse"><stop stopColor="var(--surface-warm)" /><stop offset=".43" stopColor="var(--on-dark)" /><stop offset="1" stopColor="var(--hero-paper-edge)" /></linearGradient>
@@ -52,6 +52,5 @@ export function HeroLabelSculpture({ animate = false }: { animate?: boolean }) {
         <path d="M329 434L262 479" stroke="var(--hero-paper-line)" strokeDasharray="3 5" />
       </g>
     </svg>
-    <figcaption><span className="hero-material-dot" aria-hidden="true" />Tem cuộn / Minh họa sản phẩm</figcaption>
   </figure>;
 }

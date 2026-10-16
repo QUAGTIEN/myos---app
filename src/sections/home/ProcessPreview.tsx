@@ -8,7 +8,7 @@ export function ProcessPreview() {
   const copy = homeContent.process;
   return <section className="home-process section-space" aria-labelledby="home-process-title">
     <Container>
-      <div className="section-topline"><SectionHeading id="home-process-title" {...copy} /><ActionLink {...copy.link} /></div>
+      <div className="section-topline"><SectionHeading id="home-process-title" {...copy} variant="ribbon" /><ActionLink {...copy.link} /></div>
       <ProcessTimeline compact />
     </Container>
   </section>;

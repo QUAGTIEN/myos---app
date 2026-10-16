@@ -43,6 +43,5 @@ export function ProductCatalogue() {
         </div>
       </Container>
     </section>)}
-    <Container><p className="catalogue-media-note">Ảnh sản phẩm mang tính minh họa. Vật liệu, quy cách, model và phương án thực hiện được trao đổi theo yêu cầu cụ thể.</p></Container>
   </div>;
 }

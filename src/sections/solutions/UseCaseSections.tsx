@@ -15,7 +15,7 @@ export function UseCaseSections() {
       return <section id={solution.slug} key={solution.slug} className={`use-case section-space${index % 2 ? ' use-case-reversed' : ''}${index === 2 ? ' use-case-blue' : ''}`} aria-labelledby={`${solution.slug}-title`}>
       <Container className="use-case-layout">
         <div className="use-case-media" data-reveal="image-mask">
-          {media.kind === 'product' ? <figure className="use-case-product-photo"><div className="use-case-product-frame"><ProductImage slug={media.slug} sizes="(max-width: 767px) calc(100vw - 88px), 560px" /></div><figcaption>Ảnh minh họa sản phẩm · {productCategories.find(item => item.slug === media.slug)?.name}</figcaption></figure> : <CompanyPhoto media={companyMedia.find(item => item.id === media.id)!} sizes="(max-width: 767px) calc(100vw - 40px), 50vw" />}
+          {media.kind === 'product' ? <figure className="use-case-product-photo"><div className="use-case-product-frame"><ProductImage slug={media.slug} sizes="(max-width: 767px) calc(100vw - 88px), 560px" /></div></figure> : <CompanyPhoto media={companyMedia.find(item => item.id === media.id)!} sizes="(max-width: 767px) calc(100vw - 40px), 50vw" />}
         </div>
         <div className="use-case-copy">
           <div data-reveal={index % 2 ? 'left' : 'right'}>
@@ -34,6 +34,5 @@ export function UseCaseSections() {
       </Container>
     </section>;
     })}
-    <Container><p className="catalogue-media-note">Các nhu cầu trên là nội dung để trao đổi phương án, không phải danh mục dự án hoặc khách hàng đã thực hiện.</p></Container>
   </div>;
 }

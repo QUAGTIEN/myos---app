@@ -65,7 +65,7 @@ function InquiryFormContent({ context }: { context: InquiryContext }) {
     {context.hasInvalidSelection && <p className="inquiry-context-notice" role="status">Một lựa chọn trong liên kết không hợp lệ hoặc không còn trong danh mục. Bạn có thể chọn lại sản phẩm, nhu cầu bên dưới.</p>}
     {(selectedProduct || selectedSolution || selectedSample) && <div className="inquiry-context-summary" aria-label="Nội dung đang quan tâm">
       <p className="inquiry-context-label">BẠN ĐANG QUAN TÂM</p>
-      {selectedSample && <div className="inquiry-sample-context"><div><span>Mẫu minh họa</span><strong>{selectedSample.title}</strong></div><button type="button" onClick={() => updateField('projectSlug', '')} aria-label="Bỏ mẫu tham khảo">Bỏ mẫu <span aria-hidden="true">×</span></button></div>}
+      {selectedSample && <div className="inquiry-sample-context"><div><span>Mẫu tham khảo</span><strong>{selectedSample.title}</strong></div><button type="button" onClick={() => updateField('projectSlug', '')} aria-label="Bỏ mẫu tham khảo">Bỏ mẫu <span aria-hidden="true">×</span></button></div>}
       <ul>{selectedProduct && <li><span>Sản phẩm</span><strong>{selectedProduct.name}</strong></li>}{selectedSolution && <li><span>Nhu cầu</span><strong>{selectedSolution.label}</strong></li>}</ul>
       {selectedProduct && <p className="inquiry-context-hint">Nên chuẩn bị: {selectedProduct.inquiryHint}</p>}
     </div>}
