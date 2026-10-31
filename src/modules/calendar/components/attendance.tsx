@@ -8,11 +8,13 @@ import { PageSkeleton } from "@/components/page-ui";
 import { useEffect, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 import {
-  BriefcaseBusiness,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ImageDown,
   Pencil,
   Plus,
+  TableProperties,
 } from "lucide-react";
 import { calendarColors, calendarError, localTime } from "../model";
 import {
@@ -30,6 +32,11 @@ import {
   useAttendanceActivities,
   useAttendanceMonth,
 } from "../attendance-repository";
+import {
+  attendanceImageName,
+  renderAttendanceImage,
+  saveAttendanceImage,
+} from "../attendance-export";
 import { CalendarDialog } from "./dialogs";
 
 export function Attendance({
@@ -61,15 +68,15 @@ export function Attendance({
     operation();
   }
   const loadingError = activities.error ? calendarError(activities.error) : "";
+  const canCreate =
+    !busy &&
+    !loadingError &&
+    !activities.loading &&
+    (activities.data?.length ?? 0) < 50;
   return (
     <div className="attendance-module">
-      <div className="attendance-heading">
-        <span className="attendance-activity-label">Công việc</span>
-        <div
-          className="attendance-activities"
-          role="group"
-          aria-label="Loại công việc"
-        >
+      <div className="attendance-bar">
+        <div className="attendance-tables" role="group" aria-label="Bảng công">
           {[...(activities.data ?? [])]
             .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
             .map((item) => (
@@ -78,13 +85,17 @@ export function Attendance({
                 size="default"
                 type="button"
                 key={item.id}
+                className="attendance-table-chip"
                 disabled={busy}
                 aria-pressed={activity?.id === item.id}
                 onClick={() => navigate(() => setSelected(item.id))}
               >
-                <span>
-                  <strong>{item.name}</strong>
-                </span>
+                <span
+                  className="attendance-dot"
+                  style={{ background: calendarColors[item.color] }}
+                  aria-hidden="true"
+                />
+                <strong>{item.name}</strong>
               </Button>
             ))}
         </div>
@@ -92,16 +103,12 @@ export function Attendance({
           variant="default"
           size="default"
           type="button"
-          className="button primary"
-          disabled={
-            busy ||
-            !!loadingError ||
-            activities.loading ||
-            (activities.data?.length ?? 0) >= 50
-          }
+          className="button primary attendance-create"
+          disabled={!canCreate}
           onClick={() => setEditing("new")}
         >
-          Tạo công việc
+          <Plus size={16} aria-hidden="true" />
+          Tạo bảng công
         </Button>
       </div>
       {loadingError && (
@@ -118,12 +125,22 @@ export function Attendance({
           </Button>
         </p>
       )}
-      {activities.loading && <p role="status">Đang tải công việc…</p>}
+      {activities.loading && <p role="status">Đang tải bảng công…</p>}
       {!activity && !activities.loading && !loadingError && (
         <div className="panel attendance-empty">
-          <BriefcaseBusiness size={30} />
-          <h3>Chưa có công việc</h3>
-          <p>Tạo công việc để mở bảng chấm công theo tháng.</p>
+          <TableProperties size={30} />
+          <h3>Chưa có bảng công</h3>
+          <p>Tạo bảng công để chấm công theo từng tháng.</p>
+          <Button
+            variant="default"
+            type="button"
+            className="button primary"
+            disabled={!canCreate}
+            onClick={() => setEditing("new")}
+          >
+            <Plus size={16} aria-hidden="true" />
+            Tạo bảng công
+          </Button>
         </div>
       )}
       {activity && (
@@ -184,14 +201,14 @@ function ActivityForm({
       !pending &&
       ((name === (activity?.name ?? "") &&
         color === (activity?.color ?? "turquoise")) ||
-        window.confirm("Bỏ thay đổi công việc chưa lưu?"))
+        window.confirm("Bỏ thay đổi bảng công chưa lưu?"))
     )
       onClose();
   }
   return (
     <CalendarDialog
-      title={activity ? "Sửa công việc" : "Tạo công việc"}
-      description="Mỗi công việc có bảng chấm công theo tháng riêng."
+      title={activity ? "Sửa bảng công" : "Tạo bảng công"}
+      description="Mỗi bảng công được chấm riêng theo từng tháng."
       onClose={close}
       pending={pending}
     >
@@ -228,7 +245,7 @@ function ActivityForm({
       >
         <fieldset disabled={pending}>
           <label>
-            Tên công việc
+            Tên bảng công
             <Input
               autoFocus
               required
@@ -271,9 +288,9 @@ function ActivityForm({
                 if (
                   lock.current ||
                   !window.confirm(
-                    "Xóa công việc “" +
+                    "Xóa bảng công “" +
                       activity.name +
-                      "” và các bảng chấm công của công việc này?",
+                      "” và toàn bộ dữ liệu chấm công các tháng?",
                   )
                 )
                   return;
@@ -291,7 +308,7 @@ function ActivityForm({
                 }
               }}
             >
-              Xóa công việc
+              Xóa bảng công
             </Button>
           )}
           <Button
@@ -311,7 +328,7 @@ function ActivityForm({
             className="button primary"
             disabled={pending}
           >
-            {pending ? "Đang lưu…" : "Lưu công việc"}
+            {pending ? "Đang lưu…" : "Lưu bảng công"}
           </Button>
         </div>
       </form>
@@ -392,6 +409,11 @@ function MonthEditor({
   const lock = useRef(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState("");
+  const [preview, setPreview] = useState<{ blob: Blob; url: string } | null>(
+    null,
+  );
   const dirty =
     JSON.stringify(entries) !== JSON.stringify(baseline?.entries ?? []);
   const externalChange = (saved?.version ?? 0) > (baseline?.version ?? 0);
@@ -518,6 +540,36 @@ function MonthEditor({
       setPending(false);
     }
   }
+  const monthStart = localTime(month + "-01").setLocale("vi");
+  const monthLength = monthStart.daysInMonth!;
+  const markedCount = entries.filter(isAttendanceMarked).length;
+  const saveState = pending
+    ? "Đang lưu…"
+    : error
+      ? "Chưa lưu được"
+      : dirty
+        ? "Chờ lưu…"
+        : message;
+  function shiftMonth(offset: number) {
+    return monthStart.plus({ months: offset }).toFormat("yyyy-MM");
+  }
+  async function exportImage() {
+    if (exporting) return;
+    setExporting(true);
+    setExportError("");
+    try {
+      const blob = await renderAttendanceImage({ activity, month, entries });
+      setPreview({ blob, url: URL.createObjectURL(blob) });
+    } catch (cause) {
+      setExportError(calendarError(cause));
+    } finally {
+      setExporting(false);
+    }
+  }
+  function closePreview() {
+    if (preview) URL.revokeObjectURL(preview.url);
+    setPreview(null);
+  }
   function apply(date: string, note: string) {
     setEntries((current) =>
       [
@@ -593,94 +645,120 @@ function MonthEditor({
   return (
     <div className="attendance-workspace">
       <section className="panel attendance-panel" aria-label="Bảng chấm công">
-        <div className="schedule-toolbar attendance-toolbar">
-          <div className="attendance-board-heading">
-            <h2>{activity.name}</h2>
+        <header className="attendance-board-bar">
+          <div className="attendance-board-title">
+            <span
+              className="attendance-dot"
+              style={{ background: calendarColors[activity.color] }}
+              aria-hidden="true"
+            />
+            <div>
+              <h2>{activity.name}</h2>
+              <p>
+                <span>
+                  {markedCount}/{monthLength} ngày đã chấm
+                </span>
+                <span
+                  className="attendance-save-state"
+                  aria-live="polite"
+                  hidden={mobile && !!editingDay}
+                >
+                  {saveState}
+                </span>
+              </p>
+            </div>
             <Button
               variant="ghost"
               size="icon"
               type="button"
               className="icon-button"
-              aria-label="Sửa công việc"
-              title="Sửa công việc"
+              aria-label="Sửa bảng công"
+              title="Sửa bảng công"
               onClick={onEditActivity}
               disabled={pending}
             >
-              <Pencil size={17} />
+              <Pencil size={16} />
             </Button>
           </div>
-          <div className="schedule-period">
-            <div className="calendar-controls">
-              <Button
-                variant="ghost"
-                size="icon"
-                type="button"
-                className="icon-button"
-                aria-label="Tháng trước"
-                disabled={pending || month === "2000-01"}
-                onClick={() =>
-                  onMonth(
-                    localTime(month + "-01")
-                      .minus({ months: 1 })
-                      .toFormat("yyyy-MM"),
+          <div className="attendance-month-nav">
+            <Button
+              variant="ghost"
+              size="icon"
+              type="button"
+              className="icon-button"
+              aria-label="Tháng trước"
+              disabled={pending || month === "2000-01"}
+              onClick={() => onMonth(shiftMonth(-1))}
+            >
+              <ChevronLeft size={18} />
+            </Button>
+            <label className="attendance-month-picker">
+              <span>{monthStart.toFormat("'Tháng' M, yyyy")}</span>
+              <ChevronDown size={15} aria-hidden="true" />
+              <input
+                type="month"
+                aria-label="Chọn tháng chấm công"
+                min="2000-01"
+                max="2100-12"
+                value={month}
+                disabled={pending}
+                onClick={(event) => {
+                  try {
+                    event.currentTarget.showPicker();
+                  } catch {
+                    // Trình duyệt tự mở bộ chọn khi chạm vào ô.
+                  }
+                }}
+                onChange={(event) => {
+                  if (
+                    event.target.value >= "2000-01" &&
+                    event.target.value <= "2100-12"
                   )
-                }
-              >
-                <ChevronLeft size={18} />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                type="button"
-                className="icon-button"
-                aria-label="Tháng sau"
-                disabled={pending || month === "2100-12"}
-                onClick={() =>
-                  onMonth(
-                    localTime(month + "-01")
-                      .plus({ months: 1 })
-                      .toFormat("yyyy-MM"),
-                  )
-                }
-              >
-                <ChevronRight size={18} />
-              </Button>
-            </div>
-            <h3>
-              {localTime(month + "-01")
-                .setLocale("vi")
-                .toFormat("'Tháng' M 'năm' yyyy")}
-            </h3>
+                    onMonth(event.target.value);
+                }}
+              />
+            </label>
+            <Button
+              variant="ghost"
+              size="icon"
+              type="button"
+              className="icon-button"
+              aria-label="Tháng sau"
+              disabled={pending || month === "2100-12"}
+              onClick={() => onMonth(shiftMonth(1))}
+            >
+              <ChevronRight size={18} />
+            </Button>
           </div>
-          <Input
-            type="month"
-            aria-label="Tháng chấm công"
-            min="2000-01"
-            max="2100-12"
-            value={month}
-            disabled={pending}
-            onChange={(event) => {
-              if (
-                event.target.value >= "2000-01" &&
-                event.target.value <= "2100-12"
-              )
-                onMonth(event.target.value);
-            }}
-          />
-        </div>
-        <div
-          className="attendance-save-state"
-          aria-live="polite"
-          hidden={mobile && !!editingDay}
-        >
-          {pending
-            ? "Đang lưu…"
-            : error
-              ? "Chưa lưu được"
-              : dirty
-                ? "Chờ lưu…"
-                : message}
-        </div>
+          {month !== today.slice(0, 7) && (
+            <Button
+              variant="outline"
+              type="button"
+              className="button secondary attendance-current-month"
+              disabled={pending}
+              onClick={() => onMonth(today.slice(0, 7))}
+            >
+              Tháng này
+            </Button>
+          )}
+          <Button
+            variant="outline"
+            type="button"
+            className="button secondary attendance-export"
+            aria-label="Xuất bảng công dạng ảnh"
+            title="Xuất bảng công dạng ảnh"
+            disabled={exporting}
+            onClick={() => void exportImage()}
+          >
+            <ImageDown size={16} aria-hidden="true" />
+            <span>{exporting ? "Đang tạo…" : "Xuất ảnh"}</span>
+          </Button>
+        </header>
+        {exportError && (
+          <p className="schedule-error" role="alert">
+            {exportError}
+          </p>
+        )}
         {(error || dataError || externalChange) && (
           <p
             className="schedule-error"
@@ -863,6 +941,48 @@ function MonthEditor({
                 </Button>
               </p>
             )}
+          </CalendarDialog>
+        )}
+        {preview && (
+          <CalendarDialog
+            title="Xuất bảng công"
+            description={
+              activity.name + " · " + monthStart.toFormat("'Tháng' M/yyyy")
+            }
+            showDescription
+            onClose={closePreview}
+          >
+            <div className="attendance-export-preview">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={preview.url}
+                alt={"Bảng công " + activity.name + " tháng " + month}
+              />
+            </div>
+            <div className="schedule-dialog-actions">
+              <Button
+                variant="outline"
+                type="button"
+                className="button secondary"
+                onClick={closePreview}
+              >
+                Đóng
+              </Button>
+              <Button
+                variant="default"
+                type="button"
+                className="button primary"
+                onClick={() =>
+                  void saveAttendanceImage(
+                    preview.blob,
+                    attendanceImageName(activity, month),
+                  )
+                }
+              >
+                <ImageDown size={16} aria-hidden="true" />
+                Lưu ảnh PNG
+              </Button>
+            </div>
           </CalendarDialog>
         )}
       </section>

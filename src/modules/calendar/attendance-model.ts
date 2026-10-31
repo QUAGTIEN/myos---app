@@ -18,7 +18,7 @@ export const attendanceId = z
     "Mã bảng chấm công không hợp lệ.",
   );
 export const activityInputSchema = z.object({
-  name: z.string().trim().min(1, "Nhập tên công việc.").max(80),
+  name: z.string().trim().min(1, "Nhập tên bảng công.").max(80),
   color: z.enum(
     Object.keys(calendarColors) as [
       keyof typeof calendarColors,
