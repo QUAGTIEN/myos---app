@@ -138,13 +138,13 @@ export async function renderAttendanceImage({
 
   // Tiêu đề.
   context.textAlign = "center";
-  setFont(context, 34, 700);
-  context.letterSpacing = "3px";
-  context.fillText("BẢNG CHẤM CÔNG", width / 2, 84);
+  setFont(context, 40, 700);
+  context.letterSpacing = "4px";
+  context.fillText("THÁNG " + start.month, width / 2, 82);
   context.letterSpacing = "0px";
-  setFont(context, 20, 400, "italic");
+  setFont(context, 22, 400, "italic");
   context.fillText(
-    "Tháng " + start.month + " năm " + start.year,
+    clamp(context, activity.name, 720, 1)[0] ?? "",
     width / 2,
     124,
   );
@@ -152,22 +152,18 @@ export async function renderAttendanceImage({
 
   context.textAlign = "left";
   setFont(context, 18, 700);
-  const label = "Công việc: ";
+  const label = "Thời gian: ";
   context.fillText(label, margin, 194);
   const labelWidth = context.measureText(label).width;
   setFont(context, 18);
   context.fillText(
-    clamp(context, activity.name, 560, 1)[0] ?? "",
+    start.toFormat("01/MM/yyyy") + " – " + total + start.toFormat("/MM/yyyy"),
     margin + labelWidth,
     194,
   );
   context.textAlign = "right";
   setFont(context, 18);
-  context.fillText(
-    "Số ngày chấm công: " + marked + "/" + total,
-    width - margin,
-    194,
-  );
+  context.fillText("Số buổi chấm công: " + marked, width - margin, 194);
 
   // Lưới lịch.
   context.fillStyle = "#f1f1f1";
@@ -241,7 +237,7 @@ export async function renderAttendanceImage({
   setFont(context, 17, 700);
   context.fillStyle = ink;
   context.fillText(
-    "Tổng cộng: " + marked + " ngày công",
+    "Tổng cộng: " + marked + " buổi",
     width - margin,
     summaryTop,
   );
