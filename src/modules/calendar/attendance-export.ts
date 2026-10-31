@@ -2,49 +2,41 @@ import { calendarColors, localTime } from "./model";
 import {
   attendanceText,
   isAttendanceMarked,
+  monthDays,
   type AttendanceActivity,
   type AttendanceEntry,
 } from "./attendance-model";
 
-const width = 1200;
-const padding = 56;
-const font = '"Be Vietnam Pro", Arial, sans-serif';
-const palette = {
-  ink: "#07334a",
-  muted: "#536779",
-  line: "#dbe2ec",
-  soft: "#f5f7fb",
-  weekend: "#fbf6ef",
-  weekendInk: "#95541c",
-  background: "#ffffff",
-};
-const columns = [
-  { title: "Ngày", width: 120 },
-  { title: "Thứ", width: 120 },
-  { title: "Trạng thái", width: 170 },
-  { title: "Nội dung", width: width - padding * 2 - 410 },
+// Bố cục theo kiểu văn bản hành chính: chữ có chân, kẻ ô vuông, một màu nhấn.
+const width = 1240;
+const margin = 72;
+const font = '"Times New Roman", "Noto Serif", Georgia, serif';
+const ink = "#1b1b1b";
+const muted = "#5a5a5a";
+const rule = "#8f8f8f";
+const weekdayNames = [
+  "Chủ nhật",
+  "Thứ hai",
+  "Thứ ba",
+  "Thứ tư",
+  "Thứ năm",
+  "Thứ sáu",
+  "Thứ bảy",
 ];
-const weekdays = [
-  "",
-  "Thứ 2",
-  "Thứ 3",
-  "Thứ 4",
-  "Thứ 5",
-  "Thứ 6",
-  "Thứ 7",
-  "CN",
-];
-const lineHeight = 22;
-const rowPadding = 12;
+const cellHeight = 124;
+const weekdayHeight = 40;
+const noteLineHeight = 19;
+const noteLines = 4;
 
 function setFont(
   context: CanvasRenderingContext2D,
   size: number,
   weight = 400,
+  style = "normal",
 ) {
-  context.font = `${weight} ${size}px ${font}`;
+  context.font = `${style} ${weight} ${size}px ${font}`;
 }
-// Ngắt dòng theo từ, từ quá dài sẽ bị cắt theo ký tự để không tràn cột.
+// Ngắt dòng theo từ, cắt theo ký tự khi một từ dài hơn cả ô.
 function wrap(context: CanvasRenderingContext2D, text: string, max: number) {
   const lines: string[] = [];
   for (const paragraph of text.split(/\r?\n/)) {
@@ -65,224 +57,194 @@ function wrap(context: CanvasRenderingContext2D, text: string, max: number) {
         line += character;
       }
     }
-    lines.push(line);
+    if (line) lines.push(line);
   }
-  return lines.length ? lines : [""];
+  return lines;
 }
-function roundRect(
+function clamp(
   context: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  radius: number,
+  text: string,
+  max: number,
+  count: number,
 ) {
-  context.beginPath();
-  context.roundRect(x, y, w, h, radius);
+  const lines = wrap(context, text, max);
+  if (lines.length <= count) return lines;
+  let last = lines[count - 1];
+  while (last && context.measureText(last + "…").width > max)
+    last = last.slice(0, -1);
+  return [...lines.slice(0, count - 1), last.trimEnd() + "…"];
 }
 function entryContent(entry: AttendanceEntry | undefined) {
-  if (!entry || !isAttendanceMarked(entry)) return "";
+  if (!entry || !isAttendanceMarked(entry)) return null;
   const time = entry.start && entry.end ? entry.start + "–" + entry.end : "";
-  const text = attendanceText(entry);
-  return [time, text === "Đã chấm" && time ? "" : text]
-    .filter(Boolean)
-    .join(" · ");
+  const text = entry.note.trim() ? attendanceText(entry) : "";
+  return [time, text].filter(Boolean).join(" · ");
+}
+// Màu nhạt pha từ màu bảng công để tô ngày đã chấm.
+function tint(hex: string, amount: number) {
+  const channel = (offset: number) => {
+    const value = parseInt(hex.slice(offset, offset + 2), 16);
+    return Math.round(value + (255 - value) * (1 - amount));
+  };
+  return `rgb(${channel(1)}, ${channel(3)}, ${channel(5)})`;
 }
 
 export async function renderAttendanceImage({
   activity,
   month,
+  firstDay,
   entries,
 }: {
   activity: AttendanceActivity;
   month: string;
+  firstDay: number;
   entries: AttendanceEntry[];
 }) {
   await Promise.all(
-    [400, 600, 700].map((weight) =>
-      document.fonts.load(`${weight} 16px ${font}`).catch(() => []),
+    ["400 16px", "700 16px", "italic 400 16px"].map((style) =>
+      document.fonts.load(`${style} ${font}`).catch(() => []),
     ),
   );
   const accent = calendarColors[activity.color];
+  const fill = tint(accent, 0.14);
   const start = localTime(month + "-01");
-  const days = Array.from({ length: start.daysInMonth! }, (_, index) =>
-    start.plus({ days: index }),
-  );
+  const days = monthDays(month, firstDay);
   const byDate = new Map(entries.map((entry) => [entry.date, entry]));
+  const marked = days.filter(
+    (day) =>
+      day.slice(0, 7) === month && entryContent(byDate.get(day)) !== null,
+  ).length;
+  const total = start.daysInMonth!;
+  const weeks = days.length / 7;
+
+  const gridTop = 236;
+  const gridWidth = width - margin * 2;
+  const cellWidth = gridWidth / 7;
+  const gridHeight = weekdayHeight + weeks * cellHeight;
+  const summaryTop = gridTop + gridHeight + 36;
+  const height = summaryTop + 56;
+
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   if (!context) throw new Error("Trình duyệt không hỗ trợ xuất ảnh.");
-
-  setFont(context, 15);
-  const rows = days.map((day) => {
-    const content = entryContent(byDate.get(day.toISODate()!));
-    const lines = content
-      ? wrap(context, content, columns[3].width - 32)
-      : ["—"];
-    return {
-      day,
-      marked: !!content,
-      lines,
-      height: Math.max(48, lines.length * lineHeight + rowPadding * 2),
-    };
-  });
-  const marked = rows.filter((row) => row.marked).length;
-  const headerHeight = 230;
-  const tableTop = headerHeight;
-  const tableHeight = 46 + rows.reduce((sum, row) => sum + row.height, 0);
-  const height = tableTop + tableHeight + 96;
-
   const scale = 2;
   canvas.width = width * scale;
   canvas.height = height * scale;
   context.scale(scale, scale);
   context.textBaseline = "middle";
-  context.fillStyle = palette.background;
-  context.fillRect(0, 0, width, height);
-  context.fillStyle = accent;
-  context.fillRect(0, 0, width, 8);
-
-  // Tiêu đề và tóm tắt tháng.
-  context.fillStyle = accent;
-  setFont(context, 13, 700);
-  context.letterSpacing = "2px";
-  context.fillText("BẢNG CHẤM CÔNG", padding, 62);
-  context.letterSpacing = "0px";
-  context.fillStyle = palette.ink;
-  setFont(context, 32, 700);
-  const title = wrap(context, activity.name, 640)[0];
-  context.fillText(title, padding, 104);
-  context.fillStyle = palette.muted;
-  setFont(context, 17, 500);
-  context.fillText(
-    start.setLocale("vi").toFormat("'Tháng' M 'năm' yyyy"),
-    padding,
-    142,
-  );
-
-  const stats = [
-    { label: "Ngày đã chấm", value: String(marked) },
-    { label: "Ngày trong tháng", value: String(days.length) },
-    {
-      label: "Tỷ lệ",
-      value: Math.round((marked / days.length) * 100) + "%",
-    },
-  ];
-  const statWidth = 132;
-  stats.forEach((stat, index) => {
-    const x = width - padding - (stats.length - index) * (statWidth + 12) + 12;
-    roundRect(context, x, 48, statWidth, 96, 10);
-    context.fillStyle = index === 0 ? accent : palette.soft;
-    context.fill();
-    context.fillStyle = index === 0 ? "#ffffff" : palette.ink;
-    setFont(context, 30, 700);
-    context.fillText(stat.value, x + 18, 84);
-    context.fillStyle = index === 0 ? "rgba(255,255,255,0.85)" : palette.muted;
-    setFont(context, 13, 500);
-    context.fillText(stat.label, x + 18, 120);
-  });
-
-  context.strokeStyle = palette.line;
-  context.lineWidth = 1;
-  context.beginPath();
-  context.moveTo(padding, 182);
-  context.lineTo(width - padding, 182);
-  context.stroke();
-
-  // Bảng ngày.
-  const tableWidth = width - padding * 2;
-  context.save();
-  roundRect(context, padding, tableTop, tableWidth, tableHeight, 10);
-  context.clip();
-  context.fillStyle = palette.ink;
-  context.fillRect(padding, tableTop, tableWidth, 46);
-  setFont(context, 13, 600);
   context.fillStyle = "#ffffff";
-  let x = padding;
-  for (const column of columns) {
-    context.fillText(column.title.toUpperCase(), x + 16, tableTop + 23);
-    x += column.width;
-  }
-  let y = tableTop + 46;
-  rows.forEach((row, index) => {
-    const weekend = row.day.weekday >= 6;
-    context.fillStyle = weekend
-      ? palette.weekend
-      : index % 2
-        ? palette.soft
-        : palette.background;
-    context.fillRect(padding, y, tableWidth, row.height);
-    const middle = y + Math.min(row.height, 48) / 2;
-    x = padding;
-    setFont(context, 15, 600);
-    context.fillStyle = palette.ink;
-    context.fillText(row.day.toFormat("dd/MM"), x + 16, middle);
-    x += columns[0].width;
-    setFont(context, 15, weekend ? 600 : 400);
-    context.fillStyle = weekend ? palette.weekendInk : palette.muted;
-    context.fillText(weekdays[row.day.weekday], x + 16, middle);
-    x += columns[1].width;
-    if (row.marked) {
-      roundRect(context, x + 16, middle - 14, 112, 28, 14);
-      context.fillStyle = accent;
-      context.globalAlpha = 0.12;
-      context.fill();
-      context.globalAlpha = 1;
-      context.fillStyle = accent;
-      context.beginPath();
-      context.arc(x + 32, middle, 4, 0, Math.PI * 2);
-      context.fill();
-      setFont(context, 13, 600);
-      context.fillText("Đã chấm", x + 44, middle);
-    } else {
-      setFont(context, 13, 500);
-      context.fillStyle = "#97a6b4";
-      context.fillText("Chưa chấm", x + 16, middle);
-    }
-    x += columns[2].width;
-    setFont(context, 15);
-    context.fillStyle = row.marked ? palette.ink : "#b5c0cb";
-    row.lines.forEach((line, lineIndex) => {
-      context.fillText(
-        line,
-        x + 16,
-        y + rowPadding + lineHeight / 2 + lineIndex * lineHeight + 2,
-      );
-    });
-    y += row.height;
-    context.strokeStyle = palette.line;
-    context.beginPath();
-    context.moveTo(padding, y);
-    context.lineTo(padding + tableWidth, y);
-    context.stroke();
-  });
-  context.restore();
-  roundRect(
-    context,
-    padding + 0.5,
-    tableTop + 0.5,
-    tableWidth - 1,
-    tableHeight - 1,
-    10,
-  );
-  context.strokeStyle = palette.line;
-  context.stroke();
+  context.fillRect(0, 0, width, height);
+  context.fillStyle = ink;
 
-  // Chân trang.
-  const footer = tableTop + tableHeight + 48;
-  setFont(context, 13);
-  context.fillStyle = palette.muted;
+  // Tiêu đề.
+  context.textAlign = "center";
+  setFont(context, 34, 700);
+  context.letterSpacing = "3px";
+  context.fillText("BẢNG CHẤM CÔNG", width / 2, 84);
+  context.letterSpacing = "0px";
+  setFont(context, 20, 400, "italic");
   context.fillText(
-    "Xuất từ MyOS lúc " +
-      localTime(new Date().toISOString()).toFormat("HH:mm, dd/MM/yyyy"),
-    padding,
-    footer,
+    "Tháng " + start.month + " năm " + start.year,
+    width / 2,
+    124,
+  );
+  context.fillRect(width / 2 - 60, 146, 120, 1.5);
+
+  context.textAlign = "left";
+  setFont(context, 18, 700);
+  const label = "Công việc: ";
+  context.fillText(label, margin, 194);
+  const labelWidth = context.measureText(label).width;
+  setFont(context, 18);
+  context.fillText(
+    clamp(context, activity.name, 560, 1)[0] ?? "",
+    margin + labelWidth,
+    194,
   );
   context.textAlign = "right";
-  setFont(context, 13, 600);
-  context.fillStyle = palette.ink;
-  context.fillText("Tổng cộng: " + marked + " ngày", width - padding, footer);
+  setFont(context, 18);
+  context.fillText(
+    "Số ngày chấm công: " + marked + "/" + total,
+    width - margin,
+    194,
+  );
+
+  // Lưới lịch.
+  context.fillStyle = "#f1f1f1";
+  context.fillRect(margin, gridTop, gridWidth, weekdayHeight);
+  context.textAlign = "center";
+  setFont(context, 16, 700);
+  for (let index = 0; index < 7; index++) {
+    context.fillStyle = ink;
+    context.fillText(
+      weekdayNames[(firstDay + index) % 7],
+      margin + cellWidth * index + cellWidth / 2,
+      gridTop + weekdayHeight / 2 + 1,
+    );
+  }
+  days.forEach((day, index) => {
+    const x = margin + (index % 7) * cellWidth;
+    const y = gridTop + weekdayHeight + Math.floor(index / 7) * cellHeight;
+    const inMonth = day.slice(0, 7) === month;
+    const content = inMonth ? entryContent(byDate.get(day)) : null;
+    if (content !== null) {
+      context.fillStyle = fill;
+      context.fillRect(x, y, cellWidth, cellHeight);
+    }
+    context.textAlign = "right";
+    setFont(context, 20, content !== null ? 700 : 400);
+    context.fillStyle = !inMonth ? "#bdbdbd" : content !== null ? accent : ink;
+    context.fillText(String(Number(day.slice(8))), x + cellWidth - 12, y + 22);
+    if (content) {
+      context.textAlign = "left";
+      setFont(context, 15);
+      context.fillStyle = ink;
+      clamp(context, content, cellWidth - 24, noteLines).forEach(
+        (line, lineIndex) =>
+          context.fillText(
+            line,
+            x + 12,
+            y + 50 + lineIndex * noteLineHeight + noteLineHeight / 2,
+          ),
+      );
+    }
+  });
+  context.strokeStyle = rule;
+  context.lineWidth = 1;
+  context.beginPath();
+  for (let column = 1; column < 7; column++) {
+    const x = Math.round(margin + column * cellWidth) + 0.5;
+    context.moveTo(x, gridTop);
+    context.lineTo(x, gridTop + gridHeight);
+  }
+  for (let row = 0; row < weeks; row++) {
+    const y = gridTop + weekdayHeight + row * cellHeight + 0.5;
+    context.moveTo(margin, y);
+    context.lineTo(margin + gridWidth, y);
+  }
+  context.stroke();
+  context.strokeStyle = ink;
+  context.lineWidth = 1.5;
+  context.strokeRect(margin, gridTop, gridWidth, gridHeight);
+
+  // Chú thích và tổng hợp.
   context.textAlign = "left";
+  context.fillStyle = fill;
+  context.fillRect(margin, summaryTop - 9, 28, 18);
+  context.strokeStyle = rule;
+  context.lineWidth = 1;
+  context.strokeRect(margin + 0.5, summaryTop - 8.5, 27, 17);
+  setFont(context, 16, 400, "italic");
+  context.fillStyle = muted;
+  context.fillText("Ngày có chấm công", margin + 40, summaryTop);
+  context.textAlign = "right";
+  setFont(context, 17, 700);
+  context.fillStyle = ink;
+  context.fillText(
+    "Tổng cộng: " + marked + " ngày công",
+    width - margin,
+    summaryTop,
+  );
 
   return new Promise<Blob>((resolve, reject) =>
     canvas.toBlob(
@@ -305,6 +267,24 @@ export function attendanceImageName(
     .replace(/^-|-$/g, "")
     .toLowerCase();
   return "bang-cong-" + (slug || "myos") + "-" + month + ".png";
+}
+
+// Chép ảnh vào clipboard để dán thẳng vào Zalo, Messenger, tài liệu.
+export function canCopyAttendanceImage() {
+  return (
+    typeof window !== "undefined" &&
+    typeof ClipboardItem !== "undefined" &&
+    !!navigator.clipboard?.write
+  );
+}
+export async function copyAttendanceImage(blob: Blob) {
+  try {
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+  } catch {
+    throw new Error(
+      "Trình duyệt không cho sao chép ảnh. Hãy dùng nút Lưu ảnh PNG.",
+    );
+  }
 }
 
 // Điện thoại mở bảng chia sẻ (lưu vào Ảnh); máy tính tải file trực tiếp.

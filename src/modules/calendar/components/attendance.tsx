@@ -11,6 +11,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Copy,
   ImageDown,
   Pencil,
   Plus,
@@ -34,6 +35,8 @@ import {
 } from "../attendance-repository";
 import {
   attendanceImageName,
+  canCopyAttendanceImage,
+  copyAttendanceImage,
   renderAttendanceImage,
   saveAttendanceImage,
 } from "../attendance-export";
@@ -409,11 +412,7 @@ function MonthEditor({
   const lock = useRef(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const [exporting, setExporting] = useState(false);
-  const [exportError, setExportError] = useState("");
-  const [preview, setPreview] = useState<{ blob: Blob; url: string } | null>(
-    null,
-  );
+  const [exportOpen, setExportOpen] = useState(false);
   const dirty =
     JSON.stringify(entries) !== JSON.stringify(baseline?.entries ?? []);
   const externalChange = (saved?.version ?? 0) > (baseline?.version ?? 0);
@@ -552,23 +551,6 @@ function MonthEditor({
         : message;
   function shiftMonth(offset: number) {
     return monthStart.plus({ months: offset }).toFormat("yyyy-MM");
-  }
-  async function exportImage() {
-    if (exporting) return;
-    setExporting(true);
-    setExportError("");
-    try {
-      const blob = await renderAttendanceImage({ activity, month, entries });
-      setPreview({ blob, url: URL.createObjectURL(blob) });
-    } catch (cause) {
-      setExportError(calendarError(cause));
-    } finally {
-      setExporting(false);
-    }
-  }
-  function closePreview() {
-    if (preview) URL.revokeObjectURL(preview.url);
-    setPreview(null);
   }
   function apply(date: string, note: string) {
     setEntries((current) =>
@@ -747,18 +729,12 @@ function MonthEditor({
             className="button secondary attendance-export"
             aria-label="Xuất bảng công dạng ảnh"
             title="Xuất bảng công dạng ảnh"
-            disabled={exporting}
-            onClick={() => void exportImage()}
+            onClick={() => setExportOpen(true)}
           >
             <ImageDown size={16} aria-hidden="true" />
-            <span>{exporting ? "Đang tạo…" : "Xuất ảnh"}</span>
+            <span>Xuất ảnh</span>
           </Button>
         </header>
-        {exportError && (
-          <p className="schedule-error" role="alert">
-            {exportError}
-          </p>
-        )}
         {(error || dataError || externalChange) && (
           <p
             className="schedule-error"
@@ -943,49 +919,218 @@ function MonthEditor({
             )}
           </CalendarDialog>
         )}
-        {preview && (
-          <CalendarDialog
-            title="Xuất bảng công"
-            description={
-              activity.name + " · " + monthStart.toFormat("'Tháng' M/yyyy")
-            }
-            showDescription
-            onClose={closePreview}
-          >
-            <div className="attendance-export-preview">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={preview.url}
-                alt={"Bảng công " + activity.name + " tháng " + month}
-              />
-            </div>
-            <div className="schedule-dialog-actions">
-              <Button
-                variant="outline"
-                type="button"
-                className="button secondary"
-                onClick={closePreview}
-              >
-                Đóng
-              </Button>
-              <Button
-                variant="default"
-                type="button"
-                className="button primary"
-                onClick={() =>
-                  void saveAttendanceImage(
-                    preview.blob,
-                    attendanceImageName(activity, month),
-                  )
-                }
-              >
-                <ImageDown size={16} aria-hidden="true" />
-                Lưu ảnh PNG
-              </Button>
-            </div>
-          </CalendarDialog>
+        {exportOpen && (
+          <AttendanceExportDialog
+            activity={activity}
+            firstDay={firstDay}
+            draftMonth={month}
+            draftEntries={entries}
+            onClose={() => setExportOpen(false)}
+          />
         )}
       </section>
     </div>
+  );
+}
+
+// Xuất được mọi tháng: tháng đang mở dùng bản nháp, tháng khác đọc dữ liệu đã lưu.
+function AttendanceExportDialog({
+  activity,
+  firstDay,
+  draftMonth,
+  draftEntries,
+  onClose,
+}: {
+  activity: AttendanceActivity;
+  firstDay: number;
+  draftMonth: string;
+  draftEntries: AttendanceMonth["entries"];
+  onClose: () => void;
+}) {
+  const [month, setMonth] = useState(draftMonth);
+  const [image, setImage] = useState<{
+    month: string;
+    blob: Blob;
+    url: string;
+  } | null>(null);
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [attempt, setAttempt] = useState(0);
+  const [canCopy] = useState(canCopyAttendanceImage);
+  const loading = !error && image?.month !== month;
+  const monthStart = localTime(month + "-01").setLocale("vi");
+  useEffect(() => {
+    let cancelled = false;
+    let url = "";
+    setError("");
+    setNotice("");
+    void (async () => {
+      try {
+        const entries =
+          month === draftMonth
+            ? draftEntries
+            : ((await attendanceRepository.month(activity.id + "_" + month))
+                ?.entries ?? []);
+        const blob = await renderAttendanceImage({
+          activity,
+          month,
+          firstDay,
+          entries,
+        });
+        if (cancelled) return;
+        url = URL.createObjectURL(blob);
+        setImage({ month, blob, url });
+      } catch (cause) {
+        if (!cancelled) setError(calendarError(cause));
+      }
+    })();
+    return () => {
+      cancelled = true;
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [activity, firstDay, month, draftMonth, draftEntries, attempt]);
+  function choose(next: string) {
+    if (next >= "2000-01" && next <= "2100-12") setMonth(next);
+  }
+  const ready = !loading && !error && image ? image : null;
+  return (
+    <CalendarDialog
+      title="Xuất bảng công"
+      description={"Chọn tháng cần xuất của bảng " + activity.name + "."}
+      showDescription
+      onClose={onClose}
+    >
+      <div className="attendance-export-toolbar">
+        <div className="attendance-month-nav">
+          <Button
+            variant="ghost"
+            size="icon"
+            type="button"
+            className="icon-button"
+            aria-label="Tháng trước"
+            disabled={month === "2000-01"}
+            onClick={() =>
+              choose(monthStart.minus({ months: 1 }).toFormat("yyyy-MM"))
+            }
+          >
+            <ChevronLeft size={18} />
+          </Button>
+          <label className="attendance-month-picker">
+            <span>{monthStart.toFormat("'Tháng' M, yyyy")}</span>
+            <ChevronDown size={15} aria-hidden="true" />
+            <input
+              type="month"
+              aria-label="Chọn tháng xuất ảnh"
+              min="2000-01"
+              max="2100-12"
+              value={month}
+              onClick={(event) => {
+                try {
+                  event.currentTarget.showPicker();
+                } catch {
+                  // Trình duyệt tự mở bộ chọn khi chạm vào ô.
+                }
+              }}
+              onChange={(event) => choose(event.target.value)}
+            />
+          </label>
+          <Button
+            variant="ghost"
+            size="icon"
+            type="button"
+            className="icon-button"
+            aria-label="Tháng sau"
+            disabled={month === "2100-12"}
+            onClick={() =>
+              choose(monthStart.plus({ months: 1 }).toFormat("yyyy-MM"))
+            }
+          >
+            <ChevronRight size={18} />
+          </Button>
+        </div>
+      </div>
+      <div className="attendance-export-preview" aria-busy={loading}>
+        {error ? (
+          <p className="schedule-error" role="alert">
+            {error}{" "}
+            <Button
+              variant="link"
+              type="button"
+              className="text-link"
+              onClick={() => {
+                setError("");
+                setAttempt((current) => current + 1);
+              }}
+            >
+              Thử lại
+            </Button>
+          </p>
+        ) : (
+          image && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={image.url}
+              data-loading={loading || undefined}
+              alt={"Bảng công " + activity.name + " tháng " + image.month}
+            />
+          )
+        )}
+        {loading && (
+          <p className="attendance-export-loading" role="status">
+            Đang tạo ảnh…
+          </p>
+        )}
+      </div>
+      <p className="attendance-export-notice" role="status">
+        {notice}
+      </p>
+      <div className="schedule-dialog-actions">
+        <Button
+          variant="outline"
+          type="button"
+          className="button secondary"
+          onClick={onClose}
+        >
+          Đóng
+        </Button>
+        {canCopy && (
+          <Button
+            variant="outline"
+            type="button"
+            className="button secondary"
+            disabled={!ready}
+            onClick={async () => {
+              if (!ready) return;
+              setNotice("");
+              try {
+                await copyAttendanceImage(ready.blob);
+                setNotice("Đã sao chép ảnh. Dán vào nơi bạn muốn gửi.");
+              } catch (cause) {
+                setNotice(calendarError(cause));
+              }
+            }}
+          >
+            <Copy size={16} aria-hidden="true" />
+            Sao chép ảnh
+          </Button>
+        )}
+        <Button
+          variant="default"
+          type="button"
+          className="button primary"
+          disabled={!ready}
+          onClick={() =>
+            ready &&
+            void saveAttendanceImage(
+              ready.blob,
+              attendanceImageName(activity, ready.month),
+            )
+          }
+        >
+          <ImageDown size={16} aria-hidden="true" />
+          Lưu ảnh PNG
+        </Button>
+      </div>
+    </CalendarDialog>
   );
 }

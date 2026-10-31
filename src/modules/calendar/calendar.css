@@ -1891,6 +1891,35 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
+.attendance-export-toolbar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.attendance-export-preview {
+  position: relative;
+  min-height: 160px;
+}
+.attendance-export-preview img[data-loading] {
+  opacity: 0.35;
+}
+.attendance-export-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.attendance-export-notice {
+  margin: -8px 0 12px;
+  color: var(--primary);
+  font-size: 13px;
+}
+.attendance-export-notice:empty {
+  display: none;
+}
 .attendance-export-preview img {
   display: block;
   width: 100%;
@@ -1987,6 +2016,9 @@
     flex: 1;
     min-width: 0;
     font-size: 15px;
+  }
+  .attendance-export-toolbar .attendance-month-nav {
+    width: 100%;
   }
   .attendance-export-preview {
     max-height: 52dvh;
