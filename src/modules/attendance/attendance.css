@@ -579,6 +579,24 @@
   font: inherit;
 }
 
+.attendance-form textarea {
+  min-height: 88px;
+  padding: 10px 12px;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.attendance-form textarea:focus {
+  background: var(--surface);
+  border-color: var(--focus);
+}
+
 .attendance-dialog-actions {
   display: flex;
   flex-wrap: wrap;

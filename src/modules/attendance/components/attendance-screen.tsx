@@ -480,7 +480,7 @@ function MonthEditor({
     saved?.entries ?? [],
   );
   const [activeDate, setActiveDate] = useState<string | null>(null);
-  const [addingSession, setAddingSession] = useState(false);
+  const [creatingDate, setCreatingDate] = useState<string | null>(null);
   const [editingDateOf, setEditingDateOf] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const lock = useRef(false);
@@ -643,11 +643,7 @@ function MonthEditor({
     });
   }
 
-  function addSession(date: string) {
-    if (sessionDates.has(date)) {
-      focusSession(date);
-      return;
-    }
+  function addSession(date: string, lesson: string, evaluation: string) {
     setEntries((current) =>
       [
         ...current.filter((item) => item.date !== date),
@@ -657,11 +653,12 @@ function MonthEditor({
           start: "",
           end: "",
           note: "",
-          lesson: "",
-          evaluation: "",
+          lesson,
+          evaluation,
         },
       ].sort((a, b) => a.date.localeCompare(b.date)),
     );
+    setCreatingDate(null);
     setError("");
     setMessage("");
     focusSession(date);
@@ -853,7 +850,7 @@ function MonthEditor({
               !!dataError ||
               sessions.length >= monthStart.daysInMonth!
             }
-            onClick={() => setAddingSession(true)}
+            onClick={() => setCreatingDate(suggestedDate())}
           >
             <Plus size={16} aria-hidden="true" />
             <span>Thêm buổi</span>
@@ -935,7 +932,7 @@ function MonthEditor({
                     (isActive ? " is-active" : "")
                   }
                   onClick={() =>
-                    marked ? focusSession(day) : addSession(day)
+                    marked ? focusSession(day) : setCreatingDate(day)
                   }
                 >
                   <span>{Number(day.slice(8))}</span>
@@ -1073,24 +1070,16 @@ function MonthEditor({
         </div>
       </div>
 
-      {addingSession && (
-        <SessionDateDialog
-          title="Thêm buổi học"
-          description={
-            "Chọn ngày trong tháng " +
-            monthStart.toFormat("M/yyyy") +
-            " để thêm buổi học mới."
-          }
+      {creatingDate && (
+        <NewSessionDialog
           minDate={month + "-01"}
           maxDate={monthEnd}
-          initialDate={suggestedDate()}
+          initialDate={creatingDate}
           usedDates={sessionDates}
-          submitLabel="Thêm buổi"
-          onClose={() => setAddingSession(false)}
-          onConfirm={(date) => {
-            setAddingSession(false);
-            addSession(date);
-          }}
+          onClose={() => setCreatingDate(null)}
+          onSave={(date, lesson, evaluation) =>
+            addSession(date, lesson, evaluation)
+          }
         />
       )}
 
@@ -1121,6 +1110,110 @@ function MonthEditor({
         />
       )}
     </section>
+  );
+}
+
+function NewSessionDialog({
+  minDate,
+  maxDate,
+  initialDate,
+  usedDates,
+  onClose,
+  onSave,
+}: {
+  minDate: string;
+  maxDate: string;
+  initialDate: string;
+  usedDates: Set<string>;
+  onClose: () => void;
+  onSave: (date: string, lesson: string, evaluation: string) => void;
+}) {
+  const [date, setDate] = useState(initialDate);
+  const [lesson, setLesson] = useState("");
+  const [evaluation, setEvaluation] = useState("");
+  const [error, setError] = useState("");
+  const titleDate =
+    date && date >= minDate && date <= maxDate
+      ? localTime(date).setLocale("vi").toFormat("cccc, dd/MM/yyyy")
+      : "";
+
+  return (
+    <AttendanceDialog
+      title={titleDate ? "Chấm công · " + titleDate : "Thêm buổi học"}
+      description="Nhập bài học và đánh giá rồi bấm Lưu để đánh dấu buổi học trên lịch."
+      showDescription
+      onClose={onClose}
+    >
+      <form
+        className="attendance-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!date || date < minDate || date > maxDate) {
+            setError("Chọn ngày hợp lệ trong tháng đang xem.");
+            return;
+          }
+          if (usedDates.has(date)) {
+            setError("Ngày này đã có buổi học. Hãy chọn ngày khác.");
+            return;
+          }
+          onSave(date, lesson, evaluation);
+        }}
+      >
+        <label>
+          Ngày học
+          <Input
+            type="date"
+            required
+            min={minDate}
+            max={maxDate}
+            value={date}
+            onChange={(event) => {
+              setDate(event.target.value);
+              setError("");
+            }}
+          />
+        </label>
+        <label>
+          Bài học
+          <Textarea
+            autoFocus
+            rows={3}
+            maxLength={2000}
+            value={lesson}
+            placeholder="Nhập nội dung bài học…"
+            onChange={(event) => setLesson(event.target.value)}
+          />
+        </label>
+        <label>
+          Đánh giá
+          <Textarea
+            rows={3}
+            maxLength={2000}
+            value={evaluation}
+            placeholder="Nhập nhận xét gửi phụ huynh…"
+            onChange={(event) => setEvaluation(event.target.value)}
+          />
+        </label>
+        {error && (
+          <p className="attendance-error" role="alert">
+            {error}
+          </p>
+        )}
+        <div className="attendance-dialog-actions">
+          <Button
+            variant="outline"
+            type="button"
+            className="button secondary"
+            onClick={onClose}
+          >
+            Hủy
+          </Button>
+          <Button variant="default" type="submit" className="button primary">
+            Lưu buổi học
+          </Button>
+        </div>
+      </form>
+    </AttendanceDialog>
   );
 }
 
