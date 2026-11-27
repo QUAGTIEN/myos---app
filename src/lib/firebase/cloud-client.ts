@@ -17,7 +17,7 @@ import { profileSchema } from "./profile";
 import {
   activitySchema,
   attendanceMonthSchema,
-} from "@/modules/calendar/attendance-model";
+} from "@/modules/attendance/model";
 import { effectiveOccurrence } from "@/modules/calendar/recurrence";
 import {
   eventSchema,

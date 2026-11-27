@@ -1,13 +1,10 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useMobile } from "@/components/use-mobile";
-import { PageSkeleton } from "@/components/page-ui";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { useSWRConfig } from "swr";
 import {
+  CalendarDays,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -16,41 +13,46 @@ import {
   Pencil,
   Plus,
   TableProperties,
+  Trash2,
+  X,
 } from "lucide-react";
-import { calendarColors, calendarError, localTime } from "../model";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { PageHeading, PageSkeleton } from "@/components/page-ui";
+import { useAccount } from "@/modules/auth/account-context";
+import { calendarColors, calendarError, localTime } from "@/modules/calendar/model";
 import {
   activityInputSchema,
   activitySchema,
+  attendanceEvaluation,
+  attendanceLesson,
   attendanceMonthSchema,
-  monthDays,
-  attendanceText,
   isAttendanceMarked,
+  monthDays,
   type AttendanceActivity,
+  type AttendanceEntry,
   type AttendanceMonth,
-} from "../attendance-model";
+} from "../model";
 import {
   attendanceRepository,
   useAttendanceActivities,
   useAttendanceMonth,
-} from "../attendance-repository";
+} from "../repository";
 import {
   attendanceImageName,
   canCopyAttendanceImage,
   copyAttendanceImage,
   renderAttendanceImage,
   saveAttendanceImage,
-} from "../attendance-export";
-import { CalendarDialog } from "./dialogs";
+} from "../export";
+import "../attendance.css";
 
-export function Attendance({
-  today,
-  firstDay,
-  onStateChange,
-}: {
-  today: string;
-  firstDay: number;
-  onStateChange: (dirty: boolean, busy: boolean) => void;
-}) {
+const colorLabels = ["Xanh ngọc", "Xanh lam", "Cam", "Hồng", "Tím"];
+
+export function AttendanceScreen({ today }: { today: string }) {
+  const account = useAccount();
+  const firstDay = account?.profile.firstDay ?? 1;
   const activities = useAttendanceActivities();
   const [selected, setSelected] = useState("");
   const [month, setMonth] = useState(today.slice(0, 7));
@@ -59,25 +61,29 @@ export function Attendance({
   );
   const dirty = useRef(false);
   const [busy, setBusy] = useState(false);
+
   const activity =
     activities.data?.find((item) => item.id === selected) ??
     activities.data?.[0];
+
   function navigate(operation: () => void) {
     if (busy) return;
-    if (dirty.current && !window.confirm("Bỏ các ngày chấm công chưa lưu?"))
+    if (dirty.current && !window.confirm("Bỏ các thay đổi chấm công chưa lưu?"))
       return;
     dirty.current = false;
-    onStateChange(false, false);
     operation();
   }
+
   const loadingError = activities.error ? calendarError(activities.error) : "";
   const canCreate =
     !busy &&
     !loadingError &&
     !activities.loading &&
     (activities.data?.length ?? 0) < 50;
+
   return (
     <div className="attendance-module">
+      <PageHeading title="Chấm công" />
       <div className="attendance-bar">
         <div className="attendance-tables" role="group" aria-label="Bảng công">
           {[...(activities.data ?? [])]
@@ -115,7 +121,7 @@ export function Attendance({
         </Button>
       </div>
       {loadingError && (
-        <p className="schedule-error" role="alert">
+        <p className="attendance-error" role="alert">
           {loadingError}{" "}
           <Button
             variant="link"
@@ -128,12 +134,12 @@ export function Attendance({
           </Button>
         </p>
       )}
-      {activities.loading && <p role="status">Đang tải bảng công…</p>}
+      {activities.loading && <PageSkeleton variant="calendar" />}
       {!activity && !activities.loading && !loadingError && (
         <div className="panel attendance-empty">
-          <TableProperties size={30} />
+          <TableProperties size={32} />
           <h3>Chưa có bảng công</h3>
-          <p>Tạo bảng công để chấm công theo từng tháng.</p>
+          <p>Tạo bảng công để ghi chép bài học và đánh giá theo từng buổi.</p>
           <Button
             variant="default"
             type="button"
@@ -158,7 +164,6 @@ export function Attendance({
           onStateChange={(value, pending) => {
             dirty.current = value;
             setBusy(pending);
-            onStateChange(value, pending);
           }}
         />
       )}
@@ -169,7 +174,6 @@ export function Attendance({
           onRemoved={() => {
             dirty.current = false;
             setBusy(false);
-            onStateChange(false, false);
             setSelected("");
             setEditing(null);
           }}
@@ -180,6 +184,69 @@ export function Attendance({
         />
       )}
     </div>
+  );
+}
+
+function AttendanceDialog({
+  title,
+  description,
+  children,
+  pending = false,
+  showDescription = false,
+  onClose,
+}: {
+  title: string;
+  description: string;
+  children: ReactNode;
+  pending?: boolean;
+  showDescription?: boolean;
+  onClose: () => void;
+}) {
+  return (
+    <Dialog.Root
+      open
+      onOpenChange={(open) => {
+        if (!open && !pending) onClose();
+      }}
+    >
+      <Dialog.Portal>
+        <Dialog.Overlay className="attendance-overlay" />
+        <Dialog.Content
+          className="attendance-dialog"
+          onEscapeKeyDown={(event) => {
+            if (pending) event.preventDefault();
+          }}
+          onInteractOutside={(event) => {
+            if (pending) event.preventDefault();
+          }}
+        >
+          <div className="attendance-dialog-heading">
+            <div>
+              <Dialog.Title>{title}</Dialog.Title>
+              <Dialog.Description
+                className={
+                  showDescription ? "attendance-dialog-description" : "sr-only"
+                }
+              >
+                {description}
+              </Dialog.Description>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="icon-button"
+              type="button"
+              aria-label="Đóng hộp thoại"
+              disabled={pending}
+              onClick={onClose}
+            >
+              <X size={20} />
+            </Button>
+          </div>
+          <div className="attendance-dialog-body">{children}</div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 
@@ -199,6 +266,7 @@ function ActivityForm({
   const [pending, setPending] = useState(false);
   const lock = useRef(false);
   const [error, setError] = useState("");
+
   function close() {
     if (
       !pending &&
@@ -208,15 +276,16 @@ function ActivityForm({
     )
       onClose();
   }
+
   return (
-    <CalendarDialog
+    <AttendanceDialog
       title={activity ? "Sửa bảng công" : "Tạo bảng công"}
-      description="Mỗi bảng công được chấm riêng theo từng tháng."
+      description="Mỗi bảng công theo dõi bài học và đánh giá riêng theo từng tháng."
       onClose={close}
       pending={pending}
     >
       <form
-        className="schedule-form"
+        className="attendance-form"
         onSubmit={async (event) => {
           event.preventDefault();
           if (lock.current) return;
@@ -255,7 +324,7 @@ function ActivityForm({
               maxLength={80}
               value={name}
               onChange={(event) => setName(event.target.value)}
-              placeholder="Ví dụ: Đi dạy, đi làm, tập gym"
+              placeholder="Ví dụ: Anh 10, Toán 9, Lớp kèm Minh"
             />
           </label>
           <label>
@@ -268,18 +337,18 @@ function ActivityForm({
             >
               {Object.keys(calendarColors).map((value, index) => (
                 <option key={value} value={value}>
-                  {["Xanh ngọc", "Xanh lam", "Cam", "Hồng", "Tím"][index]}
+                  {colorLabels[index]}
                 </option>
               ))}
             </select>
           </label>
         </fieldset>
         {error && (
-          <p className="schedule-error" role="alert">
+          <p className="attendance-error" role="alert">
             {error}
           </p>
         )}
-        <div className="schedule-dialog-actions">
+        <div className="attendance-dialog-actions">
           {activity && (
             <Button
               variant="ghost"
@@ -335,7 +404,7 @@ function ActivityForm({
           </Button>
         </div>
       </form>
-    </CalendarDialog>
+    </AttendanceDialog>
   );
 }
 
@@ -351,10 +420,11 @@ function AttendanceMonthView(props: {
   const id = props.activity.id + "_" + props.month;
   const data = useAttendanceMonth(id);
   const { mutate } = useSWRConfig();
+
   if (data.loading) return <PageSkeleton variant="calendar" />;
   if (data.error && data.data === undefined)
     return (
-      <p role="alert" className="schedule-error">
+      <p role="alert" className="attendance-error">
         {calendarError(data.error)}{" "}
         <Button
           variant="link"
@@ -367,6 +437,7 @@ function AttendanceMonthView(props: {
         </Button>
       </p>
     );
+
   return (
     <MonthEditor
       {...props}
@@ -404,21 +475,27 @@ function MonthEditor({
   dataError: string;
   readLatest: () => Promise<AttendanceMonth | null>;
 }) {
-  const mobile = useMobile();
   const [baseline, setBaseline] = useState(saved);
-  const [entries, setEntries] = useState(saved?.entries ?? []);
-  const [editingDay, setEditingDay] = useState<string | null>(null);
+  const [entries, setEntries] = useState<AttendanceEntry[]>(
+    saved?.entries ?? [],
+  );
+  const [activeDate, setActiveDate] = useState<string | null>(null);
+  const [addingSession, setAddingSession] = useState(false);
+  const [editingDateOf, setEditingDateOf] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const lock = useRef(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [exportOpen, setExportOpen] = useState(false);
+
   const dirty =
     JSON.stringify(entries) !== JSON.stringify(baseline?.entries ?? []);
   const externalChange = (saved?.version ?? 0) > (baseline?.version ?? 0);
+
   useEffect(() => {
     onStateChange(dirty, pending);
   }, [dirty, pending, onStateChange]);
+
   useEffect(() => {
     if (
       !dirty &&
@@ -429,6 +506,7 @@ function MonthEditor({
       setEntries(saved?.entries ?? []);
     }
   }, [saved, dirty, pending, baseline]);
+
   useEffect(() => {
     function warn(event: BeforeUnloadEvent) {
       if (dirty || pending) event.preventDefault();
@@ -450,7 +528,7 @@ function MonthEditor({
         !event.ctrlKey &&
         !event.metaKey &&
         (pending ||
-          !window.confirm("Ghi chú chưa lưu xong. Rời trang và bỏ thay đổi?"))
+          !window.confirm("Thay đổi chấm công chưa lưu xong. Rời trang?"))
       ) {
         event.preventDefault();
         event.stopPropagation();
@@ -463,15 +541,10 @@ function MonthEditor({
       document.removeEventListener("click", leave, true);
     };
   }, [dirty, pending]);
-  // Mỗi lần ghi dùng snapshot và version riêng; gõ trong lúc lưu không bị kết quả cũ ghi đè.
-  async function save(close = false) {
-    if (lock.current || externalChange || dataError) return;
-    if (!dirty) {
-      if (close) setEditingDay(null);
-      return;
-    }
+
+  async function save() {
+    if (lock.current || externalChange || dataError || !dirty) return;
     const snapshot = entries;
-    const closingDay = editingDay;
     lock.current = true;
     setPending(true);
     setError("");
@@ -498,9 +571,7 @@ function MonthEditor({
           ? result.entries
           : current,
       );
-      if (close)
-        setEditingDay((current) => (current === closingDay ? null : current));
-      setMessage("Đã lưu tự động.");
+      setMessage("Đã lưu tự động");
     } catch (cause) {
       setError(calendarError(cause));
     } finally {
@@ -508,15 +579,17 @@ function MonthEditor({
       setPending(false);
     }
   }
+
   useEffect(() => {
     if (!dirty || pending || error || dataError || externalChange) return;
     const timer = window.setTimeout(() => {
       void save();
     }, 700);
     return () => window.clearTimeout(timer);
-    // Save uses exactly the draft/version represented by these dependencies.
+    // Save uses the exact draft/version represented by these dependencies.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entries, baseline, dirty, pending, error, dataError, externalChange]);
+
   async function reload() {
     if (
       lock.current ||
@@ -530,7 +603,6 @@ function MonthEditor({
       const latest = await readLatest();
       setBaseline(latest);
       setEntries(latest?.entries ?? []);
-      setEditingDay(null);
       setMessage("");
     } catch (cause) {
       setError(calendarError(cause));
@@ -539,9 +611,15 @@ function MonthEditor({
       setPending(false);
     }
   }
+
   const monthStart = localTime(month + "-01").setLocale("vi");
-  const monthLength = monthStart.daysInMonth!;
-  const markedCount = entries.filter(isAttendanceMarked).length;
+  const monthEnd = month + "-" + String(monthStart.daysInMonth!).padStart(2, "0");
+  const sessions = [...entries]
+    .filter(isAttendanceMarked)
+    .sort((a, b) => a.date.localeCompare(b.date));
+  const sessionDates = new Set(sessions.map((item) => item.date));
+  const accent = calendarColors[activity.color];
+
   const saveState = pending
     ? "Đang lưu…"
     : error
@@ -549,119 +627,147 @@ function MonthEditor({
       : dirty
         ? "Chờ lưu…"
         : message;
+
   function shiftMonth(offset: number) {
     return monthStart.plus({ months: offset }).toFormat("yyyy-MM");
   }
-  function apply(date: string, note: string) {
+
+  function focusSession(date: string) {
+    setActiveDate(date);
+    requestAnimationFrame(() => {
+      const card = document.querySelector<HTMLElement>(
+        `[data-session-date="${date}"]`,
+      );
+      card?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      card?.querySelector<HTMLTextAreaElement>("textarea")?.focus();
+    });
+  }
+
+  function addSession(date: string) {
+    if (sessionDates.has(date)) {
+      focusSession(date);
+      return;
+    }
     setEntries((current) =>
       [
         ...current.filter((item) => item.date !== date),
-        ...(note.trim()
-          ? [{ date, note, status: "done" as const, start: "", end: "" }]
-          : []),
+        {
+          date,
+          status: "done" as const,
+          start: "",
+          end: "",
+          note: "",
+          lesson: "",
+          evaluation: "",
+        },
       ].sort((a, b) => a.date.localeCompare(b.date)),
     );
     setError("");
     setMessage("");
+    focusSession(date);
   }
-  function dayEditor(day: string) {
-    const entry = entries.find((item) => item.date === day);
-    return (
-      <form
-        className="attendance-day-editor"
-        aria-label={"Nội dung ngày " + day}
-        onSubmit={(event) => {
-          event.preventDefault();
-          void save(true);
-        }}
-      >
-        <Textarea
-          autoFocus
-          rows={4}
-          maxLength={2000}
-          aria-label={"Nội dung chấm công ngày " + day}
-          value={entry?.note ?? ""}
-          placeholder="Nhập nội dung…"
-          onChange={(event) => apply(day, event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === "Escape") {
-              event.preventDefault();
-              setEditingDay(null);
-            }
-            if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
-              event.preventDefault();
-              void save(true);
-            }
-          }}
-        />
-        <div className="attendance-day-actions">
-          {entry && (
-            <Button
-              variant="link"
-              type="button"
-              className="text-link"
-              disabled={pending}
-              onClick={() => {
-                if (window.confirm("Xóa nội dung chấm công ngày này?")) {
-                  apply(day, "");
-                  setEditingDay(null);
-                }
-              }}
-            >
-              Xóa
-            </Button>
-          )}
+
+  function updateField(
+    date: string,
+    field: "lesson" | "evaluation",
+    value: string,
+  ) {
+    setEntries((current) =>
+      current.map((item) => {
+        if (item.date !== date) return item;
+        const nextLesson =
+          field === "lesson" ? value : attendanceLesson(item);
+        const nextEvaluation =
+          field === "evaluation" ? value : attendanceEvaluation(item);
+        return {
+          ...item,
+          status: "done" as const,
+          note: "",
+          lesson: nextLesson,
+          evaluation: nextEvaluation,
+        };
+      }),
+    );
+    setError("");
+    setMessage("");
+  }
+
+  function changeSessionDate(oldDate: string, nextDate: string) {
+    if (oldDate === nextDate) {
+      setEditingDateOf(null);
+      return;
+    }
+    setEntries((current) =>
+      current
+        .map((item) =>
+          item.date === oldDate ? { ...item, date: nextDate } : item,
+        )
+        .sort((a, b) => a.date.localeCompare(b.date)),
+    );
+    setEditingDateOf(null);
+    setError("");
+    setMessage("");
+    focusSession(nextDate);
+  }
+
+  function removeSession(date: string) {
+    if (
+      !window.confirm(
+        "Xóa buổi học ngày " + localTime(date).toFormat("dd/MM/yyyy") + "?",
+      )
+    )
+      return;
+    setEntries((current) => current.filter((item) => item.date !== date));
+    if (activeDate === date) setActiveDate(null);
+    setError("");
+    setMessage("");
+  }
+
+  function suggestedDate() {
+    if (today.slice(0, 7) === month && !sessionDates.has(today)) return today;
+    const days = monthDays(month, firstDay).filter(
+      (day) => day.slice(0, 7) === month,
+    );
+    return days.find((day) => !sessionDates.has(day)) ?? month + "-01";
+  }
+
+  return (
+    <section
+      className="panel attendance-panel"
+      aria-label="Bảng chấm công"
+      style={{ "--attendance-accent": accent } as React.CSSProperties}
+    >
+      <header className="attendance-board-bar">
+        <div className="attendance-board-title">
+          <span
+            className="attendance-dot"
+            style={{ background: accent }}
+            aria-hidden="true"
+          />
+          <div>
+            <h2>{activity.name}</h2>
+            <p>
+              <span>{sessions.length} buổi trong tháng</span>
+              <span className="attendance-save-state" aria-live="polite">
+                {saveState}
+              </span>
+            </p>
+          </div>
           <Button
-            variant="outline"
-            size="sm"
-            type="submit"
-            className="button secondary small"
-            disabled={pending || externalChange || !!dataError}
+            variant="ghost"
+            size="icon"
+            type="button"
+            className="icon-button"
+            aria-label="Sửa bảng công"
+            title="Sửa bảng công"
+            onClick={onEditActivity}
+            disabled={pending}
           >
-            Xong
+            <Pencil size={16} />
           </Button>
         </div>
-      </form>
-    );
-  }
-  return (
-    <div className="attendance-workspace">
-      <section className="panel attendance-panel" aria-label="Bảng chấm công">
-        <header className="attendance-board-bar">
-          <div className="attendance-board-title">
-            <span
-              className="attendance-dot"
-              style={{ background: calendarColors[activity.color] }}
-              aria-hidden="true"
-            />
-            <div>
-              <h2>{activity.name}</h2>
-              <p>
-                <span>
-                  {markedCount}/{monthLength} ngày đã chấm
-                </span>
-                <span
-                  className="attendance-save-state"
-                  aria-live="polite"
-                  hidden={mobile && !!editingDay}
-                >
-                  {saveState}
-                </span>
-              </p>
-            </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              type="button"
-              className="icon-button"
-              aria-label="Sửa bảng công"
-              title="Sửa bảng công"
-              onClick={onEditActivity}
-              disabled={pending}
-            >
-              <Pencil size={16} />
-            </Button>
-          </div>
+
+        <div className="attendance-board-actions">
           <div className="attendance-month-nav">
             <Button
               variant="ghost"
@@ -712,6 +818,7 @@ function MonthEditor({
               <ChevronRight size={18} />
             </Button>
           </div>
+
           {month !== today.slice(0, 7) && (
             <Button
               variant="outline"
@@ -723,6 +830,7 @@ function MonthEditor({
               Tháng này
             </Button>
           )}
+
           <Button
             variant="outline"
             type="button"
@@ -734,215 +842,380 @@ function MonthEditor({
             <ImageDown size={16} aria-hidden="true" />
             <span>Xuất ảnh</span>
           </Button>
-        </header>
-        {(error || dataError || externalChange) && (
-          <p
-            className="schedule-error"
-            role="alert"
-            hidden={mobile && !!editingDay}
+
+          <Button
+            variant="default"
+            type="button"
+            className="button primary attendance-add-session"
+            disabled={
+              pending ||
+              externalChange ||
+              !!dataError ||
+              sessions.length >= monthStart.daysInMonth!
+            }
+            onClick={() => setAddingSession(true)}
           >
-            {externalChange
-              ? "Dữ liệu đã thay đổi ở tab hoặc thiết bị khác. Bản nháp đang được giữ."
-              : error || dataError}{" "}
-            {error && !externalChange && !dataError && (
-              <Button
-                variant="link"
-                size="default"
-                type="button"
-                className="text-link"
-                disabled={pending}
-                onClick={() => void save()}
-              >
-                Thử lưu lại
-              </Button>
-            )}{" "}
+            <Plus size={16} aria-hidden="true" />
+            <span>Thêm buổi</span>
+          </Button>
+        </div>
+      </header>
+
+      {(error || dataError || externalChange) && (
+        <p className="attendance-error" role="alert">
+          {externalChange
+            ? "Dữ liệu đã thay đổi ở tab hoặc thiết bị khác. Bản nháp đang được giữ."
+            : error || dataError}{" "}
+          {error && !externalChange && !dataError && (
             <Button
               variant="link"
               size="default"
               type="button"
               className="text-link"
               disabled={pending}
-              onClick={() => void reload()}
+              onClick={() => void save()}
             >
-              Tải bản mới
+              Thử lưu lại
             </Button>
-          </p>
-        )}
-        <div className="attendance-scroll">
-          <div
-            className="attendance-grid"
-            role="group"
-            aria-label="Các ngày chấm công"
+          )}{" "}
+          <Button
+            variant="link"
+            size="default"
+            type="button"
+            className="text-link"
+            disabled={pending}
+            onClick={() => void reload()}
           >
+            Tải bản mới
+          </Button>
+        </p>
+      )}
+
+      <div className="attendance-split">
+        <aside
+          className="attendance-calendar-card"
+          aria-label={"Lịch tháng " + monthStart.toFormat("M/yyyy")}
+        >
+          <h3 className="attendance-calendar-heading">
+            Lịch tháng {monthStart.toFormat("M/yyyy")}
+          </h3>
+          <div className="attendance-mini-grid">
             {Array.from({ length: 7 }, (_, i) => (firstDay + i) % 7).map(
               (day) => (
-                <div className="attendance-weekday" key={day}>
-                  {day === 0 ? "CN" : (mobile ? "T" : "Thứ ") + (day + 1)}
+                <div className="attendance-mini-weekday" key={day}>
+                  {day === 0 ? "CN" : "T" + (day + 1)}
                 </div>
               ),
             )}
             {monthDays(month, firstDay).map((day) => {
-              const entry = entries.find((item) => item.date === day);
               const inMonth = day.slice(0, 7) === month;
-              const text = entry ? attendanceText(entry) : "";
-              const editing = editingDay === day;
+              if (!inMonth)
+                return (
+                  <span className="attendance-mini-outside" key={day}>
+                    {Number(day.slice(8))}
+                  </span>
+                );
+              const marked = sessionDates.has(day);
+              const isActive = activeDate === day;
               return (
-                <div
+                <button
                   key={day}
-                  data-date={day}
+                  type="button"
+                  disabled={externalChange || !!dataError}
+                  aria-current={day === today ? "date" : undefined}
+                  aria-pressed={marked}
+                  aria-label={
+                    (marked ? "Xem buổi học ngày " : "Thêm buổi học ngày ") +
+                    localTime(day).toFormat("dd/MM/yyyy")
+                  }
                   className={
-                    "attendance-cell" +
-                    (!inMonth ? " outside-month" : "") +
+                    "attendance-mini-day" +
                     (day === today ? " is-today" : "") +
-                    (entry && isAttendanceMarked(entry) ? " has-content" : "")
+                    (marked ? " is-marked" : "") +
+                    (isActive ? " is-active" : "")
+                  }
+                  onClick={() =>
+                    marked ? focusSession(day) : addSession(day)
                   }
                 >
-                  {mobile ? (
-                    inMonth ? (
-                      <Button
-                        variant="ghost"
-                        type="button"
-                        className="mobile-attendance-day"
-                        aria-label={"Chấm công " + day}
-                        aria-current={day === today ? "date" : undefined}
-                        onClick={() => setEditingDay(day)}
-                      >
-                        <span>{Number(day.slice(8))}</span>
-                        {text ? (
-                          <span className="attendance-note">{text}</span>
-                        ) : (
-                          <Plus size={13} aria-hidden="true" />
-                        )}
-                      </Button>
-                    ) : (
-                      <span className="mobile-attendance-outside">
-                        {Number(day.slice(8))}
-                      </span>
-                    )
-                  ) : (
-                    <>
-                      <div className="attendance-cell-heading">
-                        {inMonth ? (
-                          <Button
-                            variant="ghost"
-                            size="default"
-                            type="button"
-                            className="attendance-date"
-                            aria-label={"Mở ngày " + day}
-                            aria-current={day === today ? "date" : undefined}
-                            onClick={() => setEditingDay(day)}
-                          >
-                            {Number(day.slice(8))}
-                          </Button>
-                        ) : (
-                          <span>{Number(day.slice(8))}</span>
-                        )}
-                        {inMonth && !editing && (
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            type="button"
-                            className="icon-button"
-                            aria-label={"Chấm công " + day}
-                            title={entry ? "Sửa nội dung" : "Thêm nội dung"}
-                            onClick={() => setEditingDay(day)}
-                          >
-                            {text ? <Pencil size={14} /> : <Plus size={16} />}
-                          </Button>
-                        )}
-                      </div>
-                      {editing && !mobile
-                        ? dayEditor(day)
-                        : text && (
-                            <Button
-                              variant="ghost"
-                              size="default"
-                              type="button"
-                              className="attendance-content"
-                              aria-label={"Sửa nội dung ngày " + day}
-                              onClick={() => setEditingDay(day)}
-                            >
-                              <span className="attendance-note" title={text}>
-                                {text}
-                              </span>
-                            </Button>
-                          )}
-                    </>
+                  <span>{Number(day.slice(8))}</span>
+                  {marked && (
+                    <span className="attendance-mini-dot" aria-hidden="true" />
                   )}
-                </div>
+                </button>
               );
             })}
           </div>
-        </div>
-        {mobile && editingDay && (
-          <CalendarDialog
-            title={
-              activity.name +
-              " · " +
-              localTime(editingDay).toFormat("dd/MM/yyyy")
-            }
-            description="Nhập nội dung để chấm công. Thay đổi được tự lưu."
-            onClose={() => setEditingDay(null)}
-          >
-            {dayEditor(editingDay)}
-            <p className="attendance-save-state" role="status">
-              {pending
-                ? "Đang lưu…"
-                : error || dataError || externalChange
-                  ? "Chưa lưu được"
-                  : dirty
-                    ? "Chờ lưu…"
-                    : message}
-            </p>
-            {(error || dataError || externalChange) && (
-              <p className="schedule-error" role="alert">
-                {externalChange
-                  ? "Dữ liệu đã thay đổi. Bản nháp đang được giữ."
-                  : error || dataError}
-                {error && !externalChange && !dataError && (
-                  <Button
-                    variant="link"
-                    disabled={pending}
-                    onClick={() => void save()}
-                  >
-                    Thử lưu lại
-                  </Button>
-                )}
-                <Button
-                  variant="link"
-                  disabled={pending}
-                  onClick={() => void reload()}
-                >
-                  Tải bản mới
-                </Button>
+          <div className="attendance-calendar-legend">
+            <div className="attendance-calendar-legend-row">
+              <span
+                className="attendance-dot"
+                style={{ background: accent }}
+                aria-hidden="true"
+              />
+              <span>Ngày có buổi học ({sessions.length})</span>
+            </div>
+            <p>Bấm vào ngày để chấm công hoặc xem buổi học.</p>
+          </div>
+        </aside>
+
+        <div className="attendance-sessions-column">
+          <div className="attendance-sessions-heading">
+            <h3>Chi tiết các buổi học ({sessions.length} buổi)</h3>
+          </div>
+
+          {!sessions.length ? (
+            <div className="attendance-sessions-empty">
+              <CalendarDays size={28} />
+              <h4>Chưa có buổi học nào trong tháng {monthStart.month}</h4>
+              <p>
+                Bấm vào một ngày trên lịch tháng bên cạnh hoặc bấm “Thêm buổi”
+                để ghi bài học và đánh giá.
               </p>
-            )}
-          </CalendarDialog>
-        )}
-        {exportOpen && (
-          <AttendanceExportDialog
-            activity={activity}
-            firstDay={firstDay}
-            draftMonth={month}
-            draftEntries={entries}
-            onClose={() => setExportOpen(false)}
+            </div>
+          ) : (
+            <div className="attendance-session-list">
+              {sessions.map((entry, index) => {
+                const dateLabel = localTime(entry.date)
+                  .setLocale("vi")
+                  .toFormat("cccc, dd/MM/yyyy");
+                return (
+                  <article
+                    key={entry.date}
+                    data-session-date={entry.date}
+                    className={
+                      "attendance-session-card" +
+                      (activeDate === entry.date ? " is-active" : "")
+                    }
+                    onFocusCapture={() => setActiveDate(entry.date)}
+                  >
+                    <div className="attendance-session-head">
+                      <div className="attendance-session-title">
+                        <span className="attendance-session-badge">
+                          Buổi {index + 1}
+                        </span>
+                        <time
+                          dateTime={entry.date}
+                          className="attendance-session-date"
+                        >
+                          {dateLabel}
+                        </time>
+                      </div>
+                      <div className="attendance-session-actions">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          type="button"
+                          className="icon-button"
+                          aria-label={"Đổi ngày buổi " + (index + 1)}
+                          title="Đổi ngày buổi học"
+                          disabled={externalChange || !!dataError}
+                          onClick={() => setEditingDateOf(entry.date)}
+                        >
+                          <Pencil size={15} />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          type="button"
+                          className="icon-button danger"
+                          aria-label={"Xóa buổi " + (index + 1)}
+                          title="Xóa buổi học"
+                          disabled={externalChange || !!dataError}
+                          onClick={() => removeSession(entry.date)}
+                        >
+                          <Trash2 size={15} />
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="attendance-session-fields">
+                      <label className="attendance-field">
+                        <span>Bài học</span>
+                        <Textarea
+                          rows={3}
+                          maxLength={2000}
+                          disabled={externalChange || !!dataError}
+                          value={attendanceLesson(entry)}
+                          placeholder="Nhập nội dung bài học…"
+                          onChange={(event) =>
+                            updateField(
+                              entry.date,
+                              "lesson",
+                              event.target.value,
+                            )
+                          }
+                        />
+                      </label>
+                      <label className="attendance-field">
+                        <span>Đánh giá</span>
+                        <Textarea
+                          rows={3}
+                          maxLength={2000}
+                          disabled={externalChange || !!dataError}
+                          value={attendanceEvaluation(entry)}
+                          placeholder="Nhập nhận xét gửi phụ huynh…"
+                          onChange={(event) =>
+                            updateField(
+                              entry.date,
+                              "evaluation",
+                              event.target.value,
+                            )
+                          }
+                        />
+                      </label>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {addingSession && (
+        <SessionDateDialog
+          title="Thêm buổi học"
+          description={
+            "Chọn ngày trong tháng " +
+            monthStart.toFormat("M/yyyy") +
+            " để thêm buổi học mới."
+          }
+          minDate={month + "-01"}
+          maxDate={monthEnd}
+          initialDate={suggestedDate()}
+          usedDates={sessionDates}
+          submitLabel="Thêm buổi"
+          onClose={() => setAddingSession(false)}
+          onConfirm={(date) => {
+            setAddingSession(false);
+            addSession(date);
+          }}
+        />
+      )}
+
+      {editingDateOf && (
+        <SessionDateDialog
+          title="Đổi ngày buổi học"
+          description={
+            "Chọn ngày mới trong tháng " + monthStart.toFormat("M/yyyy") + "."
+          }
+          minDate={month + "-01"}
+          maxDate={monthEnd}
+          initialDate={editingDateOf}
+          usedDates={
+            new Set([...sessionDates].filter((item) => item !== editingDateOf))
+          }
+          submitLabel="Lưu ngày"
+          onClose={() => setEditingDateOf(null)}
+          onConfirm={(date) => changeSessionDate(editingDateOf, date)}
+        />
+      )}
+
+      {exportOpen && (
+        <AttendanceExportDialog
+          activity={activity}
+          draftMonth={month}
+          draftEntries={entries}
+          onClose={() => setExportOpen(false)}
+        />
+      )}
+    </section>
+  );
+}
+
+function SessionDateDialog({
+  title,
+  description,
+  minDate,
+  maxDate,
+  initialDate,
+  usedDates,
+  submitLabel,
+  onClose,
+  onConfirm,
+}: {
+  title: string;
+  description: string;
+  minDate: string;
+  maxDate: string;
+  initialDate: string;
+  usedDates: Set<string>;
+  submitLabel: string;
+  onClose: () => void;
+  onConfirm: (date: string) => void;
+}) {
+  const [date, setDate] = useState(initialDate);
+  const [error, setError] = useState("");
+
+  return (
+    <AttendanceDialog
+      title={title}
+      description={description}
+      showDescription
+      onClose={onClose}
+    >
+      <form
+        className="attendance-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!date || date < minDate || date > maxDate) {
+            setError("Chọn ngày hợp lệ trong tháng đang xem.");
+            return;
+          }
+          if (usedDates.has(date)) {
+            setError("Ngày này đã có buổi học. Hãy chọn ngày khác.");
+            return;
+          }
+          onConfirm(date);
+        }}
+      >
+        <label>
+          Ngày học
+          <Input
+            autoFocus
+            type="date"
+            required
+            min={minDate}
+            max={maxDate}
+            value={date}
+            onChange={(event) => {
+              setDate(event.target.value);
+              setError("");
+            }}
           />
+        </label>
+        {error && (
+          <p className="attendance-error" role="alert">
+            {error}
+          </p>
         )}
-      </section>
-    </div>
+        <div className="attendance-dialog-actions">
+          <Button
+            variant="outline"
+            type="button"
+            className="button secondary"
+            onClick={onClose}
+          >
+            Hủy
+          </Button>
+          <Button variant="default" type="submit" className="button primary">
+            {submitLabel}
+          </Button>
+        </div>
+      </form>
+    </AttendanceDialog>
   );
 }
 
 // Xuất được mọi tháng: tháng đang mở dùng bản nháp, tháng khác đọc dữ liệu đã lưu.
 function AttendanceExportDialog({
   activity,
-  firstDay,
   draftMonth,
   draftEntries,
   onClose,
 }: {
   activity: AttendanceActivity;
-  firstDay: number;
   draftMonth: string;
   draftEntries: AttendanceMonth["entries"];
   onClose: () => void;
@@ -959,6 +1232,7 @@ function AttendanceExportDialog({
   const [canCopy] = useState(canCopyAttendanceImage);
   const loading = !error && image?.month !== month;
   const monthStart = localTime(month + "-01").setLocale("vi");
+
   useEffect(() => {
     let cancelled = false;
     let url = "";
@@ -974,7 +1248,6 @@ function AttendanceExportDialog({
         const blob = await renderAttendanceImage({
           activity,
           month,
-          firstDay,
           entries,
         });
         if (cancelled) return;
@@ -988,13 +1261,16 @@ function AttendanceExportDialog({
       cancelled = true;
       if (url) URL.revokeObjectURL(url);
     };
-  }, [activity, firstDay, month, draftMonth, draftEntries, attempt]);
+  }, [activity, month, draftMonth, draftEntries, attempt]);
+
   function choose(next: string) {
     if (next >= "2000-01" && next <= "2100-12") setMonth(next);
   }
+
   const ready = !loading && !error && image ? image : null;
+
   return (
-    <CalendarDialog
+    <AttendanceDialog
       title="Xuất bảng công"
       description={"Chọn tháng cần xuất của bảng " + activity.name + "."}
       showDescription
@@ -1051,7 +1327,7 @@ function AttendanceExportDialog({
       </div>
       <div className="attendance-export-preview" aria-busy={loading}>
         {error ? (
-          <p className="schedule-error" role="alert">
+          <p className="attendance-error" role="alert">
             {error}{" "}
             <Button
               variant="link"
@@ -1084,7 +1360,7 @@ function AttendanceExportDialog({
       <p className="attendance-export-notice" role="status">
         {notice}
       </p>
-      <div className="schedule-dialog-actions">
+      <div className="attendance-dialog-actions">
         <Button
           variant="outline"
           type="button"
@@ -1131,6 +1407,6 @@ function AttendanceExportDialog({
           Lưu ảnh PNG
         </Button>
       </div>
-    </CalendarDialog>
+    </AttendanceDialog>
   );
 }

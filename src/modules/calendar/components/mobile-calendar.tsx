@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
-import { monthDays } from "../attendance-model";
+import { monthDays } from "@/modules/attendance/model";
 import {
   addDays,
   calendarTextColor,

@@ -24,7 +24,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PageHeading, PageSkeleton } from "@/components/page-ui";
 import { useMobile } from "@/components/use-mobile";
 
@@ -52,7 +51,6 @@ import { EventForm } from "./event-form";
 import { EventDetails } from "./event-details";
 import { TimetableDialog } from "./calendar-book";
 import { CalendarDialog, ExportDialog } from "./dialogs";
-import { Attendance } from "./attendance";
 import { MobileCalendar } from "./mobile-calendar";
 
 const DesktopCalendar = dynamic(
@@ -182,11 +180,8 @@ export function CalendarScreen({
   const [view, setView] = useState("dayGridMonth");
   const [chosenDate, setChosenDate] = useState(today);
   const [group, setGroup] = useState("");
-  const [tab, setTab] = useState<"book" | "attendance">("book");
   const [search, setSearch] = useState("");
   const [dayActions, setDayActions] = useState<string | null>(null);
-  const attendanceDirty = useRef(false);
-  const [attendanceBusy, setAttendanceBusy] = useState(false);
   const [timetable, setTimetable] = useState<"create" | "edit" | "copy" | null>(
     null,
   );
@@ -201,30 +196,6 @@ export function CalendarScreen({
   const [actionError, setActionError] = useState("");
   const [message, setMessage] = useState("");
   const seenQuery = useRef("");
-  useEffect(() => {
-    if (query.eventId || query.projectId || query.noteId) return;
-    try {
-      if (sessionStorage.getItem("myos-calendar-tab") === "attendance")
-        setTab("attendance");
-    } catch {
-      /* Preferences are optional. */
-    }
-  }, [query.eventId, query.projectId, query.noteId]);
-  function chooseTab(next: "book" | "attendance") {
-    if (next === tab || attendanceBusy) return;
-    if (
-      attendanceDirty.current &&
-      !window.confirm("Bỏ các ngày chấm công chưa lưu?")
-    )
-      return;
-    attendanceDirty.current = false;
-    setTab(next);
-    try {
-      sessionStorage.setItem("myos-calendar-tab", next);
-    } catch {
-      /* Preferences are optional. */
-    }
-  }
   const visibleRange = range;
   const occurrences = useMemo(
     () =>
@@ -288,7 +259,6 @@ export function CalendarScreen({
       return;
     seenQuery.current = key;
     if (query.eventId) {
-      setTab("book");
       const event = data.events.find(
         (item) => item.id === query.eventId && !item.cancelledAt,
       );
@@ -311,7 +281,6 @@ export function CalendarScreen({
       return;
     }
     if (!query.projectId && !query.noteId) return;
-    setTab("book");
     const initial = blankEvent(today, data.settings);
     let source: CalendarEvent["sourceMilestone"] = null;
     if (query.projectId) {
@@ -469,27 +438,8 @@ export function CalendarScreen({
     />
   );
   return (
-    <Tabs
-      className="schedule-module"
-      data-calendar-view={tab}
-      value={tab}
-      onValueChange={(value) => chooseTab(value as "book" | "attendance")}
-    >
+    <div className="schedule-module" data-calendar-view="book">
       <PageHeading title="Lịch" />
-      <div className="schedule-heading">
-        <TabsList
-          variant="line"
-          className="schedule-tabs"
-          aria-label="Phân mục lịch"
-        >
-          <TabsTrigger value="book" disabled={attendanceBusy}>
-            Lịch
-          </TabsTrigger>
-          <TabsTrigger value="attendance" disabled={attendanceBusy}>
-            Chấm công
-          </TabsTrigger>
-        </TabsList>
-      </div>
       {data.error && (
         <p className="schedule-error" role="alert">
           {data.error}{" "}
@@ -514,19 +464,9 @@ export function CalendarScreen({
           {message}
         </p>
       )}
-      <TabsContent value={tab}>
-        {data.loading && tab === "book" ? (
-          <PageSkeleton variant="calendar" />
-        ) : tab === "attendance" ? (
-          <Attendance
-            today={today}
-            firstDay={account?.profile.firstDay ?? 1}
-            onStateChange={(dirty, busy) => {
-              attendanceDirty.current = dirty;
-              setAttendanceBusy(busy);
-            }}
-          />
-        ) : mobile ? (
+      {data.loading ? (
+        <PageSkeleton variant="calendar" />
+      ) : mobile ? (
           <MobileCalendar
             date={chosenDate}
             view={view}
@@ -793,7 +733,6 @@ export function CalendarScreen({
             }}
           />
         )}
-      </TabsContent>
       {form && (
         <EventForm
           {...form}
@@ -884,6 +823,6 @@ export function CalendarScreen({
           onClose={() => setExporting(false)}
         />
       )}
-    </Tabs>
+    </div>
   );
 }

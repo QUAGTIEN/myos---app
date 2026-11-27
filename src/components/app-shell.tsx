@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   CalendarDays,
+  ClipboardCheck,
   FolderKanban,
   LayoutDashboard,
   ListTodo,
@@ -20,6 +21,7 @@ import { useAccount } from "@/modules/auth/account-context";
 const navigation = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
   { href: "/calendar", label: "Lịch", icon: CalendarDays },
+  { href: "/attendance", label: "Chấm công", icon: ClipboardCheck },
   { href: "/tasks", label: "Công việc", icon: ListTodo },
   { href: "/notes", label: "Ghi chú", icon: NotebookPen },
   { href: "/projects", label: "Dự án", icon: FolderKanban },

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { dateSchema, localTime, calendarColors } from "./model";
+import { dateSchema, localTime, calendarColors } from "@/modules/calendar/model";
 
 export const attendanceMonthKey = z
   .string()
@@ -8,6 +8,7 @@ export const attendanceMonthKey = z
     (value) => dateSchema.safeParse(value + "-01").success,
     "Tháng không hợp lệ.",
   );
+
 export const attendanceId = z
   .string()
   .regex(/^[0-9a-f-]{36}_\d{4}-\d{2}$/)
@@ -17,6 +18,7 @@ export const attendanceId = z
       attendanceMonthKey.safeParse(value.slice(37)).success,
     "Mã bảng chấm công không hợp lệ.",
   );
+
 export const activityInputSchema = z.object({
   name: z.string().trim().min(1, "Nhập tên bảng công.").max(80),
   color: z.enum(
@@ -26,6 +28,7 @@ export const activityInputSchema = z.object({
     ],
   ),
 });
+
 export const activitySchema = activityInputSchema.extend({
   id: z.string().uuid(),
   version: z.number().int().positive(),
@@ -33,14 +36,18 @@ export const activitySchema = activityInputSchema.extend({
   updatedAt: z.string().datetime(),
   deletedAt: z.string().datetime().nullable().default(null),
 });
+
 const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
+
 export const attendanceEntrySchema = z
   .object({
     date: dateSchema,
     status: z.enum(["done", "rest", "note"]),
     start: time.or(z.literal("")),
     end: time.or(z.literal("")),
-    note: z.string().max(2000),
+    note: z.string().max(2000).default(""),
+    lesson: z.string().max(2000).optional(),
+    evaluation: z.string().max(2000).optional(),
   })
   .superRefine((entry, ctx) => {
     if (entry.status !== "done" && (entry.start || entry.end))
@@ -48,7 +55,12 @@ export const attendanceEntrySchema = z
         code: "custom",
         message: "Chỉ ngày đã thực hiện mới có giờ chấm công.",
       });
-    if (entry.status === "note" && !entry.note.trim())
+    if (
+      entry.status === "note" &&
+      !entry.note.trim() &&
+      !(entry.lesson ?? "").trim() &&
+      !(entry.evaluation ?? "").trim()
+    )
       ctx.addIssue({ code: "custom", message: "Nhập ghi chú cho ngày này." });
     if (
       entry.status === "done" &&
@@ -61,6 +73,7 @@ export const attendanceEntrySchema = z
           "Nhập đủ giờ bắt đầu/kết thúc; giờ kết thúc phải sau giờ bắt đầu trong cùng ngày.",
       });
   });
+
 export const attendanceMonthSchema = z
   .object({
     id: attendanceId,
@@ -83,6 +96,7 @@ export const attendanceMonthSchema = z
           "Mỗi ngày chỉ được chấm một lần trong đúng công việc và tháng.",
       });
   });
+
 export type AttendanceActivity = z.infer<typeof activitySchema>;
 export type AttendanceEntry = z.infer<typeof attendanceEntrySchema>;
 export type AttendanceMonth = z.infer<typeof attendanceMonthSchema>;
@@ -96,10 +110,19 @@ export function monthDays(month: string, firstDay: number) {
   );
 }
 
-// Bản cũ giữ trạng thái/giờ; nội dung mới chỉ dùng ghi chú để chấm công.
-export function attendanceText(entry: AttendanceEntry) {
-  return entry.note || (entry.status === "done" ? "Đã chấm" : "");
+// Tương thích ngược: dữ liệu cũ lưu trong `note` sẽ tự hiển thị ở ô Bài học.
+export function attendanceLesson(entry: AttendanceEntry) {
+  return entry.lesson !== undefined ? entry.lesson : entry.note;
 }
+
+export function attendanceEvaluation(entry: AttendanceEntry) {
+  return entry.evaluation ?? "";
+}
+
 export function isAttendanceMarked(entry: AttendanceEntry) {
-  return !!entry.note.trim() || entry.status === "done";
+  return (
+    entry.status === "done" ||
+    !!attendanceLesson(entry).trim() ||
+    !!attendanceEvaluation(entry).trim()
+  );
 }

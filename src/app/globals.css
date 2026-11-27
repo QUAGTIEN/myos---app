@@ -121,15 +121,15 @@
   }
   .app-shell .mobile-bottom-nav {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     position: fixed;
     z-index: var(--layer-header);
     bottom: max(8px, var(--mobile-safe-bottom));
     left: 50%;
     right: auto;
     width: min(
-      340px,
-      calc(100% - 48px - env(safe-area-inset-left) - env(safe-area-inset-right))
+      380px,
+      calc(100% - 24px - env(safe-area-inset-left) - env(safe-area-inset-right))
     );
     transform: translateX(-50%);
     transition:
@@ -282,6 +282,7 @@
     --mobile-nav-height: 52px;
   }
   .app-shell[data-module="calendar"],
+  .app-shell[data-module="attendance"],
   .app-shell[data-module="notes"],
   .app-shell[data-module="projects"] {
     --mobile-header:
@@ -311,6 +312,7 @@
       )
       max(var(--calendar-gutter), env(safe-area-inset-left));
   }
+  .app-shell[data-module="attendance"] .app-header,
   .app-shell[data-module="notes"] .app-header,
   .app-shell[data-module="projects"] .app-header {
     background-color: var(--sidebar);

@@ -34,7 +34,7 @@ import {
   activitySchema,
   attendanceId,
   attendanceMonthSchema,
-} from "@/modules/calendar/attendance-model";
+} from "@/modules/attendance/model";
 
 export const kindSchema = z.enum([
   "tasks",

@@ -13,10 +13,11 @@ import {
   attendanceMonthSchema,
   type AttendanceActivity,
   type AttendanceMonth,
-} from "./attendance-model";
+} from "./model";
 
 type Kind = "attendanceActivities" | "attendanceMonths";
 const cloud = process.env.NEXT_PUBLIC_MYOS_MODE !== "local";
+
 export const attendanceRepository = {
   async activities(): Promise<AttendanceActivity[]> {
     if (cloud)
@@ -61,7 +62,7 @@ export const attendanceRepository = {
       request.onsuccess = () => {
         try {
           if (!activity.result || activity.result.deletedAt)
-            throw new Error("Công việc đã bị xóa hoặc không tồn tại.");
+            throw new Error("Bảng công đã bị xóa hoặc không tồn tại.");
           resolve(
             attendanceMonthSchema.nullable().parse(request.result ?? null),
           );
@@ -110,7 +111,7 @@ export const attendanceRepository = {
           return;
         }
         if (kind === "attendanceActivities" && request.result?.deletedAt) {
-          failure = new Error("Công việc đã bị xóa.");
+          failure = new Error("Bảng công đã bị xóa.");
           tx.abort();
           return;
         }
@@ -134,8 +135,8 @@ export const attendanceRepository = {
             ) {
               failure = new Error(
                 kind === "attendanceMonths"
-                  ? "Công việc không còn khả dụng."
-                  : "Tối đa 50 loại công việc.",
+                  ? "Bảng công không còn khả dụng."
+                  : "Tối đa 50 bảng công.",
               );
               tx.abort();
             } else store.put(input);
@@ -188,6 +189,7 @@ export function useAttendanceActivities() {
     data: result.data?.filter((activity) => !activity.deletedAt),
   };
 }
+
 export function useAttendanceMonth(id: string) {
   z.string().min(1).parse(id);
   return useRepositoryData("attendanceMonths", id, () =>
