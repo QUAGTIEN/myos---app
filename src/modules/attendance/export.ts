@@ -111,21 +111,32 @@ export async function renderAttendanceImage({
   const sessions = [...entries]
     .filter((entry) => entry.date.slice(0, 7) === month && isAttendanceMarked(entry))
     .sort((a, b) => a.date.localeCompare(b.date));
+  const hasEvaluation = sessions.some(
+    (entry) => attendanceEvaluation(entry).trim().length > 0,
+  );
 
   const tableWidth = width - margin * 2;
-  const colWidths = [
-    Math.round(tableWidth * 0.11), // Buổi
-    Math.round(tableWidth * 0.18), // Ngày học
-    Math.round(tableWidth * 0.355), // Bài học
-    0, // Đánh giá (remaining)
-  ];
-  colWidths[3] = tableWidth - colWidths[0] - colWidths[1] - colWidths[2];
-  const colStarts = [
-    margin,
-    margin + colWidths[0],
-    margin + colWidths[0] + colWidths[1],
-    margin + colWidths[0] + colWidths[1] + colWidths[2],
-  ];
+  const colWidths = hasEvaluation
+    ? [
+        Math.round(tableWidth * 0.11), // Buổi
+        Math.round(tableWidth * 0.18), // Ngày học
+        Math.round(tableWidth * 0.355), // Bài học
+        0, // Đánh giá
+      ]
+    : [
+        Math.round(tableWidth * 0.12), // Buổi
+        Math.round(tableWidth * 0.2), // Ngày học
+        0, // Bài học
+      ];
+  colWidths[colWidths.length - 1] =
+    tableWidth - colWidths.slice(0, -1).reduce((sum, item) => sum + item, 0);
+  const colStarts = colWidths.reduce<number[]>(
+    (starts, _w, index) => [
+      ...starts,
+      index === 0 ? margin : starts[index - 1] + colWidths[index - 1],
+    ],
+    [],
+  );
 
   // Đo trước chiều cao từng dòng để không cắt mất chữ nào.
   const measureCanvas = document.createElement("canvas");
@@ -139,7 +150,7 @@ export async function renderAttendanceImage({
     const dateLine = date.toFormat("dd/MM/yyyy");
     const timeText = entry.start && entry.end ? entry.start + "–" + entry.end : "";
     const lessonText = attendanceLesson(entry).trim();
-    const evalText = attendanceEvaluation(entry).trim();
+    const evalText = hasEvaluation ? attendanceEvaluation(entry).trim() : "";
 
     const dateLines = timeText
       ? [weekday + ",", dateLine, timeText]
@@ -147,9 +158,11 @@ export async function renderAttendanceImage({
     const lessonLines = lessonText
       ? wrap(measure, lessonText, colWidths[2] - cellPadX * 2)
       : ["—"];
-    const evalLines = evalText
-      ? wrap(measure, evalText, colWidths[3] - cellPadX * 2)
-      : ["—"];
+    const evalLines = hasEvaluation
+      ? evalText
+        ? wrap(measure, evalText, colWidths[3] - cellPadX * 2)
+        : ["—"]
+      : [];
 
     const maxLines = Math.max(
       1,
@@ -240,7 +253,9 @@ export async function renderAttendanceImage({
   context.fillStyle = ink;
   context.textAlign = "center";
   setFont(context, 18, 700);
-  const headers = ["Buổi", "Ngày học", "Bài học", "Đánh giá"];
+  const headers = hasEvaluation
+    ? ["Buổi", "Ngày học", "Bài học", "Đánh giá"]
+    : ["Buổi", "Ngày học", "Bài học"];
   headers.forEach((label, index) => {
     context.fillText(
       label,
@@ -299,18 +314,20 @@ export async function renderAttendanceImage({
         );
       });
 
-      // Cột 4: Đánh giá.
-      context.fillStyle = row.evalEmpty ? muted : ink;
-      const evalBlockHeight = row.evalLines.length * bodyLineHeight;
-      const evalStartY =
-        y + (row.height - evalBlockHeight) / 2 + bodyLineHeight / 2;
-      row.evalLines.forEach((line, lineIndex) => {
-        context.fillText(
-          line,
-          colStarts[3] + cellPadX,
-          evalStartY + lineIndex * bodyLineHeight,
-        );
-      });
+      // Cột 4: Đánh giá (chỉ vẽ khi tháng có ít nhất một buổi có đánh giá).
+      if (hasEvaluation) {
+        context.fillStyle = row.evalEmpty ? muted : ink;
+        const evalBlockHeight = row.evalLines.length * bodyLineHeight;
+        const evalStartY =
+          y + (row.height - evalBlockHeight) / 2 + bodyLineHeight / 2;
+        row.evalLines.forEach((line, lineIndex) => {
+          context.fillText(
+            line,
+            colStarts[3] + cellPadX,
+            evalStartY + lineIndex * bodyLineHeight,
+          );
+        });
+      }
 
       y += row.height;
     }
@@ -321,7 +338,7 @@ export async function renderAttendanceImage({
   context.lineWidth = 1;
   context.beginPath();
   // Kẻ dọc giữa các cột.
-  for (let column = 1; column < 4; column++) {
+  for (let column = 1; column < colWidths.length; column++) {
     const x = Math.round(colStarts[column]) + 0.5;
     context.moveTo(x, tableTop);
     context.lineTo(x, tableTop + tableHeight);
